@@ -1,0 +1,8 @@
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
