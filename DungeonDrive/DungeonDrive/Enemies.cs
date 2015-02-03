@@ -15,6 +15,7 @@ namespace DungeonDrive
         }
 
         public override void draw(Graphics g) { g.FillEllipse(Brushes.Red, (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size); }
+        public override void drawTouching(Graphics g) { g.FillEllipse(Brushes.Green, (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size); }
     }
 
     public class Spider : Unit
@@ -27,5 +28,6 @@ namespace DungeonDrive
         }
 
         public override void draw(Graphics g) { g.FillEllipse(Brushes.Brown, (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size); }
+        public override void drawTouching(Graphics g) { g.FillEllipse(Brushes.Green, (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size); }
     }
 }

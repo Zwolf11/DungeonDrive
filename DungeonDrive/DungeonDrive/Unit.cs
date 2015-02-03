@@ -18,5 +18,6 @@ namespace DungeonDrive
 
         public abstract void act();
         public abstract void draw(Graphics g);
+        public abstract void drawTouching(Graphics g);
     }
 }

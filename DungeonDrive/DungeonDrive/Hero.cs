@@ -70,5 +70,6 @@ namespace DungeonDrive
         }
 
         public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, G.width / 2 - G.size / 2, G.height / 2 - G.size / 2, G.size, G.size); }
+        public override void drawTouching(Graphics g) { g.FillEllipse(Brushes.Red, G.width / 2 - G.size / 2, G.height / 2 - G.size / 2, G.size, G.size); }
     }
 }
