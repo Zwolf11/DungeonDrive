@@ -14,3 +14,11 @@ C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Deb
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+\\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
