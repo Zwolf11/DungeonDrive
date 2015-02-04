@@ -22,3 +22,11 @@ C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Deb
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb

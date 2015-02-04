@@ -34,6 +34,7 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
+
             for (int i = 0; i < G.room.width; i++)
                 for (int j = 0; j < G.room.height; j++)
                     g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
