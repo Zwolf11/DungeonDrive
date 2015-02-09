@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using System.Drawing;
 
-
-
 namespace DungeonDrive
 {
     public class MainForm : Form
@@ -23,6 +21,9 @@ namespace DungeonDrive
             this.Paint += this.paint;
             this.DoubleBuffered = true;
 
+            G.width = Screen.PrimaryScreen.Bounds.Width;
+            G.height = Screen.PrimaryScreen.Bounds.Height;
+
             // for testing
             if (windowstate == 1)
             {
@@ -30,6 +31,8 @@ namespace DungeonDrive
                 this.FormBorderStyle = FormBorderStyle.Sizable;
                 this.Width = 1100;
                 this.Height = 600;
+                G.width = 1100;
+                G.height = 600;
             }
 
             timer.Interval = 17;
@@ -37,7 +40,7 @@ namespace DungeonDrive
             timer.Start();
         }
 
-        private void paint(object sender, PaintEventArgs e)
+        public void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 

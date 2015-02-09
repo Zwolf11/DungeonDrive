@@ -28,7 +28,7 @@ namespace DungeonDrive
             //Testing obstacles and enemies
             obstacles.Add(new Pillar(0, 0, 3, 2));
             for ( int i = 0; i < 10; i++ )
-                enemies.Add(new Bat(i, i, 0.01));
+                enemies.Add(new Bat(i, i));
 
             //Jake: Search folder and add enemies, obstacles, etc.
         }

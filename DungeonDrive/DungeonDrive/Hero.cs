@@ -7,13 +7,17 @@ namespace DungeonDrive
 {
     public class Hero : Unit
     {
+        new public int DrawX { get { return G.width / 2 - G.size / 2; } }
+        new public int DrawY { get { return G.height / 2 - G.size / 2; } }
+
         private int curxFacing = 0;
         private int curyFacing = 0;
-        private bool attacking = false;
 
-        public Hero(double x, double y, double speed) : base(x, y, speed) {
+        public Hero(double x, double y) : base(x, y)
+        {
             this.hp = 10;
             this.atk_dmg = 2;
+            this.speed = 0.3;
         }
 
         private void handleMovement()
@@ -24,18 +28,18 @@ namespace DungeonDrive
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
                     changeFacing('A');
-                    G.hero.x -= Math.Sqrt(2) / 2 * G.hero.speed;
-                    G.hero.y -= Math.Sqrt(2) / 2 * G.hero.speed;
+                    x -= Math.Sqrt(2) / 2 * speed;
+                    y -= Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
-                    G.hero.x += Math.Sqrt(2) / 2 * G.hero.speed;
-                    G.hero.y -= Math.Sqrt(2) / 2 * G.hero.speed;
+                    x += Math.Sqrt(2) / 2 * speed;
+                    y -= Math.Sqrt(2) / 2 * speed;
                 }
                 else
                 {
-                    G.hero.y -= G.hero.speed;
+                    y -= speed;
                 }
             }
             else if (G.keys.ContainsKey(Keys.S) && !G.keys.ContainsKey(Keys.W))
@@ -44,29 +48,29 @@ namespace DungeonDrive
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
                     changeFacing('A');
-                    G.hero.x -= Math.Sqrt(2) / 2 * G.hero.speed;
-                    G.hero.y += Math.Sqrt(2) / 2 * G.hero.speed;
+                    x -= Math.Sqrt(2) / 2 * speed;
+                    y += Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
-                    G.hero.x += Math.Sqrt(2) / 2 * G.hero.speed;
-                    G.hero.y += Math.Sqrt(2) / 2 * G.hero.speed;
+                    x += Math.Sqrt(2) / 2 * speed;
+                    y += Math.Sqrt(2) / 2 * speed;
                 }
                 else
                 {
-                    G.hero.y += G.hero.speed;
+                    y += speed;
                 }
             }
             else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
             {
                 changeFacing('A');
-                G.hero.x -= G.hero.speed;
+                x -= speed;
             }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
             {
                 changeFacing('D');
-                G.hero.x += G.hero.speed;
+                x += speed;
             }
         }
 
@@ -83,11 +87,11 @@ namespace DungeonDrive
                     
                 foreach (Unit enemy in G.room.enemies)
                 {
-                    if (((enemy.x - G.hero.x) * G.hero.curxFacing > 0 || (enemy.y - G.hero.y) * G.hero.curyFacing > 0) && Math.Abs(enemy.x - G.hero.x) < 1.5 && Math.Abs(enemy.y - G.hero.y) < 1.5 )
+                    if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5 )
                     {
-                        enemy.x += G.hero.curxFacing;
-                        enemy.y += G.hero.curyFacing;
-                        enemy.hp -= G.hero.atk_dmg;
+                        enemy.x += curxFacing;
+                        enemy.y += curyFacing;
+                        enemy.hp -= atk_dmg;
                         if (enemy.hp <= 0)
                             deletingList.Add(enemy);
                     }
@@ -100,21 +104,21 @@ namespace DungeonDrive
 
         private void changeFacing(char direction)
         {
-            G.hero.curxFacing = 0;
-            G.hero.curyFacing = 0;
+            curxFacing = 0;
+            curyFacing = 0;
             switch (direction)
             {
                 case 'W':
-                    G.hero.curyFacing = -1;
+                    curyFacing = -1;
                     break;
                 case 'S':
-                    G.hero.curyFacing = 1;
+                    curyFacing = 1;
                     break;
                 case 'A':
-                    G.hero.curxFacing = -1;
+                    curxFacing = -1;
                     break;
                 case 'D':
-                    G.hero.curxFacing = 1;
+                    curxFacing = 1;
                     break;
             }
         }
@@ -125,6 +129,6 @@ namespace DungeonDrive
             handleAttacking();
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, G.width / 2 - G.size / 2, G.height / 2 - G.size / 2, G.size, G.size); }
+        public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, G.size, G.size); }
     }
 }
