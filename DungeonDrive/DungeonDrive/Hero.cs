@@ -11,7 +11,10 @@ namespace DungeonDrive
         private int curyFacing = 0;
         private bool attacking = false;
 
-        public Hero(double x, double y, double speed) : base(x, y, speed) { }
+        public Hero(double x, double y, double speed) : base(x, y, speed) {
+            this.hp = 10;
+            this.atk_dmg = 2;
+        }
 
         private void handleMovement()
         {
@@ -76,14 +79,22 @@ namespace DungeonDrive
             // iterate through current enemy list, find the enemy in the currect direction and distance, knock back
             if (G.keys.ContainsKey(Keys.J))
             {
+                List<Unit> deletingList = new List<Unit>();
+                    
                 foreach (Unit enemy in G.room.enemies)
                 {
                     if (((enemy.x - G.hero.x) * G.hero.curxFacing > 0 || (enemy.y - G.hero.y) * G.hero.curyFacing > 0) && Math.Abs(enemy.x - G.hero.x) < 1.5 && Math.Abs(enemy.y - G.hero.y) < 1.5 )
                     {
                         enemy.x += G.hero.curxFacing;
                         enemy.y += G.hero.curyFacing;
+                        enemy.hp -= G.hero.atk_dmg;
+                        if (enemy.hp <= 0)
+                            deletingList.Add(enemy);
                     }
                 }
+
+                foreach (Unit deletingEnemy in deletingList)
+                    G.room.enemies.Remove(deletingEnemy);
             }
         }
 
@@ -115,6 +126,5 @@ namespace DungeonDrive
         }
 
         public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, G.width / 2 - G.size / 2, G.height / 2 - G.size / 2, G.size, G.size); }
-        public override void drawTouching(Graphics g) { g.FillEllipse(Brushes.Red, G.width / 2 - G.size / 2, G.height / 2 - G.size / 2, G.size, G.size); }
     }
 }

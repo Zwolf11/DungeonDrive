@@ -8,6 +8,8 @@ namespace DungeonDrive
         public double x;
         public double y;
         public double speed;
+        public int hp;
+        public int atk_dmg;
 
         public Unit(double x, double y, double speed)
         {
@@ -18,6 +20,5 @@ namespace DungeonDrive
 
         public abstract void act();
         public abstract void draw(Graphics g);
-        public abstract void drawTouching(Graphics g);
     }
 }

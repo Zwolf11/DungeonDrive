@@ -27,7 +27,8 @@ namespace DungeonDrive
 
             //Testing obstacles and enemies
             obstacles.Add(new Pillar(0, 0, 3, 2));
-            enemies.Add(new Bat(0, 0, 0.01));
+            for ( int i = 0; i < 10; i++ )
+                enemies.Add(new Bat(i, i, 0.01));
 
             //Jake: Search folder and add enemies, obstacles, etc.
         }
@@ -43,14 +44,7 @@ namespace DungeonDrive
                 obstacle.draw(g);
 
             foreach (Unit enemy in enemies)
-            {
-                if (Math.Abs(enemy.x - G.hero.x) < 1 && Math.Abs(enemy.y - G.hero.y) < 1)
-                {
-                    enemy.drawTouching(g);
-                }
-                else
-                    enemy.draw(g);
-            }
+                enemy.draw(g);   
         }
     }
 }
