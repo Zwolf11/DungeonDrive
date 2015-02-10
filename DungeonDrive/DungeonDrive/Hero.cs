@@ -12,6 +12,8 @@ namespace DungeonDrive
 
         private int curxFacing = 0;
         private int curyFacing = 0;
+        private double xNext;
+        private double yNext;
 
         public Hero(double x, double y) : base(x, y)
         {
@@ -24,53 +26,89 @@ namespace DungeonDrive
         {
             if (G.keys.ContainsKey(Keys.W) && !G.keys.ContainsKey(Keys.S))
             {
-                changeFacing('W');
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
                     changeFacing('A');
-                    x -= Math.Sqrt(2) / 2 * speed;
-                    y -= Math.Sqrt(2) / 2 * speed;
+                    xNext = x - Math.Sqrt(2) / 2 * speed;
+                    yNext = y - Math.Sqrt(2) / 2 * speed;
+
+                    if (checkCollision(xNext, yNext, null))
+                    {
+                        x = xNext;
+                        y = yNext;
+                    }
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
-                    x += Math.Sqrt(2) / 2 * speed;
-                    y -= Math.Sqrt(2) / 2 * speed;
+                    xNext = x + Math.Sqrt(2) / 2 * speed;
+                    yNext = y - Math.Sqrt(2) / 2 * speed;
+
+                    if (checkCollision(xNext, yNext, null))
+                    {
+                        x = xNext;
+                        y = yNext;
+                    }
                 }
                 else
                 {
-                    y -= speed;
+                    changeFacing('W');
+                    yNext = y - speed;
+
+                    if (checkCollision(x, yNext, null))
+                        y = yNext;
                 }
             }
             else if (G.keys.ContainsKey(Keys.S) && !G.keys.ContainsKey(Keys.W))
             {
-                changeFacing('S');
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
                     changeFacing('A');
-                    x -= Math.Sqrt(2) / 2 * speed;
-                    y += Math.Sqrt(2) / 2 * speed;
+                    xNext = x - Math.Sqrt(2) / 2 * speed;
+                    yNext = y + Math.Sqrt(2) / 2 * speed;
+                    
+                    if (checkCollision(xNext, yNext, null))
+                    {
+                        x = xNext;
+                        y = yNext;
+                    }
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
-                    x += Math.Sqrt(2) / 2 * speed;
-                    y += Math.Sqrt(2) / 2 * speed;
+                    xNext = x + Math.Sqrt(2) / 2 * speed;
+                    yNext = y + Math.Sqrt(2) / 2 * speed;
+
+                    if (checkCollision(xNext, yNext, null))
+                    {
+                        x = xNext;
+                        y = yNext;
+                    }
                 }
                 else
                 {
-                    y += speed;
+                    changeFacing('S');
+                    yNext = y + speed;
+
+                    if (checkCollision(x, yNext, null))
+                        y = yNext;
                 }
             }
             else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
             {
                 changeFacing('A');
-                x -= speed;
+                xNext = x - speed;
+                
+                if (checkCollision(xNext, y, null))
+                    x = xNext;
             }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
             {
                 changeFacing('D');
-                x += speed;
+                xNext = x + speed;
+
+                if (checkCollision(xNext, y, null))
+                    x = xNext;
             }
         }
 

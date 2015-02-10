@@ -22,5 +22,18 @@ namespace DungeonDrive
 
         public abstract void act();
         public abstract void draw(Graphics g);
+
+        public Boolean checkCollision(double x, double y, Unit curEnemy)
+        {
+            foreach (Unit enemy in G.room.enemies)
+                if ( enemy != curEnemy && Math.Sqrt(Math.Pow(x - enemy.x, 2) + Math.Pow(y - enemy.y, 2)) <= 1)
+                    return false;
+
+            if (curEnemy != null)
+                if (Math.Sqrt(Math.Pow(x - G.hero.x, 2) + Math.Pow(y - G.hero.y, 2)) <= 1)
+                    return false;
+
+            return true;
+        }
     }
 }
