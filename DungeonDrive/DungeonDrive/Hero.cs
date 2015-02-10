@@ -118,26 +118,42 @@ namespace DungeonDrive
             if (G.room.enemies.Count == 0)
                 return;
 
-            // iterate through current enemy list, find the enemy in the currect direction and distance, knock back
+            List<Unit> deletingList = new List<Unit>();
+
+            // basic attack
             if (G.keys.ContainsKey(Keys.J))
             {
-                List<Unit> deletingList = new List<Unit>();
-                    
                 foreach (Unit enemy in G.room.enemies)
                 {
-                    if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5 )
+                    if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.2)
                     {
-                        enemy.x += curxFacing;
-                        enemy.y += curyFacing;
+                        enemy.x += curxFacing * 0.2;
+                        enemy.y += curyFacing * 0.2;
                         enemy.hp -= atk_dmg;
                         if (enemy.hp <= 0)
                             deletingList.Add(enemy);
                     }
                 }
-
-                foreach (Unit deletingEnemy in deletingList)
-                    G.room.enemies.Remove(deletingEnemy);
             }
+
+            // iterate through current enemy list, find the enemy in the currect direction and distance, knock back
+            if (G.keys.ContainsKey(Keys.K))
+            {       
+                foreach (Unit enemy in G.room.enemies)
+                {
+                    if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
+                    {
+                        enemy.x += curxFacing;
+                        enemy.y += curyFacing;
+                        enemy.hp -= atk_dmg * 1.5;
+                        if (enemy.hp <= 0)
+                            deletingList.Add(enemy);
+                    }
+                }
+            }
+
+            foreach (Unit deletingEnemy in deletingList)
+                G.room.enemies.Remove(deletingEnemy);
         }
 
         private void changeFacing(char direction)

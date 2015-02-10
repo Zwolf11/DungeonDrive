@@ -10,9 +10,9 @@ namespace DungeonDrive
 
         public Bat(double x, double y) : base(x, y)
         {
-            this.hp = 5;
+            this.hp = 30;
             this.atk_dmg = 1;
-            this.speed = 0.01;
+            this.speed = 0.1;
         }
 
         public override void act()
@@ -24,6 +24,11 @@ namespace DungeonDrive
             {
                 x = xNext;
                 y = yNext;
+            }
+            else
+            {
+                x -= Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                y -= Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             }
         }
 
