@@ -32,7 +32,7 @@ namespace DungeonDrive
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
 
-                    if (checkCollision(xNext, yNext, null))
+                    if (checkCollision(xNext, yNext))
                     {
                         x = xNext;
                         y = yNext;
@@ -44,7 +44,7 @@ namespace DungeonDrive
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
 
-                    if (checkCollision(xNext, yNext, null))
+                    if (checkCollision(xNext, yNext))
                     {
                         x = xNext;
                         y = yNext;
@@ -55,7 +55,7 @@ namespace DungeonDrive
                     changeFacing('W');
                     yNext = y - speed;
 
-                    if (checkCollision(x, yNext, null))
+                    if (checkCollision(x, yNext))
                         y = yNext;
                 }
             }
@@ -67,7 +67,7 @@ namespace DungeonDrive
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                     
-                    if (checkCollision(xNext, yNext, null))
+                    if (checkCollision(xNext, yNext))
                     {
                         x = xNext;
                         y = yNext;
@@ -79,7 +79,7 @@ namespace DungeonDrive
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
 
-                    if (checkCollision(xNext, yNext, null))
+                    if (checkCollision(xNext, yNext))
                     {
                         x = xNext;
                         y = yNext;
@@ -90,7 +90,7 @@ namespace DungeonDrive
                     changeFacing('S');
                     yNext = y + speed;
 
-                    if (checkCollision(x, yNext, null))
+                    if (checkCollision(x, yNext))
                         y = yNext;
                 }
             }
@@ -99,7 +99,7 @@ namespace DungeonDrive
                 changeFacing('A');
                 xNext = x - speed;
                 
-                if (checkCollision(xNext, y, null))
+                if (checkCollision(xNext, y))
                     x = xNext;
             }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
@@ -107,7 +107,7 @@ namespace DungeonDrive
                 changeFacing('D');
                 xNext = x + speed;
 
-                if (checkCollision(xNext, y, null))
+                if (checkCollision(xNext, y))
                     x = xNext;
             }
         }

@@ -20,15 +20,18 @@ namespace DungeonDrive
             xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
 
-            if (checkCollision(xNext, yNext, this))
+            if (checkCollision(xNext, yNext))
             {
                 x = xNext;
                 y = yNext;
             }
             else
             {
-                x -= Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-                y -= Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                while (!checkCollision(x, y))
+                {
+                    x -= G.rnd.Next(-1, 2) * speed;
+                    y -= G.rnd.Next(-1, 2) * speed;
+                }
             }
         }
 

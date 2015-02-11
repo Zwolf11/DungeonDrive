@@ -13,5 +13,6 @@ namespace DungeonDrive
         public static Room room = new Room("C:");
         public static Hero hero = new Hero(0, 0);
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
+        public static Random rnd = new Random();
     }
 }
