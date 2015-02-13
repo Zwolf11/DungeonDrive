@@ -11,13 +11,15 @@ namespace DungeonDrive
         public int height;
         public List<Obstacle> obstacles = new List<Obstacle>();
         public List<Unit> enemies = new List<Unit>();
-        public List<Door> doors = new List<Door>();
+        //public List<Door> doors = new List<Door>();
         public bool[,] freeSpace;                               // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
         public bool[,] walkingSpace;
         public int heroStartingX = 0;
         public int heroStartingY = 0;
 
         public int numEnemies = 0;
+        public int numBats = 0;
+        public int numSpiders = 0;
         public int numObstacles = 0;
         public const int maxEnemies = 15;
         public const int maxObstacles = 10;
@@ -208,9 +210,11 @@ namespace DungeonDrive
         {                       
             // randomly spawn a bat or spider
             if((int) rand.Next(0,100) % 2 == 0){
-                while( !addEnemy (new Bat (rand.Next (0,width - 1), rand.Next (0,height - 1))));
+                while (!addEnemy(new Bat(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                numBats++;
             } else {
-                while( !addEnemy (new Spider (rand.Next (0,width - 1), rand.Next (0,height - 1))));
+                while (!addEnemy(new Spider(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                numSpiders++;
             }
              
         }
@@ -289,8 +293,8 @@ namespace DungeonDrive
             foreach (Unit enemy in enemies)
                 enemy.draw(g);
 
-            foreach (Door door in doors)
-                door.draw(g);
+            /*foreach (Door door in doors)
+                door.draw(g);*/
         }
 
     }
