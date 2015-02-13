@@ -12,8 +12,11 @@ namespace DungeonDrive
         public List<Obstacle> obstacles = new List<Obstacle>();
         public List<Unit> enemies = new List<Unit>();
         //public List<Door> doors = new List<Door>();
+        public List<Stairs> stairs = new List<Stairs>();
+
         public bool[,] freeSpace;                               // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
         public bool[,] walkingSpace;
+        public bool[,] stairSpace;
         public int heroStartingX = 0;
         public int heroStartingY = 0;
 
@@ -21,8 +24,11 @@ namespace DungeonDrive
         public int numBats = 0;
         public int numSpiders = 0;
         public int numObstacles = 0;
+        public int numStairs = 0;
+
         public const int maxEnemies = 15;
         public const int maxObstacles = 10;
+        public const int maxStairs = 10;
 
         public const int SAFE_DISTANCE = 4;
 
@@ -48,6 +54,7 @@ namespace DungeonDrive
 
             freeSpace = new bool [width,height];
             walkingSpace = new bool [width, height];
+            stairSpace = new bool[width, height];
 
             for (int i = 0; i < width; i++)
             {
@@ -55,6 +62,7 @@ namespace DungeonDrive
                 {
                     freeSpace[i, j] = true;
                     walkingSpace[i,j] = true;
+                    stairSpace[i, j] = false;
                 }
             }
 
@@ -67,10 +75,20 @@ namespace DungeonDrive
             // VVVVV This is for testing.
             //for ( int i = 1; i < 10; i++ )
             //    enemies.Add(new Bat(i, i*2));
-
+
+
+            Console.WriteLine("number of directories found = {0}", dirs.Length);
+
             for (int i = 0; i < dirs.Length; i++)
             {
-                directoryFound();
+                if(!((File.GetAttributes(dirs[i]) & FileAttributes.Hidden) == FileAttributes.Hidden)){
+                    Console.WriteLine("non hidden directory path found = {0}", dirs[i]);
+                    directoryFound(dirs[i]);
+                }
+                else
+                {
+                    Console.WriteLine("directory {0} is hidden", dirs[i]);
+                }
             }
 
             Console.WriteLine("files.length = {0}", files.Length);
@@ -180,10 +198,11 @@ namespace DungeonDrive
                 }
         }
 
-        public void directoryFound()
+        public void directoryFound(String path)
         {
             // WORK IN PROGRESS
-            addDoor();
+
+            while(!addStairs(new Stairs(rand.Next(0,width - 1), rand.Next(0, height - 1), 1, 1, true, path)));
         }
 
         public void textFound()
@@ -221,6 +240,27 @@ namespace DungeonDrive
 
         public void addDoor()
         {
+
+        }
+
+        public bool addStairs(Stairs s)
+        {
+            if (numStairs >= maxStairs - 1)
+            {
+                return true;
+            }
+
+            if (!freeSpace[s.x, s.y])
+            {
+                return false;
+            }
+
+            stairs.Add(s);
+
+            stairSpace[s.x, s.y] = true;
+            freeSpace[s.x, s.y] = false;
+
+            return true;
 
         }
 
@@ -287,6 +327,9 @@ namespace DungeonDrive
                 for (int j = 0; j < G.room.height; j++)
                     g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
 
+            foreach (Stairs stair in stairs)
+                stair.draw(g);
+
             foreach (Obstacle obstacle in obstacles)
                 obstacle.draw(g);
 
@@ -295,6 +338,8 @@ namespace DungeonDrive
 
             /*foreach (Door door in doors)
                 door.draw(g);*/
+
+
         }
 
     }

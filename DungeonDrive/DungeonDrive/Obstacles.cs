@@ -30,4 +30,27 @@ namespace DungeonDrive
 
         public override void draw(Graphics g) { g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height); }
     }
+
+    public class Stairs : Obstacle
+    {
+        public bool down;
+        public String path;
+
+        public Stairs(int x, int y, int width, int height, bool down, String path) : base(x, y, width, height) {
+            this.down = down;
+            this.path = path;
+        }
+
+        public override void draw(Graphics g)
+        {
+            if (down)
+            {
+                g.FillRectangle(Brushes.Red, DrawX, DrawY, G.size * width, G.size * height);
+            }
+            else 
+            {
+                g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
+            }
+        }
+    }
 }
