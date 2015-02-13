@@ -14,43 +14,49 @@ namespace DungeonDrive
         //public List<Door> doors = new List<Door>();
         public List<Stairs> stairs = new List<Stairs>();
 
-        public bool[,] freeSpace;                               // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
-        public bool[,] walkingSpace;
-        public bool[,] stairSpace;
-        public int heroStartingX = 0;
+        public bool[,] freeSpace;                      // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
+        public bool[,] walkingSpace;                   // hero can walk here.
+        public bool[,] stairSpace;                      // there are stairs in this space.
+
+        public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
 
         public int numEnemies = 0;
         public int numBats = 0;
-        public int numSpiders = 0;
+        public int numSpiders = 0;             // current number of each of these objects
         public int numObstacles = 0;
         public int numStairs = 0;
 
         public const int maxEnemies = 15;
-        public const int maxObstacles = 10;
+        public const int maxObstacles = 10;   // max number of these objects to generate in a room.
         public const int maxStairs = 10;
 
-        public const int SAFE_DISTANCE = 4;
+        public const int SAFE_DISTANCE = 4;   // safe distance for the enemies to spawn from the player's starting position in the room.
 
         private Random rand;
 
         public Room(string path)
         {
+
             generateRoom(path);
         }
 
         public void generateRoom(string path)
         {
+
             rand = new Random(path.GetHashCode());  // random numbers based on path seed
 
             String[] files = Directory.GetFiles(path);  // get files in directory
 
-            String[] dirs = Directory.GetDirectories(path);
+            String[] dirs = Directory.GetDirectories(path); // get directories in current directory
 
             // base size of room on number of objects.
 
-            this.width = rand.Next(30, 40); // width is x-axis
-            this.height = rand.Next(25, 35); // height is y-axis
+            //this.width = rand.Next(30, 40); // width is x-axis
+            //this.height = rand.Next(25, 35); // height is y-axis
+            width = 30;     // removed the randomness for now because the hero was not being relocated to a consistent point, and was causing an indexoutofbounds exception sometimes
+            height = 25;
+
 
             freeSpace = new bool [width,height];
             walkingSpace = new bool [width, height];
@@ -61,40 +67,35 @@ namespace DungeonDrive
                 for (int j = 0; j < height; j++)
                 {
                     freeSpace[i, j] = true;
-                    walkingSpace[i,j] = true;
+                    walkingSpace[i,j] = true;         // initalizes all the boolean arrays
                     stairSpace[i, j] = false;
                 }
             }
 
-            freeSpace[0, 0] = false;
-            
-
-                //Testing obstacles and enemies
-
-            bool results = addObstacle(new Pillar(6,8,3,2));
-            // VVVVV This is for testing.
-            //for ( int i = 1; i < 10; i++ )
-            //    enemies.Add(new Bat(i, i*2));
-
-
-            Console.WriteLine("number of directories found = {0}", dirs.Length);
+            freeSpace[0,0] = false;       
 
             for (int i = 0; i < dirs.Length; i++)
             {
-                if(!((File.GetAttributes(dirs[i]) & FileAttributes.Hidden) == FileAttributes.Hidden)){
-                    Console.WriteLine("non hidden directory path found = {0}", dirs[i]);
-                    directoryFound(dirs[i]);
+                if(!((File.GetAttributes(dirs[i]) & FileAttributes.Hidden) == FileAttributes.Hidden)){              // checks to make sure the directory is not hidden
+
+                    try
+                    {
+                        bool temp2 = Directory.Exists(dirs[i]);                                            //              
+                        directoryFound(dirs[i]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("inaccessible file {0}", dirs[i]);
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("directory {0} is hidden", dirs[i]);
+                    // found hidden file
                 }
             }
 
-            Console.WriteLine("files.length = {0}", files.Length);
 
             for(int i = 0; i < files.Length; i++){
-                Console.WriteLine("just found file {0}", files[i]);
                 matchExtension(Path.GetExtension(files[i]));
             }
 
@@ -245,7 +246,7 @@ namespace DungeonDrive
 
         public bool addStairs(Stairs s)
         {
-            if (numStairs >= maxStairs - 1)
+            if (numStairs >= (maxStairs - 1))
             {
                 return true;
             }
@@ -260,13 +261,15 @@ namespace DungeonDrive
             stairSpace[s.x, s.y] = true;
             freeSpace[s.x, s.y] = false;
 
+            numStairs++;
+
             return true;
 
         }
 
         public bool addObstacle(Obstacle o)
         {
-            if (numObstacles >= maxObstacles - 1)
+            if (numObstacles >= (maxObstacles - 1))
             {
                 return true;
             }
@@ -287,7 +290,7 @@ namespace DungeonDrive
             {
                 for(int j = o.y; j < (o.y + o.height); j++)
                 {
-                    Console.WriteLine("disabling coordinates:{0},{1}", i, j);
+                    //Console.WriteLine("disabling coordinates:{0},{1}", i, j);
                     walkingSpace[i,j] = false;
                     freeSpace[i, j] = false;
                 }
@@ -302,7 +305,7 @@ namespace DungeonDrive
         public bool addEnemy(Unit e)
         {
 
-            if (numEnemies >= maxEnemies - 1)
+            if (numEnemies >= (maxEnemies - 1))
             {
                 return true;
             }

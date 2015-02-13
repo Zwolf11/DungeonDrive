@@ -45,12 +45,26 @@ namespace DungeonDrive
         {
             if (down)
             {
-                g.FillRectangle(Brushes.Red, DrawX, DrawY, G.size * width, G.size * height);
+                g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, G.size * width, G.size * height);
             }
             else 
             {
                 g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
             }
+        }
+    }
+
+    public class Door : Obstacle
+    {
+        public bool vertical;
+
+        public Door(int x, int y, int width, int height, bool vertical) : base(x,y,width,height) {
+            this.vertical = vertical;
+        }
+  
+        public override void draw(Graphics g)
+        {
+            g.FillRectangle(Brushes.Olive, DrawX, DrawY, G.size * width, G.size * height);
         }
     }
 }
