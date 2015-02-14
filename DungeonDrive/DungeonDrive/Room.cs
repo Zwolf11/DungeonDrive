@@ -50,6 +50,10 @@ namespace DungeonDrive
 
             String[] dirs = Directory.GetDirectories(path); // get directories in current directory
 
+            String parentDir = Path.GetDirectoryName(path);
+
+            Console.WriteLine("Directory parent of {0} = {1}", path, parentDir);
+            
             // base size of room on number of objects.
 
             //this.width = rand.Next(30, 40); // width is x-axis
@@ -72,7 +76,18 @@ namespace DungeonDrive
                 }
             }
 
-            freeSpace[0,0] = false;       
+            Console.WriteLine("Here");
+
+            if (parentDir == null)
+            {
+                // this is the initial C file
+
+            }
+            else
+            {
+                addStairs(new Stairs(0, 0, 1, 1, false, parentDir, 's'));
+            }
+          
 
             for (int i = 0; i < dirs.Length; i++)
             {
@@ -80,7 +95,7 @@ namespace DungeonDrive
 
                     try
                     {
-                        bool temp2 = Directory.Exists(dirs[i]);                                            //              
+                        bool temp2 = Directory.Exists(dirs[i]);                                               // this should throw an error is the directory is inaccessible       
                         directoryFound(dirs[i]);
                     }
                     catch (Exception e)
@@ -94,10 +109,31 @@ namespace DungeonDrive
                 }
             }
 
+            
 
             for(int i = 0; i < files.Length; i++){
-                matchExtension(Path.GetExtension(files[i]));
+                matchExtension(Path.GetExtension(files[i]));     // match each file extension and spawn the corresponding object
             }
+
+            // determine hero starting point
+            // find stair that matches the pastRoom
+
+            foreach (Stairs stair in stairs)
+            {
+                Console.WriteLine("comparing {0} and {1}", stair.path, G.pastRoom);
+                if (stair.path.Equals(G.pastRoom))
+                {
+                    Console.WriteLine("Gets here");
+                    // found the stairs you are coming from
+                    G.hero.changeFacing(stair.direction);
+                    G.hero.x = G.hero.xNext = stair.x + stair.xDirection;
+                    G.hero.y = G.hero.yNext = stair.y + stair.yDirection;
+                    break;
+                }
+            }
+
+            G.pastRoom = G.currentRoom;
+            G.currentRoom = path;
 
         }
 
@@ -203,7 +239,7 @@ namespace DungeonDrive
         {
             // WORK IN PROGRESS
 
-            while(!addStairs(new Stairs(rand.Next(0,width - 1), rand.Next(0, height - 1), 1, 1, true, path)));
+            while(!addStairs(new Stairs(rand.Next(1,width - 2), rand.Next(1, height - 2), 1, 1, true, path,'a')));
         }
 
         public void textFound()
@@ -251,7 +287,7 @@ namespace DungeonDrive
                 return true;
             }
 
-            if (!freeSpace[s.x, s.y])
+            if (!freeSpace[s.x, s.y] && !freeSpace[s.x + s.xDirection, s.y + s.yDirection])
             {
                 return false;
             }
@@ -260,6 +296,7 @@ namespace DungeonDrive
 
             stairSpace[s.x, s.y] = true;
             freeSpace[s.x, s.y] = false;
+            freeSpace[s.x + s.xDirection, s.y + s.yDirection] = false;
 
             numStairs++;
 
@@ -343,6 +380,13 @@ namespace DungeonDrive
                 door.draw(g);*/
 
 
+        }
+
+        public String getParent(String path)
+        {
+
+            
+            return "";
         }
 
     }

@@ -35,10 +35,34 @@ namespace DungeonDrive
     {
         public bool down;
         public String path;
+        public char direction;
+        public int xDirection;
+        public int yDirection;
 
-        public Stairs(int x, int y, int width, int height, bool down, String path) : base(x, y, width, height) {
+        public Stairs(int x, int y, int width, int height, bool down, String path, char direction ) : base(x, y, width, height) {
             this.down = down;
             this.path = path;
+            this.direction = direction;
+
+            switch (direction)
+            {
+                case 'w':
+                    xDirection = 0;
+                    yDirection = -1;
+                    break;
+                case 's':
+                    xDirection = 0;
+                    yDirection = 1;
+                    break;
+                case 'a':
+                    xDirection = -1;
+                    yDirection = 0;
+                    break;
+                case 'd':
+                    xDirection = 1;
+                    yDirection = 0;
+                    break;
+            }
         }
 
         public override void draw(Graphics g)
@@ -57,6 +81,7 @@ namespace DungeonDrive
     public class Door : Obstacle
     {
         public bool vertical;
+        
 
         public Door(int x, int y, int width, int height, bool vertical) : base(x,y,width,height) {
             this.vertical = vertical;

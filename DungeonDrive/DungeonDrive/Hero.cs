@@ -12,8 +12,8 @@ namespace DungeonDrive
 
         private int curxFacing = 0;
         private int curyFacing = 0;
-        private double xNext;
-        private double yNext;
+        public double xNext;
+        public double yNext;
 
         public Hero(double x, double y) : base(x, y)
         {
@@ -156,7 +156,7 @@ namespace DungeonDrive
                 G.room.enemies.Remove(deletingEnemy);
         }
 
-        private void changeFacing(char direction)
+        public void changeFacing(char direction)
         {
             curxFacing = 0;
             curyFacing = 0;
