@@ -118,6 +118,9 @@ namespace DungeonDrive
             // determine hero starting point
             // find stair that matches the pastRoom
 
+            G.pastRoom = G.currentRoom;
+            G.currentRoom = path;
+
             foreach (Stairs stair in stairs)
             {
                 Console.WriteLine("comparing {0} and {1}", stair.path, G.pastRoom);
@@ -132,8 +135,9 @@ namespace DungeonDrive
                 }
             }
 
-            G.pastRoom = G.currentRoom;
-            G.currentRoom = path;
+
+
+            Console.WriteLine("Changed pastRoom to {0} and currentRoom to {1}", G.pastRoom, G.currentRoom);
 
         }
 
