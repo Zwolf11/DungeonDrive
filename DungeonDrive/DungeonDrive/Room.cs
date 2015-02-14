@@ -31,7 +31,13 @@ namespace DungeonDrive
         public const int maxObstacles = 10;   // max number of these objects to generate in a room.
         public const int maxStairs = 10;
 
-        public const int SAFE_DISTANCE = 4;   // safe distance for the enemies to spawn from the player's starting position in the room.
+        public const int minRoomWidth = 6;
+        public const int minRoomHeight = 6;
+        public const int maxRoomWidth = 40;
+        public const int maxRoomHeight = 30;
+
+        public const int safe_distance = 4;   // safe distance for the enemies to spawn from the player's starting position in the room.
+        public double temp_sd = safe_distance;
 
         private Random rand;
 
@@ -56,11 +62,14 @@ namespace DungeonDrive
             
             // base size of room on number of objects.
 
-            //this.width = rand.Next(30, 40); // width is x-axis
-            //this.height = rand.Next(25, 35); // height is y-axis
-            width = 30;     // removed the randomness for now because the hero was not being relocated to a consistent point, and was causing an indexoutofbounds exception sometimes
-            height = 25;
+            int widthBottom = (int) Math.Min(maxRoomWidth, minRoomWidth + (((rand.NextDouble() * .5) + .2) * (files.Length + dirs.Length)));                // find
+            int widthTop = (int)Math.Min(maxRoomWidth, widthBottom + ((rand.NextDouble() * .5) * (files.Length + dirs.Length)));
 
+            int heightBottom = (int) Math.Min(maxRoomHeight, minRoomHeight + (((rand.NextDouble() * .5) + .2) * (files.Length + dirs.Length)));
+            int heightTop = (int)Math.Min(maxRoomHeight, heightBottom + ((rand.NextDouble() * .5) * (files.Length + dirs.Length)));
+
+            this.width = rand.Next(widthBottom, widthTop); // width is x-axis
+            this.height = rand.Next(heightBottom, heightTop); // height is y-axis
 
             freeSpace = new bool [width,height];
             walkingSpace = new bool [width, height];
@@ -81,11 +90,13 @@ namespace DungeonDrive
             if (parentDir == null)
             {
                 // this is the initial C file
-
+                G.hero.x = rand.Next(2, width - 2);
+                G.hero.y = rand.Next(2, height - 2);
+                freeSpace[(int) G.hero.x, (int) G.hero.y] = false;
             }
             else
-            {
-                addStairs(new Stairs(0, 0, 1, 1, false, parentDir, 's'));
+            {            
+                addStairs(rand.Next(1,width - 2), rand.Next(1,height-2), 1,1, false, parentDir, 'r');
             }
           
 
@@ -100,7 +111,9 @@ namespace DungeonDrive
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("inaccessible file {0}", dirs[i]);
+                        Console.WriteLine("found hidden directory");
+
+                        Console.WriteLine("{0}", e.ToString());
                     }
                 }
                 else
@@ -109,14 +122,6 @@ namespace DungeonDrive
                 }
             }
 
-            
-
-            for(int i = 0; i < files.Length; i++){
-                matchExtension(Path.GetExtension(files[i]));     // match each file extension and spawn the corresponding object
-            }
-
-            // determine hero starting point
-            // find stair that matches the pastRoom
 
             G.pastRoom = G.currentRoom;
             G.currentRoom = path;
@@ -129,15 +134,28 @@ namespace DungeonDrive
                     Console.WriteLine("Gets here");
                     // found the stairs you are coming from
                     G.hero.changeFacing(stair.direction);
+                    Console.WriteLine("Also gets here");
                     G.hero.x = G.hero.xNext = stair.x + stair.xDirection;
                     G.hero.y = G.hero.yNext = stair.y + stair.yDirection;
+                    Console.WriteLine("yep. Here too");
                     break;
                 }
             }
 
 
+            Console.WriteLine("Matching {0} file", files.Length);
+            for(int i = 0; i < files.Length; i++){
+                Console.WriteLine("Matches the extension of the number {0} file - {1}", i , files[i]);
+                matchExtension(Path.GetExtension(files[i]));     // match each file extension and spawn the corresponding object
+            }
 
-            Console.WriteLine("Changed pastRoom to {0} and currentRoom to {1}", G.pastRoom, G.currentRoom);
+            // determine hero starting point
+            // find stair that matches the pastRoom
+
+            Console.WriteLine("exited");
+            G.newRoom = true;
+
+            //Console.WriteLine("Changed pastRoom to {0} and currentRoom to {1}", G.pastRoom, G.currentRoom);
 
         }
 
@@ -243,7 +261,7 @@ namespace DungeonDrive
         {
             // WORK IN PROGRESS
 
-            while(!addStairs(new Stairs(rand.Next(1,width - 2), rand.Next(1, height - 2), 1, 1, true, path,'a')));
+            while (!addStairs(rand.Next(1, width - 2), rand.Next(1, height - 2), 1, 1, true, path, 'r')) ;
         }
 
         public void textFound()
@@ -267,15 +285,27 @@ namespace DungeonDrive
         }
 
         public void otherFound()
-        {                       
+        {
+            Console.WriteLine("other Found");
             // randomly spawn a bat or spider
+
+            temp_sd = safe_distance;
             if((int) rand.Next(0,100) % 2 == 0){
-                while (!addEnemy(new Bat(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                while (!addEnemy(new Bat(rand.Next(0, width - 1), rand.Next(0, height - 1))))
+                {
+                    Console.WriteLine("loop1");
+                }
                 numBats++;
+
             } else {
-                while (!addEnemy(new Spider(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                while (!addEnemy(new Spider(rand.Next(0, width - 1), rand.Next(0, height - 1))))
+                {
+                    Console.WriteLine("loop2");
+                }
                 numSpiders++;
             }
+
+            Console.WriteLine("out");
              
         }
 
@@ -284,23 +314,46 @@ namespace DungeonDrive
 
         }
 
-        public bool addStairs(Stairs s)
+        public bool addStairs(int x, int y, int width, int height, bool down, String path, char direction)
         {
             if (numStairs >= (maxStairs - 1))
             {
                 return true;
             }
 
-            if (!freeSpace[s.x, s.y] && !freeSpace[s.x + s.xDirection, s.y + s.yDirection])
+            if (direction == 'r')
+            {
+
+                direction = 'd';
+
+                switch ((int)rand.Next(0, 4))
+                {
+                    case 0:
+                        direction = 'w';
+                        break;
+                    case 1:
+                        direction = 'd';
+                        break;
+                    case 2:
+                        direction = 's';
+                        break;
+                    case 3:
+                        direction = 'a';
+                        break;
+                }
+            }
+
+
+            if (!freeSpace[x, y] || !freeSpace[x + xDirFromChar(direction), y + yDirFromChar(direction)])
             {
                 return false;
             }
 
-            stairs.Add(s);
+            stairs.Add(new Stairs(x, y, width, height, down, path, direction));
 
-            stairSpace[s.x, s.y] = true;
-            freeSpace[s.x, s.y] = false;
-            freeSpace[s.x + s.xDirection, s.y + s.yDirection] = false;
+            stairSpace[x, y] = true;
+            freeSpace[x, y] = false;
+            freeSpace[x + xDirFromChar(direction), y + yDirFromChar(direction)] = false;
 
             numStairs++;
 
@@ -351,8 +404,10 @@ namespace DungeonDrive
                 return true;
             }
 
-            if(Math.Sqrt(Math.Pow(e.x - heroStartingX, 2) + Math.Pow(e.y - heroStartingY, 2)) <= SAFE_DISTANCE || !freeSpace[(int)e.x, (int) e.y])
+            if(Math.Sqrt(Math.Pow(e.x - G.hero.x, 2) + Math.Pow(e.y - G.hero.y, 2)) <= temp_sd || !freeSpace[(int)e.x, (int) e.y])
             {
+                temp_sd *= .8;
+                Console.WriteLine("failed");
                 return false;
             }
 
@@ -362,6 +417,37 @@ namespace DungeonDrive
             numEnemies++;
 
             return true;
+        }
+
+        public int xDirFromChar(char c)
+        {
+
+            switch (c)
+            {
+                case 'w':
+                case 's':
+                    return 0;
+                case 'a':
+                    return -1;
+                case 'd':
+                    return 1;
+            }
+            return 0;
+        }
+
+        public int yDirFromChar(char c)
+        {
+            switch (c)
+            {
+                case 'w':
+                    return -1;
+                case 's':
+                    return 1;
+                case 'a':
+                case 'd':
+                    return 0;
+            }
+            return 0;
         }
 
         public void draw(Graphics g)

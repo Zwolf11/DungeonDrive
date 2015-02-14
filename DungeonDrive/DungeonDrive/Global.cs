@@ -11,6 +11,7 @@ namespace DungeonDrive
         public static int size = 30;
         public static String pastRoom = "";
         public static String currentRoom = "C:\\";
+        public static bool newRoom = false;
         public static MainForm form = new MainForm();
         public static Hero hero = new Hero(0, 0);
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
