@@ -29,6 +29,9 @@ namespace DungeonDrive
         public int numStairs = 0;
         public int numRooms = 0;
 
+        //public const int minSizeOfInitRoom = 3;
+        //public const int maxSizeOfInitRoom = 7;
+
         public const int sizeOfInitStairRoom = 7;
         public int radiusInitRoom = (int)((sizeOfInitStairRoom) / 2);
 
@@ -38,8 +41,8 @@ namespace DungeonDrive
 
         public const int minRoomWidth = 20;
         public const int minRoomHeight = 20;
-        public const int maxRoomWidth = 180;
-        public const int maxRoomHeight = 180;
+        public const int maxRoomWidth = 100;
+        public const int maxRoomHeight = 100;
 
         public const int safe_distance = 4;   // safe distance for the enemies to spawn from the player's starting position in the room.
         public double temp_sd = safe_distance;
@@ -73,8 +76,8 @@ namespace DungeonDrive
 
             ////////   GENERATE SIZES OF ROOMS    /////////
 
-            int maxItems = Math.Min(maxEnemies + maxObstacles, files.Length) / 3;
-            int maxMaxDirectories = Math.Min(dirs.Length, maxStairs);
+            int maxItems = Math.Min(maxEnemies + maxObstacles, files.Length);
+            int maxMaxDirectories = Math.Min(dirs.Length, maxStairs) * 2;
 
             int widthBottom = (int) Math.Min(maxRoomWidth, minRoomWidth + (((rand.NextDouble() * .7) + .6) * (maxItems +maxMaxDirectories)));                // find the floor and ceiling of the height and width sizes
             int widthTop = (int) Math.Min(maxRoomWidth, widthBottom + ((rand.NextDouble() * .7) * (maxItems +maxMaxDirectories)));
@@ -82,9 +85,12 @@ namespace DungeonDrive
             int heightBottom = (int) Math.Min(maxRoomHeight, minRoomHeight + (((rand.NextDouble() * .7) + .6) * (maxItems + maxMaxDirectories)));
             int heightTop = (int) Math.Min(maxRoomHeight, heightBottom + ((rand.NextDouble() * .7) * (maxItems + maxMaxDirectories)));
 
+            Console.WriteLine("Width between {0} and {1}, and Height between {2} and {3}", widthBottom, widthTop, heightBottom, heightTop);
             this.width = rand.Next(widthBottom, widthTop); // width is x-axis
+
             this.height = rand.Next(heightBottom, heightTop); // height is y-axis
 
+            Console.WriteLine("Width = {0} and Height = {1}", width, height);
 
             ////////   INIT THE ARRAYS   /////////
 
@@ -163,6 +169,8 @@ namespace DungeonDrive
                     break;
                 }
             }
+
+            recalcRoomNums();
 
             /////////  CONNECT ROOMS WITH HALLWAYS   ////
 

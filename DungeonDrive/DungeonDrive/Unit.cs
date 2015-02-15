@@ -51,7 +51,7 @@ namespace DungeonDrive
                 }
             }
             // This is to detect collisions with the room walls and obstacles. - Jake
-            if(x < (0) || x > (G.room.width - 1) || y < (0) || y > (G.room.height - 1) || !G.room.walkingSpace[(int)x + 1, (int)y + 1] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)y + 1] || !G.room.walkingSpace[(int)x + 1, (int)y])
+            if(!G.room.walkingSpace[(int)x + 1, (int)y + 1] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)y + 1] || !G.room.walkingSpace[(int)x + 1, (int)y])
                 return false;
 
                 return true;
