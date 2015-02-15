@@ -177,10 +177,8 @@ namespace DungeonDrive
                     firstRoom = stair.roomNum;
 
                 }
-                Console.WriteLine("Stairroom = {0}; firstRoom = {1}", stair.roomNum, firstRoom);
                 if (stair.roomNum != firstRoom)
                 {
-                    Console.WriteLine("They don't equal each other");
                     double shortestDistance = width + height;
                     Stairs shortestStair = stair;
 
@@ -611,7 +609,6 @@ namespace DungeonDrive
 
         public void makeHallway(int x1, int y1, int x2, int y2, int wide)
         {
-            Console.WriteLine("Making hallway between {0},{1} and {2},{3}", x1, y1, x2, y2);
             int deltaX = x1 - x2;
             int deltaY = y1 - y2;
 
