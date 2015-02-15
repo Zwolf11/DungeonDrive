@@ -9,16 +9,18 @@ namespace DungeonDrive
         public int y;
         public int width;
         public int height;
+        public int roomNum;
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2); } }
         public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2); } }
 
-        public Obstacle(int x, int y, int width, int height)
+        public Obstacle(int x, int y, int width, int height, int roomNum)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
+            this.roomNum = roomNum;
         }
 
         public abstract void draw(Graphics g);
@@ -26,7 +28,7 @@ namespace DungeonDrive
 
     public class Pillar : Obstacle
     {
-        public Pillar(int x, int y, int width, int height) : base(x, y, width, height) { }
+        public Pillar(int x, int y, int width, int height, int roomNum) : base(x, y, width, height, roomNum) { }
 
         public override void draw(Graphics g) { g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height); }
     }
@@ -39,7 +41,7 @@ namespace DungeonDrive
         public int xDirection;
         public int yDirection;
 
-        public Stairs(int x, int y, int width, int height, bool down, String path, char direction ) : base(x, y, width, height) {
+        public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(x, y, width, height, roomNum) {
             this.down = down;
             this.path = path;
             this.direction = direction;
@@ -83,7 +85,7 @@ namespace DungeonDrive
         public bool vertical;
         
 
-        public Door(int x, int y, int width, int height, bool vertical) : base(x,y,width,height) {
+        public Door(int x, int y, int width, int height, int roomNum, bool vertical) : base(x,y,width,height, roomNum) {
             this.vertical = vertical;
         }
   

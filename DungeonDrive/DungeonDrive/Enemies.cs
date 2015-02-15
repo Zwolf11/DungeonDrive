@@ -6,7 +6,7 @@ namespace DungeonDrive
     public class Bat : Unit
     {
         private double xNext;
-        private double yNext;
+        private double yNext; 
 
         public Bat(double x, double y) : base(x, y)
         {
