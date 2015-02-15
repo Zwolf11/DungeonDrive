@@ -177,9 +177,10 @@ namespace DungeonDrive
                     firstRoom = stair.roomNum;
 
                 }
-
+                Console.WriteLine("Stairroom = {0}; firstRoom = {1}", stair.roomNum, firstRoom);
                 if (stair.roomNum != firstRoom)
                 {
+                    Console.WriteLine("They don't equal each other");
                     double shortestDistance = width + height;
                     Stairs shortestStair = stair;
 
@@ -197,6 +198,7 @@ namespace DungeonDrive
                     makeHallway(stair.x, stair.y, shortestStair.x, shortestStair.y, 3);
                     stair.roomNum = shortestStair.roomNum;
                 }
+                q++;
             }
 
             //////////   TRAVERSE ALL FILES   //////////
@@ -208,7 +210,7 @@ namespace DungeonDrive
             // determine hero starting point
             // find stair that matches the pastRoom
 
-            //addBoundaries();
+            addBoundaries();
             recalcRoomNums();
 
             G.newRoom = true;
@@ -450,7 +452,7 @@ namespace DungeonDrive
                 }
             }
 
-            stairs.Add(new Stairs(stairX, stairY, tWidth, tHeight, roomNumSpace[x,y], down, path, direction));
+            stairs.Add(new Stairs(stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction));
 
             stairSpace[stairX, stairY] = true;
             freeSpace[stairX, stairY] = false;
@@ -609,38 +611,67 @@ namespace DungeonDrive
 
         public void makeHallway(int x1, int y1, int x2, int y2, int wide)
         {
+            Console.WriteLine("Making hallway between {0},{1} and {2},{3}", x1, y1, x2, y2);
             int deltaX = x1 - x2;
             int deltaY = y1 - y2;
-            int xInc = 1;
-            int yInc = 1;
-
-            if(deltaX <= 0){
-                xInc = -1;
-            }
-            if(deltaY < 0){
-                yInc = -1;
-            }
 
             int hallwayNum = numRooms;
 
-            for(;x1 < x2; x1 += xInc){
-                for(int i = 0; i < wide;i++){
-                    walkingSpace[x1,y1-1+i] = true;
-                    if(roomNumSpace[x1,y1-1+i] == -1){
-                        roomNumSpace[x1,y1-1+i] =  hallwayNum;
+            if (deltaX <= 0)
+            {
+                // x1 < x2
+                for (; x1 < x2; x1++)
+                {
+                    for (int i = 0; i < wide; i++)
+                    {
+                        walkingSpace[x1, y1 - 1 + i] = true;
+                        if (roomNumSpace[x1, y1 - 1 + i] == -1)
+                        {
+                            roomNumSpace[x1, y1 - 1 + i] = hallwayNum;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (; x1 > x2; x1--)
+                {
+                    for (int i = 0; i < wide; i++)
+                    {
+                        walkingSpace[x1, y1 - 1 + i] = true;
+                        if (roomNumSpace[x1, y1 - 1 + i] == -1)
+                        {
+                            roomNumSpace[x1, y1 - 1 + i] = hallwayNum;
+                        }
                     }
                 }
             }
 
-            y1 -= yInc;
+            if(deltaY < 0){
 
-            for(;y1 < y2; y1 += yInc){
-                for (int i = 0; i < wide;i++ )
+                for (; y1 < y2; y1++)
                 {
-                    walkingSpace[x1 - 1 + i, y1] = true;
-                    if (roomNumSpace[x1 - 1 + i, y1] == -1)
+                    for (int i = 0; i < wide; i++)
                     {
-                        roomNumSpace[x1 - 1 + i, y1] = hallwayNum;
+                        walkingSpace[x1 - 1 + i, y1] = true;
+                        if (roomNumSpace[x1 - 1 + i, y1] == -1)
+                        {
+                            roomNumSpace[x1 - 1 + i, y1] = hallwayNum;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (; y1 > y2; y1--)
+                {
+                    for (int i = 0; i < wide; i++)
+                    {
+                        walkingSpace[x1 - 1 + i, y1] = true;
+                        if (roomNumSpace[x1 - 1 + i, y1] == -1)
+                        {
+                            roomNumSpace[x1 - 1 + i, y1] = hallwayNum;
+                        }
                     }
                 }
             }
@@ -659,14 +690,14 @@ namespace DungeonDrive
             for (int i = 0; i < G.room.width; i++){
                 for (int j = 0; j < G.room.height; j++)
                 {
-                    //if (roomNumSpace[i, j] != -1)
-                    //{
-                    //    g.DrawRectangle(Pens.DarkGoldenrod, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
-                    //}
-                    //else
-                    //{
+                    if (roomNumSpace[i, j] != -1)
+                    {
                         g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
-                    //}
+                    }
+                    else
+                    {
+                    //    g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
+                    }
                 }
             }
                         
