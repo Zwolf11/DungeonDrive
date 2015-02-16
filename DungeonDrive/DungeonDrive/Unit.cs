@@ -109,8 +109,8 @@ namespace DungeonDrive
 
             // This is to detect collisions with the room walls and obstacles. - Jake
             //Console.WriteLine("G.room.height = {0}, width = {1}, x = {2}, y = {3}", G.room.height, G.room.width, x, y);
-//            if((x < 0) || (((int)(x+1)) > G.room.width - 1) || (y < 0) || (((int)(y+1)) > G.room.height - 1) || !G.room.walkingSpace[(int)(x + 1), (int)(y + 1)] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)(y + 1)] || !G.room.walkingSpace[(int)(x + 1), (int)y])
-//                return false;
+            if((x < 0) || (((int)(x+1)) > G.room.width - 1) || (y < 0) || (((int)(y+1)) > G.room.height - 1) || !G.room.walkingSpace[(int)(x + 1), (int)(y + 1)] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)(y + 1)] || !G.room.walkingSpace[(int)(x + 1), (int)y])
+                return false;
 
             return true;
         }

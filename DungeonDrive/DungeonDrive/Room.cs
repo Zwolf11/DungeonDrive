@@ -7,6 +7,11 @@ namespace DungeonDrive
 {
     public class Room
     {
+
+        //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
+        public bool noBoundaries = false;
+
+
         public int width;
         public int height;
         public List<Obstacle> obstacles = new List<Obstacle>();
@@ -177,7 +182,6 @@ namespace DungeonDrive
             /////////  CONNECT ROOMS WITH HALLWAYS   ////
 
             int q = 0;
-            int firstRoom = 0;
             bool[] roomsConnected = new bool[numRooms];
 
 
@@ -240,7 +244,10 @@ namespace DungeonDrive
             // determine hero starting point
             // find stair that matches the pastRoom
 
-            addBoundaries();
+            if (!noBoundaries)
+            {
+                addBoundaries();
+            }
             recalcRoomNums();
 
             G.newRoom = true;
