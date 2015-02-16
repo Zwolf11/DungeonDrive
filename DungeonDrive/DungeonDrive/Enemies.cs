@@ -6,9 +6,10 @@ namespace DungeonDrive
     public class Bat : Unit
     {
         private double xNext;
-        private double yNext; 
+        private double yNext;
 
-        public Bat(double x, double y) : base(x, y)
+        public Bat(double x, double y)
+            : base(x, y)
         {
             this.hp = 30;
             this.atk_dmg = 1;
@@ -17,6 +18,8 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (stuned) return;
+
             xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
 
@@ -51,7 +54,8 @@ namespace DungeonDrive
         private double xNext;
         private double yNext;
 
-        public Spider(double x, double y) : base(x, y)
+        public Spider(double x, double y)
+            : base(x, y)
         {
             this.hp = 15;
             this.atk_dmg = 2;
@@ -60,6 +64,8 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (stuned) return;
+
             //Mike: Add AI
             xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;

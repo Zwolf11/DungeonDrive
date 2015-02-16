@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 
 namespace DungeonDrive
 {
@@ -13,7 +12,6 @@ namespace DungeonDrive
 
         private int curxFacing = 0;
         private int curyFacing = 0;
-        private bool[] atkCd = new bool[2];
         public double xNext;
         public double yNext;
 
@@ -21,9 +19,8 @@ namespace DungeonDrive
         {
             this.hp = 10;
             this.atk_dmg = 2;
-            this.atk_speed = 1;
+            this.atk_speed = 0.5;
             this.speed = 0.3;
-            for (int i = 0; i < atkCd.Length; i++) atkCd[i] = true;
         }
 
         private void handleMovement()
@@ -116,20 +113,6 @@ namespace DungeonDrive
             }
         }
 
-        private void sleep(double sec, int i)
-        { 
-            atkCd[i] = false;
-            Thread.Sleep((int)sec*1000);
-            atkCd[i] = true;
-        }
-
-        private void cd(double sec, int i)
-        {
-            Thread thread;
-            thread = new Thread(() => sleep(sec,i));
-            thread.Start();
-        }
-
         private void handleAttacking()
         {
             //Siming: Add code for when the player is attacking (Also, when he hits, make the enemies get knocked back)
@@ -141,40 +124,38 @@ namespace DungeonDrive
             // basic attack
             if (G.keys.ContainsKey(Keys.J))
             {
-                if (atkCd[0])
+                if (atk_cd[0])
                 {
                     foreach (Unit enemy in G.room.enemies)
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.2)
                         {
-                            enemy.x += curxFacing * 0.2;
-                            enemy.y += curyFacing * 0.2;
+                            enemy.knockBack(10, curxFacing*0.2, curyFacing*0.2);
                             enemy.hp -= atk_dmg;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
                     }
-                    cd(0.2/atk_speed, 0);
+                    cd(atk_speed, 0);
                 }
             }
 
             // iterate through current enemy list, find the enemy in the currect direction and distance, knock back
             if (G.keys.ContainsKey(Keys.K))
             {       
-                if (atkCd[1])
+                if (atk_cd[1])
                 {
                     foreach (Unit enemy in G.room.enemies)
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
                         {
-                            enemy.x += curxFacing;
-                            enemy.y += curyFacing;
+                            enemy.knockBack(100000, curxFacing, curyFacing);
                             enemy.hp -= atk_dmg * 1.5;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
                     }
-                    cd(1/atk_speed, 1);
+                    cd(5, 1);
                 }
             }
 
