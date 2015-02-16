@@ -10,6 +10,7 @@ namespace DungeonDrive
         public double speed = 0.01;
         public double hp = 1;
         public double atk_dmg = 1;
+        public double atk_speed = 1;
         public int roomNum = -1;
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2); } }
