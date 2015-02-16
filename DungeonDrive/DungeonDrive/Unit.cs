@@ -32,11 +32,13 @@ namespace DungeonDrive
 
             if (!(this is Hero))
             {
+                //Console.WriteLine("Enemy");
                 if (Math.Sqrt(Math.Pow(x - G.hero.x, 2) + Math.Pow(y - G.hero.y, 2)) <= 1)
                     return false;
             }
             else
             {
+                //Console.WriteLine("Hero");
                 // checks if the center of the hero is within a staircase.
                 if (G.room.stairSpace[(int)(x + .5), (int)(y + .5)])
                 {
@@ -46,12 +48,15 @@ namespace DungeonDrive
                         {
                            // move to this room.
                             G.room = new Room(stair.path);
+                            return false;
                         }
                     }
                 }
             }
+
             // This is to detect collisions with the room walls and obstacles. - Jake
-            if(!G.room.walkingSpace[(int)x + 1, (int)y + 1] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)y + 1] || !G.room.walkingSpace[(int)x + 1, (int)y])
+            //Console.WriteLine("G.room.height = {0}, width = {1}, x = {2}, y = {3}", G.room.height, G.room.width, x, y);
+            if((x < 0) || (((int)(x+1)) > G.room.width - 1) || (y < 0) || (((int)(y+1)) > G.room.height - 1) || !G.room.walkingSpace[(int)(x + 1), (int)(y + 1)] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)(y + 1)] || !G.room.walkingSpace[(int)(x + 1), (int)y])
                 return false;
 
                 return true;

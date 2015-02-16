@@ -13,6 +13,7 @@ namespace DungeonDrive
         public List<Unit> enemies = new List<Unit>();
         //public List<Door> doors = new List<Door>();
         public List<Stairs> stairs = new List<Stairs>();
+        public List<int> connectedRooms = new List<int>();
 
         public bool[,] freeSpace;                      // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
         public bool[,] walkingSpace;                   // hero can walk here.
@@ -29,11 +30,12 @@ namespace DungeonDrive
         public int numStairs = 0;
         public int numRooms = 0;
 
-        //public const int minSizeOfInitRoom = 3;
-        //public const int maxSizeOfInitRoom = 7;
+        public const int minSizeOfInitRoom = 5;
+        public const int maxSizeOfInitRoom = 9;
 
-        public const int sizeOfInitStairRoom = 7;
-        public int radiusInitRoom = (int)((sizeOfInitStairRoom) / 2);
+
+        public const int minSizeHallway = 2;
+        public const int maxSizeHallway = 4;
 
         public const int maxEnemies = 15;
         public const int maxObstacles = 10;   // max number of these objects to generate in a room.
@@ -178,31 +180,53 @@ namespace DungeonDrive
             int firstRoom = 0;
             bool[] roomsConnected = new bool[numRooms];
 
+
             foreach (Stairs stair in stairs)
             {
                 if (q == 0)
                 {
-                    firstRoom = stair.roomNum;
+                    connectedRooms.Add(stair.roomNum);
 
                 }
-                if (stair.roomNum != firstRoom)
+
+                bool connected = false;
+                // find if roomNum is connected
+                foreach (int num in connectedRooms)
+                {
+                    if (num == stair.roomNum)
+                    {
+                        connected = true;
+                    }
+                }
+
+                if (!connected)
                 {
                     double shortestDistance = width + height;
                     Stairs shortestStair = stair;
 
                     foreach (Stairs stair2 in stairs)
                     {
-                        if(stair2.roomNum != stair.roomNum){
+
+                        bool connected2 = false;
+
+                        foreach(int num2 in connectedRooms){
+                            if(num2 == stair2.roomNum){
+                                connected2 = true;
+                            }
+                        }
+
+                        if(connected2){
                             double dist = distanceBtwnPts(stair.x, stair.y, stair2.x, stair2.y);
                             if (dist < shortestDistance)
                             {
+                                shortestDistance = dist;
                                 shortestStair = stair2;
                             }
                         }
                     }
 
-                    makeHallway(stair.x, stair.y, shortestStair.x, shortestStair.y, 3);
-                    stair.roomNum = shortestStair.roomNum;
+                    makeHallway(stair.x, stair.y, shortestStair.x, shortestStair.y);
+                    connectedRooms.Add(stair.roomNum);
                 }
                 q++;
             }
@@ -427,6 +451,9 @@ namespace DungeonDrive
             int tHeight = 1;
             int tWidth = 1;
 
+            int sizeOfInitStairRoom = rand.Next(minSizeOfInitRoom, maxSizeOfInitRoom + 1);
+            int radiusInitRoom = (int)((sizeOfInitStairRoom) / 2);
+
             do
             {
                 x = rand.Next(radiusInitRoom, width - 2 - radiusInitRoom);
@@ -615,8 +642,9 @@ namespace DungeonDrive
 
         }
 
-        public void makeHallway(int x1, int y1, int x2, int y2, int wide)
+        public void makeHallway(int x1, int y1, int x2, int y2)
         {
+            int wide = (int) rand.Next(minSizeHallway, maxSizeHallway + 1);
             int deltaX = x1 - x2;
             int deltaY = y1 - y2;
 
@@ -636,6 +664,7 @@ namespace DungeonDrive
                         }
                     }
                 }
+                x1 -= (int) Math.Ceiling((double) wide / 2.0);
             }
             else
             {
@@ -650,10 +679,14 @@ namespace DungeonDrive
                         }
                     }
                 }
+                x1 += (int) Math.Ceiling((double) wide / 2);
             }
+
 
             if(deltaY < 0){
 
+                //y1 -= (int)((double)wide / 2.0);
+               
                 for (; y1 < y2; y1++)
                 {
                     for (int i = 0; i < wide; i++)
@@ -668,6 +701,8 @@ namespace DungeonDrive
             }
             else
             {
+                //y1 += (int)((double)wide / 2.0);
+
                 for (; y1 > y2; y1--)
                 {
                     for (int i = 0; i < wide; i++)
