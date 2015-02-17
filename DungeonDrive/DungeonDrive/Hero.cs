@@ -17,6 +17,11 @@ namespace DungeonDrive
 
         private SoundPlayer attack1 = new SoundPlayer(@"attack1.wav");
         private SoundPlayer attack2 = new SoundPlayer(@"attack2.wav");
+        private Image hero_imageS = Image.FromFile(@"heroS.png");
+        private Image hero_imageW = Image.FromFile(@"heroW.png");
+        private Image hero_imageA = Image.FromFile(@"heroA.png");
+        private Image hero_imageD = Image.FromFile(@"heroD.png");
+        private Image hero_image;
 
         public Hero(double x, double y) : base(x, y)
         {
@@ -25,6 +30,7 @@ namespace DungeonDrive
             this.atk_speed = 1;
             this.speed = 0.3;
             this.radius = 0.49;
+            hero_image = hero_imageS;
         }
 
         private void handleMovement()
@@ -36,18 +42,21 @@ namespace DungeonDrive
             {
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
+                    hero_image = hero_imageA;
                     changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
+                    hero_image = hero_imageD;
                     changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
                 }
                 else
                 {
+                    hero_image = hero_imageW;
                     changeFacing('W');
                     yNext = y - speed;
                 }
@@ -56,29 +65,34 @@ namespace DungeonDrive
             {
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
+                    hero_image = hero_imageA;
                     changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
+                    hero_image = hero_imageD;
                     changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                 }
                 else
                 {
+                    hero_image = hero_imageS;
                     changeFacing('S');
                     yNext = y + speed;
                 }
             }
             else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
             {
+                hero_image = hero_imageA;
                 changeFacing('A');
                 xNext = x - speed;
             }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
             {
+                hero_image = hero_imageD;
                 changeFacing('D');
                 xNext = x + speed;
             }
@@ -174,6 +188,10 @@ namespace DungeonDrive
             handleAttacking();
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
+        public override void draw(Graphics g)
+        { 
+            //g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.DrawImage(hero_image, new Point(DrawX, DrawY));
+        }
     }
 }
