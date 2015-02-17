@@ -11,8 +11,8 @@ namespace DungeonDrive
         public int height;
         public int roomNum;
 
-        public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2); } }
-        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2); } }
+        public int DrawX { get { return (int)(G.width / 2 + x * G.size - G.hero.x * G.size); } }
+        public int DrawY { get { return (int)(G.height / 2 + y * G.size - G.hero.y * G.size); } }
 
         public Obstacle(int x, int y, int width, int height, int roomNum)
         {
@@ -40,6 +40,7 @@ namespace DungeonDrive
         public char direction;
         public int xDirection;
         public int yDirection;
+        public Font font = new Font("Arial", 10);
 
         public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(x, y, width, height, roomNum) {
             this.down = down;
@@ -77,6 +78,8 @@ namespace DungeonDrive
             {
                 g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
             }
+
+            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.Black, new PointF(DrawX, DrawY));
         }
     }
 

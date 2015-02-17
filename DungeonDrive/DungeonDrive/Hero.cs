@@ -7,13 +7,11 @@ namespace DungeonDrive
 {
     public class Hero : Unit
     {
-        new public int DrawX { get { return G.width / 2 - G.size / 2; } }
-        new public int DrawY { get { return G.height / 2 - G.size / 2; } }
+        new public int DrawX { get { return (int)(G.width / 2 - G.size * radius); } }
+        new public int DrawY { get { return (int)(G.height / 2 - G.size * radius); } }
 
         private int curxFacing = 0;
         private int curyFacing = 0;
-        public double xNext;
-        public double yNext;
 
         public Hero(double x, double y) : base(x, y)
         {
@@ -21,10 +19,14 @@ namespace DungeonDrive
             this.atk_dmg = 2;
             this.atk_speed = 0.5;
             this.speed = 0.3;
+            this.radius = 0.49;
         }
 
         private void handleMovement()
         {
+            double xNext = x;
+            double yNext = y;
+
             if (G.keys.ContainsKey(Keys.W) && !G.keys.ContainsKey(Keys.S))
             {
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
@@ -32,32 +34,17 @@ namespace DungeonDrive
                     changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
-
-                    if (checkCollision(xNext, yNext))
-                    {
-                        x = xNext;
-                        y = yNext;
-                    }
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
-
-                    if (checkCollision(xNext, yNext))
-                    {
-                        x = xNext;
-                        y = yNext;
-                    }
                 }
                 else
                 {
                     changeFacing('W');
                     yNext = y - speed;
-
-                    if (checkCollision(x, yNext))
-                        y = yNext;
                 }
             }
             else if (G.keys.ContainsKey(Keys.S) && !G.keys.ContainsKey(Keys.W))
@@ -67,50 +54,31 @@ namespace DungeonDrive
                     changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
-                    
-                    if (checkCollision(xNext, yNext))
-                    {
-                        x = xNext;
-                        y = yNext;
-                    }
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
                     changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
-
-                    if (checkCollision(xNext, yNext))
-                    {
-                        x = xNext;
-                        y = yNext;
-                    }
                 }
                 else
                 {
                     changeFacing('S');
                     yNext = y + speed;
-
-                    if (checkCollision(x, yNext))
-                        y = yNext;
                 }
             }
             else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
             {
                 changeFacing('A');
                 xNext = x - speed;
-                
-                if (checkCollision(xNext, y))
-                    x = xNext;
             }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
             {
                 changeFacing('D');
                 xNext = x + speed;
-
-                if (checkCollision(xNext, y))
-                    x = xNext;
             }
+
+            tryMove(xNext, yNext);
         }
 
         private void handleAttacking()
@@ -190,6 +158,6 @@ namespace DungeonDrive
             handleAttacking();
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, G.size, G.size); }
+        public override void draw(Graphics g) { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
     }
 }

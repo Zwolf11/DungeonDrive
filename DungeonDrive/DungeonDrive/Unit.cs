@@ -9,6 +9,7 @@ namespace DungeonDrive
         public double x;
         public double y;
         public double speed = 0.01;
+        public double radius = 0.5;
         public double hp = 1;
         public double atk_dmg = 1;
         public double atk_speed = 1;
@@ -17,8 +18,8 @@ namespace DungeonDrive
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
-        public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2); } }
-        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2); } }
+        public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
+        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size  * radius); } }
 
         public Unit(double x, double y)
         {
@@ -77,42 +78,67 @@ namespace DungeonDrive
             move.Start();
         }
 
-        public Boolean checkCollision(double x, double y)
+        public bool tryMove(double xNext, double yNext)
         {
-            foreach (Unit enemy in G.room.enemies)
-                if ( enemy != this && Math.Sqrt(Math.Pow(x - enemy.x, 2) + Math.Pow(y - enemy.y, 2)) <= 1)
-                    return false;
+            int left = (int)(xNext - radius);
+            int top = (int)(yNext - radius);
+            int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
+            int height = (int)(radius * 2 + (yNext - (int)yNext < radius || 1 - (yNext - (int)yNext) < radius ? 2 : 1));
 
-            if (!(this is Hero))
+            bool canMove = true;
+
+            for (int i = left; i < left + width; i++)
+                for (int j = top; j < top + height; j++)
+                    if (i < 0 || i >= G.room.width || j < 0 || j >= G.room.height || !G.room.walkingSpace[i, j])
+                        canMove = false;
+
+            if (this != G.hero)
             {
-                //Console.WriteLine("Enemy");
-                if (Math.Sqrt(Math.Pow(x - G.hero.x, 2) + Math.Pow(y - G.hero.y, 2)) <= 1)
-                    return false;
+                foreach (Unit unit in G.room.enemies)
+                    if (this != unit && Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
+                        return false;
             }
             else
             {
-                //Console.WriteLine("Hero");
-                // checks if the center of the hero is within a staircase.
-                if (G.room.stairSpace[(int)(x + .5), (int)(y + .5)])
-                {
-                    foreach (Stairs stair in G.room.stairs)
+                foreach(Stairs stairs in G.room.stairs)
+                    if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius)
                     {
-                        if (stair.x == (int) (x + .5) && stair.y == (int) (y + .5))
-                        {
-                           // move to this room.
-                            G.room = new Room(stair.path);
-                            return false;
-                        }
+                        G.room = new Room(stairs.path);
+                        return false;
                     }
+            }
+
+            if(canMove)
+            {
+                x = xNext;
+                y = yNext;
+            }
+            else
+            {
+                if ((int)(x - radius) > (int)(xNext - radius))
+                {
+                    x = (int)x + radius + 0.001;
+                    tryMove(x, yNext);
+                }
+                else if((int)(x + radius) < (int)(xNext + radius))
+                {
+                    x = (int)x + 1 - radius - 0.001;
+                    tryMove(x, yNext);
+                }
+
+                if ((int)(y - radius) > (int)(yNext - radius))
+                {
+                    y = (int)y + radius + 0.001;
+                    tryMove(xNext, y);
+                }
+                else if ((int)(y + radius) < (int)(yNext + radius))
+                {
+                    y = (int)y + 1 - radius - 0.001;
+                    tryMove(xNext, y);
                 }
             }
 
-            // This is to detect collisions with the room walls and obstacles. - Jake
-            //Console.WriteLine("G.room.height = {0}, width = {1}, x = {2}, y = {3}", G.room.height, G.room.width, x, y);
-//            if((x < 0) || (((int)(x+1)) > G.room.width - 1) || (y < 0) || (((int)(y+1)) > G.room.height - 1) || !G.room.walkingSpace[(int)(x + 1), (int)(y + 1)] || !G.room.walkingSpace[(int)x, (int)y] || !G.room.walkingSpace[(int)x, (int)(y + 1)] || !G.room.walkingSpace[(int)(x + 1), (int)y])
-//                return false;
-
-            return true;
+            return canMove;
         }
     }
 }

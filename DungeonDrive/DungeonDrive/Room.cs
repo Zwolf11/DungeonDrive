@@ -37,9 +37,9 @@ namespace DungeonDrive
         public const int minSizeHallway = 2;
         public const int maxSizeHallway = 4;
 
-        public const int maxEnemies = 15;
-        public const int maxObstacles = 10;   // max number of these objects to generate in a room.
-        public const int maxStairs = 10;
+        public const int maxEnemies = 100;
+        public const int maxObstacles = 100;   // max number of these objects to generate in a room.
+        public const int maxStairs = 100;
 
         public const int minRoomWidth = 20;
         public const int minRoomHeight = 20;
@@ -154,8 +154,8 @@ namespace DungeonDrive
                 int x1, y1;
                 while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1) ;
 
-                G.hero.x = x1;
-                G.hero.y = y1;
+                G.hero.x = x1 + 0.5;
+                G.hero.y = y1 + 0.5;
                 freeSpace[x1, y1] = false;
             }
 
@@ -166,8 +166,8 @@ namespace DungeonDrive
                 if (stair.path.Equals(G.pastRoom))
                 {                                                               
                     G.hero.changeFacing(stair.direction);
-                    G.hero.x = G.hero.xNext = stair.x + stair.xDirection;      // place you on the correct side of it
-                    G.hero.y = G.hero.yNext = stair.y + stair.yDirection;
+                    G.hero.x = /*G.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
+                    G.hero.y = /*G.hero.yNext = */stair.y + stair.yDirection + 0.5;
                     break;
                 }
             }
@@ -244,7 +244,6 @@ namespace DungeonDrive
             recalcRoomNums();
 
             G.newRoom = true;
-
         }
 
         public void matchExtension(String extension)
@@ -257,14 +256,16 @@ namespace DungeonDrive
                     case ".doc":
                     case ".docx":
                         textFound();
-                        break; //*/
+                        break; //*/
+
                     //* audio file
                     case ".mp3":
                     case ".m4a":
                     case ".wav":
                     case ".wma":
                         audioFound();
-                        break; //*/
+                        break; //*/
+
                     //* video files
                     case ".avi":
                     case ".m4v":
@@ -273,15 +274,19 @@ namespace DungeonDrive
                     case ".mpg":
                     case ".wmv":
                         videoFound();
-                        break; //*/
+                        break; //*/
+
                     //*Image files
                     case ".jpg":
                     case ".jpeg":
                     case ".bmp":
-                    case ".gif":                    case ".png":
+                    case ".gif":
+                    case ".png":
                     case ".pdf":
                         imageFound();
-                        break; //*/   /*                    // Powerpoint
+                        break; //*/   
+/*
+                    // Powerpoint
                     case ".ppt":
                     case ".pptx":
                     case ".pps":
@@ -293,12 +298,14 @@ namespace DungeonDrive
                     case ".xls":
                     case ".xlsx":
                         otherFound();
-                        break;
+                        break;
+
                     // Executable files
                     case ".exe":
                     case ".jar":
                         otherFound();
-                        break;
+                        break;
+
                     // Web files
                     case ".html":
                     case ".htm":
@@ -307,7 +314,8 @@ namespace DungeonDrive
                     case ".php":
                     case ".xhtml":
                         otherFound();
-                        break;
+                        break;
+
                     // Compressed files
                     case ".7z":
                     case ".gz":
@@ -376,11 +384,11 @@ namespace DungeonDrive
         {
             temp_sd = safe_distance;
             if((int) rand.Next(0,100) % 2 == 0){
-                while (!addEnemy(new Bat(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                while (!addEnemy(new Bat(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
                 numBats++;
 
             } else {
-                while (!addEnemy(new Spider(rand.Next(0, width - 1), rand.Next(0, height - 1)))) ;
+                while (!addEnemy(new Spider(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
                 numSpiders++;
             }            
         }
@@ -726,18 +734,19 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
-
             for (int i = 0; i < G.room.width; i++){
                 for (int j = 0; j < G.room.height; j++)
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
-                        g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
+                        g.DrawRectangle(Pens.Black, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
+
+                        //g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), G.size, G.size);
                     }
-                    else
-                    {
+                    //else
+                    //{
                     //    g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
-                    }
+                    //}
                 }
             }
                         

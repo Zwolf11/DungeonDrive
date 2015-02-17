@@ -15,7 +15,6 @@ namespace DungeonDrive
         public static MainForm form = new MainForm();
         public static Hero hero = new Hero(0, 0);
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
-        public static Random rnd = new Random();
         public static Room room = new Room(currentRoom);
     }
 }
