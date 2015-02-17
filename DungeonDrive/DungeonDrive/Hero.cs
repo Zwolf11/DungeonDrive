@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
+using System.IO;
 
 namespace DungeonDrive
 {
@@ -13,11 +15,14 @@ namespace DungeonDrive
         private int curxFacing = 0;
         private int curyFacing = 0;
 
+        private SoundPlayer attack1 = new SoundPlayer(@"attack1.wav");
+        private SoundPlayer attack2 = new SoundPlayer(@"attack2.wav");
+
         public Hero(double x, double y) : base(x, y)
         {
             this.hp = 10;
             this.atk_dmg = 2;
-            this.atk_speed = 0.5;
+            this.atk_speed = 1;
             this.speed = 0.3;
             this.radius = 0.49;
         }
@@ -107,6 +112,7 @@ namespace DungeonDrive
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
                         {
+                            try {attack1.Play();} catch (FileNotFoundException e) {}
                             knockBack(enemy, curxFacing * 0.2, curyFacing * 0.2);
                             enemy.hp -= atk_dmg;
                             if (enemy.hp <= 0)
@@ -126,13 +132,14 @@ namespace DungeonDrive
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
                         {
+                            try {attack2.Play();} catch (FileNotFoundException e) {}
                             knockBack(enemy, curxFacing, curyFacing);
                             enemy.hp -= atk_dmg * 1.5;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
                     }
-                    cd(5, 1);
+                    cd(2, 1);
                 }
             }
 

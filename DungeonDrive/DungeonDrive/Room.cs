@@ -769,7 +769,9 @@ namespace DungeonDrive
             /*foreach (Door door in doors)
                 door.draw(g);*/
 
-
+            for (int i = 0; i < G.hero.atk_cd.Length; i++)
+                if (!G.hero.atk_cd[i])
+                    g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
         }
 
     }
