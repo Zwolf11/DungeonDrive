@@ -12,15 +12,20 @@ namespace DungeonDrive
         new public int DrawX { get { return (int)(G.width / 2 - G.size * radius); } }
         new public int DrawY { get { return (int)(G.height / 2 - G.size * radius); } }
 
+        public List<Projectile> projectiles = new List<Projectile>();
+        private List<Projectile> deletingProj = new List<Projectile>();
+        public List<Unit> deletingList = new List<Unit>();
+
         private int curxFacing = 0;
         private int curyFacing = 0;
 
-        private SoundPlayer attack1 = new SoundPlayer(@"attack1.wav");
-        private SoundPlayer attack2 = new SoundPlayer(@"attack2.wav");
-        private Image hero_imageS = Image.FromFile(@"heroS.png");
-        private Image hero_imageW = Image.FromFile(@"heroW.png");
-        private Image hero_imageA = Image.FromFile(@"heroA.png");
-        private Image hero_imageD = Image.FromFile(@"heroD.png");
+        private SoundPlayer attack1;
+        private SoundPlayer attack2;
+        private SoundPlayer attack3;
+        private Image hero_imageS; 
+        private Image hero_imageW; 
+        private Image hero_imageA; 
+        private Image hero_imageD; 
         private Image hero_image;
 
         public Hero(double x, double y) : base(x, y)
@@ -30,7 +35,18 @@ namespace DungeonDrive
             this.atk_speed = 1;
             this.speed = 0.3;
             this.radius = 0.49;
-            hero_image = hero_imageS;
+            try
+            {
+                attack1 = new SoundPlayer(@"attack1.wav");
+                attack2 = new SoundPlayer(@"attack2.wav");
+                attack3 = new SoundPlayer(@"attack3.wav");
+                hero_imageS = Image.FromFile(@"heroS.png");
+                hero_imageW = Image.FromFile(@"heroW.png");
+                hero_imageA = Image.FromFile(@"heroA.png");
+                hero_imageD = Image.FromFile(@"heroD.png");
+                hero_image = hero_imageS;
+            }
+            catch (FileNotFoundException) { }
         }
 
         private void handleMovement()
@@ -115,8 +131,6 @@ namespace DungeonDrive
             if (G.room.enemies.Count == 0)
                 return;
 
-            List<Unit> deletingList = new List<Unit>();
-
             // basic attack
             if (G.keys.ContainsKey(Keys.J))
             {
@@ -126,7 +140,7 @@ namespace DungeonDrive
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
                         {
-                            try {attack1.Play();} catch (FileNotFoundException e) {}
+                            try {attack1.Play();} catch (FileNotFoundException) {}
                             knockBack(enemy, curxFacing * 0.2, curyFacing * 0.2);
                             enemy.hp -= atk_dmg;
                             if (enemy.hp <= 0)
@@ -146,7 +160,7 @@ namespace DungeonDrive
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
                         {
-                            try {attack2.Play();} catch (FileNotFoundException e) {}
+                            try {attack2.Play();} catch (FileNotFoundException) {}
                             knockBack(enemy, curxFacing, curyFacing);
                             enemy.hp -= atk_dmg * 1.5;
                             if (enemy.hp <= 0)
@@ -157,8 +171,35 @@ namespace DungeonDrive
                 }
             }
 
-            foreach (Unit deletingEnemy in deletingList)
-                G.room.enemies.Remove(deletingEnemy);
+            // shoot projectiles
+            if (G.keys.ContainsKey(Keys.L))
+            {
+                if (atk_cd[2])
+                {
+                    attack3.Play();
+                    projectiles.Add(new Arrow(x, y, curxFacing, curyFacing));
+                    cd(1, 2);
+                }
+            }
+
+            if (deletingList.Count > 0)
+            {
+                foreach (Unit deletingEnemy in deletingList)
+                    G.room.enemies.Remove(deletingEnemy);
+                deletingList.Clear();
+            }
+
+            if (deletingProj.Count > 0)
+            {
+                foreach (Projectile proj in deletingProj)
+                    projectiles.Remove(proj);
+                deletingProj.Clear();
+            }
+        }
+
+        public void removeProj(Projectile proj)
+        {
+            deletingProj.Add(proj);
         }
 
         public void changeFacing(char direction)
@@ -189,9 +230,13 @@ namespace DungeonDrive
         }
 
         public override void draw(Graphics g)
-        { 
-            //g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
-            g.DrawImage(hero_image, new Point(DrawX, DrawY));
+        {
+            foreach (Projectile proj in projectiles)
+                proj.draw(g);
+
+            if (hero_image == null)
+            { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
+            else g.DrawImage(hero_image, new Point(DrawX, DrawY));
         }
     }
 }

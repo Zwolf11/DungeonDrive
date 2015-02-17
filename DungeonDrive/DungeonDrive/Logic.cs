@@ -31,6 +31,9 @@ namespace DungeonDrive
                 foreach (Unit unit in G.room.enemies)
                     unit.act();
 
+                foreach (Projectile proj in G.hero.projectiles)
+                    proj.act();
+
                 resolveUnitCollisions();
             }
 
