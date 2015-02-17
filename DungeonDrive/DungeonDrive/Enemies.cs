@@ -15,6 +15,18 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (knockback)
+            {
+                if (Math.Round(Math.Abs(x_final - x), 6) <= Math.Abs(x_dist) && Math.Round(Math.Abs(y_final - y), 6) <= Math.Abs(y_dist) && tryMove(x + x_dist, y + y_dist))
+                {
+                    x += x_dist;
+                    y += y_dist;
+                    return;
+                }
+                else
+                    knockback = false;
+            }
+
             if (stuned) return;
 
             double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
@@ -46,6 +58,18 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (knockback)
+            {
+                if (Math.Round(Math.Abs(x_final - x), 6) <= Math.Abs(x_dist) && Math.Round(Math.Abs(y_final - y), 6) <= Math.Abs(y_dist) && tryMove(x + x_dist, y + y_dist))
+                {
+                    x += x_dist;
+                    y += y_dist;
+                    return;
+                }
+                else
+                    knockback = false;
+            }
+
             if (stuned) return;
 
             double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;

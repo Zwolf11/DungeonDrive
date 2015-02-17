@@ -42,7 +42,7 @@ namespace DungeonDrive
         public const int minSizeHallway = 2;
         public const int maxSizeHallway = 4;
 
-        public const int maxEnemies = 100;
+        public const int maxEnemies = 20;
         public const int maxObstacles = 100;   // max number of these objects to generate in a room.
         public const int maxStairs = 100;
 

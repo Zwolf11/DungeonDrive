@@ -16,6 +16,12 @@ namespace DungeonDrive
         public bool stuned = false;
         public int roomNum = -1;
 
+        public bool knockback = false;
+        public double x_dist = 0;
+        public double y_dist = 0;
+        public double x_final = 0;
+        public double y_final = 0;
+
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
@@ -44,20 +50,6 @@ namespace DungeonDrive
             atk_cd[i] = true;
         }
 
-        private void mov(double factor, double x_dist, double y_dist)
-        {
-            double x_final = x + x_dist;
-            double y_final = y + y_dist;
-            double avg_x = x_dist / factor;
-            double avg_y = y_dist / factor;
-            while (Math.Round(Math.Abs(x_final - x),6) <= Math.Abs(x_dist) && Math.Round(Math.Abs(y_final - y),6) <= Math.Abs(y_dist))
-            {
-                x += avg_x;
-                y += avg_y;
-            }
-            stuned = false;
-        }
-
         public void stun(double sec)
         {
             // disable moving flag for certain given seconds
@@ -69,13 +61,6 @@ namespace DungeonDrive
         {
             // disable the attack boolean at index i for certain given seconds
             new Thread(() => atkSleep(sec, i)).Start();
-        }
-
-        public void knockBack(double factor, double x_dist, double y_dist)
-        {
-            stuned = true;
-            Thread move = new Thread(() => mov(factor, x_dist, y_dist));
-            move.Start();
         }
 
         public bool tryMove(double xNext, double yNext)

@@ -81,6 +81,15 @@ namespace DungeonDrive
             tryMove(xNext, yNext);
         }
 
+        private void knockBack(Unit enemy, double x_dist, double y_dist)
+        {
+            enemy.x_dist = x_dist;
+            enemy.y_dist = y_dist;
+            enemy.x_final = enemy.x + enemy.x_dist;
+            enemy.y_final = enemy.y + enemy.y_dist;
+            enemy.knockback = true;
+        }
+
         private void handleAttacking()
         {
             //Siming: Add code for when the player is attacking (Also, when he hits, make the enemies get knocked back)
@@ -96,9 +105,9 @@ namespace DungeonDrive
                 {
                     foreach (Unit enemy in G.room.enemies)
                     {
-                        if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.2)
+                        if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
                         {
-                            enemy.knockBack(10, curxFacing*0.2, curyFacing*0.2);
+                            knockBack(enemy, curxFacing * 0.2, curyFacing * 0.2);
                             enemy.hp -= atk_dmg;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
@@ -117,7 +126,7 @@ namespace DungeonDrive
                     {
                         if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
                         {
-                            enemy.knockBack(100000, curxFacing, curyFacing);
+                            knockBack(enemy, curxFacing, curyFacing);
                             enemy.hp -= atk_dmg * 1.5;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
