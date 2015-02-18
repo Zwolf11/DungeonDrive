@@ -46,3 +46,11 @@ C:\Users\lee1129\Documents\cs491\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debu
 C:\Users\lee1129\Documents\cs491\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
 C:\Users\lee1129\Documents\cs491\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 C:\Users\lee1129\Documents\cs491\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache

@@ -10,11 +10,11 @@ namespace DungeonDrive
         public double y;
         public double speed = 0.01;
         public double radius = 0.5;
-        public double full_hp = 1;
         public double hp = 1;
         public double atk_dmg = 1;
         public double atk_speed = 1;
         public bool stuned = false;
+        public bool teleport = false;
         public int roomNum = -1;
 
         public bool knockback = false;

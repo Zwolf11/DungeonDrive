@@ -394,9 +394,12 @@ namespace DungeonDrive
                 while (!addEnemy(new Bat(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
                 numBats++;
 
-            } else {
+            }
+            else 
+            {
                 while (!addEnemy(new Spider(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
                 numSpiders++;
+                while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
             }            
         }
 
