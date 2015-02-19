@@ -9,7 +9,12 @@ namespace DungeonDrive
         {
             if (e.KeyCode == Keys.Escape)
                 G.form.Close();
+            else if(e.KeyCode == Keys.Space){
 
+                InventoryForm f1 = new InventoryForm(G.inventory);
+                f1.Show();
+
+            }
             G.keys[e.KeyCode] = true;
         }
 

@@ -16,9 +16,8 @@ namespace DungeonDrive
         {
 
             InitializeComponent();
-
+            this.button1.Click += button1_Click;
             initialization(inventory.getItemList());
-
 
         }
 
@@ -36,6 +35,7 @@ namespace DungeonDrive
             buttonList.AddLast(this.button9);
             //hideAllButtons();
             int size = itemList.Count();
+            
             for (int i = 0; i < size; i++)
             {
 
@@ -62,6 +62,7 @@ namespace DungeonDrive
         private void button1_Click(object sender, EventArgs e)
         {
             richTextBox1.Text = "eat this berry and you will die";
+            Console.WriteLine("sasdfasdfsafds!!!!");
         }
 
         void button1_MouseEnter(object sender, EventArgs e)
@@ -72,6 +73,11 @@ namespace DungeonDrive
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             // this.button1.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.c2));
+        }
+
+        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

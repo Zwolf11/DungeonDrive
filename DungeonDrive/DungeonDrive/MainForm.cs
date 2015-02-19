@@ -38,6 +38,7 @@ namespace DungeonDrive
             timer.Interval = 17;
             timer.Tick += Logic.tick;
             timer.Start();
+            
         }
 
         public void paint(object sender, PaintEventArgs e)
@@ -47,6 +48,10 @@ namespace DungeonDrive
             G.room.draw(g);
             G.hero.draw(g);
 
+            /*
+            InventoryForm f1 = new InventoryForm(G.inventory);
+            f1.Show();*/ // Do not uncooments these code!
+            //G.inventory.draw(g);
             //Jiang: Add Inventory system and draw on top of game if it's open
         }
     }
