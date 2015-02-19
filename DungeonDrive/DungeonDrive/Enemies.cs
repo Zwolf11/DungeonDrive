@@ -7,7 +7,8 @@ namespace DungeonDrive
     {
         public Bat(double x, double y) : base(x, y)
         {
-            this.hp = 30;
+            this.full_hp = 30;
+            this.hp = full_hp;
             this.atk_dmg = 1;
             this.speed = 0.1;
             this.radius = 0.4;
@@ -44,14 +45,19 @@ namespace DungeonDrive
             tryMove(xNext, yNext);
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
+        public override void draw(Graphics g)
+        {
+            g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
+        }
     }
 
     public class Spider : Unit
     {
         public Spider(double x, double y) : base(x, y)
         {
-            this.hp = 15;
+            this.full_hp = 15;
+            this.hp = full_hp;
             this.atk_dmg = 2;
             this.speed = 0.03;
             this.radius = 0.4;
@@ -85,7 +91,11 @@ namespace DungeonDrive
             tryMove(xNext, yNext);
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
+        public override void draw(Graphics g)
+        {
+            g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
+        }
     }
 
     public class Boss : Unit
@@ -93,7 +103,8 @@ namespace DungeonDrive
         public Boss(double x, double y)
             : base(x, y)
         {
-            this.hp = 200;
+            this.full_hp = 200;
+            this.hp = full_hp;
             this.atk_dmg = 5;
             this.speed = 0.02;
             this.radius = 0.6;
@@ -185,6 +196,10 @@ namespace DungeonDrive
             tryMove(xNext, yNext);
         }
 
-        public override void draw(Graphics g) { g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
+        public override void draw(Graphics g)
+        {
+            g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
+        }
     }
 }
