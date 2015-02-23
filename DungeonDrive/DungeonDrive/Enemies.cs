@@ -12,6 +12,8 @@ namespace DungeonDrive
             this.atk_dmg = 1;
             this.speed = 0.1;
             this.radius = 0.4;
+            this.origin_x = x;
+            this.origin_y = y;
         }
 
         public override void act()
@@ -31,8 +33,8 @@ namespace DungeonDrive
 
             if (stuned) return;
 
-            double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-            double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+            double xNext;
+            double yNext;
 
             //If bat units are below a certain HP threshold, they will start running from the player
             //Only a basic placeholder for future additions. Eventually, I will add more dynamic behaviors on top of this (ex. bats' escape route will prioritize nearby mobs and then turn on the player
@@ -40,9 +42,37 @@ namespace DungeonDrive
             {
                 xNext = x - Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
                 yNext = y - Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext);
+                return;
             }
 
-            tryMove(xNext, yNext);
+            if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
+            {
+                //Player draws aggro from bats if he is close enough
+                xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                tryMove(xNext, yNext);
+                return;
+            }
+            else
+            {
+                //Player is far away enough to drop aggro
+                if (this.x == this.origin_x || this.y == this.origin_y)
+                {
+                    //Original position has been reacehd, do not move
+                    return;
+                }
+                else
+                {
+                    //Move towards original position
+                    xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                    yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                    tryMove(xNext, yNext);
+                    return;
+                }
+            }
+
+            //tryMove(xNext, yNext);
         }
 
         public override void draw(Graphics g)
@@ -61,6 +91,8 @@ namespace DungeonDrive
             this.atk_dmg = 2;
             this.speed = 0.03;
             this.radius = 0.4;
+            this.origin_x = x;
+            this.origin_y = y;
         }
 
         public override void act()
@@ -80,15 +112,42 @@ namespace DungeonDrive
 
             if (stuned) return;
 
-            double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-            double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+            double xNext;
+            double yNext;
+
+            if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
+            {
+                //Player draws aggro from bats if he is close enough
+                xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                tryMove(xNext, yNext);
+            }
+            else
+            {
+                //Player is far away enough to drop aggro
+                if (this.x == this.origin_x || this.y == this.origin_y)
+                {
+                    //Original position has been reacehd, do not move
+                    return;
+                }
+                else
+                {
+                    //Move towards original position
+                    xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                    yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                    tryMove(xNext, yNext);
+                }
+            }
+
+            //double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+            //double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
 
             if ((G.hero.x - x) < 5 && (G.hero.y - y) < 5)
                 this.speed = 0.08;
             else
                 this.speed = 0.03;
 
-            tryMove(xNext, yNext);
+            //tryMove(xNext, yNext);
         }
 
         public override void draw(Graphics g)

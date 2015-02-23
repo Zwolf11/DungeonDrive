@@ -8,6 +8,8 @@ namespace DungeonDrive
     {
         public double x;
         public double y;
+        public double origin_x;
+        public double origin_y;
         public double speed = 0.01;
         public double radius = 0.5;
         public double full_hp = 1;
