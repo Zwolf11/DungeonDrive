@@ -7,6 +7,7 @@ namespace DungeonDrive
     {
         public int dmg = 1;
         public double x, y;
+        private double x_origin, y_origin;
         public double x_speed, y_speed;
         public double speed = 1;
         public double distance = 100;
@@ -15,10 +16,12 @@ namespace DungeonDrive
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
         public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
 
-        public Projectile(double x, double y, double x_dir, double y_dir )
+        public Projectile(double x, double y, double x_dir, double y_dir)
         {
             this.x = x;
             this.y = y;
+            this.x_origin = x;
+            this.y_origin = y;
         }
 
         public abstract void act();
@@ -26,6 +29,9 @@ namespace DungeonDrive
 
         public void tryMove(double xNext, double yNext)
         {
+            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= distance)
+                G.hero.removeProj(this);
+
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
             int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
@@ -35,7 +41,6 @@ namespace DungeonDrive
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= G.room.width || j < 0 || j >= G.room.height || !G.room.walkingSpace[i, j])
                         G.hero.removeProj(this);
-
 
             foreach (Unit unit in G.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
@@ -54,12 +59,14 @@ namespace DungeonDrive
 
     public class Arrow : Projectile
     {
-        public Arrow(double x, double y, double x_dir, double y_dir) : base(x, y, x_dir, y_dir)
+        public Arrow(double x, double y, double x_dir, double y_dir)
+            : base(x, y, x_dir, y_dir)
         {
             this.dmg = 1;
-            this.speed = 1;
+            this.speed = 0.8;
             this.x_speed = x_dir * speed;
             this.y_speed = y_dir * speed;
+            this.distance = 50;
         }
 
         public override void act()

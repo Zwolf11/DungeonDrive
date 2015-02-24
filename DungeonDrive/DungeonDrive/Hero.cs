@@ -21,8 +21,10 @@ namespace DungeonDrive
         private SoundPlayer attack3;
 
         private float dir = 0;
+        private bool shooting = false;
 
-        public Hero(double x, double y) : base(x, y)
+        public Hero(double x, double y)
+            : base(x, y)
         {
             this.hp = 10;
             this.atk_dmg = 2;
@@ -90,23 +92,21 @@ namespace DungeonDrive
             enemy.y_dist = y_dist;
             enemy.x_final = enemy.x + enemy.x_dist;
             enemy.y_final = enemy.y + enemy.y_dist;
-            enemy.sleep_sec = sleep_sec*G.tickInt;
+            enemy.sleep_sec = sleep_sec * G.tickInt;
             enemy.knockback = true;
         }
 
         private void handleAttacking()
         {
-/*            // shoot projectiles
-            if (G.keys.ContainsKey(Keys.L))
+            // toggle melee/projectiles
+            if (G.keys.ContainsKey(Keys.T))
             {
-                if (atk_cd[2])
+                if (atk_cd[4])
                 {
-                    attack3.Play();
-                    projectiles.Add(new Arrow(x, y, curxFacing, curyFacing));
-                    cd(1, 2);
+                    shooting = !shooting;
+                    cd(1, 4);
                 }
             }
- * */
 
             // knockback skill
             if (G.keys.ContainsKey(Keys.E))
@@ -148,7 +148,8 @@ namespace DungeonDrive
 
         public void basicAtk()
         {
-            if (atk_cd[0])
+            // melee
+            if (!shooting && atk_cd[0])
             {
                 foreach (Unit enemy in G.room.enemies)
                 {
@@ -163,6 +164,15 @@ namespace DungeonDrive
                     }
                 }
                 cd(atk_speed, 0);
+            }
+
+            // projectiles
+
+            if (shooting && atk_cd[2])
+            {
+                attack3.Play();
+                projectiles.Add(new Arrow(x, y, Math.Cos(dir), Math.Sin(dir)));
+                cd(atk_speed * 4, 2);
             }
         }
 
@@ -185,7 +195,7 @@ namespace DungeonDrive
             g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
 
             // facing indicator
-            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2-5), (float)(Math.Sin(dir) * 10 + G.height / 2-5), 10, 10);
+            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
         }
     }
 }
