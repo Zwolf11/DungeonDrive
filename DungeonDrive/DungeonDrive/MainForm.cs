@@ -36,7 +36,7 @@ namespace DungeonDrive
                 G.height = 600;
             }
 
-            timer.Interval = 17;
+            timer.Interval = G.tickInt;
             timer.Tick += Logic.tick;
             timer.Start();
         }

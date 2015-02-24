@@ -25,11 +25,12 @@ namespace DungeonDrive
         public double y_dist = 0;
         public double x_final = 0;
         public double y_final = 0;
+        public double sleep_sec = 0;
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
-        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size  * radius); } }
+        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
 
         public Unit(double x, double y)
         {
@@ -41,24 +42,11 @@ namespace DungeonDrive
         public abstract void act();
         public abstract void draw(Graphics g);
 
-        private void movSleep(double sec)
-        {
-            Thread.Sleep((int)sec * 1000);
-            stuned = false;
-        }
-
         private void atkSleep(double sec, int i)
         {
             atk_cd[i] = false;
             Thread.Sleep((int)sec * 1000);
             atk_cd[i] = true;
-        }
-
-        public void stun(double sec)
-        {
-            // disable moving flag for certain given seconds
-            stuned = true;
-            new Thread(() => movSleep(sec)).Start();
         }
 
         public void cd(double sec, int i)
@@ -69,18 +57,18 @@ namespace DungeonDrive
 
         public void knockBacked()
         {
-                while (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist))
+            int moves = 100;
+            for (int i = 0; i < moves; i++)
+            {
+                if (tryMove(x + x_dist / moves, y + y_dist / moves) && (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist)))
                 {
-                    if (tryMove(x + x_dist / 100, y + y_dist / 100))
-                    {
-                        x += x_dist / 100;
-                        y += y_dist / 100;
-                    }
-                    else
-                        break;
-
+                    x += x_dist / 100;
+                    y += y_dist / 100;
                 }
-                knockback = false;
+                else
+                    break;
+            }
+            knockback = false;
         }
 
         public bool tryMove(double xNext, double yNext)
@@ -105,7 +93,7 @@ namespace DungeonDrive
             }
             else
             {
-                foreach(Stairs stairs in G.room.stairs)
+                foreach (Stairs stairs in G.room.stairs)
                     if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius)
                     {
                         G.room = new Room(stairs.path);
@@ -113,7 +101,7 @@ namespace DungeonDrive
                     }
             }
 
-            if(canMove)
+            if (canMove)
             {
                 x = xNext;
                 y = yNext;
@@ -125,7 +113,7 @@ namespace DungeonDrive
                     x = (int)x + radius + 0.001;
                     tryMove(x, yNext);
                 }
-                else if((int)(x + radius) < (int)(xNext + radius))
+                else if ((int)(x + radius) < (int)(xNext + radius))
                 {
                     x = (int)x + 1 - radius - 0.001;
                     tryMove(x, yNext);

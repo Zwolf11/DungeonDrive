@@ -84,18 +84,19 @@ namespace DungeonDrive
             tryMove(xNext, yNext);
         }
 
-        private void knockBack(Unit enemy, double x_dist, double y_dist)
+        private void knockBack(Unit enemy, double x_dist, double y_dist, double sleep_sec)
         {
             enemy.x_dist = x_dist;
             enemy.y_dist = y_dist;
             enemy.x_final = enemy.x + enemy.x_dist;
             enemy.y_final = enemy.y + enemy.y_dist;
+            enemy.sleep_sec = sleep_sec*G.tickInt;
             enemy.knockback = true;
         }
 
-/*        private void handleAttacking()
+        private void handleAttacking()
         {
-            // shoot projectiles
+/*            // shoot projectiles
             if (G.keys.ContainsKey(Keys.L))
             {
                 if (atk_cd[2])
@@ -105,26 +106,28 @@ namespace DungeonDrive
                     cd(1, 2);
                 }
             }
-        }
  * */
 
-        public void basicAtk()
-        {
-            if (atk_cd[0])
+            // knockback skill
+            if (G.keys.ContainsKey(Keys.E))
             {
-                foreach (Unit enemy in G.room.enemies)
+                if (atk_cd[1])
                 {
-                    if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
+                    foreach (Unit enemy in G.room.enemies)
                     {
-                        try { attack1.Play(); }
-                        catch (FileNotFoundException) { }
-                        knockBack(enemy, Math.Cos((double)dir)*0.2, Math.Sin((double)dir)*0.2);
-                        enemy.hp -= atk_dmg;
-                        if (enemy.hp <= 0)
-                            deletingList.Add(enemy);
+                        if (Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
+                        {
+                            try { attack2.Play(); }
+                            catch (FileNotFoundException) { }
+                            double factor = 1 / Math.Sqrt(Math.Pow(enemy.x - x, 2) + Math.Pow(enemy.y - y, 2));
+                            knockBack(enemy, (enemy.x - x) * factor, (enemy.y - y) * factor, 0.4);
+                            enemy.hp -= 2 + 0.8 *atk_dmg;
+                            if (enemy.hp <= 0)
+                                deletingList.Add(enemy);
+                        }
                     }
+                    cd(2, 1);
                 }
-                cd(atk_speed, 0);
             }
 
             if (deletingList.Count > 0)
@@ -142,6 +145,27 @@ namespace DungeonDrive
             }
         }
 
+
+        public void basicAtk()
+        {
+            if (atk_cd[0])
+            {
+                foreach (Unit enemy in G.room.enemies)
+                {
+                    if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
+                    {
+                        try { attack1.Play(); }
+                        catch (FileNotFoundException) { }
+                        knockBack(enemy, Math.Cos((double)dir) * 0.2, Math.Sin((double)dir) * 0.2, 0);
+                        enemy.hp -= atk_dmg;
+                        if (enemy.hp <= 0)
+                            deletingList.Add(enemy);
+                    }
+                }
+                cd(atk_speed, 0);
+            }
+        }
+
         public void removeProj(Projectile proj)
         {
             deletingProj.Add(proj);
@@ -149,6 +173,7 @@ namespace DungeonDrive
 
         public override void act()
         {
+            handleAttacking();
             handleMovement();
         }
 

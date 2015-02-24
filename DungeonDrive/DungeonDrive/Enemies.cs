@@ -21,7 +21,11 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
-            if (stuned) return;
+            if (sleep_sec > 0)
+            {
+                sleep_sec--;
+                return;
+            }
 
             double xNext;
             double yNext;
@@ -90,7 +94,11 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
-            if (stuned) return;
+            if (sleep_sec > 0)
+            {
+                sleep_sec--;
+                return;
+            }
 
             double xNext;
             double yNext;
@@ -155,7 +163,11 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
-            if (stuned) return;
+            if (sleep_sec > 0)
+            {
+                sleep_sec--;
+                return;
+            }
 
             double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
