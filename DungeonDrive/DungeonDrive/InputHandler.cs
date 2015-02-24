@@ -21,5 +21,10 @@ namespace DungeonDrive
         {
             G.keys.Remove(e.KeyCode);
         }
+
+        public static void mouseUp(object sender, MouseEventArgs e)
+        {
+            G.hero.basicAtk();
+        }
     }
 }

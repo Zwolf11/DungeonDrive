@@ -67,6 +67,18 @@ namespace DungeonDrive
             new Thread(() => atkSleep(sec, i)).Start();
         }
 
+        public void knockBacked()
+        {
+//            if (tryMove(x + x_dist, y + y_dist))
+//            {
+                x += x_dist;
+                y += y_dist;
+//            }
+
+            if (Math.Abs(x_final - x) > Math.Abs(x_dist) || Math.Abs(y_final - y) > Math.Abs(y_dist))
+                knockback = false;
+        }
+
         public bool tryMove(double xNext, double yNext)
         {
             int left = (int)(xNext - radius);

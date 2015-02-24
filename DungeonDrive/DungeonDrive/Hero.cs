@@ -16,23 +16,17 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
 
-        private int curxFacing = 0;
-        private int curyFacing = 0;
-
         private SoundPlayer attack1;
         private SoundPlayer attack2;
         private SoundPlayer attack3;
-        private Image hero_imageS; 
-        private Image hero_imageW; 
-        private Image hero_imageA; 
-        private Image hero_imageD; 
-        private Image hero_image;
+
+        private float dir = 0;
 
         public Hero(double x, double y) : base(x, y)
         {
             this.hp = 10;
             this.atk_dmg = 2;
-            this.atk_speed = 1;
+            this.atk_speed = 0.2;
             this.speed = 0.3;
             this.radius = 0.49;
             try
@@ -40,17 +34,15 @@ namespace DungeonDrive
                 attack1 = new SoundPlayer(@"attack1.wav");
                 attack2 = new SoundPlayer(@"attack2.wav");
                 attack3 = new SoundPlayer(@"attack3.wav");
-                hero_imageS = Image.FromFile(@"heroS.png");
-                hero_imageW = Image.FromFile(@"heroW.png");
-                hero_imageA = Image.FromFile(@"heroA.png");
-                hero_imageD = Image.FromFile(@"heroD.png");
-                hero_image = hero_imageS;
             }
             catch (FileNotFoundException) { }
         }
 
         private void handleMovement()
         {
+            // get cursor dir
+            dir = (float)Math.Atan2(Cursor.Position.Y - (G.height / 2), Cursor.Position.X - (G.width / 2));
+
             double xNext = x;
             double yNext = y;
 
@@ -58,60 +50,36 @@ namespace DungeonDrive
             {
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
-                    hero_image = hero_imageA;
-                    changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
-                    hero_image = hero_imageD;
-                    changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
                 }
                 else
-                {
-                    hero_image = hero_imageW;
-                    changeFacing('W');
                     yNext = y - speed;
-                }
             }
             else if (G.keys.ContainsKey(Keys.S) && !G.keys.ContainsKey(Keys.W))
             {
                 if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
                 {
-                    hero_image = hero_imageA;
-                    changeFacing('A');
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                 }
                 else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
                 {
-                    hero_image = hero_imageD;
-                    changeFacing('D');
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                 }
                 else
-                {
-                    hero_image = hero_imageS;
-                    changeFacing('S');
                     yNext = y + speed;
-                }
             }
             else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
-            {
-                hero_image = hero_imageA;
-                changeFacing('A');
                 xNext = x - speed;
-            }
             else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
-            {
-                hero_image = hero_imageD;
-                changeFacing('D');
                 xNext = x + speed;
-            }
 
             tryMove(xNext, yNext);
         }
@@ -125,52 +93,8 @@ namespace DungeonDrive
             enemy.knockback = true;
         }
 
-        private void handleAttacking()
+/*        private void handleAttacking()
         {
-            //Siming: Add code for when the player is attacking (Also, when he hits, make the enemies get knocked back)
-            if (G.room.enemies.Count == 0)
-                return;
-
-            // basic attack
-            if (G.keys.ContainsKey(Keys.J))
-            {
-                if (atk_cd[0])
-                {
-                    foreach (Unit enemy in G.room.enemies)
-                    {
-                        if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
-                        {
-                            try {attack1.Play();} catch (FileNotFoundException) {}
-                            knockBack(enemy, curxFacing * 0.2, curyFacing * 0.2);
-                            enemy.hp -= atk_dmg;
-                            if (enemy.hp <= 0)
-                                deletingList.Add(enemy);
-                        }
-                    }
-                    cd(atk_speed, 0);
-                }
-            }
-
-            // iterate through current enemy list, find the enemy in the currect direction and distance, knock back
-            if (G.keys.ContainsKey(Keys.K))
-            {       
-                if (atk_cd[1])
-                {
-                    foreach (Unit enemy in G.room.enemies)
-                    {
-                        if (((enemy.x - x) * curxFacing > 0 || (enemy.y - y) * curyFacing > 0) && Math.Abs(enemy.x - x) < 1.5 && Math.Abs(enemy.y - y) < 1.5)
-                        {
-                            try {attack2.Play();} catch (FileNotFoundException) {}
-                            knockBack(enemy, curxFacing, curyFacing);
-                            enemy.hp -= atk_dmg * 1.5;
-                            if (enemy.hp <= 0)
-                                deletingList.Add(enemy);
-                        }
-                    }
-                    cd(2, 1);
-                }
-            }
-
             // shoot projectiles
             if (G.keys.ContainsKey(Keys.L))
             {
@@ -180,6 +104,27 @@ namespace DungeonDrive
                     projectiles.Add(new Arrow(x, y, curxFacing, curyFacing));
                     cd(1, 2);
                 }
+            }
+        }
+ * */
+
+        public void basicAtk()
+        {
+            if (atk_cd[0])
+            {
+                foreach (Unit enemy in G.room.enemies)
+                {
+                    if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
+                    {
+                        try { attack1.Play(); }
+                        catch (FileNotFoundException) { }
+                        knockBack(enemy, Math.Cos((double)dir)*0.2, Math.Sin((double)dir)*0.2);
+                        enemy.hp -= atk_dmg;
+                        if (enemy.hp <= 0)
+                            deletingList.Add(enemy);
+                    }
+                }
+                cd(atk_speed, 0);
             }
 
             if (deletingList.Count > 0)
@@ -202,31 +147,9 @@ namespace DungeonDrive
             deletingProj.Add(proj);
         }
 
-        public void changeFacing(char direction)
-        {
-            curxFacing = 0;
-            curyFacing = 0;
-            switch (direction)
-            {
-                case 'W':
-                    curyFacing = -1;
-                    break;
-                case 'S':
-                    curyFacing = 1;
-                    break;
-                case 'A':
-                    curxFacing = -1;
-                    break;
-                case 'D':
-                    curxFacing = 1;
-                    break;
-            }
-        }
-
         public override void act()
         {
             handleMovement();
-            handleAttacking();
         }
 
         public override void draw(Graphics g)
@@ -234,9 +157,10 @@ namespace DungeonDrive
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
 
-            if (hero_image == null)
-            { g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)); }
-            else g.DrawImage(hero_image, new Point(DrawX, DrawY));
+            g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+
+            // facing indicator
+            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2-5), (float)(Math.Sin(dir) * 10 + G.height / 2-5), 10, 10);
         }
     }
 }

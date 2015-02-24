@@ -6,7 +6,7 @@ namespace DungeonDrive
 {
     public class MainForm : Form
     {
-        int windowstate = 1;
+        int windowstate = 0;
 
         private Random rand = new Random();
         private Timer timer = new Timer();
@@ -18,6 +18,7 @@ namespace DungeonDrive
             this.FormBorderStyle = FormBorderStyle.None;
             this.KeyDown += InputHandler.keyDown;
             this.KeyUp += InputHandler.keyUp;
+            this.MouseDown += InputHandler.mouseUp;
             this.Paint += this.paint;
             this.DoubleBuffered = true;
 

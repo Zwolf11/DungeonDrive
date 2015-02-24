@@ -169,8 +169,7 @@ namespace DungeonDrive
             foreach (Stairs stair in stairs)
             {
                 if (stair.path.Equals(G.pastRoom))
-                {                                                               
-                    G.hero.changeFacing(stair.direction);
+                {                                         
                     G.hero.x = /*G.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
                     G.hero.y = /*G.hero.yNext = */stair.y + stair.yDirection + 0.5;
                     break;
