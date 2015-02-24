@@ -39,7 +39,7 @@ namespace DungeonDrive
             for (int i = 0; i < size; i++)
             {
 
-                buttonList.ElementAt(i).BackgroundImage = (System.Drawing.Image)(Properties.Resources.e1);
+             //   buttonList.ElementAt(i).BackgroundImage = (System.Drawing.Image)(Properties.Resources.e1);
             }
         }
 
@@ -67,7 +67,7 @@ namespace DungeonDrive
 
         void button1_MouseEnter(object sender, EventArgs e)
         {
-            this.button1.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.c3));
+        //    this.button1.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.c3));
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
