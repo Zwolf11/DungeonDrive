@@ -69,13 +69,17 @@ namespace DungeonDrive
 
         public void knockBacked()
         {
-//            if (tryMove(x + x_dist, y + y_dist))
-//            {
-                x += x_dist;
-                y += y_dist;
-//            }
+                while (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist))
+                {
+                    if (tryMove(x + x_dist / 100, y + y_dist / 100))
+                    {
+                        x += x_dist / 100;
+                        y += y_dist / 100;
+                    }
+                    else
+                        break;
 
-            if (Math.Abs(x_final - x) > Math.Abs(x_dist) || Math.Abs(y_final - y) > Math.Abs(y_dist))
+                }
                 knockback = false;
         }
 
