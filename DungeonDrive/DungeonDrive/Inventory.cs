@@ -19,18 +19,15 @@ namespace DungeonDrive
              * public Item(int ID, string name, string image, ItemType type)
              */
             //public Item(int ID, string name, string image, ItemType type)
-            Item item1 = new Item(1, "berry", "Properties.Resources.c2", ItemType.Consumable);
+
+            Item item1 = new Item(1, "potion", "HP_Potion_m.png", ItemType.Consumable);
             item1.updateDesc("Eat this berry magic will happen!");
-            Item item2 = new Item(2, "berry2", "Properties.Resources.c3", ItemType.Consumable);
+            Item item2 = new Item(2, "berry2", "HP_Potion_s.png", ItemType.Consumable);
             item2.updateDesc("Eat this berry2 magic will happen!");
             this.itemList.AddLast(item1);
             this.itemList.AddLast(item2);
-            //  Application.EnableVisualStyles();
-            //   Application.SetCompatibleTextRenderingDefault(false);
-            //  Application.Run(new Form1(8));
-            // Form1 f1 = new Form1();
+            this.itemList.AddLast(item2);
 
-            //f1.Show();
 
         }
         public void addItem(Item item)
@@ -38,12 +35,16 @@ namespace DungeonDrive
             itemList.AddLast(item);
         }
 
+        public int getItemQuantity(Item item) {
+            return 1;
+        }
         public LinkedList<Item> getItemList()
         {
 
             return this.itemList;
         }
 
+        
         public void testInventory()
         {
 
