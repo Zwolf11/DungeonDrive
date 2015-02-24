@@ -17,6 +17,7 @@ namespace DungeonDrive
         public static Hero hero = new Hero(0, 0);
         public static Inventory inventory = new Inventory();
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
+        
         public static Room room = new Room(currentRoom);
     }
 }

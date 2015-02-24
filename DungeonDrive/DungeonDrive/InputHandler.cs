@@ -14,6 +14,11 @@ namespace DungeonDrive
                 InventoryForm f1 = new InventoryForm(G.inventory);
                 f1.Show();
             }
+            else if(e.KeyCode == Keys.F1){
+                Item item1 = new Item(1, "potion", "HP_Potion_m.png", ItemType.Consumable);
+                item1.updateDesc("Eat this berry magic sdf dsf sawill happen!");
+                G.inventory.addItem(item1);
+            }
             G.keys[e.KeyCode] = true;
         }
 
