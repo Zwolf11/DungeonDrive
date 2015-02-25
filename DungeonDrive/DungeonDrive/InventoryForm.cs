@@ -93,6 +93,7 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(0);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
+            
         }
 
 

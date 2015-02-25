@@ -12,7 +12,7 @@ namespace DungeonDrive
         LinkedList<Item> itemList = new LinkedList<Item>();
         public Inventory()
         {
-            this.maxVolumn = 9;
+            this.maxVolumn = 40;
             /*
              * 
              *  This is the initialization of a bunch of fake items. 
@@ -20,13 +20,16 @@ namespace DungeonDrive
              */
             //public Item(int ID, string name, string image, ItemType type)
 
-            Item item1 = new Item(1, "potion", "HP_Potion_m.png", ItemType.Consumable);
-            item1.updateDesc("Eat this berry magic will happen!");
-            Item item2 = new Item(2, "berry2", "HP_Potion_s.png", ItemType.Consumable);
-            item2.updateDesc("Eat this berry2 magic will happen!");
+            Item item1 = new Item(1, "potion_m", "HP_Potion_m.png", ItemType.Consumable);
+            item1.updateDesc("HP + 100");
+            Item item2 = new Item(2, "postion_s", "HP_Potion_s.png", ItemType.Consumable);
+            item2.updateDesc("HP + 50");
+            Item item3 = new Item(2, "shied1", "shield_1.png", ItemType.Equipment);
+            item3.updateDesc("Defense + 5\nMAX HP + 10");
             this.itemList.AddLast(item1);
             this.itemList.AddLast(item2);
-            this.itemList.AddLast(item2);
+            this.itemList.AddLast(item3);
+            
 
 
         }

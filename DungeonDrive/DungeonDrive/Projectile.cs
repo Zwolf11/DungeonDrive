@@ -73,11 +73,13 @@ namespace DungeonDrive
         {
             tryMove(x + x_speed, y + y_speed);
         }
-
+        
         public override void draw(Graphics g)
         {
             g.FillEllipse(Brushes.Red, DrawX, DrawY, 5, 5);
-            g.DrawImage(Image.FromFile(@"fire.png"), DrawX, DrawY); 
+            
+            g.DrawImage(Image.FromFile(@"fire.png"), DrawX, DrawY);     
+        
         }
     }
 }

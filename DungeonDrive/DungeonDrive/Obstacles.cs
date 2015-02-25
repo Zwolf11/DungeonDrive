@@ -33,7 +33,7 @@ namespace DungeonDrive
         public override void draw(Graphics g) { 
 
            // g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
-            Image treasure = Image.FromFile(@"shield_1.png");
+            Image treasure = Image.FromFile(@"chest_closed.png");
             g.DrawImage(treasure, DrawX, DrawY);
         }
     }

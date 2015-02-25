@@ -74,6 +74,7 @@
             this.button41 = new System.Windows.Forms.Button();
             this.button42 = new System.Windows.Forms.Button();
             this.button43 = new System.Windows.Forms.Button();
+            this.button44 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button40
@@ -486,7 +487,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(12, 553);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
+            this.textBox2.Size = new System.Drawing.Size(106, 22);
             this.textBox2.TabIndex = 82;
             // 
             // button41
@@ -517,6 +518,14 @@
             this.button43.UseVisualStyleBackColor = true;
             this.button43.Click += new System.EventHandler(this.button43_Click);
             // 
+            // button44
+            // 
+            this.button44.Location = new System.Drawing.Point(11, 448);
+            this.button44.Name = "button44";
+            this.button44.Size = new System.Drawing.Size(107, 102);
+            this.button44.TabIndex = 86;
+            this.button44.UseVisualStyleBackColor = true;
+            // 
             // InventoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -524,6 +533,7 @@
             this.BackgroundImage = global::DungeonDrive.Properties.Resources._25aqjic_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(627, 669);
+            this.Controls.Add(this.button44);
             this.Controls.Add(this.button43);
             this.Controls.Add(this.button42);
             this.Controls.Add(this.button41);
@@ -625,6 +635,7 @@
         private System.Windows.Forms.Button button41;
         private System.Windows.Forms.Button button42;
         private System.Windows.Forms.Button button43;
+        private System.Windows.Forms.Button button44;
 
 
     }

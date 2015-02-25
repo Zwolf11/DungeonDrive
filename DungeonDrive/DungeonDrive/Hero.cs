@@ -186,14 +186,13 @@ namespace DungeonDrive
             handleAttacking();
             handleMovement();
         }
-
+        
         public override void draw(Graphics g)
         {
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
-
+           
             g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
-
             // facing indicator
             g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
         }
