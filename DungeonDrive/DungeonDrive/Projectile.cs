@@ -41,7 +41,7 @@ namespace DungeonDrive
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= G.room.width || j < 0 || j >= G.room.height || !G.room.walkingSpace[i, j])
                         G.hero.removeProj(this);
-
+            
             foreach (Unit unit in G.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
@@ -51,7 +51,7 @@ namespace DungeonDrive
                     if (unit.hp == 0)
                         G.hero.deletingList.Add(unit);
                 }
-
+            
             x = xNext;
             y = yNext;
         }
@@ -77,6 +77,7 @@ namespace DungeonDrive
         public override void draw(Graphics g)
         {
             g.FillEllipse(Brushes.Red, DrawX, DrawY, 5, 5);
+            g.DrawImage(Image.FromFile(@"fire.png"), DrawX, DrawY); 
         }
     }
 }

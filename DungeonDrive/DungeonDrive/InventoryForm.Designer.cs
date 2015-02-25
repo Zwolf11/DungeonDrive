@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryForm));
             this.button40 = new System.Windows.Forms.Button();
             this.button39 = new System.Windows.Forms.Button();
             this.button38 = new System.Windows.Forms.Button();
@@ -72,11 +71,13 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button41 = new System.Windows.Forms.Button();
+            this.button42 = new System.Windows.Forms.Button();
+            this.button43 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button40
             // 
-           // this.button40.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button40.BackgroundImage")));
             this.button40.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button40.Location = new System.Drawing.Point(541, 352);
             this.button40.Name = "button40";
@@ -87,7 +88,6 @@
             // 
             // button39
             // 
-         //   this.button39.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button39.BackgroundImage")));
             this.button39.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button39.Location = new System.Drawing.Point(466, 352);
             this.button39.Name = "button39";
@@ -98,7 +98,6 @@
             // 
             // button38
             // 
-         //   this.button38.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button38.BackgroundImage")));
             this.button38.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button38.Location = new System.Drawing.Point(391, 352);
             this.button38.Name = "button38";
@@ -109,7 +108,6 @@
             // 
             // button37
             // 
-         //   this.button37.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button37.BackgroundImage")));
             this.button37.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button37.Location = new System.Drawing.Point(316, 352);
             this.button37.Name = "button37";
@@ -120,7 +118,6 @@
             // 
             // button36
             // 
-          //  this.button36.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button36.BackgroundImage")));
             this.button36.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button36.Location = new System.Drawing.Point(241, 352);
             this.button36.Name = "button36";
@@ -130,7 +127,6 @@
             // 
             // button35
             // 
-         //   this.button35.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button35.BackgroundImage")));
             this.button35.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button35.Location = new System.Drawing.Point(166, 352);
             this.button35.Name = "button35";
@@ -140,7 +136,6 @@
             // 
             // button34
             // 
-          //  this.button34.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button34.BackgroundImage")));
             this.button34.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button34.Location = new System.Drawing.Point(91, 352);
             this.button34.Name = "button34";
@@ -150,7 +145,6 @@
             // 
             // button33
             // 
-          //  this.button33.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button33.BackgroundImage")));
             this.button33.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button33.Location = new System.Drawing.Point(16, 352);
             this.button33.Name = "button33";
@@ -160,7 +154,6 @@
             // 
             // button32
             // 
-          //  this.button32.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button32.BackgroundImage")));
             this.button32.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button32.Location = new System.Drawing.Point(541, 276);
             this.button32.Name = "button32";
@@ -171,7 +164,6 @@
             // 
             // button31
             // 
-          //  this.button31.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button31.BackgroundImage")));
             this.button31.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button31.Location = new System.Drawing.Point(466, 276);
             this.button31.Name = "button31";
@@ -182,7 +174,6 @@
             // 
             // button30
             // 
-          //  this.button30.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button30.BackgroundImage")));
             this.button30.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button30.Location = new System.Drawing.Point(391, 276);
             this.button30.Name = "button30";
@@ -201,7 +192,6 @@
             // 
             // button28
             // 
-      //      this.button28.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button28.BackgroundImage")));
             this.button28.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button28.Location = new System.Drawing.Point(241, 276);
             this.button28.Name = "button28";
@@ -211,7 +201,6 @@
             // 
             // button26
             // 
-          //  this.button26.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button26.BackgroundImage")));
             this.button26.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button26.Location = new System.Drawing.Point(166, 276);
             this.button26.Name = "button26";
@@ -221,7 +210,6 @@
             // 
             // button27
             // 
-        //    this.button27.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button27.BackgroundImage")));
             this.button27.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button27.Location = new System.Drawing.Point(91, 276);
             this.button27.Name = "button27";
@@ -231,7 +219,6 @@
             // 
             // button25
             // 
-         //   this.button25.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button25.BackgroundImage")));
             this.button25.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button25.Location = new System.Drawing.Point(16, 276);
             this.button25.Name = "button25";
@@ -241,7 +228,6 @@
             // 
             // button24
             // 
-       //     this.button24.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button24.BackgroundImage")));
             this.button24.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button24.Location = new System.Drawing.Point(541, 200);
             this.button24.Name = "button24";
@@ -252,7 +238,6 @@
             // 
             // button23
             // 
-        //    this.button23.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button23.BackgroundImage")));
             this.button23.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button23.Location = new System.Drawing.Point(466, 200);
             this.button23.Name = "button23";
@@ -263,7 +248,6 @@
             // 
             // button22
             // 
-       //     this.button22.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button22.BackgroundImage")));
             this.button22.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button22.Location = new System.Drawing.Point(391, 200);
             this.button22.Name = "button22";
@@ -274,7 +258,6 @@
             // 
             // button21
             // 
-      //      this.button21.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button21.BackgroundImage")));
             this.button21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button21.Location = new System.Drawing.Point(316, 200);
             this.button21.Name = "button21";
@@ -285,7 +268,6 @@
             // 
             // button20
             // 
-       //     this.button20.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button20.BackgroundImage")));
             this.button20.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button20.Location = new System.Drawing.Point(241, 200);
             this.button20.Name = "button20";
@@ -296,7 +278,6 @@
             // 
             // button19
             // 
-       //     this.button19.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button19.BackgroundImage")));
             this.button19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button19.Location = new System.Drawing.Point(166, 200);
             this.button19.Name = "button19";
@@ -307,7 +288,6 @@
             // 
             // button18
             // 
-      //      this.button18.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button18.BackgroundImage")));
             this.button18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button18.Location = new System.Drawing.Point(91, 200);
             this.button18.Name = "button18";
@@ -318,7 +298,6 @@
             // 
             // button17
             // 
-         //   this.button17.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button17.BackgroundImage")));
             this.button17.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button17.Location = new System.Drawing.Point(16, 200);
             this.button17.Name = "button17";
@@ -329,7 +308,6 @@
             // 
             // button16
             // 
-     //       this.button16.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button16.BackgroundImage")));
             this.button16.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button16.Location = new System.Drawing.Point(541, 124);
             this.button16.Name = "button16";
@@ -340,7 +318,6 @@
             // 
             // button15
             // 
-    //        this.button15.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button15.BackgroundImage")));
             this.button15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button15.Location = new System.Drawing.Point(466, 124);
             this.button15.Name = "button15";
@@ -351,7 +328,6 @@
             // 
             // button14
             // 
-    //        this.button14.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button14.BackgroundImage")));
             this.button14.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button14.Location = new System.Drawing.Point(391, 124);
             this.button14.Name = "button14";
@@ -362,7 +338,6 @@
             // 
             // button13
             // 
-        //    this.button13.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button13.BackgroundImage")));
             this.button13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button13.Location = new System.Drawing.Point(316, 124);
             this.button13.Name = "button13";
@@ -373,7 +348,6 @@
             // 
             // button12
             // 
-   //         this.button12.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button12.BackgroundImage")));
             this.button12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button12.Location = new System.Drawing.Point(241, 124);
             this.button12.Name = "button12";
@@ -384,7 +358,6 @@
             // 
             // button11
             // 
-      //      this.button11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button11.BackgroundImage")));
             this.button11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button11.Location = new System.Drawing.Point(166, 124);
             this.button11.Name = "button11";
@@ -395,7 +368,6 @@
             // 
             // button10
             // 
-       //     this.button10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button10.BackgroundImage")));
             this.button10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button10.Location = new System.Drawing.Point(91, 124);
             this.button10.Name = "button10";
@@ -406,7 +378,6 @@
             // 
             // button9
             // 
-    //        this.button9.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button9.BackgroundImage")));
             this.button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button9.Location = new System.Drawing.Point(16, 124);
             this.button9.Name = "button9";
@@ -417,7 +388,6 @@
             // 
             // button8
             // 
-     //       this.button8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button8.BackgroundImage")));
             this.button8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button8.Location = new System.Drawing.Point(541, 48);
             this.button8.Name = "button8";
@@ -428,7 +398,6 @@
             // 
             // button7
             // 
- //           this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button7.Location = new System.Drawing.Point(466, 48);
             this.button7.Name = "button7";
@@ -439,7 +408,6 @@
             // 
             // button6
             // 
-       //     this.button6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button6.BackgroundImage")));
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button6.Location = new System.Drawing.Point(391, 48);
             this.button6.Name = "button6";
@@ -450,7 +418,6 @@
             // 
             // button5
             // 
-      //      this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button5.Location = new System.Drawing.Point(316, 48);
             this.button5.Name = "button5";
@@ -461,7 +428,6 @@
             // 
             // button4
             // 
-      //      this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button4.Location = new System.Drawing.Point(241, 48);
             this.button4.Name = "button4";
@@ -472,7 +438,6 @@
             // 
             // button3
             // 
-      //      this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button3.Location = new System.Drawing.Point(166, 48);
             this.button3.Name = "button3";
@@ -483,7 +448,6 @@
             // 
             // button2
             // 
-  //          this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button2.Location = new System.Drawing.Point(91, 48);
             this.button2.Name = "button2";
@@ -494,14 +458,13 @@
             // 
             // button1
             // 
-      //      this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.button1.Location = new System.Drawing.Point(16, 48);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(69, 70);
             this.button1.TabIndex = 40;
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox1
             // 
@@ -509,6 +472,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 22);
             this.textBox1.TabIndex = 80;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // richTextBox1
             // 
@@ -517,7 +481,6 @@
             this.richTextBox1.Size = new System.Drawing.Size(464, 130);
             this.richTextBox1.TabIndex = 81;
             this.richTextBox1.Text = "";
-            //this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged_2);
             // 
             // textBox2
             // 
@@ -526,6 +489,34 @@
             this.textBox2.Size = new System.Drawing.Size(100, 22);
             this.textBox2.TabIndex = 82;
             // 
+            // button41
+            // 
+            this.button41.Location = new System.Drawing.Point(19, 605);
+            this.button41.Name = "button41";
+            this.button41.Size = new System.Drawing.Size(104, 38);
+            this.button41.TabIndex = 83;
+            this.button41.Text = "Equipments";
+            this.button41.UseVisualStyleBackColor = true;
+            // 
+            // button42
+            // 
+            this.button42.Location = new System.Drawing.Point(166, 605);
+            this.button42.Name = "button42";
+            this.button42.Size = new System.Drawing.Size(104, 38);
+            this.button42.TabIndex = 84;
+            this.button42.Text = "Skills";
+            this.button42.UseVisualStyleBackColor = true;
+            // 
+            // button43
+            // 
+            this.button43.Location = new System.Drawing.Point(500, 605);
+            this.button43.Name = "button43";
+            this.button43.Size = new System.Drawing.Size(104, 38);
+            this.button43.TabIndex = 85;
+            this.button43.Text = "Help";
+            this.button43.UseVisualStyleBackColor = true;
+            this.button43.Click += new System.EventHandler(this.button43_Click);
+            // 
             // InventoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -533,6 +524,9 @@
             this.BackgroundImage = global::DungeonDrive.Properties.Resources._25aqjic_1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(627, 669);
+            this.Controls.Add(this.button43);
+            this.Controls.Add(this.button42);
+            this.Controls.Add(this.button41);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox1);
@@ -628,6 +622,9 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button41;
+        private System.Windows.Forms.Button button42;
+        private System.Windows.Forms.Button button43;
 
 
     }

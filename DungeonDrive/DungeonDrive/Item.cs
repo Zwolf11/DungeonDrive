@@ -16,7 +16,7 @@ namespace DungeonDrive
         public string itemImage;
         public int itemPower;
         public ItemType itemType;
-        public string ItemDesc;
+        public string itemDesc;
 
         public Item(int ID, string name, string image, ItemType type)
         {
@@ -24,6 +24,7 @@ namespace DungeonDrive
             this.itemName = name;
             this.itemImage = image;
             this.itemType = type;
+            this.itemDesc = "no description";
         }
 
         public void updateItemPower(int power)
@@ -64,9 +65,12 @@ namespace DungeonDrive
 
         public void updateDesc(string description)
         {
-            this.ItemDesc = description;
+            this.itemDesc = description;
         }
-
+        public String  getDesc()
+        {
+            return this.itemDesc;
+        }
         public ItemType getItemType()
         {
             return this.itemType;

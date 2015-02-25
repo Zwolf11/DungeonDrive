@@ -517,6 +517,7 @@ namespace DungeonDrive
 
         public void addObstacle()
         {
+           
             if (numObstacles >= (maxObstacles - 1))
             {
                 return;
@@ -743,6 +744,7 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
+            
             for (int i = 0; i < G.room.width; i++){
                 for (int j = 0; j < G.room.height; j++)
                 {
@@ -763,8 +765,9 @@ namespace DungeonDrive
                 stair.draw(g);
 
             foreach (Obstacle obstacle in obstacles)
-                obstacle.draw(g);
-
+            {
+                obstacle.draw(g); 
+            }
             foreach (Unit enemy in enemies)
                 enemy.draw(g);
 

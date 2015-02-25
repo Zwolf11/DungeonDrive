@@ -12,6 +12,8 @@ namespace DungeonDrive
     public partial class InventoryForm : Form
     {
         LinkedList<System.Windows.Forms.Button> buttonList = new LinkedList<System.Windows.Forms.Button>();
+        LinkedList<Item> itemList = new LinkedList<Item>();
+        Item selected;
         public InventoryForm(Inventory inventory)
         {
             
@@ -21,9 +23,10 @@ namespace DungeonDrive
             
         }
 
-        private void initialization(LinkedList<Item> itemList)
+        private void initialization(LinkedList<Item> _itemList)
         {
-            int length = itemList.Count();
+            this.itemList = _itemList;
+            int length = _itemList.Count();
             buttonList.AddLast(this.button1);
             buttonList.AddLast(this.button2);
             buttonList.AddLast(this.button3);
@@ -64,13 +67,17 @@ namespace DungeonDrive
             buttonList.AddLast(this.button38);
             buttonList.AddLast(this.button39);
             buttonList.AddLast(this.button40);
-
+            for (int i = 0; i < 40; i++ )
+            {
+                buttonList.ElementAt(i).Enabled = false;
+            }
             for (int i = 0; i < length; i++ )
             {
-                Item item = itemList.ElementAt(i);
+                Item item = _itemList.ElementAt(i);
                 String icon = item.itemImage;
                 Console.Write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + icon);
                 buttonList.ElementAt(i).BackgroundImage = Image.FromFile(@icon);
+                buttonList.ElementAt(i).Enabled = true;
             }
         }
 
@@ -83,188 +90,240 @@ namespace DungeonDrive
 
         private void button1_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = "eat this berry and you will die";
-            String s = "HP_Potion_m.png";
-            Image bmp = Image.FromFile(@s);
-            
-            this.button1.BackgroundImage = (Image)bmp;
-        //     bmp = new Bitmap(DungeonDrive.Properties.Resources.wand_5);
-
-          //  buttonList.ElementAt(1).BackgroundImage = (Image)bmp;
+            this.selected = this.itemList.ElementAt(0);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
-        void button1_MouseEnter(object sender, EventArgs e)
-        {
-        //    this.button1.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.c3));
-        }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            // this.button1.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.c2));
-        }
 
-        private void richTextBox1_TextChanged_1(object sender, EventArgs e)
-        {
 
-        }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(3);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(8);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button40_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(39);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button17_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(16);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(1);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(2);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(4);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(5);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(6);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(7);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button16_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(15);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(14);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button14_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(13);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(12);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(11);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(10);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(9);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
 
-        }
 
         private void button18_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(17);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button19_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(18);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button20_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(19);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button21_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(20);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button22_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(21);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button23_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(22);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button24_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(23);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button32_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(31);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button39_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(38);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button31_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(30);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button30_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(29);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button38_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(37);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button37_Click(object sender, EventArgs e)
         {
-
+            this.selected = this.itemList.ElementAt(36);
+            this.richTextBox1.Text = this.selected.getDesc();
+            this.textBox2.Text = this.selected.getName();
         }
 
         public void callInventory() { 
         
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button43_Click(object sender, EventArgs e)
+        {
+            this.richTextBox1.Text = "Simple Instructions: \n Switching Attacks:   T\nAttack:   left/right click\n Move:   w/s/a/d\nInventory:   Space\nQuit:   ESC";
+          
         }
 
     }
