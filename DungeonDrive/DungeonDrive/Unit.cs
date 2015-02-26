@@ -18,6 +18,8 @@ namespace DungeonDrive
         public double atk_speed = 1;
         public bool stuned = false;
         public bool teleport = false;
+        public bool moving = false;
+        public bool lunge = false;
         public int roomNum = -1;
 
         public bool knockback = false;

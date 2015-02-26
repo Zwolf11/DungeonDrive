@@ -43,25 +43,23 @@ namespace DungeonDrive
             if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
             {
                 //Player draws aggro from bats if he is close enough
+                this.moving = true;
                 xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
-                return;
             }
-            else
+            else if (this.moving)
             {
-                //Player is far away enough to drop aggro
-                if (this.x == this.origin_x || this.y == this.origin_y)
+                //Move towards original position
+                xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                tryMove(xNext, yNext);
+                if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
                 {
-                    //Original position has been reacehd, do not move
-                    return;
-                }
-                else
-                {
-                    //Move towards original position
-                    xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
-                    yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
-                    tryMove(xNext, yNext);
+                    //Original position has been reached
+                    this.moving = false;
+                    this.x = origin_x;
+                    this.y = origin_y;
                     return;
                 }
             }
@@ -106,32 +104,32 @@ namespace DungeonDrive
             if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
             {
                 //Player draws aggro from bats if he is close enough
+                this.moving = true;
                 xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
             }
-            else
+            else if (this.moving)
             {
-                //Player is far away enough to drop aggro
-                if (this.x == this.origin_x || this.y == this.origin_y)
+                //Move towards original position
+                xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                tryMove(xNext, yNext);
+                if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
                 {
-                    //Original position has been reacehd, do not move
+                    //Original position has been reached
+                    this.moving = false;
+                    this.x = origin_x;
+                    this.y = origin_y;
                     return;
-                }
-                else
-                {
-                    //Move towards original position
-                    xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
-                    yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
-                    tryMove(xNext, yNext);
                 }
             }
 
             //double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
 
-            if ((G.hero.x - x) < 5 && (G.hero.y - y) < 5)
-                this.speed = 0.08;
+            if ((G.hero.x - x) < 3 && (G.hero.x - x) > 0.2 && (G.hero.y - y) < 3 && (G.hero.y - y) > 0.2)
+                this.speed = 0.15;
             else
                 this.speed = 0.03;
 
@@ -145,7 +143,7 @@ namespace DungeonDrive
         }
     }
 
-    public class Boss : Unit
+    /*public class Boss : Unit
     {
         public Boss(double x, double y)
             : base(x, y)
@@ -242,5 +240,5 @@ namespace DungeonDrive
             g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
         }
-    }
+    }*/
 }
