@@ -143,6 +143,7 @@ namespace DungeonDrive
 
         public void basicAtk()
         {
+            if (!alive) return;
             // melee
             if (!shooting && atk_cd[0])
             {
