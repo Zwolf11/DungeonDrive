@@ -28,13 +28,14 @@ namespace DungeonDrive
 
     public class Pillar : Obstacle
     {
+        private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
+
         public Pillar(int x, int y, int width, int height, int roomNum) : base(x, y, width, height, roomNum) { }
 
         public override void draw(Graphics g) { 
 
            // g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
-            Image treasure = Image.FromFile(@"chest_closed.png");
-            g.DrawImage(treasure, DrawX, DrawY);
+            g.DrawImage(img, DrawX, DrawY, G.size, G.size);
         }
     }
 
@@ -46,6 +47,8 @@ namespace DungeonDrive
         public int xDirection;
         public int yDirection;
         public Font font = new Font("Arial", 10);
+        private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
+        private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
 
         public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(x, y, width, height, roomNum) {
             this.down = down;
@@ -77,15 +80,16 @@ namespace DungeonDrive
         {
             if (down)
             {
-                g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, G.size * width, G.size * height);
-                
+                g.DrawImage(stairDown, DrawX, DrawY, G.size * width, G.size * height);
+                //g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, G.size * width, G.size * height);
             }
-            else 
+            else
             {
-                g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
+                g.DrawImage(stairUp, DrawX, DrawY, G.size * width, G.size * height);
+                //g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
             }
 
-            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.Black, new PointF(DrawX, DrawY));
+            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.White, new PointF(DrawX, DrawY - G.size / 2));
         }
     }
 

@@ -80,12 +80,11 @@ namespace DungeonDrive
             int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
             int height = (int)(radius * 2 + (yNext - (int)yNext < radius || 1 - (yNext - (int)yNext) < radius ? 2 : 1));
 
-            bool canMove = true;
+            bool canMove = left >= 0 && left + width < G.room.width && top >= 0 && top + height < G.room.height;
 
-            for (int i = left; i < left + width; i++)
-                for (int j = top; j < top + height; j++)
-                    if (i < 0 || i >= G.room.width || j < 0 || j >= G.room.height || !G.room.walkingSpace[i, j])
-                        canMove = false;
+            for (int i = left; canMove && i < left + width; i++)
+                for (int j = top; canMove && j < top + height; j++)
+                    canMove = G.room.walkingSpace[i, j];
 
             if (this != G.hero)
             {

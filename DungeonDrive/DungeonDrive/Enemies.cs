@@ -5,15 +5,22 @@ namespace DungeonDrive
 {
     public class Bat : Unit
     {
+        private double animFrame = 0;
+        private Bitmap[] imgs = new Bitmap[3];
+
         public Bat(double x, double y) : base(x, y)
         {
             this.full_hp = 30;
             this.hp = full_hp;
             this.atk_dmg = 1;
             this.speed = 0.1;
-            this.radius = 0.4;
+            this.radius = 0.45;
             this.origin_x = x;
             this.origin_y = y;
+
+            imgs[0] = new Bitmap(Properties.Resources.bat0);
+            imgs[1] = new Bitmap(Properties.Resources.bat1);
+            imgs[2] = new Bitmap(Properties.Resources.bat2);
         }
 
         public override void act()
@@ -69,13 +76,18 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            animFrame = (animFrame + 0.1) % imgs.Length;
+            //g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
         }
     }
 
     public class Spider : Unit
     {
+        private double animFrame = 0;
+        private Bitmap[] imgs = new Bitmap[3];
+
         public Spider(double x, double y) : base(x, y)
         {
             this.full_hp = 15;
@@ -85,6 +97,10 @@ namespace DungeonDrive
             this.radius = 0.4;
             this.origin_x = x;
             this.origin_y = y;
+
+            imgs[0] = new Bitmap(Properties.Resources.skeleton0);
+            imgs[1] = new Bitmap(Properties.Resources.skeleton1);
+            imgs[2] = new Bitmap(Properties.Resources.skeleton2);
         }
 
         public override void act()
@@ -138,7 +154,9 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            animFrame = (animFrame + 0.1) % imgs.Length;
+            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
         }
     }

@@ -56,6 +56,7 @@ namespace DungeonDrive
 
         private Random rand;
         public Random stairsRand;
+        private Bitmap floor = new Bitmap(Properties.Resources.floor);
 
         public Room(string path)
         {
@@ -750,7 +751,8 @@ namespace DungeonDrive
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
-                        g.DrawRectangle(Pens.Black, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
+                        g.DrawImage(floor, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
+                        //g.DrawRectangle(Pens.Black, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
 
                         //g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), G.size, G.size);
                     }

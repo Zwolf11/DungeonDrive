@@ -121,6 +121,36 @@
   <data name="25aqjic_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\25aqjic_1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bat0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bat0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bat1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bat1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bat2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bat2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="chest_closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\chest_closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="floor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\floor.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="skeleton0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\skeleton0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="skeleton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\skeleton1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="skeleton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\skeleton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stairDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stairDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stairUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stairUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="wand_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wand_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

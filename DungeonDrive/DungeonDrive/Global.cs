@@ -8,7 +8,7 @@ namespace DungeonDrive
     {
         public static int width = 500;
         public static int height = 500;
-        public static int size = 30;
+        public static int size = 32;
         public static int tickInt = 17;
         public static String pastRoom = "";
         public static String currentRoom = "C:\\";

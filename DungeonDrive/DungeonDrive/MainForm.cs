@@ -45,6 +45,8 @@ namespace DungeonDrive
         {
             Graphics g = e.Graphics;
 
+            g.Clear(Color.FromArgb(20, 20, 20));
+
             G.room.draw(g);
             G.hero.draw(g);
 
