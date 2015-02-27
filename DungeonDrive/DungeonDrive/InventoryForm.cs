@@ -93,6 +93,8 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(0);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
+            G.hero.hp += 10;
+            if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }
             
         }
 
@@ -133,6 +135,8 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(1);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
+            G.hero.hp += 2;
+            if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }
         }
 
         private void button3_Click(object sender, EventArgs e)

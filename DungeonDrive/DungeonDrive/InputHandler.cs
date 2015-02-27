@@ -15,8 +15,8 @@ namespace DungeonDrive
                 f1.Show();
             }
             else if(e.KeyCode == Keys.F1){
-                Item item1 = new Item(1, "potion", "HP_Potion_m.png", ItemType.Consumable);
-                item1.updateDesc("Eat this berry magic sdf dsf sawill happen!");
+                Item item1 = new Item(1, "shield", "shield_2.png", ItemType.Equipment);
+                item1.updateDesc("Defense + 2\nMAX HP + 2");
                 G.inventory.addItem(item1);
             }
             G.keys[e.KeyCode] = true;
