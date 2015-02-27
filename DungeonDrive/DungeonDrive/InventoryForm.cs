@@ -13,7 +13,9 @@ namespace DungeonDrive
     {
         LinkedList<System.Windows.Forms.Button> buttonList = new LinkedList<System.Windows.Forms.Button>();
         LinkedList<Item> itemList = new LinkedList<Item>();
+        private System.Windows.Forms.Button mostRecentButton;
         Item selected;
+        private const int CP_NOCLOSE_BUTTON = 0x200;
         public InventoryForm(Inventory inventory)
         {
             
@@ -22,7 +24,25 @@ namespace DungeonDrive
             initialization(inventory.getItemList());
             
         }
-
+        public void updateInventoryForm(Inventory inventory)
+        {
+            this.button1.Click += button1_Click;
+            initialization(inventory.getItemList());
+        }/*
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }*/
+        private void MyForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true; // this cancels the close event.
+        }
         private void initialization(LinkedList<Item> _itemList)
         {
             this.itemList = _itemList;
@@ -90,6 +110,7 @@ namespace DungeonDrive
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button1;
             this.selected = this.itemList.ElementAt(0);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -104,6 +125,7 @@ namespace DungeonDrive
 
         private void button4_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button4;
             this.selected = this.itemList.ElementAt(3);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -111,6 +133,7 @@ namespace DungeonDrive
 
         private void button9_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button9;
             this.selected = this.itemList.ElementAt(8);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -118,6 +141,7 @@ namespace DungeonDrive
 
         private void button40_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button40;
             this.selected = this.itemList.ElementAt(39);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -125,6 +149,7 @@ namespace DungeonDrive
 
         private void button17_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button17;
             this.selected = this.itemList.ElementAt(16);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -132,6 +157,7 @@ namespace DungeonDrive
 
         private void button2_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button2;
             this.selected = this.itemList.ElementAt(1);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -141,6 +167,7 @@ namespace DungeonDrive
 
         private void button3_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button3;
             this.selected = this.itemList.ElementAt(2);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -148,6 +175,7 @@ namespace DungeonDrive
 
         private void button5_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button5;
             this.selected = this.itemList.ElementAt(4);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -155,6 +183,7 @@ namespace DungeonDrive
 
         private void button6_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button6;
             this.selected = this.itemList.ElementAt(5);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -162,6 +191,7 @@ namespace DungeonDrive
 
         private void button7_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button7;
             this.selected = this.itemList.ElementAt(6);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -169,6 +199,7 @@ namespace DungeonDrive
 
         private void button8_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button8;
             this.selected = this.itemList.ElementAt(7);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -176,6 +207,7 @@ namespace DungeonDrive
 
         private void button16_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button16;
             this.selected = this.itemList.ElementAt(15);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -183,6 +215,7 @@ namespace DungeonDrive
 
         private void button15_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button15;
             this.selected = this.itemList.ElementAt(14);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -190,6 +223,7 @@ namespace DungeonDrive
 
         private void button14_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button14;
             this.selected = this.itemList.ElementAt(13);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -197,6 +231,7 @@ namespace DungeonDrive
 
         private void button13_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button13;
             this.selected = this.itemList.ElementAt(12);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -204,6 +239,7 @@ namespace DungeonDrive
 
         private void button12_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button12;
             this.selected = this.itemList.ElementAt(11);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -211,6 +247,7 @@ namespace DungeonDrive
 
         private void button11_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button11;
             this.selected = this.itemList.ElementAt(10);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -218,6 +255,7 @@ namespace DungeonDrive
 
         private void button10_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button10;
             this.selected = this.itemList.ElementAt(9);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -227,6 +265,7 @@ namespace DungeonDrive
 
         private void button18_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button18;
             this.selected = this.itemList.ElementAt(17);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -234,6 +273,7 @@ namespace DungeonDrive
 
         private void button19_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button19;
             this.selected = this.itemList.ElementAt(18);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -241,6 +281,7 @@ namespace DungeonDrive
 
         private void button20_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button20;
             this.selected = this.itemList.ElementAt(19);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -248,6 +289,7 @@ namespace DungeonDrive
 
         private void button21_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button21;
             this.selected = this.itemList.ElementAt(20);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -255,6 +297,7 @@ namespace DungeonDrive
 
         private void button22_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button22;
             this.selected = this.itemList.ElementAt(21);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -262,6 +305,7 @@ namespace DungeonDrive
 
         private void button23_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button23;
             this.selected = this.itemList.ElementAt(22);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -269,6 +313,7 @@ namespace DungeonDrive
 
         private void button24_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button24;
             this.selected = this.itemList.ElementAt(23);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -276,6 +321,7 @@ namespace DungeonDrive
 
         private void button32_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button32;
             this.selected = this.itemList.ElementAt(31);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -283,6 +329,7 @@ namespace DungeonDrive
 
         private void button39_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button39;
             this.selected = this.itemList.ElementAt(38);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -290,6 +337,7 @@ namespace DungeonDrive
 
         private void button31_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button31;
             this.selected = this.itemList.ElementAt(30);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -297,6 +345,7 @@ namespace DungeonDrive
 
         private void button30_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button30;
             this.selected = this.itemList.ElementAt(29);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -304,6 +353,7 @@ namespace DungeonDrive
 
         private void button38_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button38;
             this.selected = this.itemList.ElementAt(37);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -311,6 +361,7 @@ namespace DungeonDrive
 
         private void button37_Click(object sender, EventArgs e)
         {
+            this.mostRecentButton = this.button37;
             this.selected = this.itemList.ElementAt(36);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
@@ -327,8 +378,13 @@ namespace DungeonDrive
 
         private void button43_Click(object sender, EventArgs e)
         {
-            this.richTextBox1.Text = "Simple Instructions: \n Switching Attacks:   T\nAttack:   left/right click\n Move:   w/s/a/d\nInventory:   Space\nQuit:   ESC";
-          
+            this.richTextBox1.Text = "Simple Instructions: \n Switching Attacks:   T\nAttack:   left/right click\n Move:   w/s/a/d\nInventory:   Space\nQuit:   ESC\n";
+            
+        }
+
+        private void button44_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
