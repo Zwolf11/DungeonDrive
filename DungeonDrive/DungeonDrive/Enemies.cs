@@ -79,7 +79,7 @@ namespace DungeonDrive
             g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             animFrame = (animFrame + 0.1) % imgs.Length;
             //g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
-            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
+            drawHpBar(g);
         }
     }
 
@@ -157,7 +157,7 @@ namespace DungeonDrive
             g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             animFrame = (animFrame + 0.1) % imgs.Length;
             //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
-            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
+            drawHpBar(g);
         }
     }
 
@@ -256,7 +256,6 @@ namespace DungeonDrive
         public override void draw(Graphics g)
         {
             g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
-            g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2);
-        }
+            drawHpBar(g);        }
     }*/
 }

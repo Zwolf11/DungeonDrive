@@ -22,11 +22,13 @@ namespace DungeonDrive
 
         private float dir = 0;
         private bool shooting = false;
+        public bool alive = true;
 
         public Hero(double x, double y)
             : base(x, y)
         {
-            this.hp = 10;
+            this.hp = 20;
+            this.full_hp = hp;
             this.atk_dmg = 2;
             this.atk_speed = 0.2;
             this.speed = 0.3;
@@ -42,6 +44,9 @@ namespace DungeonDrive
 
         private void handleMovement()
         {
+            if (knockback)
+                knockBacked();
+
             // get cursor dir
             dir = (float)Math.Atan2(Cursor.Position.Y - (G.height / 2), Cursor.Position.X - (G.width / 2));
 
@@ -84,16 +89,6 @@ namespace DungeonDrive
                 xNext = x + speed;
 
             tryMove(xNext, yNext);
-        }
-
-        private void knockBack(Unit enemy, double x_dist, double y_dist, double sleep_sec)
-        {
-            enemy.x_dist = x_dist;
-            enemy.y_dist = y_dist;
-            enemy.x_final = enemy.x + enemy.x_dist;
-            enemy.y_final = enemy.y + enemy.y_dist;
-            enemy.sleep_sec = sleep_sec * G.tickInt;
-            enemy.knockback = true;
         }
 
         private void handleAttacking()
@@ -157,7 +152,7 @@ namespace DungeonDrive
                     {
                         try { attack1.Play(); }
                         catch (FileNotFoundException) { }
-                        knockBack(enemy, Math.Cos((double)dir) * 0.2, Math.Sin((double)dir) * 0.2, 0);
+                        knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                         enemy.hp -= atk_dmg;
                         if (enemy.hp <= 0)
                             deletingList.Add(enemy);
@@ -183,18 +178,28 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (!alive) return;
+            if (hp <= 0) alive = false;
             handleAttacking();
             handleMovement();
         }
         
         public override void draw(Graphics g)
         {
+            if (!alive)
+            {
+                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(G.width / 2 - 60, 5));
+                return;
+            }
+
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
            
             g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            
             // facing indicator
             g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
+            drawHpBar(g);
         }
     }
 }

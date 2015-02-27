@@ -6,13 +6,22 @@ namespace DungeonDrive
     {
         public static void resolveUnitCollisions()
         {
+            // enemies attack champ
+
+            if (!G.hero.alive) return;
             foreach(Unit enemy in G.room.enemies)
             {
                 if(Math.Sqrt(Math.Pow(G.hero.x - enemy.x, 2) + Math.Pow(G.hero.y - enemy.y, 2)) < G.hero.radius + enemy.radius)
                 {
-                    int dirX = Math.Sign(G.hero.x - enemy.x);
-                    int dirY = Math.Sign(G.hero.y - enemy.y);
-                    //G.hero.knockBack(0.5, dirX, dirY); //This is knocking the hero back way too far. Can't figure out why
+                    if (enemy.atk_cd[0])
+                    {
+                        int dirX = Math.Sign(G.hero.x - enemy.x);
+                        int dirY = Math.Sign(G.hero.y - enemy.y);
+                        enemy.knockBack(G.hero, dirX * 0.05, dirY * 0.05, 0);
+                        G.hero.hp -= enemy.atk_dmg;
+                        enemy.sleep_sec = 0.5 * G.tickInt;
+                        enemy.cd(1, 0);
+                    }
                 }
             }
         }

@@ -62,3 +62,11 @@ C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debu
 \\psf\Home\Downloads\DungeonDrive-624b95ba37ddc6b853f4fe0a2f6e69681a99bdea\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
 \\psf\Home\Downloads\DungeonDrive-624b95ba37ddc6b853f4fe0a2f6e69681a99bdea\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 \\psf\Home\Downloads\DungeonDrive-624b95ba37ddc6b853f4fe0a2f6e69681a99bdea\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache

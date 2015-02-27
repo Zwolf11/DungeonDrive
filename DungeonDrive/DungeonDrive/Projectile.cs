@@ -11,7 +11,7 @@ namespace DungeonDrive
         public double x_speed, y_speed;
         public double speed = 1;
         public double distance = 100;
-        public double radius = 0.05;
+        public double radius = 0.3;
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
         public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
@@ -66,7 +66,7 @@ namespace DungeonDrive
             this.speed = 0.8;
             this.x_speed = x_dir * speed;
             this.y_speed = y_dir * speed;
-            this.distance = 50;
+            this.distance = 10;
         }
 
         public override void act()
@@ -76,10 +76,7 @@ namespace DungeonDrive
         
         public override void draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Red, DrawX, DrawY, 5, 5);
-            
-            g.DrawImage(Image.FromFile(@"fire.png"), DrawX, DrawY);     
-        
+            g.DrawImage(G.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)));
         }
     }
 }
