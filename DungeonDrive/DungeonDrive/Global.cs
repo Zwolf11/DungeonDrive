@@ -17,6 +17,8 @@ namespace DungeonDrive
         public static MainForm form = new MainForm();
         public static Hero hero = new Hero(0, 0);
         public static Inventory inventory = new Inventory();
+        public static System.Windows.Forms.Button quickButton1;       
+        public static System.Windows.Forms.Button quickButton2;
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
         public static Bitmap proj_img = new Bitmap(Properties.Resources.fire);
         public static Room room = new Room(currentRoom);

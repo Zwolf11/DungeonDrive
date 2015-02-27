@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 namespace DungeonDrive
 {
     public partial class InventoryForm : Form
@@ -14,8 +15,9 @@ namespace DungeonDrive
         LinkedList<System.Windows.Forms.Button> buttonList = new LinkedList<System.Windows.Forms.Button>();
         LinkedList<Item> itemList = new LinkedList<Item>();
         private System.Windows.Forms.Button mostRecentButton;
+        private SoundPlayer potion1;
         Item selected;
-        private const int CP_NOCLOSE_BUTTON = 0x200;
+        
         public InventoryForm(Inventory inventory)
         {
             
@@ -114,6 +116,8 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(0);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
+            potion1 = new SoundPlayer(@"potion2.wav");
+            potion1.Play();
             G.hero.hp += 10;
             if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }
             
@@ -161,6 +165,8 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(1);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
+            potion1 = new SoundPlayer(@"potion.wav");
+            potion1.Play();
             G.hero.hp += 2;
             if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }
         }
@@ -385,6 +391,12 @@ namespace DungeonDrive
         private void button44_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button44_Click_1(object sender, EventArgs e)
+        {
+            G.quickButton1 = this.mostRecentButton;
+            
         }
 
     }

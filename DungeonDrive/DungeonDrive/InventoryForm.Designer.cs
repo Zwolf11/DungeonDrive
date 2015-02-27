@@ -524,7 +524,9 @@
             this.button44.Name = "button44";
             this.button44.Size = new System.Drawing.Size(107, 102);
             this.button44.TabIndex = 86;
+            this.button44.Text = "F2";
             this.button44.UseVisualStyleBackColor = true;
+            this.button44.Click += new System.EventHandler(this.button44_Click_1);
             // 
             // InventoryForm
             // 
