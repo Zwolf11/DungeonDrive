@@ -33,6 +33,7 @@ namespace DungeonDrive
             this.atk_speed = 0.2;
             this.speed = 0.3;
             this.radius = 0.49;
+
             try
             {
                 attack1 = new SoundPlayer(@"attack1.wav");
@@ -167,7 +168,7 @@ namespace DungeonDrive
             if (shooting && atk_cd[2])
             {
                 attack3.Play();
-                projectiles.Add(new Arrow(x, y, Math.Cos(dir), Math.Sin(dir)));
+                projectiles.Add(new Projectile(x, y, Math.Cos(dir), Math.Sin(dir)));
                 cd(atk_speed * 4, 2);
             }
         }

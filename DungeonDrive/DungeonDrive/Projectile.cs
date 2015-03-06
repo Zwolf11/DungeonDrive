@@ -3,18 +3,27 @@ using System.Drawing;
 
 namespace DungeonDrive
 {
-    public abstract class Projectile
+    public class Projectile
     {
-        public int dmg = 1;
+        public static int dmg = 1;
+        public static double speed = 0.8;
+        public static double range = 10;
+        public static AtkStyle style = AtkStyle.Basic;
+
         public double x, y;
-        private double x_origin, y_origin;
+        public double x_origin, y_origin;
         public double x_speed, y_speed;
-        public double speed = 1;
-        public double distance = 100;
         public double radius = 0.3;
 
         public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
         public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
+
+        public enum AtkStyle
+        {
+            Basic,
+            Flame,
+            Frozen
+        }
 
         public Projectile(double x, double y, double x_dir, double y_dir)
         {
@@ -22,14 +31,13 @@ namespace DungeonDrive
             this.y = y;
             this.x_origin = x;
             this.y_origin = y;
+            this.x_speed = x_dir * speed;
+            this.y_speed = y_dir * speed;
         }
-
-        public abstract void act();
-        public abstract void draw(Graphics g);
 
         public void tryMove(double xNext, double yNext)
         {
-            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= distance)
+            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= range)
                 G.hero.removeProj(this);
 
             int left = (int)(xNext - radius);
@@ -45,36 +53,22 @@ namespace DungeonDrive
             foreach (Unit unit in G.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
-                    unit.hp -= this.dmg;
-                    this.dmg = 0;
+                    unit.hp -= Projectile.dmg;
                     G.hero.removeProj(this);
-                    if (unit.hp == 0)
+                    if (unit.hp <= 0)
                         G.hero.deletingList.Add(unit);
                 }
             
             x = xNext;
             y = yNext;
         }
-    }
 
-    public class Arrow : Projectile
-    {
-        public Arrow(double x, double y, double x_dir, double y_dir)
-            : base(x, y, x_dir, y_dir)
-        {
-            this.dmg = 1;
-            this.speed = 0.8;
-            this.x_speed = x_dir * speed;
-            this.y_speed = y_dir * speed;
-            this.distance = 10;
-        }
-
-        public override void act()
+        public void act()
         {
             tryMove(x + x_speed, y + y_speed);
         }
-        
-        public override void draw(Graphics g)
+
+        public void draw(Graphics g)
         {
             g.DrawImage(G.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)));
         }
