@@ -6,9 +6,12 @@ namespace DungeonDrive
     public class Projectile
     {
         public static int dmg = 1;
+        public static double atk_speed = 0.5;
         public static double speed = 0.8;
         public static double range = 10;
         public static AtkStyle style = AtkStyle.Basic;
+        public static double slowSec = 1;
+        public static double slowFac = 0.3;
 
         public double x, y;
         public double x_origin, y_origin;
@@ -54,6 +57,11 @@ namespace DungeonDrive
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
                     unit.hp -= Projectile.dmg;
+                    if (Projectile.style == AtkStyle.Frozen)
+                    {
+                        Console.WriteLine("Frozen");
+                        unit.slow(Projectile.slowSec, Projectile.slowFac);
+                    }
                     G.hero.removeProj(this);
                     if (unit.hp <= 0)
                         G.hero.deletingList.Add(unit);

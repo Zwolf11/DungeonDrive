@@ -34,6 +34,9 @@ namespace DungeonDrive
             this.speed = 0.3;
             this.radius = 0.49;
 
+            // change the projectile to frozen
+            Projectile.style = Projectile.AtkStyle.Frozen;
+
             try
             {
                 attack1 = new SoundPlayer(@"attack1.wav");
@@ -169,7 +172,7 @@ namespace DungeonDrive
             {
                 attack3.Play();
                 projectiles.Add(new Projectile(x, y, Math.Cos(dir), Math.Sin(dir)));
-                cd(atk_speed * 4, 2);
+                cd(Projectile.atk_speed, 2);
             }
         }
 

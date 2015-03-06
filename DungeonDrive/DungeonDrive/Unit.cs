@@ -27,7 +27,7 @@ namespace DungeonDrive
         public double y_dist = 0;
         public double x_final = 0;
         public double y_final = 0;
-        public double sleep_sec = 0;
+        public double sleep_sec = 0;        // amount of time that unit can't move
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
@@ -47,14 +47,27 @@ namespace DungeonDrive
         private void atkSleep(double sec, int i)
         {
             atk_cd[i] = false;
-            Thread.Sleep((int)sec * 1000);
+            Thread.Sleep((int)(sec * 1000));
             atk_cd[i] = true;
+        }
+
+        private void slowSleep(double sec, double fac)
+        {
+            this.speed *= fac;
+            Thread.Sleep((int)(sec * 1000));
+            this.speed /= fac;
         }
 
         public void cd(double sec, int i)
         {
             // disable the attack boolean at index i for certain given seconds
             new Thread(() => atkSleep(sec, i)).Start();
+        }
+
+        public void slow(double sec, double fac)
+        {
+            // slows down for sec second and factor of fac
+            new Thread(() => slowSleep(sec, fac)).Start();
         }
 
         public void drawHpBar(Graphics g)
