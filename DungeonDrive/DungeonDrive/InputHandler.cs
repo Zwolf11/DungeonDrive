@@ -7,6 +7,7 @@ namespace DungeonDrive
     {
         public static void keyDown(object sender, KeyEventArgs e)
         {
+            
             if (e.KeyCode == Keys.Escape)
                 G.form.Close();
             else if(e.KeyCode == Keys.Space)
@@ -34,11 +35,14 @@ namespace DungeonDrive
         public static void keyUp(object sender, KeyEventArgs e)
         {
             G.keys.Remove(e.KeyCode);
+            
         }
 
         public static void mouseUp(object sender, MouseEventArgs e)
         {
-            G.hero.basicAtk();
+            G.hero.basicAtk(); 
+            G.actionBar.getAction(e.X, e.Y);
         }
+        
     }
 }

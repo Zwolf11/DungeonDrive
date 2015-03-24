@@ -35,8 +35,7 @@ namespace DungeonDrive
             }
             else
             {
-                G.hero.act();
-
+                G.hero.act();    
                 foreach (Unit unit in G.room.enemies)
                     unit.act();
 

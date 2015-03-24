@@ -49,7 +49,7 @@ namespace DungeonDrive
 
             G.room.draw(g);
             G.hero.draw(g);
-
+            G.actionBar.draw(g);
             //Jiang: Add Inventory system and draw on top of game if it's open
         }
     }

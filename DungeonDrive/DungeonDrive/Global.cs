@@ -21,6 +21,8 @@ namespace DungeonDrive
         public static System.Windows.Forms.Button quickButton2;
         public static Dictionary<Keys, bool> keys = new Dictionary<Keys, bool>();
         public static Bitmap proj_img = new Bitmap(Properties.Resources.fire);
+        public static Bitmap action_bar = new Bitmap(Properties.Resources.action_bar); // change action_bar to any image!
         public static Room room = new Room(currentRoom);
+        public static ActionBar actionBar = new ActionBar(12, action_bar);
     }
 }

@@ -532,7 +532,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::DungeonDrive.Properties.Resources._25aqjic_1;
+            this.BackgroundImage = global::DungeonDrive.Properties.Resources.inventory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(627, 669);
             this.Controls.Add(this.button44);
