@@ -34,7 +34,20 @@ namespace DungeonDrive
 
         public override void draw(Graphics g) { 
 
-           // g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
+            g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
+            //g.DrawImage(img, DrawX, DrawY, G.size, G.size);
+        }
+    }
+
+    public class Chest : Obstacle
+    {
+        private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
+
+        public Chest(int x, int y, int width, int height, int roomNum) : base(x, y, width, height, roomNum) { }
+
+        public override void draw(Graphics g)
+        {
+
             g.DrawImage(img, DrawX, DrawY, G.size, G.size);
         }
     }
