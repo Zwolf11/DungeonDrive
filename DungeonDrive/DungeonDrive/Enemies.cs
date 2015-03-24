@@ -17,6 +17,9 @@ namespace DungeonDrive
             this.radius = 0.45;
             this.origin_x = x;
             this.origin_y = y;
+            this.center_x = x + radius;
+            this.center_y = y + radius;
+            this.level = 1;
 
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
@@ -44,6 +47,8 @@ namespace DungeonDrive
                 xNext = x - Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
                 yNext = y - Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
                 tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
                 return;
             }
 
@@ -54,6 +59,8 @@ namespace DungeonDrive
                 xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
             }
             else if (this.moving)
             {
@@ -61,6 +68,8 @@ namespace DungeonDrive
                 xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
                 tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
                 if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
                 {
                     //Original position has been reached
@@ -97,6 +106,9 @@ namespace DungeonDrive
             this.radius = 0.4;
             this.origin_x = x;
             this.origin_y = y;
+            this.center_x = x + radius;
+            this.center_y = y + radius;
+            this.level = 1;
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
             imgs[1] = new Bitmap(Properties.Resources.skeleton1);
@@ -124,6 +136,8 @@ namespace DungeonDrive
                 xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
             }
             else if (this.moving)
             {
@@ -131,6 +145,8 @@ namespace DungeonDrive
                 xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
                 tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
                 if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
                 {
                     //Original position has been reached

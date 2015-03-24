@@ -10,6 +10,8 @@ namespace DungeonDrive
         public double y;
         public double origin_x;
         public double origin_y;
+        public double center_x;
+        public double center_y;
         public double speed = 0.01;
         public double radius = 0.5;
         public double full_hp = 1;
@@ -21,6 +23,9 @@ namespace DungeonDrive
         public bool moving = false;
         public bool lunge = false;
         public int roomNum = -1;
+        public double exp;
+        public double expcap;
+        public int level;
 
         public bool knockback = false;
         public double x_dist = 0;

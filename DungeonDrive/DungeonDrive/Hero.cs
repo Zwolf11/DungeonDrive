@@ -19,6 +19,7 @@ namespace DungeonDrive
         private SoundPlayer attack1;
         private SoundPlayer attack2;
         private SoundPlayer attack3;
+        private SoundPlayer level_up;
 
         private float dir = 0;
         private bool shooting = false;
@@ -33,6 +34,9 @@ namespace DungeonDrive
             this.atk_speed = 0.2;
             this.speed = 0.3;
             this.radius = 0.49;
+            this.exp = 0.0;
+            this.expcap = 10.0;
+            this.level = 1;
 
             // change the projectile to frozen
             Projectile.style = Projectile.AtkStyle.Frozen;
@@ -42,8 +46,25 @@ namespace DungeonDrive
                 attack1 = new SoundPlayer(@"attack1.wav");
                 attack2 = new SoundPlayer(@"attack2.wav");
                 attack3 = new SoundPlayer(@"attack3.wav");
+                level_up = new SoundPlayer(@"level_up.wav");
             }
             catch (FileNotFoundException) { }
+        }
+
+        private void handleCursor()
+        {
+            for (int i = 0; i < G.room.enemies.Count; i++)
+            {
+                if ( (Math.Sqrt( Math.Pow(Cursor.Position.X - G.room.enemies[i].center_x, 2) + Math.Pow(Cursor.Position.Y - G.room.enemies[i].center_y, 2) )) <= (G.room.enemies[i].radius) )
+                {
+                    Console.WriteLine("You're in");
+                }
+            }
+            //Console.WriteLine(G.room.enemies[0].x + ", " + G.room.enemies[0].y + ", " + G.room.enemies[0].radius + ", ");
+            /*if ((Math.Pow(Cursor.Position.X - G.room.enemies[0].center_x, 2) + Math.Pow(Cursor.Position.Y - G.room.enemies[0].center_y, 2)) < Math.Pow(G.room.enemies[0].radius, 2))
+            {
+                Console.WriteLine(G.room.enemies[0].x + ", " + G.room.enemies[0].y);
+            }*/
         }
 
         private void handleMovement()
@@ -160,7 +181,10 @@ namespace DungeonDrive
                         knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                         enemy.hp -= atk_dmg;
                         if (enemy.hp <= 0)
+                        {
                             deletingList.Add(enemy);
+                            experience(enemy);
+                        }
                     }
                 }
                 cd(atk_speed, 0);
@@ -176,6 +200,36 @@ namespace DungeonDrive
             }
         }
 
+        public void experience(Unit e)
+        {
+            this.exp += 10.0;
+            if (this.exp >= this.expcap)
+            {
+                levelUp();
+            }
+        }
+
+        public void levelUp()
+        {
+            try { level_up.Play(); }
+            catch (FileNotFoundException) { }
+            this.hp += 10;
+            this.full_hp = hp;
+            this.atk_dmg += 2;
+            this.atk_speed += 0.01;
+            this.expcap = this.expcap + (this.expcap * 0.1);
+            this.level += 1;
+
+            for (int i = 0; i < G.room.enemies.Count; i++)
+            {
+                G.room.enemies[i].full_hp += 5;
+                G.room.enemies[i].hp = G.room.enemies[i].full_hp;
+                G.room.enemies[i].atk_dmg += 3;
+                G.room.enemies[i].speed *= 0.01;
+                G.room.enemies[i].level++;
+            }
+        }
+
         public void removeProj(Projectile proj)
         {
             deletingProj.Add(proj);
@@ -187,6 +241,7 @@ namespace DungeonDrive
             if (hp <= 0) alive = false;
             handleAttacking();
             handleMovement();
+            handleCursor();
         }
         
         public override void draw(Graphics g)
