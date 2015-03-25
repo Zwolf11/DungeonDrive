@@ -35,7 +35,7 @@ namespace DungeonDrive
         public override void draw(Graphics g) { 
 
             g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
-            //g.DrawImage(img, DrawX, DrawY, G.size, G.size);
+            g.DrawImage(img, DrawX, DrawY, G.size, G.size);
         }
     }
 

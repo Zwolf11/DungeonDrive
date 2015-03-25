@@ -70,3 +70,10 @@ Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
 Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
 Y:\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb

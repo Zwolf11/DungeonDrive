@@ -41,7 +41,7 @@ namespace DungeonDrive
         public static void mouseUp(object sender, MouseEventArgs e)
         {
             G.hero.basicAtk(); 
-            //G.actionBar.getAction(e.X, e.Y);
+            G.actionBar.getAction(e.X, e.Y);
         }
         
     }
