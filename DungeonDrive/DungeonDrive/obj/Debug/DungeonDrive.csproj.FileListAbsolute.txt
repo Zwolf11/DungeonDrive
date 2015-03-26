@@ -77,3 +77,4 @@ D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache

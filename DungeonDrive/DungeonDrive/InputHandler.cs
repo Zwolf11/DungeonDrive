@@ -17,8 +17,9 @@ namespace DungeonDrive
                 f1.Show();
             }
             else if(e.KeyCode == Keys.F1){
-                Item item1 = new Item(1, "shield", "shield_2.png", ItemType.Equipment);
-                item1.updateDesc("Defense + 2\nMAX HP + 2");
+                int[] damage = {10, 100};
+                Weapon item1 = new Weapon(1, "x", "shield_2.png", ItemType.Weapon, 5, damage, AtkStyle.Flame, 1, 1,1,1,1);
+                
                 G.inventory.addItem(item1);
             }
             else if(e.KeyCode == Keys.F2){
@@ -29,6 +30,7 @@ namespace DungeonDrive
                 }
                                
             }
+
             G.keys[e.KeyCode] = true;
         }
 

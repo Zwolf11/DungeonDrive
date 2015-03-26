@@ -8,13 +8,14 @@ using System.Collections;
 namespace DungeonDrive
 {
 
+
+
     public class Item
     {
 
         public string itemName;
         public int itemID;
         public string itemImage;
-        public int itemPower;
         public ItemType itemType;
         public string itemDesc;
 
@@ -26,11 +27,6 @@ namespace DungeonDrive
             this.itemType = type;
             this.itemDesc = "no description";
         }
-
-        public void updateItemPower(int power)
-        {
-            this.itemPower = power;
-        }
         public string getName()
         {
             return this.itemName;
@@ -39,30 +35,6 @@ namespace DungeonDrive
         {
             return this.itemID;
         }
-        public String getItemTypeInString()
-        {
-            if (this.itemType.Equals(ItemType.Consumable))
-            {
-
-                return "Consumable";
-            }
-            else if (this.itemType.Equals(ItemType.Equipment))
-            {
-
-                return "Equipment";
-            }
-            else if (this.itemType.Equals(ItemType.Quest))
-            {
-
-                return "Quest";
-            }
-            else
-            {
-
-                return "unknown";
-            }
-        }
-
         public void updateDesc(string description)
         {
             this.itemDesc = description;
@@ -75,14 +47,50 @@ namespace DungeonDrive
         {
             return this.itemType;
         }
-
-
     }
     public enum ItemType
     {
-
-        Equipment,
+        Weapon, 
+        Armor, 
+        Amulet,
         Consumable,
         Quest
     }
+
+    public enum AtkStyle {     
+        Flame,
+        Frozen,
+        Melee    
+    }
+
+    public class Weapon : Item{
+        public int levelRequirement;
+        int[] atk_damage = new int[2];
+        double atk_speed;
+        double speed;
+        double range;
+        double slowSec;
+        double slowFac;
+
+        public Weapon(int id, String name, String image, ItemType itemType,  // Item Parents
+            int levelRequirement, int[] dmg, AtkStyle attackStyle,double atk_speed, double speed,
+            double range, double slowSec, double slowFac)
+            : base(id, name, image, itemType)
+        {
+            this.levelRequirement = levelRequirement;
+            this.atk_damage = dmg;
+            this.atk_speed = atk_speed;
+            this.speed = speed;
+            this.range = range;
+            this.slowFac = slowFac;
+            this.slowSec = slowSec;
+            this.itemDesc = this.itemName + "\n" + "Attack style: " + attackStyle.ToString() + "\n"
+                
+                + "attack speed / projectile speed" + this.atk_speed + " | "+ this.speed+ "\n" +
+                "attack range" + this.range + "\nDMG:" + this.atk_damage[0] + "-" + this.atk_damage[1]; 
+        }
+    
+    }
+
+
 }
