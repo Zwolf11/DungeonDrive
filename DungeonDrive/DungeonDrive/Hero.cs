@@ -53,18 +53,13 @@ namespace DungeonDrive
 
         private void handleCursor()
         {
-            for (int i = 0; i < G.room.enemies.Count; i++)
+            foreach (Unit enemy in G.room.enemies)
             {
-                if ( (Math.Sqrt( Math.Pow(Cursor.Position.X - G.room.enemies[i].center_x, 2) + Math.Pow(Cursor.Position.Y - G.room.enemies[i].center_y, 2) )) <= (G.room.enemies[i].radius) )
-                {
-                    Console.WriteLine("You're in");
-                }
+                if (Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * G.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * G.size), 2)) <= enemy.radius * G.size)
+                    enemy.displayname = true;
+                else
+                    enemy.displayname = false;
             }
-            //Console.WriteLine(G.room.enemies[0].x + ", " + G.room.enemies[0].y + ", " + G.room.enemies[0].radius + ", ");
-            /*if ((Math.Pow(Cursor.Position.X - G.room.enemies[0].center_x, 2) + Math.Pow(Cursor.Position.Y - G.room.enemies[0].center_y, 2)) < Math.Pow(G.room.enemies[0].radius, 2))
-            {
-                Console.WriteLine(G.room.enemies[0].x + ", " + G.room.enemies[0].y);
-            }*/
         }
 
         private void handleMovement()
@@ -264,6 +259,11 @@ namespace DungeonDrive
             
             // facing indicator
             g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
+
+            // cd indicator
+            for (int i = 0; i < G.hero.atk_cd.Length; i++)
+                if (!G.hero.atk_cd[i])
+                    g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
             
             drawHpBar(g);
             drawExpBar(g);

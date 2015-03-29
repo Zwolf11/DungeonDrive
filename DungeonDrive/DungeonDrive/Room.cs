@@ -244,7 +244,7 @@ namespace DungeonDrive
             //////////   TRAVERSE ALL FILES   //////////
 
             for(int i = 0; i < files.Length; i++){
-                matchExtension(Path.GetExtension(files[i]));     // match each file extension and spawn the corresponding object
+                matchExtension(Path.GetExtension(files[i]), Path.GetFileName(files[i]));     // match each file extension and spawn the corresponding object
             }
 
             // determine hero starting point
@@ -259,7 +259,7 @@ namespace DungeonDrive
             G.newRoom = true;
         }
 
-        public void matchExtension(String extension)
+        public void matchExtension(String extension, String filename)
         {
             switch(extension){
 
@@ -361,7 +361,7 @@ namespace DungeonDrive
  //*/           
                     // Other file
                     default:
-                        otherFound();
+                        otherFound(filename);
                         break;
                 }
         }
@@ -393,17 +393,17 @@ namespace DungeonDrive
             addObstacle("chest");
         }
 
-        public void otherFound()
+        public void otherFound(String filename)
         {
             temp_sd = safe_distance;
             if((int) rand.Next(0,100) % 2 == 0){
-                while (!addEnemy(new Bat(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
+                while (!addEnemy(new Bat(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numBats++;
 
             }
             else 
             {
-                while (!addEnemy(new Spider(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5))) ;
+                while (!addEnemy(new Spider(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSpiders++;
                 //while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
             }            
@@ -601,7 +601,7 @@ namespace DungeonDrive
 
         }
 
-        public bool addEnemy(Unit e)
+        public bool addEnemy(Unit e, String filename)
         {
 
             if (numEnemies >= (maxEnemies - 1))
@@ -615,6 +615,7 @@ namespace DungeonDrive
                 return false;
             }
 
+            e.addName(filename);
             enemies.Add(e);
             freeSpace[(int)e.x, (int)e.y] = false;
 
@@ -821,10 +822,6 @@ namespace DungeonDrive
 
             /*foreach (Door door in doors)
                 door.draw(g);*/
-
-            for (int i = 0; i < G.hero.atk_cd.Length; i++)
-                if (!G.hero.atk_cd[i])
-                    g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
         }
 
     }

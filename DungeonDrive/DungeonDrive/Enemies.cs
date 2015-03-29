@@ -90,6 +90,8 @@ namespace DungeonDrive
             animFrame = (animFrame + 0.1) % imgs.Length;
             //g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             drawHpBar(g);
+            if (this.displayname)
+                drawFileName(g);
         }
     }
 
@@ -176,6 +178,8 @@ namespace DungeonDrive
             animFrame = (animFrame + 0.1) % imgs.Length;
             //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
             drawHpBar(g);
+            if (this.displayname)
+                drawFileName(g);
         }
     }
 

@@ -26,6 +26,8 @@ namespace DungeonDrive
         public double exp;
         public double expcap;
         public int level;
+        public String filename;
+        public bool displayname = false;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -77,6 +79,12 @@ namespace DungeonDrive
 
         public void drawHpBar(Graphics g)
         {   g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2); }
+
+        public void drawFileName(Graphics g)
+        {   g.DrawString(filename, G.txtFont, Brushes.White, new PointF(DrawX, DrawY - G.size / 2));   }
+
+        public void addName(String filename)
+        {   this.filename = filename;   }
 
         public void knockBack(Unit unit, double x_dist, double y_dist, double sleep_sec)
         {
