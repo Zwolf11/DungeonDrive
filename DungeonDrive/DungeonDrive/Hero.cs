@@ -153,7 +153,10 @@ namespace DungeonDrive
             if (deletingList.Count > 0)
             {
                 foreach (Unit deletingEnemy in deletingList)
+                {
+                    experience(deletingEnemy);
                     G.room.enemies.Remove(deletingEnemy);
+                }
                 deletingList.Clear();
             }
 
@@ -181,10 +184,7 @@ namespace DungeonDrive
                         knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                         enemy.hp -= atk_dmg;
                         if (enemy.hp <= 0)
-                        {
                             deletingList.Add(enemy);
-                            experience(enemy);
-                        }
                     }
                 }
                 cd(atk_speed, 0);
@@ -200,26 +200,27 @@ namespace DungeonDrive
             }
         }
 
-        public void experience(Unit e)
+        public void experience(Unit enemy)
         {
-            this.exp += 10.0;
+            this.exp += enemy.exp;
             if (this.exp >= this.expcap)
-            {
                 levelUp();
-            }
         }
 
         public void levelUp()
         {
             try { level_up.Play(); }
             catch (FileNotFoundException) { }
-            this.hp += 10;
-            this.full_hp = hp;
-            this.atk_dmg += 2;
-            this.atk_speed += 0.01;
-            this.expcap = this.expcap + (this.expcap * 0.1);
+            this.full_hp += 10;
+            this.hp = this.full_hp;
+            this.atk_dmg += 1;
+            this.atk_speed -= 0.01;
+            this.exp -= this.expcap;
+            this.expcap *= 1.5;
             this.level += 1;
 
+            /*
+             * this only works for current room
             for (int i = 0; i < G.room.enemies.Count; i++)
             {
                 G.room.enemies[i].full_hp += 5;
@@ -228,6 +229,7 @@ namespace DungeonDrive
                 G.room.enemies[i].speed *= 0.01;
                 G.room.enemies[i].level++;
             }
+             */
         }
 
         public void removeProj(Projectile proj)
@@ -243,6 +245,9 @@ namespace DungeonDrive
             handleMovement();
             handleCursor();
         }
+
+        public void drawExpBar(Graphics g)
+        { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * G.size * this.exp / this.expcap), 2); }
         
         public override void draw(Graphics g)
         {
@@ -259,7 +264,9 @@ namespace DungeonDrive
             
             // facing indicator
             g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
+            
             drawHpBar(g);
+            drawExpBar(g);
         }
     }
 }

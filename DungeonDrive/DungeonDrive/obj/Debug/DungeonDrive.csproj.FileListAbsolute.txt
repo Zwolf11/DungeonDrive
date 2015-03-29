@@ -78,3 +78,11 @@ D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
 D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+\\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
