@@ -40,7 +40,6 @@ namespace DungeonDrive
             this.expcap = 10.0;
             this.level = 1;
 
-            // change the projectile to frozen
             Projectile.style = Projectile.AtkStyle.Frozen;
 
             try
@@ -56,12 +55,7 @@ namespace DungeonDrive
         private void handleCursor()
         {
             foreach (Unit enemy in state.room.enemies)
-            {
-                if (Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size)
-                    enemy.displayname = true;
-                else
-                    enemy.displayname = false;
-            }
+                enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
         }
 
         private void handleMovement()
@@ -69,7 +63,6 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
-            // get cursor dir
             dir = (float)Math.Atan2(Cursor.Position.Y - (state.form.Height / 2), Cursor.Position.X - (state.form.Width / 2));
 
             double xNext = x;
@@ -202,6 +195,7 @@ namespace DungeonDrive
         public void basicAtk()
         {
             if (!alive) return;
+
             // melee
             if (!shooting && atk_cd[0])
             {
