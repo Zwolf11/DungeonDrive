@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
+using System.IO;
 
 namespace DungeonDrive
 {
@@ -9,10 +11,12 @@ namespace DungeonDrive
         private int selection = 0;
         private Font titleFont = new Font("Arial", 36);
         private Font selectionFont = new Font("Arial", 16);
+        private SoundPlayer errorSound = new SoundPlayer(@"attack1.wav");
 
         private String[] options = new String[]
         {
-            "Start",
+            "New Game",
+            "Load Game",
             "Options",
             "Exit"
         };
@@ -43,17 +47,18 @@ namespace DungeonDrive
             else if(e.KeyCode == Properties.Settings.Default.SelectKey)
             {
                 if(selection == 0)
+                    this.addChildState(new GameState(form, false), true);
+                else if (selection == 1)
                 {
-                    this.addChildState(new GameState(form), true);
-                }
-                else if(selection == 1)
-                {
-                    this.addChildState(new OptionsState(form), true);
+                    if (File.Exists("save"))
+                        this.addChildState(new GameState(form, true), true);
+                    else
+                        errorSound.Play();
                 }
                 else if (selection == 2)
-                {
+                    this.addChildState(new OptionsState(form), true);
+                else if (selection == 3)
                     form.Close();
-                }
             }
 
             form.Invalidate();

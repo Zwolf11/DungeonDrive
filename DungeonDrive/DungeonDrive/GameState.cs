@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace DungeonDrive
 {
@@ -13,17 +14,38 @@ namespace DungeonDrive
         public Font font = new Font("Arial", 12);
         public int size = 32;
         public String graveyard = "C:\\graveyard";
-        public String pastRoom;
-        public String currentRoom = "C:\\";
 
-        public GameState(MainForm form) : base(form)
+        public GameState(MainForm form, bool load) : base(form)
         {
-            hero = new Hero(this, 0, 0);
-            room = new Room(this, "C:\\");
-            actionBar = new ActionBar(this, 12, new Bitmap(Properties.Resources.action_bar));
+            if (load)
+            {
+                String[] loadFile = File.ReadAllLines("save");
 
-            for (int i = 0; i < inventory.Length; i++)
-                inventory[i] = new Item[10];
+                hero = new Hero(this, double.Parse(loadFile[0]), double.Parse(loadFile[1]));
+                room = new Room(this, loadFile[2]);
+                actionBar = new ActionBar(this, 12, new Bitmap(Properties.Resources.action_bar));
+
+                for (int i = 0; i < inventory.Length; i++)
+                    inventory[i] = new Item[10];
+            }
+            else
+            {
+                hero = new Hero(this, 0, 0);
+                room = new Room(this, "C:\\");
+                actionBar = new ActionBar(this, 12, new Bitmap(Properties.Resources.action_bar));
+
+                for (int i = 0; i < inventory.Length; i++)
+                    inventory[i] = new Item[10];
+            }
+        }
+
+        public void saveGame()
+        {
+            String[] save = new String[3];
+            save[0] = "" + hero.x;
+            save[1] = "" + hero.y;
+            save[2] = room.currentRoom;
+            File.WriteAllLines("save", save);
         }
 
         public override void mouseUp(object sender, MouseEventArgs e) { }

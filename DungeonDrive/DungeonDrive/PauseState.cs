@@ -13,10 +13,18 @@ namespace DungeonDrive
         private String[] options = new String[]
         {
             "Resume",
+            "Save Game",
+            "Options",
             "Exit"
         };
 
         public PauseState(MainForm form) : base(form) { }
+
+        private void trySaveGame()
+        {
+            GameState gs = (GameState)parent;
+            gs.saveGame();
+        }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
         public override void mouseDown(object sender, MouseEventArgs e) { }
@@ -44,6 +52,10 @@ namespace DungeonDrive
                 if (selection == 0)
                     this.close();
                 else if (selection == 1)
+                    trySaveGame();
+                else if (selection == 2)
+                    this.addChildState(new OptionsState(form), true);
+                else if (selection == 3)
                     parent.close();
             }
 

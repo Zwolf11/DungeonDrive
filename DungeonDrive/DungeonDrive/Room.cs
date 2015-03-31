@@ -11,6 +11,7 @@ namespace DungeonDrive
 
         private GameState state;
         public String currentRoom = "C:\\";
+        private String pastRoom;
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
@@ -75,9 +76,7 @@ namespace DungeonDrive
 
         public void generateRoom(string path)
         {
-
-            state.pastRoom = state.currentRoom;
-            state.currentRoom = path;
+            pastRoom = currentRoom;
             currentRoom = path;
 
             rand = new Random(path.GetHashCode());  // random numbers based on path seed
@@ -196,7 +195,7 @@ namespace DungeonDrive
 
             foreach (Stairs stair in stairs)
             {
-                if (stair.path.Equals(state.pastRoom))
+                if (stair.path.Equals(pastRoom))
                 {                                         
                     state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
                     state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
@@ -520,11 +519,11 @@ namespace DungeonDrive
 
                 if (down)
                 {
-                    stairsRand = new Random(string.Concat(state.currentRoom, path).GetHashCode());
+                    stairsRand = new Random(string.Concat(currentRoom, path).GetHashCode());
                 }
                 else
                 {
-                    stairsRand = new Random(string.Concat(path, state.currentRoom).GetHashCode());
+                    stairsRand = new Random(string.Concat(path, currentRoom).GetHashCode());
                 }
 
                 switch ((int)stairsRand.Next(0, 4))
