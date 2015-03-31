@@ -62,11 +62,13 @@ namespace DungeonDrive
         public Font font = new Font("Arial", 10);
         private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
         private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
+        public int maxHallwayWidth = 10;
 
-        public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(x, y, width, height, roomNum) {
+        public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth ) : base(x, y, width, height, roomNum) {
             this.down = down;
             this.path = path;
             this.direction = direction;
+            this.maxHallwayWidth = maxHallwayWidth;
 
             switch (direction)
             {
@@ -89,6 +91,10 @@ namespace DungeonDrive
             }
         }
 
+
+
+
+
         public override void draw(Graphics g)
         {
             if (down)
@@ -109,15 +115,18 @@ namespace DungeonDrive
     public class Door : Obstacle
     {
         public bool vertical;
-        
+        private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
+        private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
 
-        public Door(int x, int y, int width, int height, int roomNum, bool vertical) : base(x,y,width,height, roomNum) {
+        public Door(int x, int y, int width, int height, int roomNum, bool vertical)
+            : base(x, y, width, height, roomNum)
+        {
             this.vertical = vertical;
         }
-  
+
         public override void draw(Graphics g)
         {
-            g.FillRectangle(Brushes.Olive, DrawX, DrawY, G.size * width, G.size * height);
+            g.FillRectangle(Brushes.DarkGray, DrawX, DrawY, G.size * width, G.size * height);
         }
     }
 }

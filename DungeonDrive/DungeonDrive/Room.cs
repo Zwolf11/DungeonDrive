@@ -7,7 +7,7 @@ namespace DungeonDrive
 {
     public class Room
     {
-
+        
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
 
@@ -16,7 +16,7 @@ namespace DungeonDrive
         public int height;
         public List<Obstacle> obstacles = new List<Obstacle>();
         public List<Unit> enemies = new List<Unit>();
-        //public List<Door> doors = new List<Door>();
+        public List<Door> doors = new List<Door>();
         public List<Stairs> stairs = new List<Stairs>();
         public List<int> connectedRooms = new List<int>();
 
@@ -26,6 +26,7 @@ namespace DungeonDrive
         public int[,] roomNumSpace;
         public bool[,] hallwaySpace;
         public bool[,] wallSpace;
+        public bool[,] doorSpace;
 
         public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
@@ -36,6 +37,7 @@ namespace DungeonDrive
         public int numObstacles = 0;
         public int numStairs = 0;
         public int numRooms = 0;
+        public int numChests = 0;
 
         public const int minSizeOfInitRoom = 7;
         public const int maxSizeOfInitRoom = 13;
@@ -44,9 +46,10 @@ namespace DungeonDrive
         public const int minSizeHallway = 2;
         public const int maxSizeHallway = 4;
 
-        public const int maxEnemies = 20;
-        public const int maxObstacles = 100;   // max number of these objects to generate in a room.
+        public const int maxEnemies = 15;
+        public const int maxObstacles = 15;   // max number of these objects to generate in a room.
         public const int maxStairs = 100;
+        public const int maxChests = 2;
 
         public const int minRoomWidth = 20;
         public const int minRoomHeight = 20;
@@ -110,6 +113,7 @@ namespace DungeonDrive
             roomNumSpace = new int[width, height];
             hallwaySpace = new bool[width, height];
             wallSpace = new bool[width, height];
+            doorSpace = new bool[width, height];
             
             for (int i = 0; i < width; i++)
             {
@@ -121,6 +125,7 @@ namespace DungeonDrive
                     roomNumSpace[i, j] = -1;
                     hallwaySpace[i, j] = false;
                     wallSpace[i, j] = false;
+                    doorSpace[i, j] = false;
                 }
             }
 
@@ -187,65 +192,117 @@ namespace DungeonDrive
 
             /////////  CONNECT ROOMS WITH HALLWAYS   ////
 
-            int q = 0;
-            bool[] roomsConnected = new bool[numRooms];
 
 
-            foreach (Stairs stair in stairs)
+            List<Stairs>[] roomStairs = new List<Stairs>[numRooms];
+
+            for (int i = 0; i < numRooms; i++)
             {
-                if (q == 0)
-                {
-                    connectedRooms.Add(stair.roomNum);
+                roomStairs[i] = new List<Stairs>();
+            }
 
+            foreach (Stairs tempStair in stairs)
+            {
+                roomStairs[tempStair.roomNum].Add(tempStair);                   // have an array of lists of stairs sorted by room numbers
+            }
+
+            int staticNumRooms = numRooms;
+
+            int breaker = 0;
+
+            while (true)
+            {
+                int count = 0;
+                foreach (Stairs stair in roomStairs[staticNumRooms - 1])
+                {
+                    count++;
+                }
+                if (count == numStairs || breaker > 100)
+                {
+                    Console.WriteLine(breaker);
+                    breaker++;
+                    break;
                 }
 
-                bool connected = false;
-                // find if roomNum is connected
-                foreach (int num in connectedRooms)
+                for (int i = 0; i < staticNumRooms; i++)              // go through each room
                 {
-                    if (num == stair.roomNum)
-                    {
-                        connected = true;
-                    }
-                }
 
-                if (!connected)
-                {
-                    double shortestDistance = width + height;
-                    Stairs shortestStair = stair;
 
-                    foreach (Stairs stair2 in stairs)
-                    {
+                    double shortestDistance = width + height;       // want to find the shortest distance between any stair in this room and any stair not in this room.
+                    Stairs source = new Stairs(-1, -1, -1, -1, -1, false, "", 'u', -1);                                // stair that the hallway must start from
+                    Stairs closestStair = new Stairs(-1, -1, -1, -1, -1, false, "", 'u', -1);
+                    int roomDest = -1;
 
-                        bool connected2 = false;
 
-                        foreach(int num2 in connectedRooms){
-                            if(num2 == stair2.roomNum){
-                                connected2 = true;
-                            }
-                        }
 
-                        if(connected2){
-                            double dist = distanceBtwnPts(stair.x, stair.y, stair2.x, stair2.y);
-                            if (dist < shortestDistance)
+                    foreach (Stairs stair in roomStairs[i])
+                    {             // evaluate every stair in the current room
+
+                        for (int j = 0; j < staticNumRooms; j++)              // go through each other room and find the closest stair
+                        {
+                            if (i == j) continue;                       // skip current room number, because you are trying to find the shortest distance from stair in room i, to stair in room j.
+
+                            foreach (Stairs stair2 in roomStairs[j])
                             {
-                                shortestDistance = dist;
-                                shortestStair = stair2;
+                                double newDistance;
+                                if ((newDistance = distanceBtwnPts(stair.x, stair.y, stair2.x, stair2.y)) < shortestDistance)           // if the distance between the stairs is smaller than any other one found til this point, update new shortestStair and distance
+                                {
+                                    roomDest = j;
+                                    shortestDistance = newDistance;
+                                    source = stair;
+                                    closestStair = stair2;
+                                }
+
                             }
                         }
+
                     }
 
-                    makeHallway(stair.x, stair.y, shortestStair.x, shortestStair.y);
-                    connectedRooms.Add(stair.roomNum);
+
+                    // closestStair should be accurate
+                    if (source.x != -1 && closestStair.x != -1)         // if a close stair has been found
+                    {
+                        makeHallway(source.x, source.y, closestStair.x, closestStair.y, Math.Min(source.maxHallwayWidth, closestStair.maxHallwayWidth));
+                        // make a hallway between the two.
+
+                        if (roomDest > i)                       // move all the stairs from the lower room, into the higher room
+                        {
+                            foreach (Stairs removeStair in roomStairs[i])
+                            {
+                                roomStairs[roomDest].Add(removeStair);
+                            }
+
+                            roomStairs[i].Clear();
+
+                        }
+                        else
+                        {
+                            foreach (Stairs removeStair in roomStairs[roomDest])
+                            {
+                                roomStairs[i].Add(removeStair);
+                            }
+
+                            roomStairs[roomDest].Clear();
+
+                        }
+
+
+                    }
+
+
+
                 }
-                q++;
             }
 
-            //////////   TRAVERSE ALL FILES   //////////
 
-            for(int i = 0; i < files.Length; i++){
-                matchExtension(Path.GetExtension(files[i]), Path.GetFileName(files[i]));     // match each file extension and spawn the corresponding object
-            }
+            updateFreeSpace();
+
+                //////////   TRAVERSE ALL FILES   //////////
+
+                for (int i = 0; i < files.Length; i++)
+                {
+                    matchExtension(Path.GetExtension(files[i]), Path.GetFileName(files[i]));     // match each file extension and spawn the corresponding object
+                }
 
             // determine hero starting point
             // find stair that matches the pastRoom
@@ -475,17 +532,21 @@ namespace DungeonDrive
             int tHeight = 1;
             int tWidth = 1;
 
-            int sizeOfInitStairRoom = rand.Next(minSizeOfInitRoom, maxSizeOfInitRoom + 1);
-            int radiusInitRoom = (int)((sizeOfInitStairRoom) / 2);
+            int maxHallwayWidth = 2;
+
+            int heightOfInitStairRoom = rand.Next(minSizeOfInitRoom, maxSizeOfInitRoom + 1);
+            int widthOfInitStairRoom = rand.Next(minSizeOfInitRoom, maxSizeOfInitRoom + 1);
+            int heightRadiusInitRoom = (int)((heightOfInitStairRoom) / 2);
+            int widthRadiusInitRoom = (int)((widthOfInitStairRoom) / 2);
 
             do
             {
-                x = rand.Next(2 + radiusInitRoom, width - 4 - radiusInitRoom);
-                y = rand.Next(2 + radiusInitRoom, height - 4 - radiusInitRoom);
+                x = rand.Next(2 + widthRadiusInitRoom, width - 4 - widthRadiusInitRoom);
+                y = rand.Next(2 + heightRadiusInitRoom, height - 4 - heightRadiusInitRoom);
             } while (!freeSpace[x, y] || !freeSpace[x + xDirFromChar(direction), y + yDirFromChar(direction)] || roomNumSpace[x, y] != -1);
 
 
-            int maxRandom = (int) Math.Pow(sizeOfInitStairRoom, 2) - (4 * sizeOfInitStairRoom) + 2;   // indicates how many non-border cells there are. We don't want the stairs to be on a border to avoid adjacent stair tiles.
+            int maxRandom = (int) widthOfInitStairRoom * heightOfInitStairRoom - (2 * (widthOfInitStairRoom + heightOfInitStairRoom)) + 2;   // indicates how many non-border cells there are. We don't want the stairs to be on a border to avoid adjacent stair tiles.
 
             int stairLocation = rand.Next(0, maxRandom);
             int counter = 0;
@@ -494,28 +555,66 @@ namespace DungeonDrive
 
             
 
-            for (int i = 0; i < sizeOfInitStairRoom; i++)
+            for (int i = -1; i <= widthOfInitStairRoom; i++)
             {
-                for (int j = 0; j < sizeOfInitStairRoom; j++)
+                for (int j = -1; j <= heightOfInitStairRoom; j++)
                 {
-                    if (i != 0 && i != sizeOfInitStairRoom - 1 && j != 0 && j != sizeOfInitStairRoom - 1)
+                    if (i == -1 || i == widthOfInitStairRoom || j == -1 || j == heightOfInitStairRoom)
                     {
-                        // a non-border cell.
-                        if(counter == stairLocation){
-                            stairX = x + i - radiusInitRoom;
-                            stairY = y + j - radiusInitRoom;
+                        if (roomNumSpace[x + i - widthRadiusInitRoom, y + j - heightRadiusInitRoom] == -1)
+                        {
+                            wallSpace[x + i - widthRadiusInitRoom, y + j - heightRadiusInitRoom] = true;
                         }
-                        counter++;
+
+                    } else{
+
+                        if (wallSpace[x + i - widthRadiusInitRoom, y + j - heightRadiusInitRoom])
+                        {
+                            wallSpace[x + i - widthRadiusInitRoom, y + j - heightRadiusInitRoom] = false;
+                        }
+
+                        if (i != 0 && i != widthOfInitStairRoom - 1 && j != 0 && j != heightOfInitStairRoom - 1)
+                        {
+                            // a non-border cell.
+                            if (counter == stairLocation)
+                            {
+
+                                stairX = x + i - widthRadiusInitRoom;
+                                stairY = y + j - heightRadiusInitRoom;
+
+                                //wallSpace[stairX, stairY] = true;
+
+                                int minimumDistToWall = 10;
+                                minimumDistToWall = Math.Min(minimumDistToWall, i);
+                                minimumDistToWall = Math.Min(minimumDistToWall, j);
+                                minimumDistToWall = Math.Min(minimumDistToWall, (widthOfInitStairRoom - 1) - i);
+                                minimumDistToWall = Math.Min(minimumDistToWall, (heightOfInitStairRoom - 1) - j);
+
+                                maxHallwayWidth = 2 * minimumDistToWall;
+
+                            }
+                            counter++;
+                        }
                     }
-                    mergeRoom((x - radiusInitRoom) + i, (y - radiusInitRoom) + j, numRooms); 
+                    
+                    mergeRoom((x - widthRadiusInitRoom) + i, (y - heightRadiusInitRoom) + j, numRooms); 
                 }
             }
 
-            stairs.Add(new Stairs(stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction));
+            stairs.Add(new Stairs(stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth));
 
             stairSpace[stairX, stairY] = true;
-            freeSpace[stairX, stairY] = false;
-            freeSpace[stairX + xDirFromChar(direction), stairY + yDirFromChar(direction)] = false;
+
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    freeSpace[stairX + i,stairY + j] = false;
+                }
+            }
+
+            //freeSpace[stairX, stairY] = false;
+            //freeSpace[stairX + xDirFromChar(direction), stairY + yDirFromChar(direction)] = false;
 
             numRooms++;
             numStairs++;
@@ -689,87 +788,373 @@ namespace DungeonDrive
 
             for(int i = 0; i < width; i++){
                 for (int j = 0; j < height; j++){
-                    if(roomNumSpace[i,j] == -1){
+                    if(roomNumSpace[i,j] == -1 || wallSpace[i,j]){
                         walkingSpace[i, j] = false;
+                    }
+                }
+            }
+
+            foreach (Door door in doors)
+            {
+                for (int i = 0; i < door.width; i++)
+                {
+                    for (int j = 0; j < door.height; j++)
+                    {
+                        wallSpace[door.x + i, door.y + j] = false;
+                        walkingSpace[door.x + i, door.y + j] = true;
                     }
                 }
             }
 
         }
 
-        public void makeHallway(int x1, int y1, int x2, int y2)
+        public void updateFreeSpace()
         {
-            int wide = (int) rand.Next(minSizeHallway, maxSizeHallway + 1);
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (wallSpace[i, j])
+                    {
+                        freeSpace[i, j] = false;
+                    }
+
+
+                }
+            }
+        }
+
+        public void makeHallway(int x1, int y1, int x2, int y2, int maxHSize)
+        {
+            int upperHallwaySize = Math.Min(maxHSize, maxSizeHallway);
+            int wide = (int) rand.Next(minSizeHallway, upperHallwaySize + 1);
             int deltaX = x1 - x2;
             int deltaY = y1 - y2;
 
             int hallwayNum = numRooms;
 
+            int halfwayInc = (int) (wide - 1) / 2;
+
+            int door1Loc = rand.Next(0, wide - 1);
+            int door2Loc = rand.Next(0, wide - 1);
+
+            door1Loc = door2Loc = 0;
+
+            // add an if statement here saying if it is a short hallway to just tear down all walls in it's path
+
+            int doorCounter = 0;
+            bool door1ShouldBePlaced = false;
+            bool door2ShouldBePlaced = false;
+
+            bool door1Placed = false;
+            bool door2Placed = false;
+
             if (deltaX <= 0)
             {
                 // x1 < x2
-                for (; x1 < x2; x1++)
+                for (; x1 < x2 + (wide - halfwayInc); x1++)
                 {
-                    for (int i = 0; i < wide; i++)
+                    if (!door1Placed)
                     {
-                        walkingSpace[x1, y1 - 1 + i] = true;
-                        if (roomNumSpace[x1, y1 - 1 + i] == -1)
+                        if (wallSpace[x1, y1] && roomNumSpace[x1, y1] != hallwayNum && roomNumSpace[x1, y1] != -1)
                         {
-                            roomNumSpace[x1, y1 - 1 + i] = hallwayNum;
-                            hallwaySpace[x1, y1 - 1 + i] = true;
+                            door1ShouldBePlaced = true;
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
+                    else if (!door2Placed)
+                    {
+                        if (wallSpace[x1, y1] && roomNumSpace[x1, y1] != hallwayNum && roomNumSpace[x1, y1] != -1)
+                        {
+                            door2ShouldBePlaced = true;
+
+                        }
+                        
+
+                    }
+
+                    doorCounter = 0;
+
+                    for (int i = -1; i <= wide; i++)
+                    {
+                        if (i == -1 || i == wide)
+                        {
+                            if (roomNumSpace[x1, y1 - halfwayInc + i] == -1)
+                            {
+                                wallSpace[x1, y1 - halfwayInc + i] = true;
+                            }
+                        }
+                        else
+                        {
+                            if (door1ShouldBePlaced && doorCounter == door1Loc){ 
+                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doorSpace[x1, y1 - halfwayInc + i] = true;
+                                wallSpace[x1, y1 - halfwayInc + i] = false;
+                                door1Placed = true;
+                                door1ShouldBePlaced = false;
+                                
+                            } else if(door2ShouldBePlaced && doorCounter == door2Loc){
+                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doorSpace[x1, y1 - halfwayInc + i] = true;
+                                wallSpace[x1, y1 - halfwayInc + i] = false;
+                                door2Placed = true;
+                                door2ShouldBePlaced = false;
+                            }
+                            doorCounter++;
+
+                            walkingSpace[x1, y1 - halfwayInc + i] = true;
+
+                            
+                        }
+
+                        if (roomNumSpace[x1, y1 - halfwayInc + i] == -1)
+                        {
+                            roomNumSpace[x1, y1 - halfwayInc + i] = hallwayNum;
+                            hallwaySpace[x1, y1 - halfwayInc + i] = true;
+                        }
+                        
+                        
+                    }
                 }
-                x1 -= (int) Math.Ceiling((double) wide / 2.0);
+               // x1 -= halfwayInc;
             }
             else
             {
-                for (; x1 > x2; x1--)
+                for (; x1 >= x2 - (halfwayInc); x1--)
                 {
-                    for (int i = 0; i < wide; i++)
+
+                    if (!door1Placed)
                     {
-                        walkingSpace[x1, y1 - 1 + i] = true;
-                        if (roomNumSpace[x1, y1 - 1 + i] == -1)
+                        if (wallSpace[x1, y1] && roomNumSpace[x1, y1] != hallwayNum && roomNumSpace[x1, y1] != -1)
                         {
-                            roomNumSpace[x1, y1 - 1 + i] = hallwayNum;
-                            hallwaySpace[x1, y1 - 1 + i] = true;
+                            door1ShouldBePlaced = true;
+                        }
+                        else
+                        {
+                            continue;
                         }
                     }
+                    else if (!door2Placed)
+                    {
+                        if (wallSpace[x1, y1] && roomNumSpace[x1, y1] != hallwayNum && roomNumSpace[x1,y1] != -1)
+                        {
+                            door2ShouldBePlaced = true;
+
+                        }
+                        
+
+                    }
+
+                    for (int i = -1; i <= wide; i++)
+                    {
+                        if (i == -1 || i == wide)
+                        {
+                            if (roomNumSpace[x1, y1 - halfwayInc + i] == -1)
+                            {
+                                wallSpace[x1, y1 - halfwayInc + i] = true;
+                            }
+                        }
+                        else
+                        {
+                            if (door1ShouldBePlaced && doorCounter == door1Loc)
+                            {
+                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doorSpace[x1, y1 - halfwayInc + i] = true;
+                                wallSpace[x1, y1 - halfwayInc + i] = false;
+                                door1Placed = true;
+                                door1ShouldBePlaced = false;
+
+                            }
+                            else if (door2ShouldBePlaced && doorCounter == door2Loc)
+                            {
+                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doorSpace[x1, y1 - halfwayInc + i] = true;
+                                wallSpace[x1, y1 - halfwayInc + i] = false;
+                                door2Placed = true;
+                                door2ShouldBePlaced = false;
+                            }
+                            doorCounter++;
+
+                            walkingSpace[x1, y1 - halfwayInc + i] = true;
+
+                            
+                        }
+
+                        if (roomNumSpace[x1, y1 - halfwayInc + i] == -1)
+                        {
+                            roomNumSpace[x1, y1 - halfwayInc + i] = hallwayNum;
+                            hallwaySpace[x1, y1 - halfwayInc + i] = true;
+                        }
+                        
+                    }
                 }
-                x1 += (int) Math.Ceiling((double) wide / 2);
+                //x1 += halfwayInc;
             }
+
+            
 
 
             if(deltaY < 0){
 
-                //y1 -= (int)((double)wide / 2.0);
+                y1 -= halfwayInc;
                
-                for (; y1 < y2; y1++)
+                for (; y1 <= y2; y1++)
                 {
-                    for (int i = 0; i < wide; i++)
+
+                    if (!door1Placed)
                     {
-                        walkingSpace[x1 - 1 + i, y1] = true;
-                        if (roomNumSpace[x1 - 1 + i, y1] == -1)
+                        if (wallSpace[x2, y1] && roomNumSpace[x2, y1] != hallwayNum && roomNumSpace[x2, y1] != -1)
                         {
-                            roomNumSpace[x1 - 1 + i, y1] = hallwayNum;
-                            hallwaySpace[x1 - 1 + i, y1] = true;
+                            door1ShouldBePlaced = true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else if (!door2Placed)
+                    {
+                        if (wallSpace[x2, y1] && roomNumSpace[x2, y1] != hallwayNum && roomNumSpace[x2, y1] != -1)
+                        {
+                            door2ShouldBePlaced = true;
+
+                        }
+
+
+                    }
+
+                    doorCounter = 0;
+
+                    for (int i = -1; i <= wide; i++)
+                    {
+                        if (i == -1 || i == wide)
+                        {
+                            if (roomNumSpace[x2 - halfwayInc + i, y1] == -1)
+                            {
+                                wallSpace[x2 - halfwayInc + i, y1] = true;
+
+                            }
+                        }
+                        else
+                        {
+
+                            if (door1ShouldBePlaced && doorCounter == door1Loc)
+                            {
+                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doorSpace[x2 - halfwayInc + i, y1] = true;
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                                door1Placed = true;
+                                door1ShouldBePlaced = false;
+
+                            }
+                            else if (door2ShouldBePlaced && doorCounter == door2Loc)
+                            {
+                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doorSpace[x2 - halfwayInc + i, y1] = true;
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                                door2Placed = true;
+                                door2ShouldBePlaced = false;
+                            }
+                            doorCounter++;
+
+                            walkingSpace[x2 - halfwayInc + i, y1] = true;
+
+                            if (wallSpace[x2 - halfwayInc + i, y1] && roomNumSpace[x2 - halfwayInc + i, y1] == hallwayNum)
+                            {
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                            }
+                        }
+
+                        
+
+                        walkingSpace[x2 - halfwayInc + i, y1] = true;
+                        if (roomNumSpace[x2 - halfwayInc + i, y1] == -1)
+                        {
+                            roomNumSpace[x2 - halfwayInc + i, y1] = hallwayNum;
+                            hallwaySpace[x2 - halfwayInc + i, y1] = true;
                         }
                     }
                 }
             }
             else
             {
-                //y1 += (int)((double)wide / 2.0);
+                y1 +=  wide - halfwayInc;
 
-                for (; y1 > y2; y1--)
+                for (; y1 >= y2; y1--)
                 {
-                    for (int i = 0; i < wide; i++)
+
+                    if (!door1Placed)
                     {
-                        walkingSpace[x1 - 1 + i, y1] = true;
-                        if (roomNumSpace[x1 - 1 + i, y1] == -1)
+                        if (wallSpace[x2, y1] && roomNumSpace[x2, y1] != hallwayNum && roomNumSpace[x2, y1] != -1)
                         {
-                            roomNumSpace[x1 - 1 + i, y1] = hallwayNum;
-                            hallwaySpace[x1 - 1 + i, y1] = true;
+                            door1ShouldBePlaced = true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else if (!door2Placed)
+                    {
+                        if (wallSpace[x2, y1] && roomNumSpace[x2, y1] != hallwayNum && roomNumSpace[x2, y1] != -1)
+                        {
+                            door2ShouldBePlaced = true;
+
+                        }
+
+
+                    }
+                    doorCounter = 0;
+
+                    for (int i = -1; i <= wide; i++)
+                    {
+                        if (i == -1 || i == wide)
+                        {
+                            if (roomNumSpace[x2 - halfwayInc + i, y1] == -1)
+                            {
+                                wallSpace[x2 - halfwayInc + i, y1] = true;
+                            }
+                        }
+                        else
+                        {
+                            if (door1ShouldBePlaced && doorCounter == door1Loc)
+                            {
+                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doorSpace[x2 - halfwayInc + i, y1] = true;
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                                door1Placed = true;
+                                door1ShouldBePlaced = false;
+
+                            }
+                            else if (door2ShouldBePlaced && doorCounter == door2Loc)
+                            {
+                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doorSpace[x2 - halfwayInc + i, y1] = true;
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                                door2Placed = true;
+                                door2ShouldBePlaced = false;
+                            }
+                            doorCounter++;
+
+
+                            walkingSpace[x2 - halfwayInc + i, y1] = true;
+
+                            if (wallSpace[x2 - halfwayInc + i, y1] && roomNumSpace[x2 - halfwayInc + i, y1] == hallwayNum)
+                            {
+                                wallSpace[x2 - halfwayInc + i, y1] = false;
+                            }
+                        }
+
+                        
+
+                        walkingSpace[x2 - halfwayInc + i, y1] = true;
+                        if (roomNumSpace[x2 - halfwayInc + i, y1] == -1)
+                        {
+                            roomNumSpace[x2 - halfwayInc + i, y1] = hallwayNum;
+                            hallwaySpace[x2 - halfwayInc + i, y1] = true;
                         }
                     }
                 }
@@ -803,6 +1188,10 @@ namespace DungeonDrive
 
                         //g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), G.size, G.size);
                     }
+                    
+                    if(wallSpace[i,j]){
+                        g.FillRectangle(Brushes.BurlyWood, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size * 1, G.size * 1);
+                    }
                     //else
                     //{
                     //    g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
@@ -820,8 +1209,9 @@ namespace DungeonDrive
             foreach (Unit enemy in enemies)
                 enemy.draw(g);
 
-            /*foreach (Door door in doors)
-                door.draw(g);*/
+            foreach (Door door in doors) {  
+                door.draw(g);
+            }
         }
 
     }
