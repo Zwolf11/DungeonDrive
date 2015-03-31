@@ -9,7 +9,7 @@ namespace DungeonDrive
         public static int dmg = 1;
         public static double atk_speed = 0.5;
         public static double proj_speed = 0.8;
-        public static double proj_range = 10;
+        public static int proj_range = 10;
         public static AtkStyle style = AtkStyle.Basic;
         public static double slowSec = 1;
         public static double slowFac = 0.3;

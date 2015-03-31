@@ -20,6 +20,7 @@ namespace DungeonDrive
         private SoundPlayer attack2;
         private SoundPlayer attack3;
         private SoundPlayer level_up;
+        private Random r;
 
         public float dir = 0;
         private bool shooting = false;
@@ -42,6 +43,7 @@ namespace DungeonDrive
 
             // for testing
             this.atk_dmg = 100;
+            r = new Random();
 
             Projectile.style = Projectile.AtkStyle.Frozen;
 
@@ -181,11 +183,8 @@ namespace DungeonDrive
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
+                    getRdnWeapon();
                     
-                    // new weapon
-                    Weapon something = new Weapon(2, "hello", Properties.Resources.fire);
-                    something.atk_damage = WeaponStats.atk_damage[0];
-
                     state.room.enemies.Remove(deletingEnemy);
                 }
                 deletingList.Clear();
@@ -199,6 +198,23 @@ namespace DungeonDrive
             }
         }
 
+        private double rdnDouble(double first, double second)
+        { return Math.Round(r.NextDouble() * (second - first) + first,2); }
+
+        private void getRdnWeapon()
+        {
+            // new weapon
+            Weapon newWeapon = new Weapon(0, "rdn_name", Properties.Resources.fire);
+            newWeapon.atk_damage = r.Next(WeaponStats.atk_damage[0], WeaponStats.atk_damage[1]);
+            newWeapon.atk_speed = rdnDouble(WeaponStats.atk_speed[0], WeaponStats.atk_speed[1]);
+            newWeapon.proj_speed = rdnDouble(WeaponStats.proj_speed[0], WeaponStats.proj_speed[1]);
+            newWeapon.range = r.Next(WeaponStats.range[0], WeaponStats.range[1]);
+            newWeapon.slowSec = rdnDouble(WeaponStats.slowSec[0], WeaponStats.slowSec[1]);
+            newWeapon.slowFac = rdnDouble(WeaponStats.slowFac[0], WeaponStats.slowFac[1]);
+            newWeapon.style = (AtkStyle)r.Next(0, 3);
+            newWeapon.setDesc();
+            Console.WriteLine(newWeapon.itemDesc);
+        }
 
         public void basicAtk()
         {
@@ -250,6 +266,14 @@ namespace DungeonDrive
             this.exp -= this.expcap;
             this.expcap *= 1.5;
             this.level += 1;
+
+            //update weapon system
+            WeaponStats.atk_damage[0] += 1;
+            WeaponStats.atk_damage[1] += 1;
+            WeaponStats.atk_speed[0] /= 1.1;
+            WeaponStats.atk_speed[1] /= 1.1;
+            WeaponStats.proj_speed[0] /= 1.1;
+            WeaponStats.proj_speed[1] /= 1.1;
 
             /*
              * this only works for current room

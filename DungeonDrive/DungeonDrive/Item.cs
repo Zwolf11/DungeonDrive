@@ -51,7 +51,7 @@ namespace DungeonDrive
         public int atk_damage;
         public double atk_speed;
         public double proj_speed;
-        public double range;
+        public int range;
         public double slowSec;
         public double slowFac;
         public AtkStyle style;
@@ -62,6 +62,20 @@ namespace DungeonDrive
             this.itemID = id;
             this.itemName = name;
             this.itemImage = image;
+        }
+
+        public void setDesc()
+        {
+            this.itemDesc = this.itemName
+                + "\nATT: " + style.ToString()
+                + "\nDMG: " + this.atk_damage
+                + "\nATK SPD: " + this.atk_speed
+                + "\nPRJ SPD: " + this.proj_speed
+                + "\nRNG: " + this.range;
+
+            if (this.style == AtkStyle.Frozen)
+                itemDesc += "\nSLW SEC: " + this.slowSec
+                + "\nSLW FAC: " + this.slowFac;
         }
     }
 
