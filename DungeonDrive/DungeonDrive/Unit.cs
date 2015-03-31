@@ -6,6 +6,7 @@ namespace DungeonDrive
 {
     public abstract class Unit
     {
+        protected GameState state;
         public double x;
         public double y;
         public double origin_x;
@@ -38,11 +39,12 @@ namespace DungeonDrive
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
-        public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
-        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size - state.size * radius); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
-        public Unit(double x, double y)
+        public Unit(GameState state, double x, double y)
         {
+            this.state = state;
             this.x = x;
             this.y = y;
             for (int i = 0; i < atk_cd.Length; i++) atk_cd[i] = true;
@@ -78,10 +80,10 @@ namespace DungeonDrive
         }
 
         public void drawHpBar(Graphics g)
-        {   g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * G.size * this.hp / this.full_hp), 2); }
+        {   g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * state.size * this.hp / this.full_hp), 2); }
 
         public void drawFileName(Graphics g)
-        {   g.DrawString(filename, G.txtFont, Brushes.White, new PointF(DrawX, DrawY - G.size / 2));   }
+        {   g.DrawString(filename, state.font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));   }
 
         public void addName(String filename)
         {   this.filename = filename;   }
@@ -92,7 +94,7 @@ namespace DungeonDrive
             unit.y_dist = y_dist;
             unit.x_final = unit.x + unit.x_dist;
             unit.y_final = unit.y + unit.y_dist;
-            unit.sleep_sec = sleep_sec * G.tickInt;
+            unit.sleep_sec = sleep_sec * 17;
             unit.knockback = true;
         }
 
@@ -119,24 +121,24 @@ namespace DungeonDrive
             int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
             int height = (int)(radius * 2 + (yNext - (int)yNext < radius || 1 - (yNext - (int)yNext) < radius ? 2 : 1));
 
-            bool canMove = left >= 0 && left + width < G.room.width && top >= 0 && top + height < G.room.height;
+            bool canMove = left >= 0 && left + width < state.room.width && top >= 0 && top + height < state.room.height;
 
             for (int i = left; canMove && i < left + width; i++)
                 for (int j = top; canMove && j < top + height; j++)
-                    canMove = G.room.walkingSpace[i, j];
+                    canMove = state.room.walkingSpace[i, j];
 
-            if (this != G.hero)
+            if (this != state.hero)
             {
-                foreach (Unit unit in G.room.enemies)
+                foreach (Unit unit in state.room.enemies)
                     if (this != unit && Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                         return false;
             }
             else
             {
-                foreach (Stairs stairs in G.room.stairs)
+                foreach (Stairs stairs in state.room.stairs)
                     if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius)
                     {
-                        G.room = new Room(stairs.path);
+                        state.room = new Room(state, stairs.path);
                         return false;
                     }
             }

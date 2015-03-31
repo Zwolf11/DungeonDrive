@@ -5,6 +5,7 @@ namespace DungeonDrive
 {
     public class Projectile
     {
+        private GameState state;
         public static int dmg = 1;
         public static double atk_speed = 0.5;
         public static double speed = 0.8;
@@ -18,8 +19,8 @@ namespace DungeonDrive
         public double x_speed, y_speed;
         public double radius = 0.3;
 
-        public int DrawX { get { return (int)(x * G.size + G.width / 2 - G.hero.x * G.size - G.size * radius); } }
-        public int DrawY { get { return (int)(y * G.size + G.height / 2 - G.hero.y * G.size - G.size * radius); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size - state.size * radius); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
         public enum AtkStyle
         {
@@ -28,8 +29,9 @@ namespace DungeonDrive
             Frozen
         }
 
-        public Projectile(double x, double y, double x_dir, double y_dir)
+        public Projectile(GameState state, double x, double y, double x_dir, double y_dir)
         {
+            this.state = state;
             this.x = x;
             this.y = y;
             this.x_origin = x;
@@ -41,7 +43,7 @@ namespace DungeonDrive
         public void tryMove(double xNext, double yNext)
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= range)
-                G.hero.removeProj(this);
+                state.hero.removeProj(this);
 
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
@@ -50,10 +52,10 @@ namespace DungeonDrive
 
             for (int i = left; i < left + width; i++)
                 for (int j = top; j < top + height; j++)
-                    if (i < 0 || i >= G.room.width || j < 0 || j >= G.room.height || !G.room.walkingSpace[i, j])
-                        G.hero.removeProj(this);
+                    if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
+                        state.hero.removeProj(this);
             
-            foreach (Unit unit in G.room.enemies)
+            foreach (Unit unit in state.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
                     unit.hp -= Projectile.dmg;
@@ -62,9 +64,9 @@ namespace DungeonDrive
                         Console.WriteLine("Frozen");
                         unit.slow(Projectile.slowSec, Projectile.slowFac);
                     }
-                    G.hero.removeProj(this);
+                    state.hero.removeProj(this);
                     if (unit.hp <= 0)
-                        G.hero.deletingList.Add(unit);
+                        state.hero.deletingList.Add(unit);
                 }
             
             x = xNext;
@@ -78,7 +80,7 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
-            g.DrawImage(G.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size)));
+            g.DrawImage(Properties.Resources.fire, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
         }
     }
 }

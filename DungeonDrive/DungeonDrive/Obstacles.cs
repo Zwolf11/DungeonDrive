@@ -5,17 +5,19 @@ namespace DungeonDrive
 {
     public abstract class Obstacle
     {
+        protected GameState state;
         public int x;
         public int y;
         public int width;
         public int height;
         public int roomNum;
 
-        public int DrawX { get { return (int)(G.width / 2 + x * G.size - G.hero.x * G.size); } }
-        public int DrawY { get { return (int)(G.height / 2 + y * G.size - G.hero.y * G.size); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size); } }
 
-        public Obstacle(int x, int y, int width, int height, int roomNum)
+        public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
         {
+            this.state = state;
             this.x = x;
             this.y = y;
             this.width = width;
@@ -30,12 +32,12 @@ namespace DungeonDrive
     {
         private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
 
-        public Pillar(int x, int y, int width, int height, int roomNum) : base(x, y, width, height, roomNum) { }
+        public Pillar(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
 
-        public override void draw(Graphics g) { 
-
-            g.FillRectangle(Brushes.Gray, DrawX, DrawY, G.size * width, G.size * height);
-            g.DrawImage(img, DrawX, DrawY, G.size, G.size);
+        public override void draw(Graphics g)
+        { 
+            g.FillRectangle(Brushes.Gray, DrawX, DrawY, state.size * width, state.size * height);
+            //g.DrawImage(img, DrawX, DrawY, state.size, state.size);
         }
     }
 
@@ -43,12 +45,11 @@ namespace DungeonDrive
     {
         private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
 
-        public Chest(int x, int y, int width, int height, int roomNum) : base(x, y, width, height, roomNum) { }
+        public Chest(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
 
         public override void draw(Graphics g)
         {
-
-            g.DrawImage(img, DrawX, DrawY, G.size, G.size);
+            g.DrawImage(img, DrawX, DrawY, state.size, state.size);
         }
     }
 
@@ -63,7 +64,7 @@ namespace DungeonDrive
         private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
         private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
 
-        public Stairs(int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(x, y, width, height, roomNum) {
+        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction ) : base(state, x, y, width, height, roomNum) {
             this.down = down;
             this.path = path;
             this.direction = direction;
@@ -93,16 +94,16 @@ namespace DungeonDrive
         {
             if (down)
             {
-                g.DrawImage(stairDown, DrawX, DrawY, G.size * width, G.size * height);
-                //g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, G.size * width, G.size * height);
+                g.DrawImage(stairDown, DrawX, DrawY, state.size * width, state.size * height);
+                //g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, state.size * width, state.size * height);
             }
             else
             {
-                g.DrawImage(stairUp, DrawX, DrawY, G.size * width, G.size * height);
-                //g.FillRectangle(Brushes.Green, DrawX, DrawY, G.size * width, G.size * height);
+                g.DrawImage(stairUp, DrawX, DrawY, state.size * width, state.size * height);
+                //g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
             }
 
-            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.White, new PointF(DrawX, DrawY - G.size / 2));
+            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
         }
     }
 
@@ -111,13 +112,13 @@ namespace DungeonDrive
         public bool vertical;
         
 
-        public Door(int x, int y, int width, int height, int roomNum, bool vertical) : base(x,y,width,height, roomNum) {
+        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical) : base(state, x,y,width,height, roomNum) {
             this.vertical = vertical;
         }
   
         public override void draw(Graphics g)
         {
-            g.FillRectangle(Brushes.Olive, DrawX, DrawY, G.size * width, G.size * height);
+            g.FillRectangle(Brushes.Olive, DrawX, DrawY, state.size * width, state.size * height);
         }
     }
 }

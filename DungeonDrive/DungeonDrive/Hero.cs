@@ -9,8 +9,8 @@ namespace DungeonDrive
 {
     public class Hero : Unit
     {
-        new public int DrawX { get { return (int)(G.width / 2 - G.size * radius); } }
-        new public int DrawY { get { return (int)(G.height / 2 - G.size * radius); } }
+        new public int DrawX { get { return (int)(state.form.Width / 2 - state.size * radius); } }
+        new public int DrawY { get { return (int)(state.form.Height / 2 - state.size * radius); } }
 
         public List<Projectile> projectiles = new List<Projectile>();
         private List<Projectile> deletingProj = new List<Projectile>();
@@ -21,12 +21,14 @@ namespace DungeonDrive
         private SoundPlayer attack3;
         private SoundPlayer level_up;
 
-        private float dir = 0;
+        public float dir = 0;
         private bool shooting = false;
         public bool alive = true;
+        public bool[] dirs = { false, false, false, false };
+        public bool[] attacks = { false, false, false };
 
-        public Hero(double x, double y)
-            : base(x, y)
+        public Hero(GameState state, double x, double y)
+            : base(state, x, y)
         {
             this.hp = 20;
             this.full_hp = hp;
@@ -53,9 +55,9 @@ namespace DungeonDrive
 
         private void handleCursor()
         {
-            foreach (Unit enemy in G.room.enemies)
+            foreach (Unit enemy in state.room.enemies)
             {
-                if (Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * G.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * G.size), 2)) <= enemy.radius * G.size)
+                if (Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size)
                     enemy.displayname = true;
                 else
                     enemy.displayname = false;
@@ -68,19 +70,19 @@ namespace DungeonDrive
                 knockBacked();
 
             // get cursor dir
-            dir = (float)Math.Atan2(Cursor.Position.Y - (G.height / 2), Cursor.Position.X - (G.width / 2));
+            dir = (float)Math.Atan2(Cursor.Position.Y - (state.form.Height / 2), Cursor.Position.X - (state.form.Width / 2));
 
             double xNext = x;
             double yNext = y;
 
-            if (G.keys.ContainsKey(Keys.W) && !G.keys.ContainsKey(Keys.S))
+            if (dirs[0] && !dirs[2])
             {
-                if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
+                if (dirs[1] && !dirs[3])
                 {
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
                 }
-                else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
+                else if (dirs[3] && !dirs[1])
                 {
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y - Math.Sqrt(2) / 2 * speed;
@@ -88,14 +90,14 @@ namespace DungeonDrive
                 else
                     yNext = y - speed;
             }
-            else if (G.keys.ContainsKey(Keys.S) && !G.keys.ContainsKey(Keys.W))
+            else if (dirs[2] && !dirs[0])
             {
-                if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
+                if (dirs[1] && !dirs[3])
                 {
                     xNext = x - Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
                 }
-                else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
+                else if (dirs[3] && !dirs[1])
                 {
                     xNext = x + Math.Sqrt(2) / 2 * speed;
                     yNext = y + Math.Sqrt(2) / 2 * speed;
@@ -103,9 +105,9 @@ namespace DungeonDrive
                 else
                     yNext = y + speed;
             }
-            else if (G.keys.ContainsKey(Keys.A) && !G.keys.ContainsKey(Keys.D))
+            else if (dirs[1] && !dirs[3])
                 xNext = x - speed;
-            else if (G.keys.ContainsKey(Keys.D) && !G.keys.ContainsKey(Keys.A))
+            else if (dirs[3] && !dirs[1])
                 xNext = x + speed;
 
             tryMove(xNext, yNext);
@@ -114,21 +116,23 @@ namespace DungeonDrive
         private void handleAttacking()
         {
             // toggle melee/projectiles
-            if (G.keys.ContainsKey(Keys.T))
+            if (attacks[2])
             {
                 if (atk_cd[4])
                 {
                     shooting = !shooting;
                     cd(1, 4);
                 }
+
+                attacks[2] = false;
             }
 
             // knockback skill
-            if (G.keys.ContainsKey(Keys.E))
+            if (attacks[0])
             {
                 if (atk_cd[1])
                 {
-                    foreach (Unit enemy in G.room.enemies)
+                    foreach (Unit enemy in state.room.enemies)
                     {
                         if (Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
                         {
@@ -143,42 +147,45 @@ namespace DungeonDrive
                     }
                     cd(2, 1);
                 }
+
+                attacks[0] = false;
             }
 
             // delete skill; doesn't actually delete the file, but moves it into a 'graveyard' directory in C:\
-            if (G.keys.ContainsKey(Keys.R))
+            if (attacks[1])
             {
-                if (!Directory.Exists(G.graveyard))
+                if (!Directory.Exists(state.graveyard))
                 {
-                    Directory.CreateDirectory(G.graveyard);
+                    Directory.CreateDirectory(state.graveyard);
                 }
 
                 if (atk_cd[3])
                 {
-                    foreach (Unit enemy in G.room.enemies)
+                    foreach (Unit enemy in state.room.enemies)
                     {
                         if (Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
                         {
                             deletingList.Add(enemy);
-                            File.Move(G.currentRoom + "\\" + enemy.filename, G.graveyard + "\\" + enemy.filename);
+                            File.Move(state.room.currentRoom + "\\" + enemy.filename, state.graveyard + "\\" + enemy.filename);
                         }
                     }
                     cd(5, 3);
                 }
-            }
 
+                attacks[1] = false;
+            }
 
             if (deletingList.Count > 0)
             {
                 foreach (Unit deletingEnemy in deletingList)
                 {
-                    if (G.currentRoom.Equals(G.graveyard))
+                    if (state.room.currentRoom.Equals(state.graveyard))
                     {
-                        Console.WriteLine(G.currentRoom);
+                        Console.WriteLine(state.room.currentRoom);
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
-                    G.room.enemies.Remove(deletingEnemy);
+                    state.room.enemies.Remove(deletingEnemy);
                 }
                 deletingList.Clear();
             }
@@ -198,7 +205,7 @@ namespace DungeonDrive
             // melee
             if (!shooting && atk_cd[0])
             {
-                foreach (Unit enemy in G.room.enemies)
+                foreach (Unit enemy in state.room.enemies)
                 {
                     if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
                     {
@@ -218,7 +225,7 @@ namespace DungeonDrive
             if (shooting && atk_cd[2])
             {
                 attack3.Play();
-                projectiles.Add(new Projectile(x, y, Math.Cos(dir), Math.Sin(dir)));
+                projectiles.Add(new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir)));
                 cd(Projectile.atk_speed, 2);
             }
         }
@@ -244,13 +251,13 @@ namespace DungeonDrive
 
             /*
              * this only works for current room
-            for (int i = 0; i < G.room.enemies.Count; i++)
+            for (int i = 0; i < state.room.enemies.Count; i++)
             {
-                G.room.enemies[i].full_hp += 5;
-                G.room.enemies[i].hp = G.room.enemies[i].full_hp;
-                G.room.enemies[i].atk_dmg += 3;
-                G.room.enemies[i].speed *= 0.01;
-                G.room.enemies[i].level++;
+                state.room.enemies[i].full_hp += 5;
+                state.room.enemies[i].hp = state.room.enemies[i].full_hp;
+                state.room.enemies[i].atk_dmg += 3;
+                state.room.enemies[i].speed *= 0.01;
+                state.room.enemies[i].level++;
             }
              */
         }
@@ -270,27 +277,27 @@ namespace DungeonDrive
         }
 
         public void drawExpBar(Graphics g)
-        { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * G.size * this.exp / this.expcap), 2); }
+        { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
         
         public override void draw(Graphics g)
         {
             if (!alive)
             {
-                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(G.width / 2 - 60, 5));
+                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(state.form.Width / 2 - 60, 5));
                 return;
             }
 
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
            
-            g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             
             // facing indicator
-            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + G.width / 2 - 5), (float)(Math.Sin(dir) * 10 + G.height / 2 - 5), 10, 10);
+            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + state.form.Width / 2 - 5), (float)(Math.Sin(dir) * 10 + state.form.Height / 2 - 5), 10, 10);
 
             // cd indicator
-            for (int i = 0; i < G.hero.atk_cd.Length; i++)
-                if (!G.hero.atk_cd[i])
+            for (int i = 0; i < state.hero.atk_cd.Length; i++)
+                if (!state.hero.atk_cd[i])
                     g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
             
             drawHpBar(g);
