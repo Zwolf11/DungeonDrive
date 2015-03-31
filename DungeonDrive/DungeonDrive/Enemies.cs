@@ -8,7 +8,7 @@ namespace DungeonDrive
         private double animFrame = 0;
         private Bitmap[] imgs = new Bitmap[3];
 
-        public Bat(double x, double y) : base(x, y)
+        public Bat(GameState state, double x, double y) : base(state, x, y)
         {
             this.full_hp = 30;
             this.hp = full_hp;
@@ -45,20 +45,20 @@ namespace DungeonDrive
             //Only a basic placeholder for future additions. Eventually, I will add more dynamic behaviors on top of this (ex. bats' escape route will prioritize nearby mobs and then turn on the player
             if (this.hp < 10)
             {
-                xNext = x - Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
-                yNext = y - Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed * 0.6;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
                 tryMove(xNext, yNext);
                 this.center_x = x + radius;
                 this.center_y = y + radius;
                 return;
             }
 
-            if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
+            if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
                 //Player draws aggro from bats if he is close enough
                 this.moving = true;
-                xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-                yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
                 this.center_x = x + radius;
                 this.center_y = y + radius;
@@ -81,7 +81,7 @@ namespace DungeonDrive
                 }
             }
 
-            if (G.currentRoom.Equals(G.graveyard))
+            if (state.room.currentRoom.Equals(state.graveyard))
             {
                 this.full_hp = 15;
                 this.hp = full_hp;
@@ -94,9 +94,9 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             animFrame = (animFrame + 0.1) % imgs.Length;
-            //g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            //g.FillEllipse(Brushes.Red, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             drawHpBar(g);
             if (this.displayname)
                 drawFileName(g);
@@ -108,7 +108,8 @@ namespace DungeonDrive
         private double animFrame = 0;
         private Bitmap[] imgs = new Bitmap[3];
 
-        public Spider(double x, double y) : base(x, y)
+        public Spider(GameState state, double x, double y)
+            : base(state, x, y)
         {
             this.full_hp = 15;
             this.hp = full_hp;
@@ -141,12 +142,12 @@ namespace DungeonDrive
             double xNext;
             double yNext;
 
-            if (Math.Abs(G.hero.x - x) < 7 && Math.Abs(G.hero.y - y) < 7)
+            if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
                 //Player draws aggro from bats if he is close enough
                 this.moving = true;
-                xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-                yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+                xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
                 tryMove(xNext, yNext);
                 this.center_x = x + radius;
                 this.center_y = y + radius;
@@ -169,15 +170,15 @@ namespace DungeonDrive
                 }
             }
 
-            //double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-            //double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+            //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
 
-            if ((G.hero.x - x) < 3 && (G.hero.x - x) > 0.2 && (G.hero.y - y) < 3 && (G.hero.y - y) > 0.2)
+            if ((state.hero.x - x) < 3 && (state.hero.x - x) > 0.2 && (state.hero.y - y) < 3 && (state.hero.y - y) > 0.2)
                 this.speed = 0.15;
             else
                 this.speed = 0.03;
 
-            if (G.currentRoom.Equals(G.graveyard))
+            if (state.room.currentRoom.Equals(state.graveyard))
             {
                 this.full_hp = 10;
                 this.hp = full_hp;
@@ -190,9 +191,9 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             animFrame = (animFrame + 0.1) % imgs.Length;
-            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             drawHpBar(g);
             if (this.displayname)
                 drawFileName(g);
@@ -223,65 +224,65 @@ namespace DungeonDrive
                 return;
             }
 
-            double xNext = x + Math.Cos(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
-            double yNext = y + Math.Sin(Math.Atan2(G.hero.y - y, G.hero.x - x)) * speed;
+            double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
 
-            if (Math.Abs(G.hero.x - x) < 5 && Math.Abs(G.hero.y - y) < 5 && this.teleport)
+            if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {
                 this.teleport = false;
 
                 //If hero is 5 units close to the boss, have the boss teleport behind the player
 
-                if ((G.hero.x - x) < 0 && (G.hero.y - y) < 0)
+                if ((state.hero.x - x) < 0 && (state.hero.y - y) < 0)
                 {
                     //Boss is in bottom-right direction with respect to hero
-                    x = G.hero.x - 0.5;
-                    y = G.hero.y - 0.5;
+                    x = state.hero.x - 0.5;
+                    y = state.hero.y - 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) < 0 && (G.hero.y - y) > 0)
+                else if ((state.hero.x - x) < 0 && (state.hero.y - y) > 0)
                 {
                     //Boss is in upper-right direction with respect to hero
-                    x = G.hero.x - 0.5;
-                    y = G.hero.y + 0.5;
+                    x = state.hero.x - 0.5;
+                    y = state.hero.y + 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) > 0 && (G.hero.y - y) < 0)
+                else if ((state.hero.x - x) > 0 && (state.hero.y - y) < 0)
                 {
                     //Boss is in bottom-left direction with respect to hero
-                    x = G.hero.x + 0.5;
-                    y = G.hero.y - 0.5;
+                    x = state.hero.x + 0.5;
+                    y = state.hero.y - 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) > 0 && (G.hero.y - y) > 0)
+                else if ((state.hero.x - x) > 0 && (state.hero.y - y) > 0)
                 {
                     //Boss is in upper-left direction with respect to hero
-                    x = G.hero.x + 0.5;
-                    y = G.hero.y + 0.5;
+                    x = state.hero.x + 0.5;
+                    y = state.hero.y + 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) == 0 && (G.hero.y - y) < 0)
+                else if ((state.hero.x - x) == 0 && (state.hero.y - y) < 0)
                 {
                     //Boss is directly south of the player
-                    y = G.hero.y - 0.5;
+                    y = state.hero.y - 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) == 0 && (G.hero.y - y) > 0)
+                else if ((state.hero.x - x) == 0 && (state.hero.y - y) > 0)
                 {
                     //Boss is directly north of the player
-                    y = G.hero.y + 0.5;
+                    y = state.hero.y + 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) < 0 && (G.hero.y - y) == 0)
+                else if ((state.hero.x - x) < 0 && (state.hero.y - y) == 0)
                 {
                     //Boss is directly east of the player
-                    x = G.hero.x - 0.5;
+                    x = state.hero.x - 0.5;
                     return;
                 }
-                else if ((G.hero.x - x) > 0 && (G.hero.y - y) == 0)
+                else if ((state.hero.x - x) > 0 && (state.hero.y - y) == 0)
                 {
                     //Boss is directly west of the player
-                    x = G.hero.x + 0.5;
+                    x = state.hero.x + 0.5;
                     return;
                 }
             }
@@ -293,7 +294,7 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * G.size), (int)(radius * 2 * G.size));
+            g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             drawHpBar(g);        }
     }*/
 }

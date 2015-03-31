@@ -7,7 +7,12 @@ namespace DungeonDrive
 {
     public class Room
     {
-        
+
+
+        private GameState state;
+        private String pastRoom = "";
+        public String currentRoom = "C:\\";
+
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
 
@@ -63,17 +68,17 @@ namespace DungeonDrive
         public Random stairsRand;
         private Bitmap floor = new Bitmap(Properties.Resources.floor);
 
-        public Room(string path)
+        public Room(GameState state, string path)
         {
-
+            this.state = state;
             generateRoom(path);
         }
 
         public void generateRoom(string path)
         {
 
-            G.pastRoom = G.currentRoom;
-            G.currentRoom = path;
+            pastRoom = currentRoom;
+            currentRoom = path;
 
             rand = new Random(path.GetHashCode());  // random numbers based on path seed
 
@@ -171,8 +176,8 @@ namespace DungeonDrive
                 int x1, y1;
                 while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1) ;
 
-                G.hero.x = x1 + 0.5;
-                G.hero.y = y1 + 0.5;
+                state.hero.x = x1 + 0.5;
+                state.hero.y = y1 + 0.5;
                 freeSpace[x1, y1] = false;
             }
 
@@ -180,10 +185,10 @@ namespace DungeonDrive
 
             foreach (Stairs stair in stairs)
             {
-                if (stair.path.Equals(G.pastRoom))
+                if (stair.path.Equals(pastRoom))
                 {                                         
-                    G.hero.x = /*G.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
-                    G.hero.y = /*G.hero.yNext = */stair.y + stair.yDirection + 0.5;
+                    state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
+                    state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
                     break;
                 }
             }
@@ -229,8 +234,8 @@ namespace DungeonDrive
 
 
                     double shortestDistance = width + height;       // want to find the shortest distance between any stair in this room and any stair not in this room.
-                    Stairs source = new Stairs(-1, -1, -1, -1, -1, false, "", 'u', -1);                                // stair that the hallway must start from
-                    Stairs closestStair = new Stairs(-1, -1, -1, -1, -1, false, "", 'u', -1);
+                    Stairs source = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1);                                // stair that the hallway must start from
+                    Stairs closestStair = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1);
                     int roomDest = -1;
 
 
@@ -312,8 +317,6 @@ namespace DungeonDrive
                 addBoundaries();
             }
             recalcRoomNums();
-
-            G.newRoom = true;
         }
 
         public void matchExtension(String extension, String filename)
@@ -454,13 +457,13 @@ namespace DungeonDrive
         {
             temp_sd = safe_distance;
             if((int) rand.Next(0,100) % 2 == 0){
-                while (!addEnemy(new Bat(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                while (!addEnemy(new Bat(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numBats++;
 
             }
             else 
             {
-                while (!addEnemy(new Spider(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                while (!addEnemy(new Spider(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSpiders++;
                 //while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
             }            
@@ -488,11 +491,11 @@ namespace DungeonDrive
 
                 if (down)
                 {
-                    stairsRand = new Random(string.Concat(G.currentRoom, path).GetHashCode());
+                    stairsRand = new Random(string.Concat(currentRoom, path).GetHashCode());
                 }
                 else
                 {
-                    stairsRand = new Random(string.Concat(path, G.currentRoom).GetHashCode());
+                    stairsRand = new Random(string.Concat(path, currentRoom).GetHashCode());
                 }
 
                 switch ((int)stairsRand.Next(0, 4))
@@ -601,7 +604,7 @@ namespace DungeonDrive
                 }
             }
 
-            stairs.Add(new Stairs(stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth));
+            stairs.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth));
 
             stairSpace[stairX, stairY] = true;
 
@@ -675,13 +678,13 @@ namespace DungeonDrive
             switch (type)
             {
                 case "pillar":
-                    newObs = new Pillar(x, y, oWidth, oHeight, roomNumSpace[x, y]);
+                    newObs = new Pillar(state, x, y, oWidth, oHeight, roomNumSpace[x, y]);
                     break;
                 case "chest":
-                    newObs = new Chest(x, y, oWidth, oHeight, roomNumSpace[x, y]);
+                    newObs = new Chest(state, x, y, oWidth, oHeight, roomNumSpace[x, y]);
                     break;
                 default:
-                    newObs = new Pillar(x, y, oWidth, oHeight, roomNumSpace[x, y]);
+                    newObs = new Pillar(state, x, y, oWidth, oHeight, roomNumSpace[x, y]);
                     break;
             }
 
@@ -708,7 +711,7 @@ namespace DungeonDrive
                 return true;
             }
 
-            if(Math.Sqrt(Math.Pow(e.x - G.hero.x, 2) + Math.Pow(e.y - G.hero.y, 2)) <= temp_sd || !freeSpace[(int)e.x, (int) e.y] || roomNumSpace[(int)e.x, (int) e.y] == -1)
+            if(Math.Sqrt(Math.Pow(e.x - state.hero.x, 2) + Math.Pow(e.y - state.hero.y, 2)) <= temp_sd || !freeSpace[(int)e.x, (int) e.y] || roomNumSpace[(int)e.x, (int) e.y] == -1)
             {
                 temp_sd *= .9;
                 return false;
@@ -890,14 +893,14 @@ namespace DungeonDrive
                         else
                         {
                             if (door1ShouldBePlaced && doorCounter == door1Loc){ 
-                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doors.Add(new Door(state, x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
                                 doorSpace[x1, y1 - halfwayInc + i] = true;
                                 wallSpace[x1, y1 - halfwayInc + i] = false;
                                 door1Placed = true;
                                 door1ShouldBePlaced = false;
                                 
                             } else if(door2ShouldBePlaced && doorCounter == door2Loc){
-                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doors.Add(new Door(state, x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
                                 doorSpace[x1, y1 - halfwayInc + i] = true;
                                 wallSpace[x1, y1 - halfwayInc + i] = false;
                                 door2Placed = true;
@@ -961,7 +964,7 @@ namespace DungeonDrive
                         {
                             if (door1ShouldBePlaced && doorCounter == door1Loc)
                             {
-                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doors.Add(new Door(state, x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
                                 doorSpace[x1, y1 - halfwayInc + i] = true;
                                 wallSpace[x1, y1 - halfwayInc + i] = false;
                                 door1Placed = true;
@@ -970,7 +973,7 @@ namespace DungeonDrive
                             }
                             else if (door2ShouldBePlaced && doorCounter == door2Loc)
                             {
-                                doors.Add(new Door(x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
+                                doors.Add(new Door(state, x1, y1 - halfwayInc + i, 1, 2, roomNumSpace[x1, y1 - halfwayInc], false));
                                 doorSpace[x1, y1 - halfwayInc + i] = true;
                                 wallSpace[x1, y1 - halfwayInc + i] = false;
                                 door2Placed = true;
@@ -1043,7 +1046,7 @@ namespace DungeonDrive
 
                             if (door1ShouldBePlaced && doorCounter == door1Loc)
                             {
-                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doors.Add(new Door(state, x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
                                 doorSpace[x2 - halfwayInc + i, y1] = true;
                                 wallSpace[x2 - halfwayInc + i, y1] = false;
                                 door1Placed = true;
@@ -1052,7 +1055,7 @@ namespace DungeonDrive
                             }
                             else if (door2ShouldBePlaced && doorCounter == door2Loc)
                             {
-                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doors.Add(new Door(state, x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
                                 doorSpace[x2 - halfwayInc + i, y1] = true;
                                 wallSpace[x2 - halfwayInc + i, y1] = false;
                                 door2Placed = true;
@@ -1122,7 +1125,7 @@ namespace DungeonDrive
                         {
                             if (door1ShouldBePlaced && doorCounter == door1Loc)
                             {
-                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doors.Add(new Door(state, x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
                                 doorSpace[x2 - halfwayInc + i, y1] = true;
                                 wallSpace[x2 - halfwayInc + i, y1] = false;
                                 door1Placed = true;
@@ -1131,7 +1134,7 @@ namespace DungeonDrive
                             }
                             else if (door2ShouldBePlaced && doorCounter == door2Loc)
                             {
-                                doors.Add(new Door(x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
+                                doors.Add(new Door(state, x2 - halfwayInc + i, y1, 2, 1, roomNumSpace[x2 - halfwayInc + i, y1], true));
                                 doorSpace[x2 - halfwayInc + i, y1] = true;
                                 wallSpace[x2 - halfwayInc + i, y1] = false;
                                 door2Placed = true;
@@ -1171,30 +1174,32 @@ namespace DungeonDrive
         public void draw(Graphics g)
         {
             
-            for (int i = 0; i < G.room.width; i++){
-                for (int j = 0; j < G.room.height; j++)
+            for (int i = 0; i < state.room.width; i++){
+                for (int j = 0; j < state.room.height; j++)
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
+                        g.DrawImage(floor, (int)(i * state.size + state.form.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.Height / 2 - state.hero.y * state.size));
+                        
                         //if (!hallwaySpace[i, j])
                         //{
-                            g.DrawImage(floor, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
+                            //g.DrawImage(floor, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
                         //}
                         //else
                         //{
-                        //    g.DrawRectangle(Pens.Pink, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size, G.size);
+                        //    g.DrawRectangle(Pens.Pink, (int)(state.width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
                         //}
                         
 
-                        //g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size * G.hero.radius * 2 - G.size * G.hero.radius * 2), G.size, G.size);
+                        //g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), state.size, state.size);
                     }
                     
                     if(wallSpace[i,j]){
-                        g.FillRectangle(Brushes.BurlyWood, (int)(G.width / 2 + i * G.size - G.hero.x * G.size), (int)(G.height / 2 + j * G.size - G.hero.y * G.size), G.size * 1, G.size * 1);
+                        g.FillRectangle(Brushes.BurlyWood, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
                     }
                     //else
                     //{
-                    //    g.DrawRectangle(Pens.Black, (int)(i * G.size + G.width / 2 - G.hero.x * G.size - G.size / 2), (int)(j * G.size + G.height / 2 - G.hero.y * G.size - G.size / 2), G.size, G.size);
+                    //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
                     //}
                 }
             }

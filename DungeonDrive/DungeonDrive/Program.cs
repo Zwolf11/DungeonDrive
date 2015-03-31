@@ -7,7 +7,7 @@ namespace DungeonDrive
     {
         public static void Main()
         {
-            Application.Run(G.form);
+            Application.Run(new MainForm());
         }
     }
 }

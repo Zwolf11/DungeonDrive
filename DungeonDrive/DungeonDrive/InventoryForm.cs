@@ -396,7 +396,7 @@ namespace DungeonDrive
 
         private void button44_Click_1(object sender, EventArgs e)
         {
-            G.quickButton1 = this.mostRecentButton;
+            //G.quickButton1 = this.mostRecentButton;
             
         }
 

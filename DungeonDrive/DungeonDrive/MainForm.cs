@@ -6,51 +6,47 @@ namespace DungeonDrive
 {
     public class MainForm : Form
     {
-        int windowstate = 0;
-
-        private Random rand = new Random();
-        private Timer timer = new Timer();
+        public Timer timer = new Timer();
 
         public MainForm()
         {
             this.Text = "Dungeon Drive (D:)";
-            this.WindowState = FormWindowState.Maximized;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.KeyDown += InputHandler.keyDown;
-            this.KeyUp += InputHandler.keyUp;
-            this.MouseDown += InputHandler.mouseUp;
-            this.Paint += this.paint;
             this.DoubleBuffered = true;
+            timer.Interval = 17;
 
-            G.width = Screen.PrimaryScreen.Bounds.Width;
-            G.height = Screen.PrimaryScreen.Bounds.Height;
-
-            // for testing
-            if (windowstate == 1)
-            {
-                this.WindowState = FormWindowState.Normal;
-                this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.Width = 1100;
-                this.Height = 600;
-                G.width = 1100;
-                G.height = 600;
-            }
-
-            timer.Interval = G.tickInt;
-            timer.Tick += Logic.tick;
+            setFullscreen(Properties.Settings.Default.FullScreen);
             timer.Start();
+            new TitleState(this).open();
         }
 
-        public void paint(object sender, PaintEventArgs e)
+        public void setFullscreen(bool fullscreen)
         {
-            Graphics g = e.Graphics;
+            if (fullscreen)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.Resize -= this.resize;
+            }
+            else
+            {
+                this.Resize += this.resize;
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = FormBorderStyle.Sizable;
+                this.Width = Properties.Settings.Default.Width;
+                this.Height = Properties.Settings.Default.Height;
+            }
 
-            g.Clear(Color.FromArgb(20, 20, 20));
+            Properties.Settings.Default.FullScreen = fullscreen;
+            Properties.Settings.Default.Save();
+        }
 
-            G.room.draw(g);
-            G.hero.draw(g);
-            G.actionBar.draw(g);
-            //Jiang: Add Inventory system and draw on top of game if it's open
+        public void resize(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Width = this.Width;
+            Properties.Settings.Default.Height = this.Height;
+            Properties.Settings.Default.Save();
+
+            this.Invalidate();
         }
     }
 }
