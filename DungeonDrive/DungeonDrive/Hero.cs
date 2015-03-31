@@ -183,7 +183,7 @@ namespace DungeonDrive
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
-                    getRdnWeapon();
+                    getRdnWeapon(deletingEnemy);
                     
                     state.room.enemies.Remove(deletingEnemy);
                 }
@@ -201,19 +201,23 @@ namespace DungeonDrive
         private double rdnDouble(double first, double second)
         { return Math.Round(r.NextDouble() * (second - first) + first,2); }
 
-        private void getRdnWeapon()
+        private void getRdnWeapon(Unit enemy)
         {
-            // new weapon
-            Weapon newWeapon = new Weapon(0, "rdn_name", Properties.Resources.fire);
-            newWeapon.atk_damage = r.Next(WeaponStats.atk_damage[0], WeaponStats.atk_damage[1]);
-            newWeapon.atk_speed = rdnDouble(WeaponStats.atk_speed[0], WeaponStats.atk_speed[1]);
-            newWeapon.proj_speed = rdnDouble(WeaponStats.proj_speed[0], WeaponStats.proj_speed[1]);
-            newWeapon.range = r.Next(WeaponStats.range[0], WeaponStats.range[1]);
-            newWeapon.slowSec = rdnDouble(WeaponStats.slowSec[0], WeaponStats.slowSec[1]);
-            newWeapon.slowFac = rdnDouble(WeaponStats.slowFac[0], WeaponStats.slowFac[1]);
-            newWeapon.style = (AtkStyle)r.Next(0, 3);
-            newWeapon.setDesc();
-            Console.WriteLine(newWeapon.itemDesc);
+            if (r.NextDouble() >= (1 - enemy.dropWpnFac))
+            {
+                // new weapon
+                Weapon newWeapon = new Weapon(0, WeaponStats.adjectives[r.Next(WeaponStats.adjectives.Length)] + " arrow", Properties.Resources.fire);
+                newWeapon.atk_damage = r.Next(WeaponStats.atk_damage[0], WeaponStats.atk_damage[1]);
+                newWeapon.atk_speed = rdnDouble(WeaponStats.atk_speed[0], WeaponStats.atk_speed[1]);
+                newWeapon.proj_speed = rdnDouble(WeaponStats.proj_speed[0], WeaponStats.proj_speed[1]);
+                newWeapon.range = r.Next(WeaponStats.range[0], WeaponStats.range[1]);
+                newWeapon.slowSec = rdnDouble(WeaponStats.slowSec[0], WeaponStats.slowSec[1]);
+                newWeapon.slowFac = rdnDouble(WeaponStats.slowFac[0], WeaponStats.slowFac[1]);
+                newWeapon.style = (AtkStyle)r.Next(0, 3);
+                newWeapon.setDesc();
+                Console.WriteLine("dropped a weapon from enemy " + enemy.GetType().ToString());
+                Console.WriteLine(newWeapon.itemDesc);
+            }
         }
 
         public void basicAtk()
