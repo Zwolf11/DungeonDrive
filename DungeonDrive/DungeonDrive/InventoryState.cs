@@ -39,7 +39,7 @@ namespace DungeonDrive
             float paddingWidth = form.Width / 300;
             float paddingHeight = form.Height / 300;
 
-            for (int i = 0; i < inventory.Length; i++)
+            for (int i                                                                                                                                                                                                                                                                                                                                                                                                    = 0; i < inventory.Length; i++)
             {
                 for (int j = 0; j < inventory[i].Length; j++)
                 {

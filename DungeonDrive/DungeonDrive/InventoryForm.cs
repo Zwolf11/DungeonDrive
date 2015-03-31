@@ -96,9 +96,7 @@ namespace DungeonDrive
             for (int i = 0; i < length; i++ )
             {
                 Item item = _itemList.ElementAt(i);
-                String icon = item.itemImage;
-                Console.Write("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + icon);
-                buttonList.ElementAt(i).BackgroundImage = Image.FromFile(@icon);
+                buttonList.ElementAt(i).BackgroundImage = item.itemImage;
                 buttonList.ElementAt(i).Enabled = true;
             }
         }

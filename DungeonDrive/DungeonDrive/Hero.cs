@@ -40,6 +40,9 @@ namespace DungeonDrive
             this.expcap = 10.0;
             this.level = 1;
 
+            // for testing
+            this.atk_dmg = 100;
+
             Projectile.style = Projectile.AtkStyle.Frozen;
 
             try
@@ -178,6 +181,11 @@ namespace DungeonDrive
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
+                    
+                    // new weapon
+                    Weapon something = new Weapon(2, "hello", Properties.Resources.fire);
+                    something.atk_damage = WeaponStats.atk_damage[0];
+
                     state.room.enemies.Remove(deletingEnemy);
                 }
                 deletingList.Clear();

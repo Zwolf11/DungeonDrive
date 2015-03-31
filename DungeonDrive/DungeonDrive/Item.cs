@@ -4,27 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Drawing;
 
 namespace DungeonDrive
 {
-
-
-
     public class Item
     {
-
         public string itemName;
         public int itemID;
-        public string itemImage;
-        public ItemType itemType;
+        public Bitmap itemImage;
         public string itemDesc;
 
-        public Item(int ID, string name, string image, ItemType type)
+        public Item(int ID, string name, Bitmap image)
         {
             this.itemID = ID;
             this.itemName = name;
             this.itemImage = image;
-            this.itemType = type;
             this.itemDesc = "no description";
         }
         public string getName()
@@ -39,57 +34,35 @@ namespace DungeonDrive
         {
             this.itemDesc = description;
         }
-        public String  getDesc()
+        public String getDesc()
         {
             return this.itemDesc;
         }
-        public ItemType getItemType()
-        {
-            return this.itemType;
-        }
-    }
-    public enum ItemType
-    {
-        Weapon, 
-        Armor, 
-        Amulet,
-        Consumable,
-        Quest
     }
 
-    public enum AtkStyle {     
+    public enum AtkStyle
+    {
+        Basic,
         Flame,
-        Frozen,
-        Melee    
+        Frozen
     }
 
     public class Weapon : Item{
-        public int levelRequirement;
-        int[] atk_damage = new int[2];
-        double atk_speed;
-        double speed;
-        double range;
-        double slowSec;
-        double slowFac;
-
-        public Weapon(int id, String name, String image, ItemType itemType,  // Item Parents
-            int levelRequirement, int[] dmg, AtkStyle attackStyle,double atk_speed, double speed,
-            double range, double slowSec, double slowFac)
-            : base(id, name, image, itemType)
+        public int atk_damage;
+        public double atk_speed;
+        public double proj_speed;
+        public double range;
+        public double slowSec;
+        public double slowFac;
+        public AtkStyle style;
+        
+        public Weapon(int id, String name, Bitmap image)
+            : base(id, name, image)
         {
-            this.levelRequirement = levelRequirement;
-            this.atk_damage = dmg;
-            this.atk_speed = atk_speed;
-            this.speed = speed;
-            this.range = range;
-            this.slowFac = slowFac;
-            this.slowSec = slowSec;
-            this.itemDesc = this.itemName + "\n" + "Attack style: " + attackStyle.ToString() + "\n"
-                
-                + "attack speed / projectile speed" + this.atk_speed + " | "+ this.speed+ "\n" +
-                "attack range" + this.range + "\nDMG:" + this.atk_damage[0] + "-" + this.atk_damage[1]; 
+            this.itemID = id;
+            this.itemName = name;
+            this.itemImage = image;
         }
-    
     }
 
 
