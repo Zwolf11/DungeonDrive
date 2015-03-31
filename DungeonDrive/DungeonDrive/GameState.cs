@@ -13,6 +13,8 @@ namespace DungeonDrive
         public Font font = new Font("Arial", 12);
         public int size = 32;
         public String graveyard = "C:\\graveyard";
+        public String pastRoom;
+        public String currentRoom = "C:\\";
 
         public GameState(MainForm form) : base(form)
         {

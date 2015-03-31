@@ -10,7 +10,6 @@ namespace DungeonDrive
 
 
         private GameState state;
-        private String pastRoom = "";
         public String currentRoom = "C:\\";
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
@@ -53,11 +52,11 @@ namespace DungeonDrive
 
         public const int maxEnemies = 15;
         public const int maxObstacles = 15;   // max number of these objects to generate in a room.
-        public const int maxStairs = 100;
+        public const int maxStairs = 50;
         public const int maxChests = 2;
 
-        public const int minRoomWidth = 20;
-        public const int minRoomHeight = 20;
+        public const int minRoomWidth = 35;
+        public const int minRoomHeight = 35;
         public const int maxRoomWidth = 300;
         public const int maxRoomHeight = 300;
 
@@ -77,7 +76,8 @@ namespace DungeonDrive
         public void generateRoom(string path)
         {
 
-            pastRoom = currentRoom;
+            state.pastRoom = state.currentRoom;
+            state.currentRoom = path;
             currentRoom = path;
 
             rand = new Random(path.GetHashCode());  // random numbers based on path seed
@@ -145,7 +145,7 @@ namespace DungeonDrive
                 addStairs(false, parentDir);
             }
 
-
+            Console.WriteLine("Here0");
 
             /////////   TRAVERSE ALL DIRECTORIES   ///////
 
@@ -155,7 +155,9 @@ namespace DungeonDrive
 
                     try
                     {
-                        bool temp2 = Directory.Exists(dirs[i]);                                               // this should throw an error is the directory is inaccessible       
+                        bool temp2 = Directory.Exists(dirs[i]);
+                        String[] tempStrings = Directory.GetDirectories(dirs[i]);                                               // this should throw an error is the directory is inaccessible       
+                        Console.WriteLine(dirs[i] + " found");
                         directoryFound(dirs[i]);
                     }
                     catch (Exception e)
@@ -169,12 +171,18 @@ namespace DungeonDrive
                 }
             }
 
+            Console.WriteLine("Here1");
+
             /////////// IF THIS IS THE INITIAL ROOM, 
+
+            updateFreeSpace();
 
             if (parentDir == null)
             {
+
+                Console.WriteLine("InitialRoom");
                 int x1, y1;
-                while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1) ;
+                while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1,y1]) ;
 
                 state.hero.x = x1 + 0.5;
                 state.hero.y = y1 + 0.5;
@@ -183,15 +191,20 @@ namespace DungeonDrive
 
             /////////   FIND STAIRCASE YOU ARE COMING FROM   /////////
 
+            
+
+
             foreach (Stairs stair in stairs)
             {
-                if (stair.path.Equals(pastRoom))
+                if (stair.path.Equals(state.pastRoom))
                 {                                         
                     state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
                     state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
                     break;
                 }
             }
+
+            Console.WriteLine("Here2");
 
             recalcRoomNums();
 
@@ -217,6 +230,7 @@ namespace DungeonDrive
 
             while (true)
             {
+
                 int count = 0;
                 foreach (Stairs stair in roomStairs[staticNumRooms - 1])
                 {
@@ -297,26 +311,38 @@ namespace DungeonDrive
 
 
                 }
+
+                Console.WriteLine(breaker);
+                breaker++;
             }
+
+            Console.WriteLine("Out1");
 
 
             updateFreeSpace();
 
                 //////////   TRAVERSE ALL FILES   //////////
 
+            Console.WriteLine("Number of files = " + files.Length);
+
                 for (int i = 0; i < files.Length; i++)
                 {
+                    Console.WriteLine("File - " + i);
                     matchExtension(Path.GetExtension(files[i]), Path.GetFileName(files[i]));     // match each file extension and spawn the corresponding object
                 }
 
             // determine hero starting point
             // find stair that matches the pastRoom
 
+                Console.WriteLine("Out2");
+
             if (!noBoundaries)
             {
                 addBoundaries();
             }
             recalcRoomNums();
+
+            Console.WriteLine("Out3");
         }
 
         public void matchExtension(String extension, String filename)
@@ -476,6 +502,9 @@ namespace DungeonDrive
 
         public void addStairs(bool down, String path)
         {
+
+            Console.WriteLine("Adding stairs for " + path);
+
             if (numStairs >= (maxStairs - 1))
             {
                 return;
@@ -491,11 +520,11 @@ namespace DungeonDrive
 
                 if (down)
                 {
-                    stairsRand = new Random(string.Concat(currentRoom, path).GetHashCode());
+                    stairsRand = new Random(string.Concat(state.currentRoom, path).GetHashCode());
                 }
                 else
                 {
-                    stairsRand = new Random(string.Concat(path, currentRoom).GetHashCode());
+                    stairsRand = new Random(string.Concat(path, state.currentRoom).GetHashCode());
                 }
 
                 switch ((int)stairsRand.Next(0, 4))
@@ -542,6 +571,8 @@ namespace DungeonDrive
             int heightRadiusInitRoom = (int)((heightOfInitStairRoom) / 2);
             int widthRadiusInitRoom = (int)((widthOfInitStairRoom) / 2);
 
+            Console.WriteLine("Here1");
+
             do
             {
                 x = rand.Next(2 + widthRadiusInitRoom, width - 4 - widthRadiusInitRoom);
@@ -556,7 +587,7 @@ namespace DungeonDrive
             int stairX  = x;
             int stairY = y;
 
-            
+            Console.WriteLine("Here1.5");
 
             for (int i = -1; i <= widthOfInitStairRoom; i++)
             {
@@ -604,6 +635,8 @@ namespace DungeonDrive
                 }
             }
 
+            Console.WriteLine("Here2");
+
             stairs.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth));
 
             stairSpace[stairX, stairY] = true;
@@ -621,6 +654,8 @@ namespace DungeonDrive
 
             numRooms++;
             numStairs++;
+
+            Console.WriteLine("ENd of add stairs");
 
             return;
 
@@ -758,7 +793,7 @@ namespace DungeonDrive
         }
 
         public void mergeRoom(int x, int y, int newRoomNum){
-
+            
             roomNumSpace[x,y] = newRoomNum;
             if( x > 2 && roomNumSpace[x-1,y] != -1 && roomNumSpace[x - 1, y] != newRoomNum){
                 mergeRoom(x - 1, y, newRoomNum);
@@ -772,6 +807,8 @@ namespace DungeonDrive
             if( (y + 1) < (height - 1) && roomNumSpace[x,y+1] != -1 && roomNumSpace[x,y+1] != newRoomNum){
                 mergeRoom(x,y+1,newRoomNum);
             }
+
+            
         }
 
         public void recalcRoomNums()
