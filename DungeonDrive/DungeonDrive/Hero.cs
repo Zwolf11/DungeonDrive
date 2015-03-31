@@ -145,11 +145,39 @@ namespace DungeonDrive
                 }
             }
 
+            // delete skill; doesn't actually delete the file, but moves it into a 'graveyard' directory in C:\
+            if (G.keys.ContainsKey(Keys.R))
+            {
+                if (!Directory.Exists(G.graveyard))
+                {
+                    Directory.CreateDirectory(G.graveyard);
+                }
+
+                if (atk_cd[3])
+                {
+                    foreach (Unit enemy in G.room.enemies)
+                    {
+                        if (Math.Abs(enemy.x - x) < 1.2 && Math.Abs(enemy.y - y) < 1.2)
+                        {
+                            deletingList.Add(enemy);
+                            File.Move(G.currentRoom + "\\" + enemy.filename, G.graveyard + "\\" + enemy.filename);
+                        }
+                    }
+                    cd(5, 3);
+                }
+            }
+
+
             if (deletingList.Count > 0)
             {
                 foreach (Unit deletingEnemy in deletingList)
                 {
-                    experience(deletingEnemy);
+                    if (G.currentRoom.Equals(G.graveyard))
+                    {
+                        Console.WriteLine(G.currentRoom);
+                        experience(deletingEnemy, 1.5);
+                    }
+                    experience(deletingEnemy, 1.0);
                     G.room.enemies.Remove(deletingEnemy);
                 }
                 deletingList.Clear();
@@ -195,9 +223,9 @@ namespace DungeonDrive
             }
         }
 
-        public void experience(Unit enemy)
+        public void experience(Unit enemy, double multiplier)
         {
-            this.exp += enemy.exp;
+            this.exp += enemy.exp*multiplier;
             if (this.exp >= this.expcap)
                 levelUp();
         }

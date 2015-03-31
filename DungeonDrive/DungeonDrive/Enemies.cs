@@ -81,6 +81,14 @@ namespace DungeonDrive
                 }
             }
 
+            if (G.currentRoom.Equals(G.graveyard))
+            {
+                this.full_hp = 15;
+                this.hp = full_hp;
+                this.atk_dmg = atk_dmg*3;
+                this.speed = speed + (speed * 0.4);
+            }
+
             //tryMove(xNext, yNext);
         }
 
@@ -168,6 +176,14 @@ namespace DungeonDrive
                 this.speed = 0.15;
             else
                 this.speed = 0.03;
+
+            if (G.currentRoom.Equals(G.graveyard))
+            {
+                this.full_hp = 10;
+                this.hp = full_hp;
+                this.atk_dmg = atk_dmg * 3;
+                this.speed = speed + (speed * 0.4);
+            }
 
             //tryMove(xNext, yNext);
         }

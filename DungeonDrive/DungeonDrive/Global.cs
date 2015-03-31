@@ -25,5 +25,6 @@ namespace DungeonDrive
         public static Room room = new Room(currentRoom);
         public static ActionBar actionBar = new ActionBar(12, action_bar);
         public static Font txtFont = new Font("Arial", 10);
+        public static String graveyard = currentRoom + "graveyard";
     }
 }
