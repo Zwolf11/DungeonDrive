@@ -21,6 +21,9 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.level = 1;
             this.exp = 2;
+            this.dropWpnFac = 0.3;
+            // for testing
+            this.dropWpnFac = 1;
 
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
@@ -122,6 +125,7 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.level = 1;
             this.exp = 2;
+            this.dropWpnFac = 0.2;
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
             imgs[1] = new Bitmap(Properties.Resources.skeleton1);

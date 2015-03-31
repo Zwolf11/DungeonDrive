@@ -29,6 +29,7 @@ namespace DungeonDrive
         public int level;
         public String filename;
         public bool displayname = false;
+        public double dropWpnFac = 0;
 
         public bool knockback = false;
         public double x_dist = 0;

@@ -8,8 +8,8 @@ namespace DungeonDrive
         private GameState state;
         public static int dmg = 1;
         public static double atk_speed = 0.5;
-        public static double speed = 0.8;
-        public static double range = 10;
+        public static double proj_speed = 0.8;
+        public static int proj_range = 10;
         public static AtkStyle style = AtkStyle.Basic;
         public static double slowSec = 1;
         public static double slowFac = 0.3;
@@ -36,13 +36,13 @@ namespace DungeonDrive
             this.y = y;
             this.x_origin = x;
             this.y_origin = y;
-            this.x_speed = x_dir * speed;
-            this.y_speed = y_dir * speed;
+            this.x_speed = x_dir * proj_speed;
+            this.y_speed = y_dir * proj_speed;
         }
 
         public void tryMove(double xNext, double yNext)
         {
-            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= range)
+            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
                 state.hero.removeProj(this);
 
             int left = (int)(xNext - radius);

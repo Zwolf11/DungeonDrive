@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionBar.cs" />
+    <Compile Include="WeaponStats.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryForm.cs">
