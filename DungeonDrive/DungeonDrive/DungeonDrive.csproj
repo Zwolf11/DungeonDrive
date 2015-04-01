@@ -44,16 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionBar.cs" />
-    <Compile Include="WeaponStats.cs" />
     <Compile Include="GameState.cs" />
-    <Compile Include="Inventory.cs" />
-    <Compile Include="InventoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InventoryForm.designer.cs">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="InventoryState.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="OptionsState.cs" />
@@ -98,6 +89,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\wall.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\weapon.png" />
     <None Include="Resources\shield.png" />

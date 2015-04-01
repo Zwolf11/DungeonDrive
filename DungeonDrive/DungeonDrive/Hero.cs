@@ -365,13 +365,13 @@ namespace DungeonDrive
             this.expcap *= 1.5;
             this.level += 1;
 
-            //update weapon system
+            /*//update weapon system
             WeaponStats.atk_damage[0] += 1;
             WeaponStats.atk_damage[1] += 1;
             WeaponStats.atk_speed[0] /= 1.1;
             WeaponStats.atk_speed[1] /= 1.1;
             WeaponStats.proj_speed[0] /= 1.1;
-            WeaponStats.proj_speed[1] /= 1.1;
+            WeaponStats.proj_speed[1] /= 1.1;*/
 
             /*
              * this only works for current room

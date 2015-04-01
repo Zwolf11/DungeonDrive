@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
 using System.IO;
 
 namespace DungeonDrive
@@ -14,6 +15,7 @@ namespace DungeonDrive
         public Font font = new Font("Arial", 12);
         public int size = 32;
         public String graveyard = "C:\\graveyard";
+        private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
 
         public GameState(MainForm form, bool load) : base(form)
         {
@@ -35,10 +37,10 @@ namespace DungeonDrive
 
             inventory[0][0] = new SmallPotion(this);
             inventory[0][1] = new MediumPotion(this);
-            inventory[1][1] = new Wand(this);
+            inventory[1][1] = new Weapon(this);
             inventory[2][0] = new LargePotion(this);
-            inventory[2][1] = new BasicShield(this);
-            hero.shield = new DiamondShield(this);
+            inventory[2][1] = new Shield(this);
+            hero.shield = new Shield(this);
             actionBar[0] = new SmallPotion(this);
         }
 
@@ -49,6 +51,8 @@ namespace DungeonDrive
             save[1] = "" + hero.y;
             save[2] = room.currentRoom;
             File.WriteAllLines("save", save);
+
+            saveSound.Play();
         }
 
         public override void mouseUp(object sender, MouseEventArgs e) { }

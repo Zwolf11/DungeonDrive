@@ -7,15 +7,23 @@ namespace DungeonDrive
     public class InventoryState : State
     {
         private Item selection = null;
-        private Point selectOrigin = new Point(-1, -1);
+        private PointF selectOrigin = new PointF(-1, -1);
         private Point dragLoc = new Point(-1, -1);
         private Point mouse = new Point(-1, -1);
         private bool dragging = false;
         private GameState state { get { return (GameState)parent; } }
 
+        private Bitmap boxImg = new Bitmap(Properties.Resources.box);
+        private Bitmap helmetImg = new Bitmap(Properties.Resources.helmet);
+        private Bitmap armorImg = new Bitmap(Properties.Resources.armor);
+        private Bitmap legsImg = new Bitmap(Properties.Resources.legs);
+        private Bitmap shieldImg = new Bitmap(Properties.Resources.shield);
+        private Bitmap weaponImg = new Bitmap(Properties.Resources.weapon);
+        private Bitmap infoImg = new Bitmap(Properties.Resources.info);
+
         public InventoryState(MainForm form) : base(form) { }
 
-        private RectangleF getBoxBounds(int i, int j)
+        private RectangleF getBoxBounds(float i, float j)
         {
             Item[][] inventory = state.inventory;
             float boxSize = form.ClientSize.Height / (inventory.Length + 4);
@@ -50,7 +58,7 @@ namespace DungeonDrive
                         return;
                     }
 
-            if (getBoxBounds(-1, 1).Contains(click))
+            if (getBoxBounds(-1, 0.5f).Contains(click))
             {
                 if (state.hero.shield != null)
                 {
@@ -86,13 +94,13 @@ namespace DungeonDrive
                     selectOrigin = new Point(-2, 2);
                 }
             }
-            else if (getBoxBounds(-3, 1).Contains(click))
+            else if (getBoxBounds(-3, 0.5f).Contains(click))
             {
                 if (state.hero.weapon != null)
                 {
                     selection = state.hero.weapon;
                     state.hero.weapon = null;
-                    selectOrigin = new Point(-3, 1);
+                    selectOrigin = new PointF(-3, 0.5f);
                 }
             }
 
@@ -112,31 +120,31 @@ namespace DungeonDrive
                     if (selection is Weapon)
                     {
                         if (state.hero.weapon != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.weapon;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
                         state.hero.weapon = (Weapon)selection;
                     }
                     else if (selection is Helmet)
                     {
                         if (state.hero.helmet != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.helmet;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.helmet;
                         state.hero.helmet = (Helmet)selection;
                     }
                     else if (selection is Armor)
                     {
                         if (state.hero.armor != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.armor;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.armor;
                         state.hero.armor = (Armor)selection;
                     }
                     else if (selection is Legs)
                     {
                         if (state.hero.legs != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.legs;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.legs;
                         state.hero.legs = (Legs)selection;
                     }
                     else if (selection is Shield)
                     {
                         if (state.hero.shield != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.shield;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.shield;
                         state.hero.shield = (Shield)selection;
                     }
                     else if (selection is Consumable)
@@ -156,7 +164,7 @@ namespace DungeonDrive
                             if (getBoxBounds(i, j).Contains(click))
                             {
                                 if (inventory[i][j] != null)
-                                    inventory[selectOrigin.X][selectOrigin.Y] = inventory[i][j];
+                                    inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = inventory[i][j];
                                 inventory[i][j] = selection;
                                 selection = null;
 
@@ -165,39 +173,39 @@ namespace DungeonDrive
                                 return;
                             }
 
-                    if (selection is Shield && getBoxBounds(-1, 1).Contains(click))
+                    if (selection is Shield && getBoxBounds(-1, 0.5f).Contains(click))
                     {
                         if (state.hero.shield != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.shield;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.shield;
                         state.hero.shield = (Shield)selection;
                     }
                     else if (selection is Helmet && getBoxBounds(-2, 0).Contains(click))
                     {
                         if (state.hero.helmet != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.helmet;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.helmet;
                         state.hero.helmet = (Helmet)selection;
                     }
                     else if (selection is Armor && getBoxBounds(-2, 1).Contains(click))
                     {
                         if (state.hero.armor != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.armor;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.armor;
                         state.hero.armor = (Armor)selection;
                     }
                     else if (selection is Legs && getBoxBounds(-2, 2).Contains(click))
                     {
                         if (state.hero.legs != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.legs;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.legs;
                         state.hero.legs = (Legs)selection;
                     }
-                    else if (selection is Weapon && getBoxBounds(-3, 1).Contains(click))
+                    else if (selection is Weapon && getBoxBounds(-3, 0.5f).Contains(click))
                     {
                         if (state.hero.weapon != null)
-                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.weapon;
+                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
                         state.hero.weapon = (Weapon)selection;
                     }
                     else
                     {
-                        inventory[selectOrigin.X][selectOrigin.Y] = selection;
+                        inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = selection;
                     }
                     selection = null;
                 }
@@ -235,32 +243,32 @@ namespace DungeonDrive
             for (int i = 0; i < inventory.Length; i++)
                 for (int j = 0; j < inventory[i].Length; j++)
                 {
-                    g.DrawImage(Properties.Resources.box, getBoxBounds(i, j));
+                    g.DrawImage(boxImg, getBoxBounds(i, j));
 
                     if(inventory[i][j] != null)
                         g.DrawImage(inventory[i][j].img, getBoxBounds(i, j));
                 }
 
-            g.DrawImage(Properties.Resources.shield, getBoxBounds(-1, 1));
+            g.DrawImage(shieldImg, getBoxBounds(-1, 0.5f));
             if(state.hero.shield != null)
-                g.DrawImage(state.hero.shield.img, getBoxBounds(-1, 1));
-            g.DrawImage(Properties.Resources.armor, getBoxBounds(-2, 1));
+                g.DrawImage(state.hero.shield.img, getBoxBounds(-1, 0.5f));
+            g.DrawImage(armorImg, getBoxBounds(-2, 1));
             if (state.hero.armor != null)
                 g.DrawImage(state.hero.armor.img, getBoxBounds(-2, 1));
-            g.DrawImage(Properties.Resources.helmet, getBoxBounds(-2, 0));
+            g.DrawImage(helmetImg, getBoxBounds(-2, 0));
             if (state.hero.helmet != null)
                 g.DrawImage(state.hero.helmet.img, getBoxBounds(-2, 0));
-            g.DrawImage(Properties.Resources.legs, getBoxBounds(-2, 2));
+            g.DrawImage(legsImg, getBoxBounds(-2, 2));
             if (state.hero.legs != null)
                 g.DrawImage(state.hero.legs.img, getBoxBounds(-2, 2));
-            g.DrawImage(Properties.Resources.weapon, getBoxBounds(-3, 1));
+            g.DrawImage(weaponImg, getBoxBounds(-3, 0.5f));
             if (state.hero.weapon != null)
-                g.DrawImage(state.hero.weapon.img, getBoxBounds(-3, 1));
+                g.DrawImage(state.hero.weapon.img, getBoxBounds(-3, 0.5f));
 
             RectangleF infoBox = getBoxBounds(-3, inventory.Length - 2);
             infoBox.Width *= 3;
             infoBox.Height *= 2;
-            g.DrawImage(Properties.Resources.info, infoBox);
+            g.DrawImage(infoImg, infoBox);
 
             if (selection != null)
             {
@@ -273,7 +281,7 @@ namespace DungeonDrive
                 if(dragging)
                     g.DrawImage(selection.img, mouse.X - boxSize / 2, mouse.Y - boxSize / 2, boxSize, boxSize);
                 else
-                    g.DrawImage(selection.img, getBoxBounds(selectOrigin.X, selectOrigin.Y));
+                    g.DrawImage(selection.img, getBoxBounds((int)selectOrigin.X, (int)selectOrigin.Y));
             }
         }
     }

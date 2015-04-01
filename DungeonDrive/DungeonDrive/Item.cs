@@ -10,50 +10,144 @@ namespace DungeonDrive
         public Bitmap img;
         public String description;
 
-        public Item(GameState state, Bitmap img, String description)
+        public Item(GameState state) { this.state = state; }
+    }
+
+    public class Helmet : Item
+    {
+        public int defense;
+
+        public Helmet(GameState state) : base(state)
         {
-            this.state = state;
+            Random rand = new Random();
+
+            switch(rand.Next(1))
+            {
+                case 0:
+                    this.img = Properties.Resources.shield_1;
+                    defense = 1 + rand.Next(state.hero.level);
+                    this.description = "Basic Helmet\nDefense: " + defense;
+                    break;
+            }
+        }
+
+        public Helmet(GameState state, Bitmap img, String description, int defense) : base(state)
+        {
             this.img = img;
             this.description = description;
+            this.defense = defense;
         }
     }
 
-    public abstract class Helmet : Item
+    public class Armor : Item
     {
         public int defense;
 
-        public Helmet(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+        public Armor(GameState state) : base(state)
+        {
+            Random rand = new Random();
+
+            switch(rand.Next(1))
+            {
+                case 0:
+                    this.img = Properties.Resources.shield_1;
+                    defense = 1 + rand.Next(state.hero.level);
+                    this.description = "Basic Armor\nDefense: " + defense;
+                    break;
+            }
+        }
+
+        public Armor(GameState state, Bitmap img, String description, int defense) : base(state)
+        {
+            this.img = img;
+            this.description = description;
+            this.defense = defense;
+        }
     }
 
-    public abstract class Armor : Item
+    public class Legs : Item
     {
         public int defense;
 
-        public Armor(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+        public Legs(GameState state) : base(state)
+        {
+            Random rand = new Random();
+
+            switch(rand.Next(1))
+            {
+                case 0:
+                    this.img = Properties.Resources.shield_1;
+                    defense = 1 + rand.Next(state.hero.level);
+                    this.description = "Basic Legs\nDefense: " + defense;
+                    break;
+            }
+        }
+
+        public Legs(GameState state, Bitmap img, String description, int defense) : base(state)
+        {
+            this.img = img;
+            this.description = description;
+            this.defense = defense;
+        }
     }
 
-    public abstract class Legs : Item
+    public class Shield : Item
     {
         public int defense;
 
-        public Legs(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+        public Shield(GameState state) : base(state)
+        {
+            Random rand = new Random();
+
+            switch(rand.Next(2))
+            {
+                case 0:
+                    this.img = Properties.Resources.shield_2;
+                    defense = 1 + rand.Next(state.hero.level);
+                    this.description = "Basic Shield\nDefense: " + defense;
+                    break;
+                case 1:
+                    this.img = Properties.Resources.shield_1;
+                    defense = 3 + rand.Next(state.hero.level);
+                    this.description = "Diamond Shield\nDefense: " + defense;
+                    break;
+            }
+        }
+
+        public Shield(GameState state, Bitmap img, String description, int defense) : base(state)
+        {
+            this.img = img;
+            this.description = description;
+            this.defense = defense;
+        }
     }
 
-    public abstract class Shield : Item
-    {
-        public int defense;
-
-        public Shield(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
-    }
-
-    public abstract class Weapon : Item
+    public class Weapon : Item
     {
         public int damage;
         public bool ranged;
         public Bitmap projectileImg = null;
 
-        public Weapon(GameState state, Bitmap img, String description, int damage, bool ranged) : base(state, img, description)
+        public Weapon(GameState state) : base(state)
         {
+            Random rand = new Random();
+
+            switch(rand.Next(1))
+            {
+                case 0:
+                    this.img = Properties.Resources.wand_1;
+                    projectileImg = Properties.Resources.fire;
+                    damage = 1 + rand.Next(state.hero.level);
+                    ranged = true;
+                    this.description = "Basic Wand\nDamage: " + damage + "\nRanged: " + ranged;
+                    break;
+            }
+        }
+
+        public Weapon(GameState state, Bitmap img, String description, int damage, bool ranged) : base(state)
+        {
+            this.img = img;
+            this.description = description;
             this.damage = damage;
             this.ranged = ranged;
         }
@@ -61,27 +155,13 @@ namespace DungeonDrive
 
     public abstract class Consumable : Item
     {
-        public Consumable(GameState state, Bitmap img, String description) : base(state, img, description) { }
+        public Consumable(GameState state, Bitmap img, String description) : base(state)
+        {
+            this.img = img;
+            this.description = description;
+        }
 
         public abstract void use();
-    }
-
-    public class BasicShield : Shield
-    {
-        public BasicShield(GameState state) : base(state, Properties.Resources.shield_2, "Basic Shield", 3) { }
-    }
-
-    public class DiamondShield : Shield
-    {
-        public DiamondShield(GameState state) : base(state, Properties.Resources.shield_1, "Diamond Shield", 3) { }
-    }
-
-    public class Wand : Weapon
-    {
-        public Wand(GameState state) : base(state, Properties.Resources.wand_1, "Wand", 10, true)
-        {
-            projectileImg = Properties.Resources.fire;
-        }
     }
 
     public class SmallPotion : Consumable

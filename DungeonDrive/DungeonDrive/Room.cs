@@ -67,6 +67,7 @@ namespace DungeonDrive
         private Random rand;
         public Random stairsRand;
         private Bitmap floor = new Bitmap(Properties.Resources.floor);
+        private Bitmap wall = new Bitmap(Properties.Resources.wall);
 
         public Room(GameState state, string path)
         {
@@ -1210,33 +1211,14 @@ namespace DungeonDrive
         public void draw(Graphics g)
         {
             
-            for (int i = 0; i < state.room.width; i++){
+            for (int i = 0; i < state.room.width; i++)
+            {
                 for (int j = 0; j < state.room.height; j++)
                 {
                     if (roomNumSpace[i, j] != -1)
-                    {
                         g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
-                        
-                        //if (!hallwaySpace[i, j])
-                        //{
-                            //g.DrawImage(floor, (int)(state.form.ClientSize.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
-                        //}
-                        //else
-                        //{
-                        //    g.DrawRectangle(Pens.Pink, (int)(state.width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
-                        //}
-                        
-
-                        //g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), state.size, state.size);
-                    }
-                    
-                    if(wallSpace[i,j]){
-                        g.FillRectangle(Brushes.BurlyWood, (int)(state.form.ClientSize.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.ClientSize.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
-                    }
-                    //else
-                    //{
-                    //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-                    //}
+                    if(wallSpace[i,j])
+                        g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
                 }
             }
                         
