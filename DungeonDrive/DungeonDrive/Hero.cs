@@ -21,6 +21,8 @@ namespace DungeonDrive
         private SoundPlayer attack3;
         private SoundPlayer level_up;
         private Random r;
+        private Bitmap[,] imgs = new Bitmap[8, 8];
+        private int imgDir = 0;
 
         public Helmet helmet = null;
         public Armor armor = null;
@@ -47,6 +49,80 @@ namespace DungeonDrive
             this.expcap = 10.0;
             this.level = 1;
 
+            // init hero imges
+            //w
+            imgs[2, 0] = new Bitmap(Properties.Resources.w1);
+            imgs[2, 1] = new Bitmap(Properties.Resources.w2);
+            imgs[2, 2] = new Bitmap(Properties.Resources.w3);
+            imgs[2, 3] = new Bitmap(Properties.Resources.w4);
+            imgs[2, 4] = new Bitmap(Properties.Resources.w5);
+            imgs[2, 5] = new Bitmap(Properties.Resources.w6);
+            imgs[2, 6] = new Bitmap(Properties.Resources.w7);
+            imgs[2, 7] = new Bitmap(Properties.Resources.w8);
+            //wd
+            imgs[3, 0] = new Bitmap(Properties.Resources.wd1);
+            imgs[3, 1] = new Bitmap(Properties.Resources.wd2);
+            imgs[3, 2] = new Bitmap(Properties.Resources.wd3);
+            imgs[3, 3] = new Bitmap(Properties.Resources.wd4);
+            imgs[3, 4] = new Bitmap(Properties.Resources.wd5);
+            imgs[3, 5] = new Bitmap(Properties.Resources.wd6);
+            imgs[3, 6] = new Bitmap(Properties.Resources.wd7);
+            imgs[3, 7] = new Bitmap(Properties.Resources.wd8);
+            //d
+            imgs[4, 0] = new Bitmap(Properties.Resources.d1);
+            imgs[4, 1] = new Bitmap(Properties.Resources.d2);
+            imgs[4, 2] = new Bitmap(Properties.Resources.d3);
+            imgs[4, 3] = new Bitmap(Properties.Resources.d4);
+            imgs[4, 4] = new Bitmap(Properties.Resources.d5);
+            imgs[4, 5] = new Bitmap(Properties.Resources.d6);
+            imgs[4, 6] = new Bitmap(Properties.Resources.d7);
+            imgs[4, 7] = new Bitmap(Properties.Resources.d8);
+            //sd
+            imgs[5, 0] = new Bitmap(Properties.Resources.sd1);
+            imgs[5, 1] = new Bitmap(Properties.Resources.sd2);
+            imgs[5, 2] = new Bitmap(Properties.Resources.sd3);
+            imgs[5, 3] = new Bitmap(Properties.Resources.sd4);
+            imgs[5, 4] = new Bitmap(Properties.Resources.sd5);
+            imgs[5, 5] = new Bitmap(Properties.Resources.sd6);
+            imgs[5, 6] = new Bitmap(Properties.Resources.sd7);
+            imgs[5, 7] = new Bitmap(Properties.Resources.sd8);
+            //s
+            imgs[6, 0] = new Bitmap(Properties.Resources.s1);
+            imgs[6, 1] = new Bitmap(Properties.Resources.s2);
+            imgs[6, 2] = new Bitmap(Properties.Resources.s3);
+            imgs[6, 3] = new Bitmap(Properties.Resources.s4);
+            imgs[6, 4] = new Bitmap(Properties.Resources.s5);
+            imgs[6, 5] = new Bitmap(Properties.Resources.s6);
+            imgs[6, 6] = new Bitmap(Properties.Resources.s7);
+            imgs[6, 7] = new Bitmap(Properties.Resources.s8);
+            //sa
+            imgs[7, 0] = new Bitmap(Properties.Resources.sa1);
+            imgs[7, 1] = new Bitmap(Properties.Resources.sa2);
+            imgs[7, 2] = new Bitmap(Properties.Resources.sa3);
+            imgs[7, 3] = new Bitmap(Properties.Resources.sa4);
+            imgs[7, 4] = new Bitmap(Properties.Resources.sa5);
+            imgs[7, 5] = new Bitmap(Properties.Resources.sa6);
+            imgs[7, 6] = new Bitmap(Properties.Resources.sa7);
+            imgs[7, 7] = new Bitmap(Properties.Resources.sa8);
+            //a
+            imgs[0, 0] = new Bitmap(Properties.Resources.a1);
+            imgs[0, 1] = new Bitmap(Properties.Resources.a2);
+            imgs[0, 2] = new Bitmap(Properties.Resources.a3);
+            imgs[0, 3] = new Bitmap(Properties.Resources.a4);
+            imgs[0, 4] = new Bitmap(Properties.Resources.a5);
+            imgs[0, 5] = new Bitmap(Properties.Resources.a6);
+            imgs[0, 6] = new Bitmap(Properties.Resources.a7);
+            imgs[0, 7] = new Bitmap(Properties.Resources.a8);
+            //wa
+            imgs[1, 0] = new Bitmap(Properties.Resources.wa1);
+            imgs[1, 1] = new Bitmap(Properties.Resources.wa2);
+            imgs[1, 2] = new Bitmap(Properties.Resources.wa3);
+            imgs[1, 3] = new Bitmap(Properties.Resources.wa4);
+            imgs[1, 4] = new Bitmap(Properties.Resources.wa5);
+            imgs[1, 5] = new Bitmap(Properties.Resources.wa6);
+            imgs[1, 6] = new Bitmap(Properties.Resources.wa7);
+            imgs[1, 7] = new Bitmap(Properties.Resources.wa8);
+
             // for testing
             this.atk_dmg = 100;
             r = new Random();
@@ -70,6 +146,15 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
+            if (dir <= -7.0 / 8.0 * Math.PI || dir >= 7.0 / 8.0 * Math.PI) imgDir = 0;
+            else if (dir > -7.0 / 8.0 * Math.PI && dir <= -5.0 / 8.0 * Math.PI) imgDir = 1;
+            else if (dir > -5.0 / 8.0 * Math.PI && dir <= -3.0 / 8.0 * Math.PI) imgDir = 2;
+            else if (dir > -3.0 / 8.0 * Math.PI && dir <= -1.0 / 8.0 * Math.PI) imgDir = 3;
+            else if (dir > -1.0 / 8.0 * Math.PI && dir <= 1.0 / 8.0 * Math.PI) imgDir = 4;
+            else if (dir > 1.0 / 8.0 * Math.PI && dir <= 3.0 / 8.0 * Math.PI) imgDir = 5;
+            else if (dir > 3.0 / 8.0 * Math.PI && dir <= 5.0 / 8.0 * Math.PI) imgDir = 6;
+            else if (dir > 5.0 / 8.0 * Math.PI && dir <= 7.0 / 8.0 * Math.PI) imgDir = 7;
+
             double xNext = x;
             double yNext = y;
 
@@ -87,6 +172,7 @@ namespace DungeonDrive
                 }
                 else
                     yNext = y - speed;
+                animate();
             }
             else if (dirs[2] && !dirs[0])
             {
@@ -102,14 +188,24 @@ namespace DungeonDrive
                 }
                 else
                     yNext = y + speed;
+                animate();
             }
             else if (dirs[1] && !dirs[3])
+            {
                 xNext = x - speed;
+                animate();
+            }
             else if (dirs[3] && !dirs[1])
-                xNext = x + speed;
+            {
+                xNext = x + speed; 
+                animate();
+            }
 
             tryMove(xNext, yNext);
         }
+
+        private void animate()
+        {   animFrame = (animFrame + 0.3) % 8;  }
 
         private void handleAttacking()
         {
@@ -138,7 +234,7 @@ namespace DungeonDrive
                             catch (FileNotFoundException) { }
                             double factor = 1 / Math.Sqrt(Math.Pow(enemy.x - x, 2) + Math.Pow(enemy.y - y, 2));
                             knockBack(enemy, (enemy.x - x) * factor, (enemy.y - y) * factor, 0.4);
-                            enemy.hp -= 2 + 0.8 *atk_dmg;
+                            enemy.hp -= 2 + 0.8 * atk_dmg;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
@@ -183,8 +279,6 @@ namespace DungeonDrive
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
-                    //getRdnWeapon(deletingEnemy);
-                    
                     state.room.enemies.Remove(deletingEnemy);
                 }
                 deletingList.Clear();
@@ -199,7 +293,7 @@ namespace DungeonDrive
         }
 
         private double rdnDouble(double first, double second)
-        { return Math.Round(r.NextDouble() * (second - first) + first,2); }
+        { return Math.Round(r.NextDouble() * (second - first) + first, 2); }
 
         /*private void getRdnWeapon(Unit enemy)
         {
@@ -254,7 +348,7 @@ namespace DungeonDrive
 
         public void experience(Unit enemy, double multiplier)
         {
-            this.exp += enemy.exp*multiplier;
+            this.exp += enemy.exp * multiplier;
             if (this.exp >= this.expcap)
                 levelUp();
         }
@@ -308,7 +402,7 @@ namespace DungeonDrive
 
         public void drawExpBar(Graphics g)
         { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
-        
+
         public override void draw(Graphics g)
         {
             if (!alive)
@@ -319,17 +413,15 @@ namespace DungeonDrive
 
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
-           
-            g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
-            
-            // facing indicator
-            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + state.form.ClientSize.Width / 2 - 5), (float)(Math.Sin(dir) * 10 + state.form.ClientSize.Height / 2 - 5), 10, 10);
 
             // cd indicator
             for (int i = 0; i < state.hero.atk_cd.Length; i++)
                 if (!state.hero.atk_cd[i])
                     g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
-            
+
+            Console.WriteLine(imgDir);
+            g.DrawImage(imgs[imgDir, (int)animFrame], DrawX-6, DrawY-6, (int)(radius * 3 * state.size), (int)(radius * 3 * state.size));
+
             drawHpBar(g);
             drawExpBar(g);
         }

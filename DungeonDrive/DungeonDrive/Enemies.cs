@@ -5,7 +5,6 @@ namespace DungeonDrive
 {
     public class Bat : Unit
     {
-        private double animFrame = 0;
         private Bitmap[] imgs = new Bitmap[3];
 
         public Bat(GameState state, double x, double y) : base(state, x, y)
@@ -108,7 +107,6 @@ namespace DungeonDrive
 
     public class Spider : Unit
     {
-        private double animFrame = 0;
         private Bitmap[] imgs = new Bitmap[3];
 
         public Spider(GameState state, double x, double y)
