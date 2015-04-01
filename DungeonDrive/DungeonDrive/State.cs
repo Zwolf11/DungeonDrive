@@ -9,6 +9,7 @@ namespace DungeonDrive
         public MainForm form;
         public State parent = null;
         public List<State> children = new List<State>();
+        public bool covered = false;
         public bool paused = false;
 
         public State(MainForm form) { this.form = form; }
@@ -21,8 +22,9 @@ namespace DungeonDrive
         public abstract void paint(object sender, PaintEventArgs e);
         public abstract void tick(object sender, EventArgs e);
 
-        public void addChildState(State state, bool pause)
+        public void addChildState(State state, bool cover, bool pause)
         {
+            covered = cover;
             paused = pause;
             children.Add(state);
             state.parent = this;
@@ -33,6 +35,8 @@ namespace DungeonDrive
             form.MouseUp -= this.mouseUp;
             form.MouseMove -= this.mouseMove;
 
+            if (cover)
+                form.Paint -= this.paint;
             if (pause)
                 form.timer.Tick -= this.tick;
 
@@ -77,6 +81,11 @@ namespace DungeonDrive
                     form.MouseUp += parent.mouseUp;
                     form.MouseMove += parent.mouseMove;
 
+                    if (parent.covered)
+                    {
+                        form.Paint += parent.paint;
+                        parent.covered = false;
+                    }
                     if (parent.paused)
                     {
                         form.timer.Tick += parent.tick;

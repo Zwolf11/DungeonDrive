@@ -9,8 +9,8 @@ namespace DungeonDrive
 {
     public class Hero : Unit
     {
-        new public int DrawX { get { return (int)(state.form.Width / 2 - state.size * radius); } }
-        new public int DrawY { get { return (int)(state.form.Height / 2 - state.size * radius); } }
+        new public int DrawX { get { return (int)(state.form.ClientSize.Width / 2 - state.size * radius); } }
+        new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Projectile> projectiles = new List<Projectile>();
         private List<Projectile> deletingProj = new List<Projectile>();
@@ -21,6 +21,12 @@ namespace DungeonDrive
         private SoundPlayer attack3;
         private SoundPlayer level_up;
         private Random r;
+
+        public Helmet helmet = null;
+        public Armor armor = null;
+        public Legs legs = null;
+        public Shield shield = null;
+        public Weapon weapon = null;
 
         public float dir = 0;
         private bool shooting = false;
@@ -47,14 +53,10 @@ namespace DungeonDrive
 
             Projectile.style = Projectile.AtkStyle.Frozen;
 
-            try
-            {
-                attack1 = new SoundPlayer(@"attack1.wav");
-                attack2 = new SoundPlayer(@"attack2.wav");
-                attack3 = new SoundPlayer(@"attack3.wav");
-                level_up = new SoundPlayer(@"level_up.wav");
-            }
-            catch (FileNotFoundException) { }
+            attack1 = new SoundPlayer(Properties.Resources.attack1);
+            attack2 = new SoundPlayer(Properties.Resources.attack2);
+            attack3 = new SoundPlayer(Properties.Resources.attack3);
+            level_up = new SoundPlayer(Properties.Resources.level_up);
         }
 
         private void handleCursor()
@@ -67,8 +69,6 @@ namespace DungeonDrive
         {
             if (knockback)
                 knockBacked();
-
-            dir = (float)Math.Atan2(Cursor.Position.Y - (state.form.Height / 2), Cursor.Position.X - (state.form.Width / 2));
 
             double xNext = x;
             double yNext = y;
@@ -183,7 +183,7 @@ namespace DungeonDrive
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
-                    getRdnWeapon(deletingEnemy);
+                    //getRdnWeapon(deletingEnemy);
                     
                     state.room.enemies.Remove(deletingEnemy);
                 }
@@ -201,7 +201,7 @@ namespace DungeonDrive
         private double rdnDouble(double first, double second)
         { return Math.Round(r.NextDouble() * (second - first) + first,2); }
 
-        private void getRdnWeapon(Unit enemy)
+        /*private void getRdnWeapon(Unit enemy)
         {
             if (r.NextDouble() >= (1 - enemy.dropWpnFac))
             {
@@ -218,7 +218,7 @@ namespace DungeonDrive
                 Console.WriteLine("dropped a weapon from enemy " + enemy.GetType().ToString());
                 Console.WriteLine(newWeapon.itemDesc);
             }
-        }
+        }*/
 
         public void basicAtk()
         {
@@ -313,7 +313,7 @@ namespace DungeonDrive
         {
             if (!alive)
             {
-                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(state.form.Width / 2 - 60, 5));
+                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(state.form.ClientSize.Width / 2 - 60, 5));
                 return;
             }
 
@@ -323,7 +323,7 @@ namespace DungeonDrive
             g.FillEllipse(Brushes.RoyalBlue, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             
             // facing indicator
-            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + state.form.Width / 2 - 5), (float)(Math.Sin(dir) * 10 + state.form.Height / 2 - 5), 10, 10);
+            g.FillEllipse(Brushes.Yellow, (float)(Math.Cos(dir) * 10 + state.form.ClientSize.Width / 2 - 5), (float)(Math.Sin(dir) * 10 + state.form.ClientSize.Height / 2 - 5), 10, 10);
 
             // cd indicator
             for (int i = 0; i < state.hero.atk_cd.Length; i++)

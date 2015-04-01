@@ -1215,11 +1215,11 @@ namespace DungeonDrive
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
-                        g.DrawImage(floor, (int)(i * state.size + state.form.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.Height / 2 - state.hero.y * state.size));
+                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
                         
                         //if (!hallwaySpace[i, j])
                         //{
-                            //g.DrawImage(floor, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
+                            //g.DrawImage(floor, (int)(state.form.ClientSize.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
                         //}
                         //else
                         //{
@@ -1231,7 +1231,7 @@ namespace DungeonDrive
                     }
                     
                     if(wallSpace[i,j]){
-                        g.FillRectangle(Brushes.BurlyWood, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
+                        g.FillRectangle(Brushes.BurlyWood, (int)(state.form.ClientSize.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.ClientSize.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
                     }
                     //else
                     //{

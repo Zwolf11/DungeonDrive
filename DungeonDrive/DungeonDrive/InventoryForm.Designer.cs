@@ -1,4 +1,4 @@
-﻿namespace DungeonDrive
+﻿/*namespace DungeonDrive
 {
     partial class InventoryForm
     {
@@ -641,4 +641,4 @@
 
 
     }
-}
+}*/

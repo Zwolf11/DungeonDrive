@@ -6,45 +6,274 @@ namespace DungeonDrive
 {
     public class InventoryState : State
     {
+        private Item selection = null;
+        private Point selectOrigin = new Point(-1, -1);
+        private Point dragLoc = new Point(-1, -1);
+        private Point mouse = new Point(-1, -1);
+        private bool dragging = false;
+        private GameState state { get { return (GameState)parent; } }
+
         public InventoryState(MainForm form) : base(form) { }
 
-        private Item[][] getInventory()
+        private RectangleF getBoxBounds(int i, int j)
         {
-            GameState gs = (GameState)parent;
-            return gs.inventory;
+            Item[][] inventory = state.inventory;
+            float boxSize = form.ClientSize.Height / (inventory.Length + 4);
+            float padding = form.ClientSize.Height / 300;
+
+            float left = form.ClientSize.Width / 2.0f - (inventory.Length + 1.5f) / 2.0f * boxSize + (i + 2) * boxSize + padding;
+            float top = (j + 2) * boxSize + padding;
+            float size = boxSize - 2 * padding;
+
+            return new RectangleF(left, top, size, size);
         }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
-        public override void mouseDown(object sender, MouseEventArgs e) { }
-        public override void mouseUp(object sender, MouseEventArgs e) { }
-        public override void mouseMove(object sender, MouseEventArgs e) { }
         public override void tick(object sender, EventArgs e) { }
+
+        public override void mouseDown(object sender, MouseEventArgs e)
+        {
+            Item[][] inventory = state.inventory;
+            Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+
+            for(int i=0;i<inventory.Length;i++)
+                for(int j=0;j<inventory[i].Length;j++)
+                    if(getBoxBounds(i, j).Contains(click))
+                    {
+                        selection = inventory[i][j];
+                        inventory[i][j] = null;
+                        selectOrigin = new Point(i, j);
+                        dragLoc = new Point(e.X, e.Y);
+
+                        mouse = e.Location;
+                        form.Invalidate();
+                        return;
+                    }
+
+            if (getBoxBounds(-1, 1).Contains(click))
+            {
+                if (state.hero.shield != null)
+                {
+                    selection = state.hero.shield;
+                    state.hero.shield = null;
+                    selectOrigin = new Point(-1, 1);
+                }
+            }
+            else if (getBoxBounds(-2, 0).Contains(click))
+            {
+                if (state.hero.helmet != null)
+                {
+                    selection = state.hero.helmet;
+                    state.hero.helmet = null;
+                    selectOrigin = new Point(-2, 0);
+                }
+            }
+            else if (getBoxBounds(-2, 1).Contains(click))
+            {
+                if (state.hero.armor != null)
+                {
+                    selection = state.hero.armor;
+                    state.hero.armor = null;
+                    selectOrigin = new Point(-2, 1);
+                }
+            }
+            else if (getBoxBounds(-2, 2).Contains(click))
+            {
+                if (state.hero.legs != null)
+                {
+                    selection = state.hero.legs;
+                    state.hero.legs = null;
+                    selectOrigin = new Point(-2, 2);
+                }
+            }
+            else if (getBoxBounds(-3, 1).Contains(click))
+            {
+                if (state.hero.weapon != null)
+                {
+                    selection = state.hero.weapon;
+                    state.hero.weapon = null;
+                    selectOrigin = new Point(-3, 1);
+                }
+            }
+
+            dragLoc = new Point(e.X, e.Y);
+            mouse = e.Location;
+            form.Invalidate();
+        }
+
+        public override void mouseUp(object sender, MouseEventArgs e)
+        {
+            if (selection != null)
+            {
+                if (!dragging)
+                {
+                    Item[][] inventory = state.inventory;
+
+                    if (selection is Weapon)
+                    {
+                        if (state.hero.weapon != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.weapon;
+                        state.hero.weapon = (Weapon)selection;
+                    }
+                    else if (selection is Helmet)
+                    {
+                        if (state.hero.helmet != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.helmet;
+                        state.hero.helmet = (Helmet)selection;
+                    }
+                    else if (selection is Armor)
+                    {
+                        if (state.hero.armor != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.armor;
+                        state.hero.armor = (Armor)selection;
+                    }
+                    else if (selection is Legs)
+                    {
+                        if (state.hero.legs != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.legs;
+                        state.hero.legs = (Legs)selection;
+                    }
+                    else if (selection is Shield)
+                    {
+                        if (state.hero.shield != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.shield;
+                        state.hero.shield = (Shield)selection;
+                    }
+                    else if (selection is Consumable)
+                    {
+                        Consumable item = (Consumable)selection;
+                        item.use();
+                    }
+                    selection = null;
+                }
+                else
+                {
+                    Item[][] inventory = state.inventory;
+                    Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+
+                    for (int i = 0; i < inventory.Length; i++)
+                        for (int j = 0; j < inventory[i].Length; j++)
+                            if (getBoxBounds(i, j).Contains(click))
+                            {
+                                if (inventory[i][j] != null)
+                                    inventory[selectOrigin.X][selectOrigin.Y] = inventory[i][j];
+                                inventory[i][j] = selection;
+                                selection = null;
+
+                                dragging = false;
+                                form.Invalidate();
+                                return;
+                            }
+
+                    if (selection is Shield && getBoxBounds(-1, 1).Contains(click))
+                    {
+                        if (state.hero.shield != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.shield;
+                        state.hero.shield = (Shield)selection;
+                    }
+                    else if (selection is Helmet && getBoxBounds(-2, 0).Contains(click))
+                    {
+                        if (state.hero.helmet != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.helmet;
+                        state.hero.helmet = (Helmet)selection;
+                    }
+                    else if (selection is Armor && getBoxBounds(-2, 1).Contains(click))
+                    {
+                        if (state.hero.armor != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.armor;
+                        state.hero.armor = (Armor)selection;
+                    }
+                    else if (selection is Legs && getBoxBounds(-2, 2).Contains(click))
+                    {
+                        if (state.hero.legs != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.legs;
+                        state.hero.legs = (Legs)selection;
+                    }
+                    else if (selection is Weapon && getBoxBounds(-3, 1).Contains(click))
+                    {
+                        if (state.hero.weapon != null)
+                            inventory[selectOrigin.X][selectOrigin.Y] = state.hero.weapon;
+                        state.hero.weapon = (Weapon)selection;
+                    }
+                    else
+                    {
+                        inventory[selectOrigin.X][selectOrigin.Y] = selection;
+                    }
+                    selection = null;
+                }
+
+                dragging = false;
+                form.Invalidate();
+            }
+        }
+
+        public override void mouseMove(object sender, MouseEventArgs e)
+        {
+            if (selection != null)
+            {
+                mouse = e.Location;
+                if (!dragging && Math.Sqrt(Math.Pow(e.X - dragLoc.X, 2) + Math.Pow(e.Y - dragLoc.Y, 2)) > 20)
+                    dragging = true;
+
+                form.Invalidate();
+            }
+        }
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Properties.Settings.Default.CloseKey || e.KeyCode == Properties.Settings.Default.InventoryKey)
-            {
                 this.close();
-            }
         }
 
         public override void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 100, 100)), form.Width / 4, form.Height / 4, form.Width / 2, form.Height / 2);
 
-            Item[][] inventory = getInventory();
-            int boxWidth = form.Width / 2 / inventory.Length;
-            int boxHeight = form.Height / 2 / inventory[0].Length;
-            float paddingWidth = form.Width / 300;
-            float paddingHeight = form.Height / 300;
+            Item[][] inventory = state.inventory;
+            int boxSize = form.ClientSize.Height / (inventory.Length + 4);
 
-            for (int i                                                                                                                                                                                                                                                                                                                                                                                                    = 0; i < inventory.Length; i++)
-            {
+            for (int i = 0; i < inventory.Length; i++)
                 for (int j = 0; j < inventory[i].Length; j++)
                 {
-                    g.FillRectangle(new SolidBrush(Color.FromArgb(50, 50, 50)), form.Width / 4 + i * boxWidth + paddingWidth, form.Height / 4 + j * boxHeight + paddingHeight, boxWidth - 2 * paddingWidth, boxHeight - 2 * paddingHeight);
+                    g.DrawImage(Properties.Resources.box, getBoxBounds(i, j));
+
+                    if(inventory[i][j] != null)
+                        g.DrawImage(inventory[i][j].img, getBoxBounds(i, j));
                 }
+
+            g.DrawImage(Properties.Resources.shield, getBoxBounds(-1, 1));
+            if(state.hero.shield != null)
+                g.DrawImage(state.hero.shield.img, getBoxBounds(-1, 1));
+            g.DrawImage(Properties.Resources.armor, getBoxBounds(-2, 1));
+            if (state.hero.armor != null)
+                g.DrawImage(state.hero.armor.img, getBoxBounds(-2, 1));
+            g.DrawImage(Properties.Resources.helmet, getBoxBounds(-2, 0));
+            if (state.hero.helmet != null)
+                g.DrawImage(state.hero.helmet.img, getBoxBounds(-2, 0));
+            g.DrawImage(Properties.Resources.legs, getBoxBounds(-2, 2));
+            if (state.hero.legs != null)
+                g.DrawImage(state.hero.legs.img, getBoxBounds(-2, 2));
+            g.DrawImage(Properties.Resources.weapon, getBoxBounds(-3, 1));
+            if (state.hero.weapon != null)
+                g.DrawImage(state.hero.weapon.img, getBoxBounds(-3, 1));
+
+            RectangleF infoBox = getBoxBounds(-3, inventory.Length - 2);
+            infoBox.Width *= 3;
+            infoBox.Height *= 2;
+            g.DrawImage(Properties.Resources.info, infoBox);
+
+            if (selection != null)
+            {
+                Font font = new Font("Arial", form.ClientSize.Height / 50);
+                g.DrawString(selection.description, font, Brushes.White, new PointF(infoBox.X + infoBox.Width / 20, infoBox.Y + infoBox.Height / 20));
+            }
+
+            if (selection != null)
+            {
+                if(dragging)
+                    g.DrawImage(selection.img, mouse.X - boxSize / 2, mouse.Y - boxSize / 2, boxSize, boxSize);
+                else
+                    g.DrawImage(selection.img, getBoxBounds(selectOrigin.X, selectOrigin.Y));
             }
         }
     }

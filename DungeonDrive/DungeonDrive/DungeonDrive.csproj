@@ -98,6 +98,24 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\info.png" />
+    <None Include="Resources\weapon.png" />
+    <None Include="Resources\shield.png" />
+    <None Include="Resources\legs.png" />
+    <None Include="Resources\helmet.png" />
+    <None Include="Resources\box.png" />
+    <None Include="bin\Debug\HP_Postion_g.png" />
+    <None Include="bin\Debug\HP_Potion_m.png" />
+    <None Include="bin\Debug\HP_Potion_s.png" />
+    <None Include="bin\Debug\shield_1.png" />
+    <None Include="bin\Debug\shield_2.png" />
+    <None Include="bin\Debug\attack1.wav" />
+    <None Include="bin\Debug\attack2.wav" />
+    <None Include="bin\Debug\attack3.wav" />
+    <None Include="bin\Debug\level_up.wav" />
+    <None Include="bin\Debug\potion.wav" />
+    <None Include="bin\Debug\potion2.wav" />
+    <None Include="Resources\armor.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

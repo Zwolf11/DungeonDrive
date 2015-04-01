@@ -11,7 +11,7 @@ namespace DungeonDrive
         private int selection = 0;
         private Font titleFont = new Font("Arial", 36);
         private Font selectionFont = new Font("Arial", 16);
-        private SoundPlayer errorSound = new SoundPlayer(@"attack1.wav");
+        private SoundPlayer errorSound = new SoundPlayer(Properties.Resources.attack1);
 
         private String[] options = new String[]
         {
@@ -33,7 +33,7 @@ namespace DungeonDrive
         {
             if(e.KeyCode == Properties.Settings.Default.CloseKey)
             {
-                form.Close();
+                Application.Exit();
             }
             else if(e.KeyCode == Properties.Settings.Default.UpKey)
             {
@@ -47,18 +47,18 @@ namespace DungeonDrive
             else if(e.KeyCode == Properties.Settings.Default.SelectKey)
             {
                 if(selection == 0)
-                    this.addChildState(new GameState(form, false), true);
+                    this.addChildState(new GameState(form, false), true, true);
                 else if (selection == 1)
                 {
                     if (File.Exists("save"))
-                        this.addChildState(new GameState(form, true), true);
+                        this.addChildState(new GameState(form, true), true, true);
                     else
                         errorSound.Play();
                 }
                 else if (selection == 2)
-                    this.addChildState(new OptionsState(form), true);
+                    this.addChildState(new OptionsState(form), true, true);
                 else if (selection == 3)
-                    form.Close();
+                    Application.Exit();
             }
 
             form.Invalidate();
@@ -73,7 +73,7 @@ namespace DungeonDrive
             align.Alignment = StringAlignment.Center;
             align.LineAlignment = StringAlignment.Far;
 
-            g.DrawString("Dungeon Drive (D:)", titleFont, Brushes.White, new RectangleF(0, 0, form.Width, form.Height / 2), align);
+            g.DrawString("Dungeon Drive (D:)", titleFont, Brushes.White, new RectangleF(0, 0, form.ClientSize.Width, form.ClientSize.Height / 2), align);
 
             String selectString = "";
             for (int i = 0; i < options.Length; i++)
@@ -87,7 +87,7 @@ namespace DungeonDrive
                     selectString += "\n";
             }
             align.LineAlignment = StringAlignment.Near;
-            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(0, form.Height / 2, form.Width, form.Height / 2), align);
+            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(0, form.ClientSize.Height / 2, form.ClientSize.Width, form.ClientSize.Height / 2), align);
         }
     }
 }

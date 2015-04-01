@@ -6,14 +6,7 @@ c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive
 c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
 c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
 c:\users\zwolf11\documents\visual studio 2013\Projects\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
-C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 \\psf\Home\Downloads\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
@@ -86,3 +79,10 @@ D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolv
 \\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
 \\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
 \\psf\Home\Desktop\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache

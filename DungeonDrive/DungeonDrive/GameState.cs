@@ -9,34 +9,37 @@ namespace DungeonDrive
     {
         public Hero hero;
         public Room room;
-        public Item[][] inventory = new Item[10][];
-        public ActionBar actionBar;
+        public Item[][] inventory = new Item[5][];
+        public Item[] actionBar = new Item[10];
         public Font font = new Font("Arial", 12);
         public int size = 32;
         public String graveyard = "C:\\graveyard";
 
         public GameState(MainForm form, bool load) : base(form)
         {
+            for (int i = 0; i < inventory.Length; i++)
+                inventory[i] = new Item[5];
+
             if (load)
             {
                 String[] loadFile = File.ReadAllLines("save");
 
                 hero = new Hero(this, double.Parse(loadFile[0]), double.Parse(loadFile[1]));
                 room = new Room(this, loadFile[2]);
-                actionBar = new ActionBar(this, 12, new Bitmap(Properties.Resources.action_bar));
-
-                for (int i = 0; i < inventory.Length; i++)
-                    inventory[i] = new Item[10];
             }
             else
             {
                 hero = new Hero(this, 0, 0);
                 room = new Room(this, "C:\\");
-                actionBar = new ActionBar(this, 12, new Bitmap(Properties.Resources.action_bar));
-
-                for (int i = 0; i < inventory.Length; i++)
-                    inventory[i] = new Item[10];
             }
+
+            inventory[0][0] = new SmallPotion(this);
+            inventory[0][1] = new MediumPotion(this);
+            inventory[1][1] = new Wand(this);
+            inventory[2][0] = new LargePotion(this);
+            inventory[2][1] = new BasicShield(this);
+            hero.shield = new DiamondShield(this);
+            actionBar[0] = new SmallPotion(this);
         }
 
         public void saveGame()
@@ -54,7 +57,7 @@ namespace DungeonDrive
         {
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
             {
-                this.addChildState(new PauseState(form), true);
+                this.addChildState(new PauseState(form), false, true);
             }
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
@@ -74,7 +77,7 @@ namespace DungeonDrive
             }
             else if (e.KeyCode == Properties.Settings.Default.InventoryKey)
             {
-                this.addChildState(new InventoryState(form), false);
+                this.addChildState(new InventoryState(form), false, false);
             }
             else if (e.KeyCode == Properties.Settings.Default.Attack1Key)
             {
@@ -113,12 +116,26 @@ namespace DungeonDrive
         public override void mouseDown(object sender, MouseEventArgs e)
         {
             hero.basicAtk();
-            actionBar.getAction(e.X, e.Y);
         }
 
         public override void mouseMove(object sender, MouseEventArgs e)
         {
-            hero.dir = (float)Math.Atan2(e.Y - (form.Height / 2), Cursor.Position.X - (form.Width / 2));
+            hero.dir = (float)Math.Atan2(e.Y - (form.ClientSize.Height / 2), e.X - (form.ClientSize.Width / 2));
+        }
+
+        private void drawActionBar(Graphics g)
+        {
+            int boxSize = form.ClientSize.Width / (actionBar.Length + 8);
+            int barHeight = form.ClientSize.Height - (int)(1.25 * boxSize);
+            int padding = form.ClientSize.Width / 300;
+
+            for (int i = 0; i < actionBar.Length; i++)
+            {
+                g.DrawImage(Properties.Resources.box, (i + 4) * boxSize + padding, barHeight + padding, boxSize - padding * 2, boxSize - padding * 2);
+
+                if(actionBar[i] != null)
+                    g.DrawImage(actionBar[i].img, (i + 4) * boxSize + padding, barHeight + padding, boxSize - padding * 2, boxSize - padding * 2);
+            }
         }
 
         public override void paint(object sender, PaintEventArgs e)
@@ -128,7 +145,8 @@ namespace DungeonDrive
 
             room.draw(g);
             hero.draw(g);
-            actionBar.draw(g);
+
+            //drawActionBar(g);
         }
 
         public override void tick(object sender, EventArgs e)

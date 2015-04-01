@@ -139,7 +139,7 @@ namespace DungeonDrive
             align.Alignment = StringAlignment.Center;
             align.LineAlignment = StringAlignment.Far;
 
-            g.DrawString("Options", titleFont, Brushes.White, new RectangleF(0, 0, form.Width, 0.3f * form.Height), align);
+            g.DrawString("Options", titleFont, Brushes.White, new RectangleF(0, 0, form.ClientSize.Width, 0.3f * form.ClientSize.Height), align);
 
             String selectString = "";
             for (int i = 0; i < options.Length; i++)
@@ -153,7 +153,7 @@ namespace DungeonDrive
                     selectString += "\n";
             }
             align.LineAlignment = StringAlignment.Near;
-            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(0, 0.3f * form.Height, form.Width, 0.7f * form.Height), align);
+            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(0, 0.3f * form.ClientSize.Height, form.ClientSize.Width, 0.7f * form.ClientSize.Height), align);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace DungeonDrive
                 else if (selection == 1)
                     trySaveGame();
                 else if (selection == 2)
-                    this.addChildState(new OptionsState(form), true);
+                    this.addChildState(new OptionsState(form), true, true);
                 else if (selection == 3)
                     parent.close();
             }
@@ -65,13 +65,13 @@ namespace DungeonDrive
         public override void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.FillRectangle(new SolidBrush(Color.FromArgb(100, 100, 100)), form.Width / 4, form.Height / 4, form.Width / 2, form.Height / 2);
+            g.DrawImage(Properties.Resources.info, form.ClientSize.Width / 4, form.ClientSize.Height / 4, form.ClientSize.Width / 2, form.ClientSize.Height / 2);
 
             StringFormat align = new StringFormat();
             align.Alignment = StringAlignment.Center;
             align.LineAlignment = StringAlignment.Far;
 
-            g.DrawString("Paused", titleFont, Brushes.White, new RectangleF(form.Width / 4, form.Height / 4, form.Width / 2, form.Height / 4), align);
+            g.DrawString("Paused", titleFont, Brushes.White, new RectangleF(form.ClientSize.Width / 4, form.ClientSize.Height / 4, form.ClientSize.Width / 2, form.ClientSize.Height / 4), align);
 
             String selectString = "";
             for (int i = 0; i < options.Length; i++)
@@ -85,7 +85,7 @@ namespace DungeonDrive
                     selectString += "\n";
             }
             align.LineAlignment = StringAlignment.Near;
-            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(form.Width / 4, form.Height / 2, form.Width / 2, form.Height / 4), align);
+            g.DrawString(selectString, selectionFont, Brushes.White, new RectangleF(form.ClientSize.Width / 4, form.ClientSize.Height / 2, form.ClientSize.Width / 2, form.ClientSize.Height / 4), align);
         }
     }
 }

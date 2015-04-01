@@ -1,83 +1,140 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
 using System.Drawing;
+using System.Media;
 
 namespace DungeonDrive
 {
-    public class Item
+    public abstract class Item
     {
-        public string itemName;
-        public int itemID;
-        public Bitmap itemImage;
-        public string itemDesc;
+        protected GameState state;
+        public Bitmap img;
+        public String description;
 
-        public Item(int ID, string name, Bitmap image)
+        public Item(GameState state, Bitmap img, String description)
         {
-            this.itemID = ID;
-            this.itemName = name;
-            this.itemImage = image;
-            this.itemDesc = "no description";
-        }
-        public string getName()
-        {
-            return this.itemName;
-        }
-        public int getID()
-        {
-            return this.itemID;
-        }
-        public void updateDesc(string description)
-        {
-            this.itemDesc = description;
-        }
-        public String getDesc()
-        {
-            return this.itemDesc;
+            this.state = state;
+            this.img = img;
+            this.description = description;
         }
     }
 
-    public enum AtkStyle
+    public abstract class Helmet : Item
     {
-        Basic,
-        Flame,
-        Frozen
+        public int defense;
+
+        public Helmet(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
     }
 
-    public class Weapon : Item{
-        public int atk_damage;
-        public double atk_speed;
-        public double proj_speed;
-        public int range;
-        public double slowSec;
-        public double slowFac;
-        public AtkStyle style;
-        
-        public Weapon(int id, String name, Bitmap image)
-            : base(id, name, image)
-        {
-            this.itemID = id;
-            this.itemName = name;
-            this.itemImage = image;
-        }
+    public abstract class Armor : Item
+    {
+        public int defense;
 
-        public void setDesc()
-        {
-            this.itemDesc = this.itemName
-                + "\nATT: " + style.ToString()
-                + "\nDMG: " + this.atk_damage
-                + "\nATK SPD: " + this.atk_speed
-                + "\nPRJ SPD: " + this.proj_speed
-                + "\nRNG: " + this.range;
+        public Armor(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+    }
 
-            if (this.style == AtkStyle.Frozen)
-                itemDesc += "\nSLW SEC: " + this.slowSec
-                + "\nSLW FAC: " + this.slowFac;
+    public abstract class Legs : Item
+    {
+        public int defense;
+
+        public Legs(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+    }
+
+    public abstract class Shield : Item
+    {
+        public int defense;
+
+        public Shield(GameState state, Bitmap img, String description, int defense) : base(state, img, description) { this.defense = defense; }
+    }
+
+    public abstract class Weapon : Item
+    {
+        public int damage;
+        public bool ranged;
+        public Bitmap projectileImg = null;
+
+        public Weapon(GameState state, Bitmap img, String description, int damage, bool ranged) : base(state, img, description)
+        {
+            this.damage = damage;
+            this.ranged = ranged;
         }
     }
 
+    public abstract class Consumable : Item
+    {
+        public Consumable(GameState state, Bitmap img, String description) : base(state, img, description) { }
 
+        public abstract void use();
+    }
+
+    public class BasicShield : Shield
+    {
+        public BasicShield(GameState state) : base(state, Properties.Resources.shield_2, "Basic Shield", 3) { }
+    }
+
+    public class DiamondShield : Shield
+    {
+        public DiamondShield(GameState state) : base(state, Properties.Resources.shield_1, "Diamond Shield", 3) { }
+    }
+
+    public class Wand : Weapon
+    {
+        public Wand(GameState state) : base(state, Properties.Resources.wand_1, "Wand", 10, true)
+        {
+            projectileImg = Properties.Resources.fire;
+        }
+    }
+
+    public class SmallPotion : Consumable
+    {
+        private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion);
+
+        public SmallPotion(GameState state) : base(state, Properties.Resources.HP_Potion_s, "Small Potion (+10 HP)") { }
+
+        public override void use()
+        {
+            int hpBonus = 10;
+            if (state.hero.hp + hpBonus < state.hero.full_hp)
+                state.hero.hp += hpBonus;
+            else
+                state.hero.hp = state.hero.full_hp;
+
+            sound.Play();
+        }
+    }
+
+    public class MediumPotion : Consumable
+    {
+        private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion);
+
+        public MediumPotion(GameState state) : base(state, Properties.Resources.HP_Potion_m, "Medium Potion (+30 HP)") { }
+
+        public override void use()
+        {
+            int hpBonus = 30;
+            if (state.hero.hp + hpBonus < state.hero.full_hp)
+                state.hero.hp += hpBonus;
+            else
+                state.hero.hp = state.hero.full_hp;
+
+            sound.Play();
+        }
+    }
+
+    public class LargePotion : Consumable
+    {
+        private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion2);
+
+        public LargePotion(GameState state) : base(state, Properties.Resources.HP_Postion_g, "Large Potion (+50 HP)") { }
+
+        public override void use()
+        {
+            int hpBonus = 50;
+            if (state.hero.hp + hpBonus < state.hero.full_hp)
+                state.hero.hp += hpBonus;
+            else
+                state.hero.hp = state.hero.full_hp;
+
+            sound.Play();
+        }
+    }
 }

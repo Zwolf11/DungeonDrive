@@ -19,8 +19,8 @@ namespace DungeonDrive
         public double x_speed, y_speed;
         public double radius = 0.3;
 
-        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size - state.size * radius); } }
-        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size - state.size * radius); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
         public enum AtkStyle
         {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,16 +30,8 @@ namespace DungeonDrive
         {
             this.button1.Click += button1_Click;
             initialization(inventory.getItemList());
-        }/*
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams myCp = base.CreateParams;
-                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
-                return myCp;
-            }
-        }*/
+        }
+ * 
         private void MyForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.Hide();
@@ -114,11 +106,6 @@ namespace DungeonDrive
             this.selected = this.itemList.ElementAt(0);
             this.richTextBox1.Text = this.selected.getDesc();
             this.textBox2.Text = this.selected.getName();
-            /*
-            potion1 = new SoundPlayer(@"potion2.wav");
-            potion1.Play();
-            G.hero.hp += 10;
-            if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }*/
             
         }
 
@@ -163,11 +150,7 @@ namespace DungeonDrive
             this.mostRecentButton = this.button2;
             this.selected = this.itemList.ElementAt(1);
             this.richTextBox1.Text = this.selected.getDesc();
-            this.textBox2.Text = this.selected.getName();/*
-            potion1 = new SoundPlayer(@"potion.wav");
-            potion1.Play();
-            G.hero.hp += 2;
-            if (G.hero.hp > G.hero.full_hp) { G.hero.hp = G.hero.full_hp; }*/
+            this.textBox2.Text = this.selected.getName();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -399,4 +382,4 @@ namespace DungeonDrive
         }
 
     }
-}
+}*/

@@ -32,8 +32,7 @@ namespace DungeonDrive
                 this.Resize += this.resize;
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.Sizable;
-                this.Width = Properties.Settings.Default.Width;
-                this.Height = Properties.Settings.Default.Height;
+                this.ClientSize = new Size(Properties.Settings.Default.Width, Properties.Settings.Default.Height);
             }
 
             Properties.Settings.Default.FullScreen = fullscreen;
@@ -42,8 +41,8 @@ namespace DungeonDrive
 
         public void resize(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Width = this.Width;
-            Properties.Settings.Default.Height = this.Height;
+            Properties.Settings.Default.Width = this.ClientSize.Width;
+            Properties.Settings.Default.Height = this.ClientSize.Height;
             Properties.Settings.Default.Save();
 
             this.Invalidate();

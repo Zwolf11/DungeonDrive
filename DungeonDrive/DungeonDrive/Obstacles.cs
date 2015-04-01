@@ -12,8 +12,8 @@ namespace DungeonDrive
         public int height;
         public int roomNum;
 
-        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size); } }
-        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size); } }
 
         public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
         {

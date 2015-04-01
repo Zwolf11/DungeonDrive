@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Drawing;
@@ -22,8 +22,8 @@ namespace DungeonDrive
             this.number_of_buttons = number_of_buttons;
             this.width = image.Width / number_of_buttons;
             this.height = this.width;
-            this.x = findMidX(state.form.Width, actionBarImage.Width);
-            this.y = state.form.Height - this.height;
+            this.x = findMidX(state.form.ClientSize.Width, actionBarImage.Width);
+            this.y = state.form.ClientSize.Height - this.height;
 
             int offset = 0;
             for (int i = 0; i < this.number_of_buttons; i++)
@@ -72,9 +72,10 @@ namespace DungeonDrive
 
             if (selected != -1)
             {
-                //g.DrawString(this.selected + "Selected", new Font("Arial", 20), Brushes.White, new PointF(state.form.Width / 2 - 60, 5));
+                //g.DrawString(this.selected + "Selected", new Font("Arial", 20), Brushes.White, new PointF(state.form.ClientSize.Width / 2 - 60, 5));
                 g.DrawRectangle(new Pen(Color.BlueViolet,6), actionList.ElementAt(this.selected));
             }
         }
     }
 }
+*/
