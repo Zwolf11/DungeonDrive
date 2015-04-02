@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\snake2.png" />
+    <None Include="Resources\snake1.png" />
+    <None Include="Resources\snake0.png" />
     <None Include="Resources\wall.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\weapon.png" />

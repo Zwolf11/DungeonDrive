@@ -38,7 +38,8 @@ namespace DungeonDrive
 
         public int numEnemies = 0;
         public int numBats = 0;
-        public int numSpiders = 0;             // current number of each of these objects
+        public int numSkeletons = 0;             // current number of each of these objects
+        public int numSnakes = 0;
         public int numObstacles = 0;
         public int numStairs = 0;
         public int numRooms = 0;
@@ -482,17 +483,23 @@ namespace DungeonDrive
         public void otherFound(String filename)
         {
             temp_sd = safe_distance;
-            if((int) rand.Next(0,100) % 2 == 0){
+            int random = (int) rand.Next(0, 100);
+            if(random <= 33){
                 while (!addEnemy(new Bat(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numBats++;
 
             }
-            else 
+            else if (random > 33 && random <= 66)
             {
-                while (!addEnemy(new Spider(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
-                numSpiders++;
+                while (!addEnemy(new Skeleton(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                numSkeletons++;
                 //while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
-            }            
+            }
+            else
+            {
+                while (!addEnemy(new Snake(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                numSnakes++;
+            }
         }
 
         public void addDoor()

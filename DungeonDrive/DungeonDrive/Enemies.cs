@@ -23,6 +23,7 @@ namespace DungeonDrive
             this.dropWpnFac = 0.3;
             // for testing
             this.dropWpnFac = 1;
+            this.status = "Normal";
 
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
@@ -105,11 +106,11 @@ namespace DungeonDrive
         }
     }
 
-    public class Spider : Unit
+    public class Skeleton : Unit
     {
         private Bitmap[] imgs = new Bitmap[3];
 
-        public Spider(GameState state, double x, double y)
+        public Skeleton(GameState state, double x, double y)
             : base(state, x, y)
         {
             this.full_hp = 15;
@@ -124,6 +125,7 @@ namespace DungeonDrive
             this.level = 1;
             this.exp = 2;
             this.dropWpnFac = 0.2;
+            this.status = "Normal";
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
             imgs[1] = new Bitmap(Properties.Resources.skeleton1);
@@ -186,6 +188,120 @@ namespace DungeonDrive
                 this.hp = full_hp;
                 this.atk_dmg = atk_dmg * 3;
                 this.speed = speed + (speed * 0.4);
+            }
+
+            //tryMove(xNext, yNext);
+        }
+
+        public override void draw(Graphics g)
+        {
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            animFrame = (animFrame + 0.1) % imgs.Length;
+            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            drawHpBar(g);
+            if (this.displayname)
+                drawFileName(g);
+        }
+    }
+
+    public class Snake : Unit
+    {
+        private Bitmap[] imgs = new Bitmap[3];
+        private Random rand;
+
+        public Snake(GameState state, double x, double y)
+            : base(state, x, y)
+        {
+            this.full_hp = 10;
+            this.hp = full_hp;
+            this.atk_dmg = 2;
+            this.speed = 0.1;
+            this.radius = 0.2;
+            this.origin_x = x;
+            this.origin_y = y;
+            this.center_x = x + radius;
+            this.center_y = y + radius;
+            this.level = 1;
+            this.exp = 3;
+            this.dropWpnFac = 0.2;
+            this.status = "Normal";
+
+            imgs[0] = new Bitmap(Properties.Resources.snake0);
+            imgs[1] = new Bitmap(Properties.Resources.snake1);
+            imgs[2] = new Bitmap(Properties.Resources.snake2);
+
+            rand = new Random();
+        }
+
+        public override void act()
+        {
+            if (knockback)
+                knockBacked();
+
+            if (sleep_sec > 0)
+            {
+                sleep_sec--;
+                return;
+            }
+
+            double xNext;
+            double yNext;
+
+            if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
+            {
+                //Player draws aggro from bats if he is close enough
+                this.moving = true;
+                xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+            }
+            else if (this.moving)
+            {
+                //Move towards original position
+                xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                tryMove(xNext, yNext);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+                if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
+                {
+                    //Original position has been reached
+                    this.moving = false;
+                    this.x = origin_x;
+                    this.y = origin_y;
+                    return;
+                }
+            }
+
+
+            //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+
+            /*if ((state.hero.x - x) < 3 && (state.hero.x - x) > 0.2 && (state.hero.y - y) < 3 && (state.hero.y - y) > 0.2)
+                this.speed = 0.15;
+            else
+                this.speed = 0.03;*/
+
+            if (state.room.currentRoom.Equals(state.graveyard))
+            {
+                this.full_hp -= 5;
+                this.hp = full_hp;
+                this.atk_dmg = atk_dmg + (atk_dmg * 0.30);
+                this.speed = speed + (speed * 0.4);
+            }
+
+            if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
+            {
+                if (atk_cd[0])
+                {
+                    int random = rand.Next(0, 100);
+                    if (random <= 30)
+                    {
+                        statusChanged(state.hero, "poison");
+                    }
+                }
             }
 
             //tryMove(xNext, yNext);

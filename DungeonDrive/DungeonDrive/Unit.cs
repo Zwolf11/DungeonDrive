@@ -28,6 +28,7 @@ namespace DungeonDrive
         public double expcap;
         public int level;
         public String filename;
+        public String status;
         public bool displayname = false;
         public double dropWpnFac = 0;
         public double animFrame = 0;
@@ -38,6 +39,7 @@ namespace DungeonDrive
         public double x_final = 0;
         public double y_final = 0;
         public double sleep_sec = 0;        // amount of time that unit can't move
+        public double poison_sec = 0;       // amount of time that unit is poisoned
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
@@ -176,6 +178,32 @@ namespace DungeonDrive
             }
 
             return canMove;
+        }
+
+        public void statusChanged(Unit unit, String ailment)
+        {
+            switch (ailment)
+            {
+                case "poison":
+                    unit.status = "Poisoned";
+                    break;
+
+                case "paralyze":
+                    unit.status = "Paralyzed";
+                    break;
+
+                case "curse":
+                    unit.status = "Cursed";
+                    break;
+
+                case "bind":
+                    unit.status = "Binded";
+                    break;
+
+                case "sleep":
+                    unit.status = "Sleep";
+                    break;
+            }
         }
     }
 }

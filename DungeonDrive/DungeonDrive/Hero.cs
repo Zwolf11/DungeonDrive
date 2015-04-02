@@ -48,6 +48,7 @@ namespace DungeonDrive
             this.exp = 0.0;
             this.expcap = 10.0;
             this.level = 1;
+            this.status = "Normal";
 
             // init hero imges
             //w
@@ -292,6 +293,28 @@ namespace DungeonDrive
             }
         }
 
+        private void handleAilment()
+        {
+            if (this.status.Equals("Poisoned"))
+            {
+                if (poison_sec == 0)
+                {
+                    poison_sec = 300;
+                    this.speed -= this.speed * 0.5;
+                    this.hp -= 2.0;
+                    this.full_hp = this.hp;
+                }
+
+                --poison_sec;
+
+                if (poison_sec == 0)
+                {
+                    this.speed = 0.3;
+                    this.status = "Normal";
+                }
+            }
+        }
+
         private double rdnDouble(double first, double second)
         { return Math.Round(r.NextDouble() * (second - first) + first, 2); }
 
@@ -398,6 +421,7 @@ namespace DungeonDrive
             handleAttacking();
             handleMovement();
             handleCursor();
+            handleAilment();
         }
 
         public void drawExpBar(Graphics g)
