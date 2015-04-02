@@ -12,8 +12,8 @@ namespace DungeonDrive
         public int height;
         public int roomNum;
 
-        public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size); } }
-        public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size); } }
 
         public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
         {
@@ -64,13 +64,16 @@ namespace DungeonDrive
         private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
         private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
         public int maxHallwayWidth = 10;
+        public int centerX, centerY;
 
 
-        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth ) : base(state, x, y, width, height, roomNum) {
+        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY ) : base(state, x, y, width, height, roomNum) {
             this.down = down;
             this.path = path;
             this.direction = direction;
             this.maxHallwayWidth = maxHallwayWidth;
+            this.centerX = centerX;
+            this.centerY = centerY;
 
             switch (direction)
             {
@@ -110,7 +113,9 @@ namespace DungeonDrive
                 //g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
             }
 
-            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
+            string roomNumString = roomNum.ToString();
+
+            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1) + " " + roomNumString , font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
         }
     }
 

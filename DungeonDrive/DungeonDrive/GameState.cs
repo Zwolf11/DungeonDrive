@@ -16,6 +16,8 @@ namespace DungeonDrive
         public int size = 32;
         public String graveyard = "C:\\graveyard";
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
+        public String currentRoom = "C:\\";
+        public String pastRoom;
 
         public GameState(MainForm form, bool load) : base(form)
         {
