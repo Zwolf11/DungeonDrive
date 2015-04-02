@@ -274,7 +274,7 @@ namespace DungeonDrive
                 }
                 if (count == numStairs || breaker > 100)
                 {
-                    //Console.WriteLine(breaker);
+                    Console.WriteLine("Iteration: "+breaker+" for hallway generation");
                     breaker++;
                     break;
                 }
@@ -1027,26 +1027,211 @@ namespace DungeonDrive
 
             int hallwayNum = numRooms;
 
-            /*
+            //*
+            bool door1Found = false;
+            bool door2Found = false;
+            
             /// CALCULATE WHERE DOORS SHOULD GO
 
-            if (x1 <= x2)
+            int xInc = 1;
+            int yInc = 1;
+
+            int firstRoom = roomNumSpace[x1,y1];
+            int secondRoom = roomNumSpace[x2,y2];
+
+            if (y1 <= y2)
             {
-                for (int i = x1; i < x2; i++)
-                {
-                    if (wallSpace[i, y1])
-                    {
-                        
-                    }
-                }
+                yInc = 1;
+            }
+            else
+            {
+                yInc = -1;
             }
 
             Door door1 = new Door(state, 0, 0, 1, 2, 0, true);
             Door door2 = new Door(state, 0, 0, 1, 2, 0, true);
 
-            int xInc = 1;
-            int yInc = 1;
 
+            // CHECK X DIfference for door locations
+
+            if (x1 <= x2)
+            {
+              xInc = 1;
+                for (int i = x1; i < x2; i++)
+                {
+                    if (wallSpace[i, y1])
+                    {
+                        if (roomNumSpace[i, y1] == firstRoom && !door1Found)
+                        {
+                            door1 = findDoorLocation(i, y1, x2, y2, true);
+                            if (door1.x != -1)
+                            {
+                                door1Found = true;
+                            }
+                            else
+                            {
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                            }
+                           
+                        }
+                        else if (roomNumSpace[i, y1] == secondRoom && !door2Found)
+                        {
+                            door2 = findDoorLocation(i, y1, x2, y2, true);
+                            if (door2.x != -1)
+                            {
+                                door2Found = true;
+                            }
+                            else
+                            {
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                            }
+                        }
+
+                    }
+                }
+            } else {
+
+                xInc = -1;
+                for(int i = x1; i > x2; i--)
+                {
+                    if(wallSpace[i,y1])
+                    {
+                        if (roomNumSpace[i, y1] == firstRoom && !door1Found)
+                        {
+                            door1 = findDoorLocation(i, y1, x2, y2, true);
+                            if (door1.x != -1)
+                            {
+                                door1Found = true;
+                            }
+                            else
+                            {
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                            }
+
+                        }
+                        else if (roomNumSpace[i, y1] == secondRoom && !door2Found)
+                        {
+                            door2 = findDoorLocation(i, y1, x2, y2, true);
+                            if (door2.x != -1)
+                            {
+                                door2Found = true;
+                            }
+                            else
+                            {
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                            }
+
+                        }
+
+
+
+                    }
+                }
+            }
+
+
+            // CHECK Y Difference
+
+            if (!door1Found || !door2Found)
+            {
+
+                if (y2 <= y1)
+                {
+                    yInc = 1;
+                    for (int i = y2; i < y1; i++)
+                    {
+                        if (wallSpace[x2, i])
+                        {
+                            if (roomNumSpace[x2, i] == firstRoom && !door1Found)
+                            {
+                                door1 = findDoorLocation(x2, i, x1, y1, false);
+                                if (door1.x != -1)
+                                {
+                                    door1Found = true;
+                                }
+                                else
+                                {
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                }
+                            }
+                            else if (roomNumSpace[x2, i] == secondRoom && !door2Found)
+                            {
+                                door2 = findDoorLocation(x2, i, x1, y1, false);
+                                if (door2.x != -1)
+                                {
+                                    door2Found = true;
+                                }
+                                else
+                                {
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                else
+                {
+
+                    yInc = -1;
+                    for (int i = y2; i > y1; i--)
+                    {
+                        if (wallSpace[x2, i])
+                        {
+                            if (roomNumSpace[x2, i] == firstRoom)
+                            {
+                                door1 = findDoorLocation(x2, i, x1, y1, false);
+                                if (door1.x != -1)
+                                {
+                                    door1Found = true;
+                                }
+                                else
+                                {
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                }
+
+                            }
+                            else if (roomNumSpace[x2, i] == secondRoom)
+                            {
+                                door2 = findDoorLocation(x2, i, x1, y1, false);
+                                if (door2.x != -1)
+                                {
+                                    door2Found = true;
+                                }
+                                else
+                                {
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+
+
+            // covered the x difference between both.
+
+
+            if (!door1Found || !door2Found)
+            {
+                // add door and return;
+                return;
+            }
+
+            if (door1Found)
+            {
+                doors.Add(door1);
+            }
+
+            if (door2Found)
+            {
+                doors.Add(door2);
+            }
 
 
             // DONE CALCULATING WHERE DOORS SHOULD GO
@@ -1079,23 +1264,23 @@ namespace DungeonDrive
             else
             {
                 door1Low = door1.x - (wide / 2);
-                door1High = door1.x + (door1.height / 2) + (wide / 2);
+                door1High = door1.x + (door1.width / 2) + (wide / 2);
             }
 
             if (door2.vertical)
             {
                 door2Low = door2.y - (wide / 2);
-                door2High = door2.y + (door2.width / 2) + (wide / 2);
+                door2High = door2.y + (door2.height / 2) + (wide / 2);
             }
             else
             {
                 door2Low = door2.x - (wide / 2);
-                door2High = door2.y + (door2.width / 2) + (wide / 2);
+                door2High = door2.x + (door2.width / 2) + (wide / 2);
             }
 
             if (xChange)
             {
-
+                Console.WriteLine("Making horizontal hallway");
                 int otherX;
 
                 if (door1.vertical)
@@ -1148,9 +1333,10 @@ namespace DungeonDrive
             }
 
 
-
+            //yChange = false;
             if (yChange)
             {
+                Console.WriteLine("Making vertical hallway");
                 int otherY;
 
                 if (!door1.vertical)
@@ -1172,13 +1358,15 @@ namespace DungeonDrive
                             otherY = door2High;
                         }
                     }
+
+                    Console.WriteLine("Making vertical box");
                     // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
-                    makeBox(door1Low, door1High, otherY, door1.y, hallwayNum);
+                    makeBox(door1Low, door1High, door1.y, otherY, hallwayNum);
 
                 }
 
 
-
+                //*
                 else if (!door2.vertical)
                 {
 
@@ -1199,15 +1387,17 @@ namespace DungeonDrive
                         }
                     }
                     // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
-                    makeBox(door2Low, door2High, otherY, door1.y, hallwayNum);
+                    makeBox(door2Low, door2High, door2.y, otherY, hallwayNum);
 
                 }
+                  //*/
             }
 
 
-            */
+            //*/
 ///// OLD WAY   //////
 
+            /*
             int roomNum1 = roomNumSpace[x1, y1];
             int roomNum2 = roomNumSpace[x2, y2];
 
@@ -1554,9 +1744,55 @@ namespace DungeonDrive
                     }
                 }
             }
+              //*/
 
             numRooms++;
         }
+
+
+        public Door findDoorLocation(int x1, int y1,int x2,int y2, bool vertical){
+
+            int xInc = 0;
+            int yInc = 0;
+            
+            if(x1 < x2){
+                xInc = 1;
+            } else if(x1 > x2) {
+                xInc = -1;
+            }
+
+            if(y1 < y2){
+                yInc = 1;
+            } else if(y1 > y2) {
+                yInc = -1;
+            }
+
+
+
+
+
+            if (vertical)
+            {
+                // calculating vertical door location
+
+                return new Door(state, x1,y1 + yInc,1,2,roomNumSpace[x1,y1+yInc],true);
+
+
+            }
+            else
+            {
+                // calculating horizontal door location
+
+                return new Door(state, x1 + xInc,y1,2,1,roomNumSpace[x1 + xInc,y1],false);
+
+
+            }
+
+
+            return new Door(state, -1,-1,1,2,-1,true);
+        }
+
+
 
         public void makeBox(int x1,int x2,int y1,int y2, int roomNum){
             int minX = Math.Min(x1, x2);
@@ -1564,13 +1800,18 @@ namespace DungeonDrive
             int minY = Math.Min(y1, y2);
             int maxY = Math.Max(y1, y2);
 
+            Console.WriteLine("Making Hallway that (x) is " + (maxX - minX) + " wide and (y) is " + (maxY - minY));
+
             for(int i = minX; i <= maxX; i++){
                 for (int j = minY; j <= maxY; j++)
                 {
 
-                    if (i == minX || i == maxX || j == minY || j == maxY && roomNumSpace[i, j] == -1)
+                    if ((i == minX || i == maxX || j == minY || j == maxY))
                     {
-                        wallSpace[i, j] = true;
+                         if(roomNumSpace[i, j] == -1){
+                             wallSpace[i, j] = true;
+                         }
+
                     }
                     else
                     {
