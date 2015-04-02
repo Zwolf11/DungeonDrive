@@ -32,6 +32,7 @@ namespace DungeonDrive
         public bool displayname = false;
         public double dropWpnFac = 0;
         public double animFrame = 0;
+        public bool phase = false;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -40,6 +41,7 @@ namespace DungeonDrive
         public double y_final = 0;
         public double sleep_sec = 0;        // amount of time that unit can't move
         public double poison_sec = 0;       // amount of time that unit is poisoned
+        public double curse_sec = 0;        // amoutn of time that unit is cursed
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
@@ -107,7 +109,7 @@ namespace DungeonDrive
             int moves = 100;
             for (int i = 0; i < moves; i++)
             {
-                if (tryMove(x + x_dist / moves, y + y_dist / moves) && (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist)))
+                if (tryMove(x + x_dist / moves, y + y_dist / moves, this) && (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist)))
                 {
                     x += x_dist / 100;
                     y += y_dist / 100;
@@ -118,7 +120,7 @@ namespace DungeonDrive
             knockback = false;
         }
 
-        public bool tryMove(double xNext, double yNext)
+        public bool tryMove(double xNext, double yNext, Unit e)
         {
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
@@ -147,7 +149,7 @@ namespace DungeonDrive
                     }
             }
 
-            if (canMove)
+            if (canMove || e.phase)
             {
                 x = xNext;
                 y = yNext;
@@ -157,23 +159,23 @@ namespace DungeonDrive
                 if ((int)(x - radius) > (int)(xNext - radius))
                 {
                     x = (int)x + radius + 0.001;
-                    tryMove(x, yNext);
+                    tryMove(x, yNext, e);
                 }
                 else if ((int)(x + radius) < (int)(xNext + radius))
                 {
                     x = (int)x + 1 - radius - 0.001;
-                    tryMove(x, yNext);
+                    tryMove(x, yNext, e);
                 }
 
                 if ((int)(y - radius) > (int)(yNext - radius))
                 {
                     y = (int)y + radius + 0.001;
-                    tryMove(xNext, y);
+                    tryMove(xNext, y, e);
                 }
                 else if ((int)(y + radius) < (int)(yNext + radius))
                 {
                     y = (int)y + 1 - radius - 0.001;
-                    tryMove(xNext, y);
+                    tryMove(xNext, y, e);
                 }
             }
 

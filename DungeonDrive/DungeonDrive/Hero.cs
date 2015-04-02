@@ -49,6 +49,7 @@ namespace DungeonDrive
             this.expcap = 10.0;
             this.level = 1;
             this.status = "Normal";
+            this.poison_sec = 0;
 
             // init hero imges
             //w
@@ -202,7 +203,7 @@ namespace DungeonDrive
                 animate();
             }
 
-            tryMove(xNext, yNext);
+            tryMove(xNext, yNext, this);
         }
 
         private void animate()
@@ -236,6 +237,8 @@ namespace DungeonDrive
                             double factor = 1 / Math.Sqrt(Math.Pow(enemy.x - x, 2) + Math.Pow(enemy.y - y, 2));
                             knockBack(enemy, (enemy.x - x) * factor, (enemy.y - y) * factor, 0.4);
                             enemy.hp -= 2 + 0.8 * atk_dmg;
+                            /*if (status.Equals("Cursed"))
+                                this.full_hp -= 5;*/
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
@@ -300,19 +303,30 @@ namespace DungeonDrive
                 if (poison_sec == 0)
                 {
                     poison_sec = 300;
-                    this.speed -= this.speed * 0.5;
-                    this.hp -= 2.0;
-                    this.full_hp = this.hp;
+                    speed -= speed * 0.5;
                 }
 
                 --poison_sec;
 
                 if (poison_sec == 0)
                 {
-                    this.speed = 0.3;
-                    this.status = "Normal";
+                    speed = 0.3;
+                    status = "Normal";
                 }
             }
+            /*else if (this.status.Equals("Cursed"))
+            {
+                if (curse_sec == 0)
+                {
+                    curse_sec = 300;
+                }
+                --curse_sec;
+                
+                if (curse_sec == 0)
+                {
+                    this.status = "Normal";
+                }
+            }*/
         }
 
         private double rdnDouble(double first, double second)

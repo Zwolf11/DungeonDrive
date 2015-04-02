@@ -525,7 +525,7 @@ namespace DungeonDrive
             }
             else
             {
-                while (!addEnemy(new Snake(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSnakes++;
             }          
         }
