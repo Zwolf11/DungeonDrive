@@ -44,10 +44,12 @@ namespace DungeonDrive
         public int numBats = 0;
         public int numSnakes = 0;             // current number of each of these objects
         public int numSkeletons = 0;
+        public int numGhosts = 0;
         public int numObstacles = 0;
         public int numStairs = 0;
         public int numRooms = 0;
         public int numChests = 0;
+        
 
         public const int minSizeOfInitRoom = 7;
         public const int maxSizeOfInitRoom = 13;
@@ -187,6 +189,16 @@ namespace DungeonDrive
                 else
                 {
                     Console.WriteLine("Found Hidden File " + dirs[i]);
+                    try
+                    {
+                        //hiddenFound(dirs[i]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("{0}", e.ToString());
+                    }
+                    //hiddenFound(dirs[i]);
+                    
                     // found hidden file
                 }
             }
@@ -508,6 +520,14 @@ namespace DungeonDrive
             addObstacle("chest");
         }
 
+        public void hiddenFound(String filename)
+        {
+            temp_sd = safe_distance;
+            while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+            numGhosts++;
+
+        }
+
         public void otherFound(String filename)
         {
             temp_sd = safe_distance;
@@ -525,9 +545,13 @@ namespace DungeonDrive
             }
             else
             {
-                while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                while (!addEnemy(new Snake(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSnakes++;
-            }          
+                while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+  
+            }     
+     
+            
         }
 
         public void addDoor()
@@ -992,14 +1016,206 @@ namespace DungeonDrive
         public void makeHallway(int x1, int y1, int x2, int y2, int maxHSize)
         {
 
+            // find two door locations. door[x,y] = x point, 
+            int upperHallwaySize = Math.Min(maxHSize, maxSizeHallway);
+            int wide = (int)rand.Next(minSizeHallway, upperHallwaySize + 1);
+
+            if (wide == 3)
+            {
+                wide++;
+            }
+
+            int hallwayNum = numRooms;
+
+            /*
+            /// CALCULATE WHERE DOORS SHOULD GO
+
+            if (x1 <= x2)
+            {
+                for (int i = x1; i < x2; i++)
+                {
+                    if (wallSpace[i, y1])
+                    {
+                        
+                    }
+                }
+            }
+
+            Door door1 = new Door(state, 0, 0, 1, 2, 0, true);
+            Door door2 = new Door(state, 0, 0, 1, 2, 0, true);
+
+            int xInc = 1;
+            int yInc = 1;
+
+
+
+            // DONE CALCULATING WHERE DOORS SHOULD GO
+
+
+            bool xChange = true;
+            bool yChange = true;
+
+            if (door1.vertical == door2.vertical)
+            {
+                if (door1.vertical)
+                {
+                    // both doors are vertical
+                    yChange = false;
+                }
+                else
+                {
+                    // both doors are horizontal
+                    xChange = false;
+                }
+            }
+
+            int door1High, door1Low, door2High, door2Low;
+
+            if (door1.vertical)
+            {
+                door1Low = door1.y - (wide / 2);
+                door1High = door1.y + (door1.height / 2) + (wide / 2);
+            }
+            else
+            {
+                door1Low = door1.x - (wide / 2);
+                door1High = door1.x + (door1.height / 2) + (wide / 2);
+            }
+
+            if (door2.vertical)
+            {
+                door2Low = door2.y - (wide / 2);
+                door2High = door2.y + (door2.width / 2) + (wide / 2);
+            }
+            else
+            {
+                door2Low = door2.x - (wide / 2);
+                door2High = door2.y + (door2.width / 2) + (wide / 2);
+            }
+
+            if (xChange)
+            {
+
+                int otherX;
+
+                if (door1.vertical)
+                {
+
+                    if (door2.vertical)
+                    {
+                        otherX = door2.x;
+                    }
+                    else
+                    {
+                        if (xInc == -1)
+                        {
+                            otherX = door2Low;
+                        }
+                        else
+                        {
+                            otherX = door2High;
+                        }
+                    }
+                    // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
+
+                    makeBox(door1.x, otherX, door1Low, door1High, hallwayNum);
+                }
+
+
+                else if (door2.vertical)
+                {
+
+
+                    if (door1.vertical)
+                    {
+                        otherX = door1.x;
+                    }
+                    else
+                    {
+                        if (xInc == -1)
+                        {
+                            otherX = door1Low;
+                        }
+                        else
+                        {
+                            otherX = door1High;
+                        }
+                    }
+                    // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
+                    makeBox(door2.x, otherX, door2Low, door2High, hallwayNum);
+
+                }
+            }
+
+
+
+            if (yChange)
+            {
+                int otherY;
+
+                if (!door1.vertical)
+                {
+
+
+                    if (!door2.vertical)
+                    {
+                        otherY = door2.y;
+                    }
+                    else
+                    {
+                        if (yInc == -1)
+                        {
+                            otherY = door2Low;
+                        }
+                        else
+                        {
+                            otherY = door2High;
+                        }
+                    }
+                    // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
+                    makeBox(door1Low, door1High, otherY, door1.y, hallwayNum);
+
+                }
+
+
+
+                else if (!door2.vertical)
+                {
+
+
+                    if (!door1.vertical)
+                    {
+                        otherY = door1.y;
+                    }
+                    else
+                    {
+                        if (yInc == -1)
+                        {
+                            otherY = door1Low;
+                        }
+                        else
+                        {
+                            otherY = door1High;
+                        }
+                    }
+                    // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
+                    makeBox(door2Low, door2High, otherY, door1.y, hallwayNum);
+
+                }
+            }
+
+
+            */
+///// OLD WAY   //////
+
             int roomNum1 = roomNumSpace[x1, y1];
             int roomNum2 = roomNumSpace[x2, y2];
 
 
 
 
-            int upperHallwaySize = Math.Min(maxHSize, maxSizeHallway);
-            int wide = (int) rand.Next(minSizeHallway, upperHallwaySize + 1);
+            //int upperHallwaySize = Math.Min(maxHSize, maxSizeHallway);
+            //int wide = (int) rand.Next(minSizeHallway, upperHallwaySize + 1);
 
             if (wide == 3)
             {
@@ -1010,7 +1226,7 @@ namespace DungeonDrive
             int deltaX = x1 - x2;
             int deltaY = y1 - y2;
 
-            int hallwayNum = numRooms;
+            //int hallwayNum = numRooms;
 
             int halfwayInc = (int) (wide - 1) / 2;
 
@@ -1340,6 +1556,37 @@ namespace DungeonDrive
             }
 
             numRooms++;
+        }
+
+        public void makeBox(int x1,int x2,int y1,int y2, int roomNum){
+            int minX = Math.Min(x1, x2);
+            int maxX = Math.Max(x1, x2);
+            int minY = Math.Min(y1, y2);
+            int maxY = Math.Max(y1, y2);
+
+            for(int i = minX; i <= maxX; i++){
+                for (int j = minY; j <= maxY; j++)
+                {
+
+                    if (i == minX || i == maxX || j == minY || j == maxY && roomNumSpace[i, j] == -1)
+                    {
+                        wallSpace[i, j] = true;
+                    }
+                    else
+                    {
+                        wallSpace[i, j] = false;
+                    }
+
+
+                    if (roomNumSpace[i, j] == -1)
+                    {
+                        roomNumSpace[i, j] = roomNum;
+                    }
+
+                }
+            }
+
+
         }
 
         public double distanceBtwnPts(int x1, int y1, int x2, int y2)
