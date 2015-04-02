@@ -120,6 +120,22 @@ namespace DungeonDrive
             knockback = false;
         }
 
+        public void attackHero()
+        {
+            if (this is Hero)
+                return;
+
+            if (this.atk_cd[0])
+            {
+                int dirX = Math.Sign(state.hero.x - this.x);
+                int dirY = Math.Sign(state.hero.y - this.y);
+                this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
+                state.hero.hp -= this.atk_dmg;
+                this.sleep_sec = 0.8 * 17;
+                this.cd(1, 0);
+            }
+        }
+
         public bool tryMove(double xNext, double yNext, Unit e)
         {
             int left = (int)(xNext - radius);

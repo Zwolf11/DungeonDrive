@@ -127,6 +127,8 @@ namespace DungeonDrive
 
             // for testing
             this.atk_dmg = 100;
+            this.full_hp = 1000;
+            this.hp = this.full_hp;
             r = new Random();
 
             Projectile.style = Projectile.AtkStyle.Frozen;

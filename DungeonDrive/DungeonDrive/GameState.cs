@@ -247,20 +247,8 @@ namespace DungeonDrive
 
             if (!hero.alive) return;
             foreach (Unit enemy in room.enemies)
-            {
                 if (Math.Sqrt(Math.Pow(hero.x - enemy.x, 2) + Math.Pow(hero.y - enemy.y, 2)) < hero.radius + enemy.radius)
-                {
-                    if (enemy.atk_cd[0])
-                    {
-                        int dirX = Math.Sign(hero.x - enemy.x);
-                        int dirY = Math.Sign(hero.y - enemy.y);
-                        enemy.knockBack(hero, dirX * 0.05, dirY * 0.05, 0);
-                        hero.hp -= enemy.atk_dmg;
-                        enemy.sleep_sec = 0.5 * 17;
-                        enemy.cd(1, 0);
-                    }
-                }
-            }
+                    enemy.attackHero();
 
             form.Invalidate();
         }
