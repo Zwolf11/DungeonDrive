@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\pillar.png" />
+    <None Include="Resources\legs_1.png" />
+    <None Include="Resources\helmet_1.png" />
     <None Include="Resources\ghost2.png" />
     <None Include="Resources\ghost1.png" />
     <None Include="Resources\ghost0.png" />
@@ -114,6 +117,9 @@
     <None Include="bin\Debug\potion.wav" />
     <None Include="bin\Debug\potion2.wav" />
     <None Include="Resources\armor.png" />
+    <None Include="Resources\chest_closed.png" />
+    <None Include="Resources\chest_open.png" />
+    <None Include="Resources\armor_1.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

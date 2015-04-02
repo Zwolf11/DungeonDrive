@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Media;
@@ -37,13 +38,58 @@ namespace DungeonDrive
                 room = new Room(this, "C:\\");
             }
 
-            inventory[0][0] = new SmallPotion(this);
-            inventory[0][1] = new MediumPotion(this);
-            inventory[1][1] = new Weapon(this);
-            inventory[2][0] = new LargePotion(this);
-            inventory[2][1] = new Shield(this);
+            inventory[0][0] = randomItem();
+            inventory[0][1] = randomItem();
+            inventory[1][1] = randomItem();
+            inventory[2][0] = randomItem();
+            inventory[2][1] = randomItem();
             hero.shield = new Shield(this);
             actionBar[0] = new SmallPotion(this);
+        }
+
+        public Item randomItem()
+        {
+            Random rand = new Random(DateTime.Now.Millisecond);
+
+            switch(rand.Next(6))
+            {
+                case 0:
+                    return new Weapon(this);
+                case 1:
+                    return new Shield(this);
+                case 2:
+                    return new Helmet(this);
+                case 3:
+                    return new Armor(this);
+                case 4:
+                    return new Legs(this);
+                case 5:
+                    switch(rand.Next(3))
+                    {
+                        case 0:
+                            return new SmallPotion(this);
+                        case 1:
+                            return new MediumPotion(this);
+                        case 2:
+                            return new LargePotion(this);
+                    }
+                    break;
+            }
+
+            return null;
+        }
+
+        public bool tryPickupItem(Item item)
+        {
+            for(int j=0;j<inventory[0].Length;j++)
+                for(int i=0;i<inventory.Length;i++)
+                    if(inventory[i][j] == null)
+                    {
+                        inventory[i][j] = item;
+                        return true;
+                    }
+
+            return false;
         }
 
         public void saveGame()
@@ -121,7 +167,41 @@ namespace DungeonDrive
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
-            hero.basicAtk();
+            if (e.Button == MouseButtons.Left)
+            {
+                hero.basicAtk();
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
+                float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
+                
+                if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                {
+                    foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
+                        if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
+                        {
+                            if (tryPickupItem(entry.Key))
+                            {
+                                inventory[0][0] = entry.Key;
+                                room.droppedItems.Remove(entry.Key);
+                            }
+                            break;
+                        }
+
+                    foreach(Obstacle ob in room.obstacles)
+                        if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
+                        {
+                            Chest chest = (Chest)ob;
+                            if (chest.closed)
+                            {
+                                chest.closed = false;
+                                room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
+                            }
+                            break;
+                        }
+                }
+            }
         }
 
         public override void mouseMove(object sender, MouseEventArgs e)

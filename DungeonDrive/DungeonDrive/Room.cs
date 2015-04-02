@@ -14,6 +14,7 @@ namespace DungeonDrive
 
         private GameState state;
         public String currentRoom = "C:\\";
+        public Dictionary<Item, PointF> droppedItems = new Dictionary<Item, PointF>();
         //public String pastRoom;
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
@@ -1861,7 +1862,7 @@ namespace DungeonDrive
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
-                        g.DrawImage(floor, (int)(i * state.size + state.form.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.Height / 2 - state.hero.y * state.size));
+                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
                         
                         //if (!hallwaySpace[i, j])
                         //{
@@ -1891,22 +1892,29 @@ namespace DungeonDrive
                 }
             }
 
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.draw(g);
+            }
+
+            foreach (Door door in doors)
+            {
+                door.draw(g);
+            }
+
             foreach (Stairs stair in stairs)
             {
                 stair.draw(g);
                 //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
             }
 
-            foreach (Obstacle obstacle in obstacles)
+            foreach(KeyValuePair<Item, PointF> item in droppedItems)
             {
-                obstacle.draw(g); 
+                g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
             }
+
             foreach (Unit enemy in enemies)
                 enemy.draw(g);
-
-            foreach (Door door in doors) {  
-                door.draw(g);
-            }
         }
 
     }

@@ -12,8 +12,8 @@ namespace DungeonDrive
         public int height;
         public int roomNum;
 
-        public int DrawX { get { return (int)(x * state.size + state.form.Width / 2 - state.hero.x * state.size); } }
-        public int DrawY { get { return (int)(y * state.size + state.form.Height / 2 - state.hero.y * state.size); } }
+        public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size); } }
+        public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size); } }
 
         public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
         {
@@ -30,26 +30,30 @@ namespace DungeonDrive
 
     public class Pillar : Obstacle
     {
-        private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
+        private Bitmap img = new Bitmap(Properties.Resources.pillar);
 
         public Pillar(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
 
         public override void draw(Graphics g)
         { 
-            g.FillRectangle(Brushes.Gray, DrawX, DrawY, state.size * width, state.size * height);
-            //g.DrawImage(img, DrawX, DrawY, state.size, state.size);
+            g.DrawImage(img, DrawX, DrawY, state.size, state.size);
         }
     }
 
     public class Chest : Obstacle
     {
-        private Bitmap img = new Bitmap(Properties.Resources.chest_closed);
+        public bool closed = true;
+        private Bitmap openImg = new Bitmap(Properties.Resources.chest_open);
+        private Bitmap closedImg = new Bitmap(Properties.Resources.chest_closed);
 
         public Chest(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
 
         public override void draw(Graphics g)
         {
-            g.DrawImage(img, DrawX, DrawY, state.size, state.size);
+            if(closed)
+                g.DrawImage(closedImg, DrawX, DrawY, state.size, state.size);
+            else
+                g.DrawImage(openImg, DrawX, DrawY, state.size, state.size);
         }
     }
 
@@ -122,9 +126,6 @@ namespace DungeonDrive
     public class Door : Obstacle
     {
         public bool vertical;
-        private Bitmap stairUp = new Bitmap(Properties.Resources.stairUp);
-        private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
-
 
         public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical) : base(state, x,y,width,height, roomNum) {
 

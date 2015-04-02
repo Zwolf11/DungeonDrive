@@ -24,7 +24,7 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.shield_1;
+                    this.img = Properties.Resources.helmet_1;
                     defense = 1 + rand.Next(state.hero.level);
                     this.description = "Basic Helmet\nDefense: " + defense;
                     break;
@@ -50,7 +50,7 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.shield_1;
+                    this.img = Properties.Resources.armor_1;
                     defense = 1 + rand.Next(state.hero.level);
                     this.description = "Basic Armor\nDefense: " + defense;
                     break;
@@ -76,7 +76,7 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.shield_1;
+                    this.img = Properties.Resources.legs_1;
                     defense = 1 + rand.Next(state.hero.level);
                     this.description = "Basic Legs\nDefense: " + defense;
                     break;

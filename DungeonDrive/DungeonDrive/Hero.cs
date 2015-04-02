@@ -284,6 +284,9 @@ namespace DungeonDrive
                     }
                     experience(deletingEnemy, 1.0);
                     state.room.enemies.Remove(deletingEnemy);
+                    Random rand = new Random();
+                    if (rand.Next(5) == 0)
+                        state.room.droppedItems.Add(state.randomItem(), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
                 }
                 deletingList.Clear();
             }
