@@ -18,7 +18,7 @@ namespace DungeonDrive
         //public String pastRoom;
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
-        public bool noBoundaries = true;
+        public bool noBoundaries = false;
 
         
         public int width;
