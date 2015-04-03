@@ -13,6 +13,9 @@ namespace DungeonDrive
         public bool showDes = false;
 
         public Item(GameState state) { this.state = state; }
+
+        public double rdnDouble(double first, double second, Random r)
+        { return Math.Round(r.NextDouble() * (second - first) + first, 2); }
     }
 
     public class Helmet : Item
@@ -167,6 +170,12 @@ namespace DungeonDrive
     {
         public int damage;
         public bool ranged;
+        public double atk_speed;
+        public double proj_speed;
+        public int range;
+        public double powerSec;
+        public double powerFac;
+        public GameState.AtkStyle style;
         public Bitmap projectileImg = null;
 
         public Weapon(GameState state) : base(state)
@@ -178,13 +187,46 @@ namespace DungeonDrive
                 case 0:
                     name = "Basic Wand";
                     img = Properties.Resources.wand_1;
-                    projectileImg = Properties.Resources.fire;
+                    atk_speed = rdnDouble(0.1 * Math.Pow(0.9, (double)state.hero.level), 0.2 * Math.Pow(0.9, (double)state.hero.level), rand);
+                    proj_speed = rdnDouble(0.4 * Math.Pow(0.9, (double)state.hero.level), 0.5 * Math.Pow(0.9, (double)state.hero.level), rand);
+                    range = rand.Next(5, 12);
+                    style = (GameState.AtkStyle)rand.Next(0,3);
+                    switch (style)
+                    {
+                        case GameState.AtkStyle.Frozen:
+                            projectileImg = Properties.Resources.ice;
+                            break;
+                        case GameState.AtkStyle.Flame:
+                            projectileImg = Properties.Resources.fire;
+                            break;
+                        default:
+                            projectileImg = Properties.Resources.fire;
+                            break;
+                    }
+                    powerSec = rdnDouble(0.5, 2.0, rand);
+                    powerFac = rdnDouble(0.3, 0.5, rand);
                     ranged = true;
                     damage = 1 + rand.Next(state.hero.level);
                     break;
             }
 
-            description = name + "\nDamage: " + damage + "\nRanged: " + ranged;
+            description = name
+                + "\nATT: " + style.ToString()
+                + "\nDMG: " + damage
+                + "\nATK SPD: " + atk_speed;
+
+            if (ranged)
+                description += "\nRNG: " + range;
+
+            switch (style)
+            {
+                case GameState.AtkStyle.Frozen:
+                    description += "\nSLW SEC: " + powerSec + "\nSLW FAC: " + powerFac;
+                    break;
+                case GameState.AtkStyle.Flame:
+                    description += "\nFLM SEC: " + powerSec + "\nFLM FAC: " + powerFac;
+                    break;
+            }
         }
 
         public Weapon(GameState state, String name, int damage) : base(state)

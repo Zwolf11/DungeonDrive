@@ -19,6 +19,13 @@ namespace DungeonDrive
         public String currentRoom = "C:\\";
         public String pastRoom;
 
+        public enum AtkStyle
+        {
+            Basic,
+            Flame,
+            Frozen
+        }
+
         public GameState(MainForm form, bool load) : base(form)
         {
             hero = new Hero(this, 0, 0);

@@ -10,7 +10,7 @@ namespace DungeonDrive
         public static double atk_speed = 0.5;
         public static double proj_speed = 0.8;
         public static int proj_range = 10;
-        public static AtkStyle style = AtkStyle.Basic;
+        public static GameState.AtkStyle style = GameState.AtkStyle.Basic;
         public static double slowSec = 1;
         public static double slowFac = 0.3;
 
@@ -21,13 +21,6 @@ namespace DungeonDrive
 
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
-
-        public enum AtkStyle
-        {
-            Basic,
-            Flame,
-            Frozen
-        }
 
         public Projectile(GameState state, double x, double y, double x_dir, double y_dir)
         {
@@ -59,7 +52,7 @@ namespace DungeonDrive
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
                     unit.hp -= Projectile.dmg;
-                    if (Projectile.style == AtkStyle.Frozen)
+                    if (Projectile.style == GameState.AtkStyle.Frozen)
                     {
                         Console.WriteLine("Frozen");
                         unit.slow(Projectile.slowSec, Projectile.slowFac);

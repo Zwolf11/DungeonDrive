@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\fire1.png" />
     <None Include="Resources\pillar.png" />
     <None Include="Resources\legs_1.png" />
     <None Include="Resources\helmet_1.png" />

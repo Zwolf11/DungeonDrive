@@ -125,12 +125,10 @@ namespace DungeonDrive
             imgs[1, 7] = new Bitmap(Properties.Resources.wa8);
 
             // for testing
-            //this.atk_dmg = 100;
-            //this.full_hp = 1000;
-            //this.hp = this.full_hp;
+            this.atk_dmg = 100;
+            this.full_hp = 1000;
+            this.hp = this.full_hp;
             r = new Random();
-
-            Projectile.style = Projectile.AtkStyle.Frozen;
 
             attack1 = new SoundPlayer(Properties.Resources.attack1);
             attack2 = new SoundPlayer(Properties.Resources.attack2);
