@@ -16,6 +16,8 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
 
+        private bool testing = true;
+
         private SoundPlayer attack1;
         private SoundPlayer attack2;
         private SoundPlayer attack3;
@@ -125,10 +127,12 @@ namespace DungeonDrive
             imgs[1, 7] = new Bitmap(Properties.Resources.wa8);
 
             // for testing
-            this.atk_dmg = 100;
-            this.full_hp = 1000;
-            this.hp = this.full_hp;
-            r = new Random();
+            if (testing)
+            {
+                this.atk_dmg = 100;
+                this.full_hp = 1000;
+                this.hp = this.full_hp;
+            }
 
             attack1 = new SoundPlayer(Properties.Resources.attack1);
             attack2 = new SoundPlayer(Properties.Resources.attack2);
@@ -289,6 +293,9 @@ namespace DungeonDrive
                     Random rand = new Random();
                     if (rand.Next(5) == 0)
                         state.room.droppedItems.Add(state.randomItem(), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                    if (testing)
+                        state.room.droppedItems.Add(new Weapon(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+
                 }
                 deletingList.Clear();
             }
