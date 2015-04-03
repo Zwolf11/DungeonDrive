@@ -274,7 +274,7 @@ namespace DungeonDrive
 
             if (selection != null)
             {
-                Font font = new Font("Arial", form.ClientSize.Height / 60);
+                Font font = new Font("Arial", form.ClientSize.Height / 70);
                 g.DrawString(selection.description, font, Brushes.White, new PointF(infoBox.X + infoBox.Width / 20, infoBox.Y + infoBox.Height / 20));
             }
 

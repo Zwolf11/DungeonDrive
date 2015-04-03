@@ -168,6 +168,7 @@ namespace DungeonDrive
 
     public class Weapon : Item
     {
+        public int level;
         public int damage;
         public bool ranged;
         public double atk_speed;
@@ -181,6 +182,7 @@ namespace DungeonDrive
         private void setDesc()
         {
             description = name
+                + "\nLVL: " + level
                 + "\nATT: " + style.ToString()
                 + "\nDMG: " + damage
                 + "\nATK SPD: " + atk_speed;
@@ -196,6 +198,28 @@ namespace DungeonDrive
                 case GameState.AtkStyle.Flame:
                     description += "\nFLM SEC: " + powerSec + "\nFLM FAC: " + powerFac;
                     break;
+            }
+        }
+
+        private void setWpnImg()
+        {
+            Console.WriteLine("level: " + level);
+            if (ranged)
+            {
+                if (level == 1 || level == 2)
+                    this.img = Properties.Resources.wand_1;
+                else if (level > 2 && level <= 5)
+                    this.img = Properties.Resources.wand_2;
+                else if (level > 5 && level <= 20)
+                    this.img = Properties.Resources.wand_3;
+                else if (level > 20 && level <= 45)
+                    this.img = Properties.Resources.wand_4;
+                else if (level > 45 && level <= 60)
+                    this.img = Properties.Resources.wand_5;
+                else if (level > 60 && level <= 75)
+                    this.img = Properties.Resources.wand_6;
+                else if (level > 75)
+                    this.img = Properties.Resources.wand_7;
             }
         }
 
@@ -223,8 +247,8 @@ namespace DungeonDrive
             {
                 case 0:
                     name = state.adjectives[rand.Next(state.adjectives.Length)] + " Wand";
-                    damage = 1 + rand.Next(state.hero.level);
-                    img = Properties.Resources.wand_1;
+                    level = state.hero.level;
+                    damage = 1 + (int)((double)state.hero.level * rdnDouble(0.5,0.8,rand));
                     atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
                     proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
                     proj_range = rand.Next(5, 12);
@@ -236,12 +260,14 @@ namespace DungeonDrive
                     break;
             }
 
+            setWpnImg();
             setDesc();
         }
 
-        public Weapon(GameState state, String name, int damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
+        public Weapon(GameState state, String name, int level, int damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
         {
             this.name = name;
+            this.level = level;
             this.damage = damage;
             this.ranged = ranged;
             this.atk_speed = atk_speed;
@@ -252,10 +278,8 @@ namespace DungeonDrive
             this.style = (GameState.AtkStyle)style;
 
             if (ranged)
-            {
-                this.img = Properties.Resources.wand_1;
                 setProjImg();
-            }
+            setWpnImg();
             setDesc();
         }
     }
