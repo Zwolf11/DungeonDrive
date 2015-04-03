@@ -11,8 +11,9 @@ namespace DungeonDrive
         public static double proj_speed = 0.8;
         public static int proj_range = 10;
         public static GameState.AtkStyle style = GameState.AtkStyle.Basic;
-        public static double slowSec = 1;
-        public static double slowFac = 0.3;
+        public static double powerSec = 1;
+        public static double powerFac = 0.3;
+        public static Bitmap proj_img = Properties.Resources.fire;
 
         public double x, y;
         public double x_origin, y_origin;
@@ -55,7 +56,7 @@ namespace DungeonDrive
                     if (Projectile.style == GameState.AtkStyle.Frozen)
                     {
                         Console.WriteLine("Frozen");
-                        unit.slow(Projectile.slowSec, Projectile.slowFac);
+                        unit.slow(Projectile.powerSec, Projectile.powerFac);
                     }
                     state.hero.removeProj(this);
                     if (unit.hp <= 0)
@@ -73,7 +74,7 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
-            g.DrawImage(Properties.Resources.fire, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+            g.DrawImage(Projectile.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
         }
     }
 }

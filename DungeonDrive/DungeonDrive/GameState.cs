@@ -98,6 +98,7 @@ namespace DungeonDrive
             else if (item is Weapon && hero.weapon == null)
             {
                 hero.weapon = (Weapon)item;
+                hero.equipWeapon((Weapon)item);
                 return true;
             }
 

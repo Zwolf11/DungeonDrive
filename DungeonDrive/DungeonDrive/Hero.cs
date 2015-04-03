@@ -140,6 +140,43 @@ namespace DungeonDrive
             level_up = new SoundPlayer(Properties.Resources.level_up);
         }
 
+        public void equipWeapon(Weapon weapon)
+        {
+            // change stats for projectiles
+            if (weapon.ranged)
+            {
+                Projectile.dmg = weapon.damage;
+                Projectile.atk_speed = weapon.atk_speed;
+                Projectile.proj_speed = weapon.proj_speed;
+                Projectile.proj_range = weapon.proj_range;
+                Projectile.style = weapon.style;
+                Projectile.powerSec = weapon.powerSec;
+                Projectile.powerFac = weapon.powerFac;
+                Projectile.proj_img = weapon.projectileImg;
+            }
+
+            // change stats for hero when using non-ranged weapons
+            else
+            {
+            }
+        }
+
+        public void equipHelmet(Helmet helmet)
+        {
+        }
+
+        public void equipArmor(Armor armor)
+        {
+        }
+
+        public void equipLegs(Legs legs)
+        {
+        }
+
+        public void equipShield(Shield shield)
+        {
+        }
+
         private void handleCursor()
         {
             foreach (Unit enemy in state.room.enemies)

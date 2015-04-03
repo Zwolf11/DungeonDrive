@@ -172,7 +172,7 @@ namespace DungeonDrive
         public bool ranged;
         public double atk_speed;
         public double proj_speed;
-        public int range;
+        public int proj_range;
         public double powerSec;
         public double powerFac;
         public GameState.AtkStyle style;
@@ -187,9 +187,9 @@ namespace DungeonDrive
                 case 0:
                     name = "Basic Wand";
                     img = Properties.Resources.wand_1;
-                    atk_speed = rdnDouble(0.1 * Math.Pow(0.9, (double)state.hero.level), 0.2 * Math.Pow(0.9, (double)state.hero.level), rand);
-                    proj_speed = rdnDouble(0.4 * Math.Pow(0.9, (double)state.hero.level), 0.5 * Math.Pow(0.9, (double)state.hero.level), rand);
-                    range = rand.Next(5, 12);
+                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_range = rand.Next(5, 12);
                     style = (GameState.AtkStyle)rand.Next(0,3);
                     switch (style)
                     {
@@ -216,7 +216,7 @@ namespace DungeonDrive
                 + "\nATK SPD: " + atk_speed;
 
             if (ranged)
-                description += "\nRNG: " + range;
+                description += "\nRNG: " + proj_range;
 
             switch (style)
             {
