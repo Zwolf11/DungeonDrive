@@ -43,7 +43,9 @@ namespace DungeonDrive
         public double y_final = 0;
         public double sleep_sec = 0;        // amount of time that unit can't move
         public double poison_sec = 0;       // amount of time that unit is poisoned
-        public double curse_sec = 0;        // amoutn of time that unit is cursed
+        public double curse_sec = 0;        // amount of time that unit is cursed
+        public double burning_sec = 0;      // amount of time that unit is burning
+        public double burning_amount = 0;
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
@@ -85,6 +87,20 @@ namespace DungeonDrive
         {
             // slows down for sec second and factor of fac
             new Thread(() => slowSleep(sec, fac)).Start();
+        }
+
+        public void burn(double sec, double fac)
+        {
+            // burn the unit for sec second and factor of fac
+            this.burning_sec = sec * 17;
+            this.burning_amount = fac / this.burning_sec;
+        }
+
+        public void burning()
+        {   
+            this.hp -= this.burning_amount;
+            if (this.hp <= 0)
+                state.hero.deletingList.Add(this);
         }
 
         public void drawHpBar(Graphics g)

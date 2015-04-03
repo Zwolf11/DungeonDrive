@@ -22,7 +22,6 @@ namespace DungeonDrive
         private SoundPlayer attack2;
         private SoundPlayer attack3;
         private SoundPlayer level_up;
-        private Random r;
         private Bitmap[,] imgs = new Bitmap[8, 8];
         private int imgDir = 0;
 
@@ -378,28 +377,6 @@ namespace DungeonDrive
             }*/
         }
 
-        private double rdnDouble(double first, double second)
-        { return Math.Round(r.NextDouble() * (second - first) + first, 2); }
-
-        /*private void getRdnWeapon(Unit enemy)
-        {
-            if (r.NextDouble() >= (1 - enemy.dropWpnFac))
-            {
-                // new weapon
-                Weapon newWeapon = new Weapon(0, WeaponStats.adjectives[r.Next(WeaponStats.adjectives.Length)] + " arrow", Properties.Resources.fire);
-                newWeapon.atk_damage = r.Next(WeaponStats.atk_damage[0], WeaponStats.atk_damage[1]);
-                newWeapon.atk_speed = rdnDouble(WeaponStats.atk_speed[0], WeaponStats.atk_speed[1]);
-                newWeapon.proj_speed = rdnDouble(WeaponStats.proj_speed[0], WeaponStats.proj_speed[1]);
-                newWeapon.range = r.Next(WeaponStats.range[0], WeaponStats.range[1]);
-                newWeapon.slowSec = rdnDouble(WeaponStats.slowSec[0], WeaponStats.slowSec[1]);
-                newWeapon.slowFac = rdnDouble(WeaponStats.slowFac[0], WeaponStats.slowFac[1]);
-                newWeapon.style = (AtkStyle)r.Next(0, 3);
-                newWeapon.setDesc();
-                Console.WriteLine("dropped a weapon from enemy " + enemy.GetType().ToString());
-                Console.WriteLine(newWeapon.itemDesc);
-            }
-        }*/
-
         public void basicAtk()
         {
             // melee
@@ -422,12 +399,14 @@ namespace DungeonDrive
 
             // projectiles
 
-            if (shooting && atk_cd[2])
+            if (shooting && atk_cd[2] && this.weapon != null && this.weapon.ranged)
             {
                 attack3.Play();
                 projectiles.Add(new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir)));
                 cd(Projectile.atk_speed, 2);
             }
+            else if (this.weapon == null || !this.weapon.ranged)
+                shooting = false;
         }
 
         public void experience(Unit enemy, double multiplier)

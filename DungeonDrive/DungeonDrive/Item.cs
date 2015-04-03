@@ -210,7 +210,7 @@ namespace DungeonDrive
                     projectileImg = Properties.Resources.fire;
                     break;
                 default:
-                    projectileImg = Properties.Resources.fire;
+                    projectileImg = Properties.Resources.proj;
                     break;
             }
         }
@@ -222,7 +222,7 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    name = "Basic Wand";
+                    name = state.adjectives[rand.Next(state.adjectives.Length)] + " Wand";
                     damage = 1 + rand.Next(state.hero.level);
                     img = Properties.Resources.wand_1;
                     atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);

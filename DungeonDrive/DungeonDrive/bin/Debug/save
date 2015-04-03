@@ -1,32 +1,32 @@
-C:\Program Files
 C:\
-67.609
-8.991
-2
-6
-1010
-1004
-101
-0.19
+C:\
+64.791
+7.70607575950824
+4
+0
+1030
+1030
+103
+0.17
 NULL
-NULL
-NULL
-NULL
-Basic Wand_2_True_0.32_0.58_10_0.89_0.49_1
+Basic Armor_1
+Basic Legs_1
+Diamond Shield_3
+Black Wand_3_True_0.5_0.31_8_1.8_0.43_1
 Medium Potion
-WEAPON_Basic Wand_1_True_0.33_0.31_10_0.51_0.45_0
-WEAPON_Basic Wand_1_True_0.49_0.72_5_0.86_0.42_0
-WEAPON_Basic Wand_1_True_0.34_0.2_11_1.68_0.43_0
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
-NULL
+WEAPON_Giving Wand_1_True_0.4_0.33_6_1_0.42_2
+ARMOR_Basic Armor_1
+WEAPON_Jumpy Wand_1_True_0.49_0.64_5_1.36_0.41_0
+WEAPON_Puny Wand_1_True_0.54_0.58_5_1.25_0.43_0
+WEAPON_Unhappy Wand_2_True_0.43_0.57_5_1.34_0.38_0
+WEAPON_Tiny Wand_2_True_0.32_0.3_8_1.97_0.32_0
+WEAPON_Gleaming Wand_1_True_0.38_0.56_7_1.61_0.5_0
+WEAPON_Lean Wand_3_True_0.4_0.75_11_0.81_0.32_1
+WEAPON_Gleaming Wand_1_True_0.38_0.55_7_1.61_0.5_0
+WEAPON_Novel Wand_1_True_0.36_0.24_10_1.62_0.35_2
+SHIELD_Basic Shield_1
+SHIELD_Basic Shield_3
+LEGS_Basic Legs_4
 NULL
 NULL
 NULL

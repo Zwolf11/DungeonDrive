@@ -69,6 +69,9 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
+            if (burning_sec-- >= 0)
+                burning();
+
             if (sleep_sec > 0)
             {
                 sleep_sec--;
@@ -192,6 +195,9 @@ namespace DungeonDrive
         {
             if (knockback)
                 knockBacked();
+            
+            if (burning_sec-- >= 0)
+                burning();
 
             if (sleep_sec > 0)
             {
@@ -294,6 +300,9 @@ namespace DungeonDrive
         {
             if (knockback)
                 knockBacked();
+
+            if (burning_sec-- >= 0)
+                burning();
 
             if (sleep_sec > 0)
             {
@@ -426,6 +435,9 @@ namespace DungeonDrive
         {
             /*if (knockback)
                 knockBacked();*/
+
+            if (burning_sec-- >= 0)
+                burning();
 
             if (sleep_sec > 0)
             {
