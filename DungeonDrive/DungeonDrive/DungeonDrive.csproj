@@ -122,6 +122,12 @@
     <None Include="Resources\chest_closed.png" />
     <None Include="Resources\chest_open.png" />
     <None Include="Resources\armor_1.png" />
+    <None Include="Resources\DoorOpenHorizontal.png" />
+    <None Include="Resources\DoorOpenVertical.png" />
+    <None Include="Resources\doorClosed.png" />
+    <None Include="Resources\doorClosedHorizontal.png" />
+    <None Include="Resources\doorClosedVertical.png" />
+    <None Include="Resources\doorOpen.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

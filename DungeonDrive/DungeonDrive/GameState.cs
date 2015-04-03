@@ -345,6 +345,7 @@ namespace DungeonDrive
 
                     if (room.doorSpace[(int) x, (int) y])
                     {
+                        Door clickedDoor = new Door(this,-1,-1,0,0,0,true,0,0);
                         foreach (Door door in room.doors)
                         {
                             if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1)  ||   (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x,2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
@@ -352,10 +353,15 @@ namespace DungeonDrive
                                 // this is the correct door
                                 if (!door.switchClosed())
                                 {
-                                    room.updateDrawingGrid(door.getNegativeRoom());
-                                    room.updateDrawingGrid(door.getPositiveRoom());
+                                    clickedDoor = door;
+                                    break;
                                 }
                             }
+                        }
+                        if (clickedDoor.x != -1)
+                        {
+                            room.updateDrawingGrid(clickedDoor.getNegativeRoom());
+                            room.updateDrawingGrid(clickedDoor.getPositiveRoom());
                         }
                     }
                 }

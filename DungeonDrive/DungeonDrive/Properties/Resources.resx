@@ -460,4 +460,25 @@
   <data name="ice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fire1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="doorClosed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doorClosed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="doorClosedHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doorClosedHorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="doorClosedVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doorClosedVertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="doorOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\doorOpen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoorOpenHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoorOpenHorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoorOpenVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoorOpenVertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>https://raw.githubusercontent.com/Zwolf11/DungeonDrive/e5b71014e3ac98d37b099294db39d9338c2f9eed/DungeonDrive/DungeonDrive/Resources/DoorOpenHorizontal.png</value>
+  </data>
 </root>

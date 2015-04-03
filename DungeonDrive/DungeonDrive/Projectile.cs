@@ -55,7 +55,6 @@ namespace DungeonDrive
                     unit.hp -= Projectile.dmg;
                     if (Projectile.style == GameState.AtkStyle.Frozen)
                     {
-                        Console.WriteLine("Frozen");
                         unit.slow(Projectile.powerSec, Projectile.powerFac);
                     }
                     state.hero.removeProj(this);
