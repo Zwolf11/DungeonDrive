@@ -18,7 +18,7 @@ namespace DungeonDrive
         //public String pastRoom;
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
-        public bool noBoundaries = false;
+        public bool noBoundaries = true;
 
         
         public int width;
@@ -28,6 +28,11 @@ namespace DungeonDrive
         public List<Door> doors = new List<Door>();
         public List<Stairs> stairs = new List<Stairs>();
         public List<int> connectedRooms = new List<int>();
+
+        public List<Stairs> stairsToDraw = new List<Stairs>();
+        public List<Door> doorsToDraw = new List<Door>();
+        public List<Unit> enemiesToDraw = new List<Unit>();
+        public List<Obstacle> obstaclesToDraw = new List<Obstacle>();
 
         public bool[,] freeSpace;                      // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
         public bool[,] walkingSpace;                   // hero can walk here.
@@ -50,6 +55,8 @@ namespace DungeonDrive
         public int numStairs = 0;
         public int numRooms = 0;
         public int numChests = 0;
+        public int numNonHallways = 0;
+        
         
 
         public const int minSizeOfInitRoom = 7;
@@ -133,7 +140,7 @@ namespace DungeonDrive
             wallSpace = new bool[width, height];
             doorSpace = new bool[width, height];
             wallIntersection = new bool[width, height];
-            effectiveRoomNum = new int[maxStairs];
+            effectiveRoomNum = new int[2 * maxStairs];
             
             for (int i = 0; i < width; i++)
             {
@@ -150,7 +157,7 @@ namespace DungeonDrive
                 }
             }
 
-            for (int i = 0; i < maxStairs; i++)
+            for (int i = 0; i < 2 * maxStairs; i++)
             {
                 effectiveRoomNum[i] = i;
             }
@@ -279,6 +286,8 @@ namespace DungeonDrive
                     breaker++;
                     break;
                 }
+
+                Console.WriteLine("Iteration: " + breaker + " for hallway generation");
 
                 for (int i = 0; i < staticNumRooms; i++)              // go through each room
                 {
@@ -748,6 +757,7 @@ namespace DungeonDrive
 
             numRooms++;
             numStairs++;
+            numNonHallways++;
 
             //Console.WriteLine("ENd of add stairs");
 
@@ -1049,8 +1059,8 @@ namespace DungeonDrive
                 yInc = -1;
             }
 
-            Door door1 = new Door(state, 0, 0, 1, 2, 0, true);
-            Door door2 = new Door(state, 0, 0, 1, 2, 0, true);
+            Door door1 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1);
+            Door door2 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1);
 
 
             // CHECK X DIfference for door locations
@@ -1071,7 +1081,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1);
                             }
                            
                         }
@@ -1084,7 +1094,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1);
                             }
                         }
 
@@ -1106,7 +1116,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1 ,-1);
                             }
 
                         }
@@ -1119,7 +1129,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
                             }
 
                         }
@@ -1152,7 +1162,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
                                 }
                             }
                             else if (roomNumSpace[x2, i] == secondRoom && !door2Found)
@@ -1164,7 +1174,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
                                 }
 
                             }
@@ -1189,7 +1199,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door1 = new Door(state, -1, -1, 1, 2, 0, true);
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
                                 }
 
                             }
@@ -1202,7 +1212,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door2 = new Door(state, -1, -1, 1, 2, 0, true);
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
                                 }
 
                             }
@@ -1214,15 +1224,191 @@ namespace DungeonDrive
             }
 
 
-
-            // covered the x difference between both.
-
-
             if (!door1Found || !door2Found)
             {
+                if (door1Found)
+                {
+                    doors.Add(door1);
+                }
+                else
+                {
+                    doors.Add(door2);
+                }
                 // add door and return;
                 return;
             }
+
+
+
+            int door1High, door1Low, door2High, door2Low;
+
+            if (door1.vertical)
+            {       // door 1 is vertical
+                door1Low = door1.y - (wide / 2);
+                door1High = door1.y + (door1.height / 2) + (wide / 2);
+            }
+            else
+            {       // door 1 is horizontal
+                door1Low = door1.x - (wide / 2);
+                door1High = door1.x + (door1.width / 2) + (wide / 2);
+            }
+
+            if (door2.vertical)
+            {       // door 2 is vertical
+                door2Low = door2.y - (wide / 2);
+                door2High = door2.y + (door2.height / 2) + (wide / 2);
+            }
+            else
+            {       // door 2 is horizontal
+                door2Low = door2.x - (wide / 2);
+                door2High = door2.x + (door2.width / 2) + (wide / 2);
+            }
+
+
+
+
+
+            if (door1.vertical != door2.vertical)
+            {
+
+                // make sure that there is enough room
+
+                if (door1.vertical)
+                {
+                   
+                    if (door1.x < door2High && door1.x > door2Low)
+                    {
+                        // shift door2 towards whichever way door1 is facing
+                        if (roomNumSpace[door1.x + 1, door1.y] == -1)
+                        {
+                            // move door2 so that door2Low = door1.x
+                            if (door1.x + (wide / 2) <= door2.maxPositive)
+                            {
+                                door2.x = door1.x + (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                        }
+                        else
+                        {
+                            // move door2 so that door2High = door1.x
+                            if (door1.x - (door2.width / 2) - (wide / 2) >= door2.maxNegative)
+                            {
+                                door2.x = door1.x - (door2.width / 2) - (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                        }
+
+                    }
+
+                    if (door2.y < door1High && door2.y > door1Low)
+                    {
+
+                        if (roomNumSpace[door2.x, door2.y + 1] == -1)
+                        {
+                            if (door2.y + (wide / 2) <= door1.maxPositive)
+                            {
+                                door1.y = door2.y + (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                            // move door1 so that door1Low = door2.y
+                        }
+                        else
+                        {
+                            
+                            if (door2.y - (door1.height / 2) - (wide / 2) >= door1.maxNegative)
+                            {
+                                door1.y = door2.y - (door1.height / 2) - (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                            // move door1 so that door1High = door2.y
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    if (door2.x < door1High && door2.x > door1Low)
+                    {
+
+                        if (roomNumSpace[door2.x + 1, door2.y] == -1)
+                        {
+                            // move door 1 so that door1Low = door2.x
+                            if (door2.x + (wide / 2) <= door1.maxPositive)
+                            {
+                                door1.x = door2.x + (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                        }
+                        else
+                        {
+                            // move door 1 so that door1High = door2.x
+                            if (door2.x - (door1.width / 2) - (wide / 2) >= door1.maxNegative)
+                            {
+                                door1.x = door2.x - (door1.width / 2) - (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                        }
+                    }
+
+                    if (door1.y < door2High && door1.y > door2Low)
+                    {
+
+                        if (roomNumSpace[door1.x, door1.y + 1] == -1)
+                        {
+                            // move door 2 so that door2Low = door1.y
+                            if (door1.y + (wide / 2) <= door2.maxPositive)
+                            {
+                                door2.y = door1.y + (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                            // move door1 so that door1Low = door2.y
+                        }
+                        else
+                        {
+                            // move door2 so that door2High = door1.y
+                            if (door1.y - (door2.height / 2) - (wide / 2) >= door2.maxNegative)
+                            {
+                                door2.y = door1.y - (door2.height / 2) - (wide / 2);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not allowing readjustment of doors");
+                            }
+                        }
+                    }
+
+
+
+                }
+
+            }
+            
+
+
+            // covered the x difference between both.
+
 
             if (door1Found)
             {
@@ -1234,28 +1420,6 @@ namespace DungeonDrive
                 doors.Add(door2);
             }
 
-
-            // DONE CALCULATING WHERE DOORS SHOULD GO
-
-
-            bool xChange = true;
-            bool yChange = true;
-
-            if (door1.vertical == door2.vertical)
-            {
-                if (door1.vertical)
-                {
-                    // both doors are vertical
-                    yChange = false;
-                }
-                else
-                {
-                    // both doors are horizontal
-                    xChange = false;
-                }
-            }
-
-            int door1High, door1Low, door2High, door2Low;
 
             if (door1.vertical)
             {
@@ -1278,6 +1442,27 @@ namespace DungeonDrive
                 door2Low = door2.x - (wide / 2);
                 door2High = door2.x + (door2.width / 2) + (wide / 2);
             }
+
+            // DONE CALCULATING WHERE DOORS SHOULD GO
+
+
+            bool xChange = true;
+            bool yChange = true;
+
+            if (door1.vertical == door2.vertical)
+            {
+                if (door1.vertical)
+                {
+                    // both doors are vertical
+                    yChange = false;
+                }
+                else
+                {
+                    // both doors are horizontal
+                    xChange = false;
+                }
+            }
+
 
             if (xChange)
             {
@@ -1772,36 +1957,49 @@ namespace DungeonDrive
 
 
 
-            if (vertical)
+            if (!vertical)
             {
                 // calculating vertical door location
+                int xTemp = x1;
+                while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp++, y1] == roomNumSpace[x1, y1]) ;
+                int xMax = xTemp;
+                
+                xTemp = x1;
+                while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp--, y1] == roomNumSpace[x1, y1]) ;
 
-                return new Door(state, x1,y1 + yInc,1,2,roomNumSpace[x1,y1+yInc],true);
-
+                return new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xTemp + 1, xMax - 1);
 
             }
             else
             {
                 // calculating horizontal door location
 
-                return new Door(state, x1 + xInc,y1,2,1,roomNumSpace[x1 + xInc,y1],false);
+                int yTemp = x1;
+                while (yTemp > 0 && yTemp < height && wallSpace[x1, yTemp] && roomNumSpace[x1,yTemp++] == roomNumSpace[x1, y1]) ;
+                int yMax = yTemp;
+
+                yTemp = x1;
+                while (yTemp > 0 && yTemp < height && wallSpace[x1, yTemp] && roomNumSpace[x1, yTemp--] == roomNumSpace[x1, y1]) ;
+             
+                return new Door(state, x1,y1,1,2,roomNumSpace[x1 + xInc,y1],true,yTemp + 1,yMax - 1);
 
 
             }
 
 
-            return new Door(state, -1,-1,1,2,-1,true);
+            return new Door(state, -1,-1,1,2,-1,true,-1,-1);
         }
 
 
 
         public void makeBox(int x1,int x2,int y1,int y2, int roomNum){
+            
             int minX = Math.Min(x1, x2);
             int maxX = Math.Max(x1, x2);
             int minY = Math.Min(y1, y2);
             int maxY = Math.Max(y1, y2);
 
-            Console.WriteLine("Making Hallway that (x) is " + (maxX - minX) + " wide and (y) is " + (maxY - minY));
+            Console.WriteLine("Making Hallway #"+roomNum+" that (x) is " + (maxX - minX) + " wide and (y) is " + (maxY - minY));
 
             for(int i = minX; i <= maxX; i++){
                 for (int j = minY; j <= maxY; j++)
@@ -1816,7 +2014,34 @@ namespace DungeonDrive
                     }
                     else
                     {
-                        wallSpace[i, j] = false;
+                        
+                        if (roomNumSpace[i, j] != -1 && effectiveRoomNum[roomNumSpace[i, j]] != effectiveRoomNum[roomNum] && !wallSpace[i,j])
+                        {
+                            if (roomNumSpace[i, j] < numNonHallways)
+                            {
+                                Console.WriteLine("COULD HAVE SOME UNINTENDED SIDE EFFECTS IN ROOM NUMBERS");
+                            }
+
+                            //int highVal = Math.Max(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+                            //int lowVal = Math.Min(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+
+                            int highVal = roomNum;
+                            int lowVal = effectiveRoomNum[roomNumSpace[i, j]];
+
+                            for (int k = 0; k < numRooms; k++)
+                            {
+                                if (effectiveRoomNum[k] == lowVal)
+                                {
+                                    effectiveRoomNum[k] = highVal;
+                                }
+
+                            }
+                        }
+                        
+                        if (roomNumSpace[i, j] == roomNum)
+                        {
+                            wallSpace[i, j] = false;
+                        }
                     }
 
 
@@ -1824,6 +2049,8 @@ namespace DungeonDrive
                     {
                         roomNumSpace[i, j] = roomNum;
                     }
+
+                    
 
                 }
             }
@@ -1852,6 +2079,39 @@ namespace DungeonDrive
                     
                 }
             }
+        }
+
+        public void updateDrawingGrid(int newRoomNum)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+
+
+
+
+                }
+            }
+            /*
+            foreach (Stairs stair in stairs)
+            {
+                stair.draw(g);
+                //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
+            }
+
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.draw(g);
+            }
+            foreach (Unit enemy in enemies)
+                enemy.draw(g);
+
+            foreach (Door door in doors)
+            {
+                door.draw(g);
+            }
+             * */
         }
 
         public void draw(Graphics g)
@@ -1908,20 +2168,23 @@ namespace DungeonDrive
                 //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
             }
 
-            foreach(KeyValuePair<Item, PointF> item in droppedItems)
+            foreach (KeyValuePair<Item, PointF> item in droppedItems)
             {
                 g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-              /*  
-                if (item.Key.showDes)
-                {
-                    Console.WriteLine("showing");
-                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
-                }
-               * */
+                /*  
++                if (item.Key.showDes)
++                {
++                    Console.WriteLine("showing");
++                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
++                }
++               * */
             }
 
+            
             foreach (Unit enemy in enemies)
                 enemy.draw(g);
+
+
         }
 
     }
