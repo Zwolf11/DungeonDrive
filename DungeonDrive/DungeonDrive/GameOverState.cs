@@ -19,8 +19,11 @@ namespace DungeonDrive
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
-            parent.close();
-            form.Invalidate();
+            if (e.KeyCode == Properties.Settings.Default.CloseKey)
+            {
+                parent.close();
+                form.Invalidate();
+            }
         }
 
         public override void paint(object sender, PaintEventArgs e)

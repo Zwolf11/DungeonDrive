@@ -19,7 +19,7 @@ namespace DungeonDrive
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
-
+        public bool noFogOfWar = false;
         
         public int width;
         public int height;
@@ -396,7 +396,14 @@ namespace DungeonDrive
             }
             recalcRoomNums();
 
-            updateDrawingGrid(roomNumSpace[(int) state.hero.x, (int)state.hero.y]);
+            if (noFogOfWar)
+            {
+                eliminateFogOfWar();
+            }
+            else
+            {
+                updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
+            }
 
             watch.Stop();
             Console.WriteLine("Time it took to generate level = "+ (watch.ElapsedMilliseconds / 1000.0 ));
@@ -1064,10 +1071,13 @@ namespace DungeonDrive
                             if (door1.x != -1)
                             {
                                 door1Found = true;
+                                x1 = door1.x;
+                                y1 = door1.y;
                             }
                             else
                             {
                                 door1 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1);
+                                
                             }
                            
                         }
@@ -1099,6 +1109,8 @@ namespace DungeonDrive
                             if (door1.x != -1)
                             {
                                 door1Found = true;
+                                x1 = door1.x;
+                                y1 = door1.y;
                             }
                             else
                             {
@@ -1145,6 +1157,8 @@ namespace DungeonDrive
                                 if (door1.x != -1)
                                 {
                                     door1Found = true;
+                                    x1 = door1.x;
+                                    y1 = door1.y;
                                 }
                                 else
                                 {
@@ -1182,6 +1196,8 @@ namespace DungeonDrive
                                 if (door1.x != -1)
                                 {
                                     door1Found = true;
+                                    x1 = door1.x;
+                                    y1 = door1.y;
                                 }
                                 else
                                 {
@@ -1945,7 +1961,7 @@ namespace DungeonDrive
 
             if (!vertical)
             {
-                // calculating vertical door location
+                // calculating horizontal door location
                 int xTemp = x1;
                 while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp++, y1] == roomNumSpace[x1, y1]) ;
                 int xMax = xTemp - 1;
@@ -1955,15 +1971,61 @@ namespace DungeonDrive
                 while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp--, y1] == roomNumSpace[x1, y1]) ;
                 int xMin = xTemp + 1;
 
+                Door retDoor =  new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xMin, xMax);
 
+                
+                int originalX = retDoor.x;
 
+                bool good = true;
 
-                return new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xMin, xMax);
+                /*
+                while (!isDoorGood(retDoor))
+                {
+                    if (retDoor.x + 1 > xMax)
+                    {
+                        good = false;
+                        break;
+                    }
+                    else
+                    {
+                        retDoor.x++;
+                    }
+                }
+
+                if (good)
+                {
+                    return retDoor;
+                }
+
+                retDoor.x = originalX;
+
+                while (!isDoorGood(retDoor))
+                {
+                    if (retDoor.x - 1 < xMin)
+                    {
+                        good = false;
+                        break;
+                    }
+                    else
+                    {
+                        retDoor.x--;
+                    }
+                }
+
+                //*/
+                if (good)
+                {
+                    return retDoor;
+                }
+                else
+                {
+                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1);
+                }
 
             }
             else
             {
-                // calculating horizontal door location
+                // calculating vertical door location
 
                 int yTemp = x1;
                 while (yTemp > 0 && yTemp < height && wallSpace[x1, yTemp] && roomNumSpace[x1,yTemp++] == roomNumSpace[x1, y1]) ;
@@ -1974,15 +2036,119 @@ namespace DungeonDrive
                 int yMin = yTemp + 1;
 
 
-                return new Door(state, x1,y1,1,2,roomNumSpace[x1 + xInc,y1],true,yMin,yMax);
+                Door retDoor = new Door(state, x1, y1, 1, 2, roomNumSpace[x1 + xInc, y1], true, yMin, yMax);
+                int originalY = retDoor.y;
+
+                bool good = true;
+
+                /*
+                while (!isDoorGood(retDoor))
+                {
+                    if ((retDoor.y + 1) > yMax)
+                    {
+                        good = false;
+                        break;
+                    }
+                    else
+                    {
+                        retDoor.y = retDoor.y + 1;
+                    }
+                }
+
+                if (good)
+                {
+                    return retDoor;
+                }
+
+                retDoor.y = originalY;
+
+                while (!isDoorGood(retDoor))
+                {
+                    if ((retDoor.y - 1) < yMin)
+                    {
+                        good = false;
+                        break;
+                    }
+                    else
+                    {
+                        retDoor.y--;
+                    }
+                }
+                */
+                if (good)
+                {
+                    return retDoor;
+                }
+                else
+                {
+                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1);
+                }
 
 
             }
 
 
-            return new Door(state, -1,-1,1,2,-1,true,-1,-1);
+
         }
 
+
+        public bool isDoorGood(Door door)
+        {
+
+            if (door.vertical)
+            {
+                int negativeRoom = roomNumSpace[door.x - 1, door.y];
+                int positiveRoom = roomNumSpace[door.x + 1, door.y];
+
+                Console.WriteLine("negative = " + negativeRoom + " positive = " + positiveRoom);
+
+                for (int i = 0; i < door.height; i++)
+                {
+
+
+                    if (roomNumSpace[door.x - 1, door.y + i] != negativeRoom || wallSpace[door.x - 1, door.y + i])
+                    {
+                        return false;
+                    }
+
+                    if (roomNumSpace[door.x + 1, door.y + i] != positiveRoom || wallSpace[door.x + 1, door.y + i])
+                    {
+                        return false;
+                    }
+
+
+                }
+
+            }
+            else
+            {
+
+
+                int negativeRoom = roomNumSpace[door.x, door.y - 1];
+                int positiveRoom = roomNumSpace[door.x, door.y + 1];
+
+                Console.WriteLine("negative = " + negativeRoom + " positive = " + positiveRoom);
+
+                for (int i = 0; i < door.width; i++)
+                {
+
+
+                    if (roomNumSpace[door.x + i, door.y - 1] != negativeRoom || wallSpace[door.x + i, door.y - 1])
+                    {
+                        return false;
+                    }
+
+                    if (roomNumSpace[door.x + i, door.y + 1] != positiveRoom || wallSpace[door.x + i, door.y + 1])
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+
+            return true;
+        }
 
 
         public void makeBox(int x1,int x2,int y1,int y2, int roomNum){
@@ -2076,7 +2242,7 @@ namespace DungeonDrive
 
         public void updateDrawingGrid(int newRoomNum)
         {
-            /*
+            //*
             if (roomDrawn[newRoomNum])
             {
                 return;
@@ -2104,12 +2270,18 @@ namespace DungeonDrive
                                     }
                                     else if (doorSpace[i + k, j + l])
                                     {
+                                        Door doorToRemove = new Door(state, -1, -1, -1, -1, -1, true, -1, -1);
                                         foreach (Door door in doorsNotDrawn)
                                         {
                                             if (door.x == i + k && door.y == j + l)
                                             {
+                                                doorToRemove = door;
                                                 doors.Add(door);
                                             }
+                                        }
+                                        if (doorToRemove.x != -1)
+                                        {
+                                            doorsNotDrawn.Remove(doorToRemove);
                                         }
                                     }
                                 }
@@ -2136,9 +2308,7 @@ namespace DungeonDrive
 
             foreach (Obstacle obstacle in obstaclesNotDrawn)
             {
-                Console.WriteLine("Comparing " + obstacle.roomNum + " and " + newRoomNum);
                 if(obstacle.roomNum == newRoomNum){
-                    Console.WriteLine("Hit! Obstacle placed");
                     obstacles.Add(obstacle);
                     //obstacles.Remove(obstacle);
                 }
@@ -2151,9 +2321,7 @@ namespace DungeonDrive
             }
 
             foreach (Unit enemy in enemiesNotDrawn){
-                Console.WriteLine("Comparing " + enemy.roomNum + " and " + newRoomNum);
                 if(enemy.roomNum == newRoomNum){
-                    Console.WriteLine("Hit! Generating Enemy");
                     enemies.Add(enemy);
                     //enemies.Remove(enemy);
                 }
@@ -2176,16 +2344,56 @@ namespace DungeonDrive
             }
             */
 
+            /*
             foreach (Door door in doors)
             {
                 doorsNotDrawn.Remove(door);
             }
+             * */
             
+        }
+
+        public void eliminateFogOfWar()
+        {
+
+             for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (roomNumSpace[i, j] != -1)
+                    {
+                        drawingSpace[i, j] = true;
+                    }
+                }
+             }
+
+             for (int i = 0; i < 2 * maxStairs;i++ )
+             {
+                 roomDrawn[i] = true;
+             }
+
+            foreach(Unit enemy in enemiesNotDrawn){
+                enemies.Add(enemy);
+            }
+
+            foreach(Obstacle obstacle in obstaclesNotDrawn){
+                obstacles.Add(obstacle);
+            }
+
+            foreach(Stairs stair in stairsNotDrawn){
+                stairs.Add(stair);
+            }
+            
+            foreach(Door door in doorsNotDrawn){
+                doors.Add(door);
+            }
+
         }
 
         public void draw(Graphics g)
         {
-            
+
+                  
             for (int i = 0; i < state.room.width; i++){
                 for (int j = 0; j < state.room.height; j++)
                 {
