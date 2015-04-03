@@ -12,8 +12,10 @@ namespace DungeonDrive
         public int height;
         public int roomNum;
 
+
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size); } }
+ 
 
         public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
         {
@@ -36,15 +38,17 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         { 
-            g.DrawImage(img, DrawX, DrawY, state.size, state.size);
+           g.DrawImage(img, DrawX, DrawY, state.size, state.size);
         }
     }
 
     public class Chest : Obstacle
     {
+
         public bool closed = true;
         private Bitmap openImg = new Bitmap(Properties.Resources.chest_open);
         private Bitmap closedImg = new Bitmap(Properties.Resources.chest_closed);
+ 
 
         public Chest(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
 
@@ -52,8 +56,9 @@ namespace DungeonDrive
         {
             if(closed)
                 g.DrawImage(closedImg, DrawX, DrawY, state.size, state.size);
-            else
-                g.DrawImage(openImg, DrawX, DrawY, state.size, state.size);
+           else
+               g.DrawImage(openImg, DrawX, DrawY, state.size, state.size);
+   
         }
     }
 
@@ -126,10 +131,14 @@ namespace DungeonDrive
     public class Door : Obstacle
     {
         public bool vertical;
+        public int maxPositive;
+        public int maxNegative;
 
-        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical) : base(state, x,y,width,height, roomNum) {
+        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive) : base(state, x,y,width,height, roomNum) {
 
             this.vertical = vertical;
+            this.maxPositive = maxPositive;
+            this.maxNegative = maxNegative;
         }
 
         public override void draw(Graphics g)
