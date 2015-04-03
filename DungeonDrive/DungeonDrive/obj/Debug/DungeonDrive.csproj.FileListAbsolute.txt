@@ -86,3 +86,11 @@ C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Deb
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe.config
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.exe
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.Properties.Resources.resources
+\\psf\Home\Desktop\blah\blah\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.csproj.GenerateResource.Cache

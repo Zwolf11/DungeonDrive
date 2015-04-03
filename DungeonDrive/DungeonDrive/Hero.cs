@@ -32,7 +32,6 @@ namespace DungeonDrive
         public Weapon weapon = null;
 
         public float dir = 0;
-        private bool shooting = false;
         public bool[] dirs = { false, false, false, false };
         public bool[] attacks = { false, false, false };
 
@@ -181,8 +180,8 @@ namespace DungeonDrive
             foreach (Unit enemy in state.room.enemies)
                 enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
 
-//            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
-//                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
+            //            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
+            //                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
         }
 
         private void handleMovement()
@@ -241,7 +240,7 @@ namespace DungeonDrive
             }
             else if (dirs[3] && !dirs[1])
             {
-                xNext = x + speed; 
+                xNext = x + speed;
                 animate();
             }
 
@@ -249,21 +248,22 @@ namespace DungeonDrive
         }
 
         private void animate()
-        {   animFrame = (animFrame + 0.3) % 8;  }
+        { animFrame = (animFrame + 0.3) % 8; }
 
         private void handleAttacking()
         {
-            // toggle melee/projectiles
-            if (attacks[2])
-            {
-                if (atk_cd[4])
-                {
-                    shooting = !shooting;
-                    cd(1, 4);
-                }
+            /*            // toggle melee/projectiles
+                        if (attacks[2])
+                        {
+                            if (atk_cd[4])
+                            {
+                                shooting = !shooting;
+                                cd(1, 4);
+                            }
 
-                attacks[2] = false;
-            }
+                            attacks[2] = false;
+                        }
+             * */
 
             // knockback skill
             if (attacks[0])
@@ -379,34 +379,37 @@ namespace DungeonDrive
 
         public void basicAtk()
         {
-            // melee
-            if (!shooting && atk_cd[0])
-            {
-                foreach (Unit enemy in state.room.enemies)
-                {
-                    if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
-                    {
-                        try { attack1.Play(); }
-                        catch (FileNotFoundException) { }
-                        knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
-                        enemy.hp -= atk_dmg;
-                        if (enemy.hp <= 0)
-                            deletingList.Add(enemy);
-                    }
-                }
-                cd(atk_speed, 0);
-            }
-
             // projectiles
-
-            if (shooting && atk_cd[2] && this.weapon != null && this.weapon.ranged)
+            if (this.weapon != null && this.weapon.ranged)
             {
-                attack3.Play();
-                projectiles.Add(new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir)));
-                cd(Projectile.atk_speed, 2);
+                if (atk_cd[2])
+                {
+                    attack3.Play();
+                    projectiles.Add(new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir)));
+                    cd(Projectile.atk_speed, 2);
+                }
             }
-            else if (this.weapon == null || !this.weapon.ranged)
-                shooting = false;
+
+            // melee
+            else
+            {
+                if (atk_cd[0])
+                {
+                    foreach (Unit enemy in state.room.enemies)
+                    {
+                        if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
+                        {
+                            try { attack1.Play(); }
+                            catch (FileNotFoundException) { }
+                            knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
+                            enemy.hp -= atk_dmg;
+                            if (enemy.hp <= 0)
+                                deletingList.Add(enemy);
+                        }
+                    }
+                    cd(atk_speed, 0);
+                }
+            }
         }
 
         public void experience(Unit enemy, double multiplier)
@@ -461,7 +464,7 @@ namespace DungeonDrive
                     g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
 
             //Console.WriteLine(imgDir);
-            g.DrawImage(imgs[imgDir, (int)animFrame], DrawX-6, DrawY-6, (int)(radius * 3 * state.size), (int)(radius * 3 * state.size));
+            g.DrawImage(imgs[imgDir, (int)animFrame], DrawX - 6, DrawY - 6, (int)(radius * 3 * state.size), (int)(radius * 3 * state.size));
 
             drawHpBar(g);
             drawExpBar(g);
