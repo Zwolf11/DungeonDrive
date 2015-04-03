@@ -142,6 +142,9 @@ namespace DungeonDrive
         {
             foreach (Unit enemy in state.room.enemies)
                 enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
+
+//            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
+//                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
         }
 
         private void handleMovement()

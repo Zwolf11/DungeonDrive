@@ -33,6 +33,8 @@ namespace DungeonDrive
         public double dropWpnFac = 0;
         public double animFrame = 0;
         public bool phase = false;
+        public int totalMoves = 4;
+        public int moves;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -101,23 +103,20 @@ namespace DungeonDrive
             unit.x_final = unit.x + unit.x_dist;
             unit.y_final = unit.y + unit.y_dist;
             unit.sleep_sec = sleep_sec * 17;
+            unit.moves = unit.totalMoves;
             unit.knockback = true;
         }
 
         public void knockBacked()
         {
-            int moves = 100;
-            for (int i = 0; i < moves; i++)
+            if (moves-- <= 0)
+                knockback = false;
+            
+            if (tryMove(x + x_dist / moves, y + y_dist / moves, this) && (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist)))
             {
-                if (tryMove(x + x_dist / moves, y + y_dist / moves, this) && (Math.Abs(x_final - x) <= Math.Abs(x_dist) || Math.Abs(y_final - y) <= Math.Abs(y_dist)))
-                {
-                    x += x_dist / 100;
-                    y += y_dist / 100;
-                }
-                else
-                    break;
+                x += x_dist / totalMoves;
+                y += y_dist / totalMoves;
             }
-            knockback = false;
         }
 
         public void attackHero()
@@ -131,7 +130,7 @@ namespace DungeonDrive
                 int dirY = Math.Sign(state.hero.y - this.y);
                 this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
                 state.hero.hp -= this.atk_dmg;
-                this.sleep_sec = 0.8 * 17;
+                this.sleep_sec = 1 * 17;
                 this.cd(1, 0);
             }
         }
