@@ -391,6 +391,8 @@ namespace DungeonDrive
             //
             float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
             float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
+            this.chest_triggered = false;
+            this.door_triggered = false;
             if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
             {
                 
@@ -422,11 +424,7 @@ namespace DungeonDrive
                     }
                    
                 }
-            } else{
-                this.chest_triggered = false;
-                this.door_triggered = false;
-
-            }
+            } 
             //
         }
 
@@ -438,10 +436,10 @@ namespace DungeonDrive
             room.draw(g);
             hero.draw(g);
             if (this.door_triggered == true) {
-                g.DrawImage(door_trigger, this.mouseX, this.mouseY);
+                g.DrawImage(door_trigger, this.mouseX - door_trigger.Width/2, this.mouseY - door_trigger.Height/2);
             }
             else if(this.chest_triggered == true){
-                g.DrawImage(chest_trigger, this.mouseX, this.mouseY);
+                g.DrawImage(chest_trigger, this.mouseX - door_trigger.Width / 2, this.mouseY - door_trigger.Height / 2);
             }
         }
 
