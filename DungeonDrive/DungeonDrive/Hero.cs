@@ -283,7 +283,7 @@ namespace DungeonDrive
                 {
                     if (state.room.currentRoom.Equals(state.graveyard))
                     {
-                        Console.WriteLine(state.room.currentRoom);
+                        //Console.WriteLine(state.room.currentRoom);
                         experience(deletingEnemy, 1.5);
                     }
                     experience(deletingEnemy, 1.0);
@@ -439,7 +439,7 @@ namespace DungeonDrive
                 if (!state.hero.atk_cd[i])
                     g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
 
-            Console.WriteLine(imgDir);
+            //Console.WriteLine(imgDir);
             g.DrawImage(imgs[imgDir, (int)animFrame], DrawX-6, DrawY-6, (int)(radius * 3 * state.size), (int)(radius * 3 * state.size));
 
             drawHpBar(g);

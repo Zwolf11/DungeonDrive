@@ -158,14 +158,14 @@ namespace DungeonDrive
                     wallSpace[i, j] = false;
                     doorSpace[i, j] = false;
                     wallIntersection[i, j] = false;
-                    drawingSpace[i, j] = true;
+                    drawingSpace[i, j] = false;
                 }
             }
 
             for (int i = 0; i < 2 * maxStairs; i++)
             {
                 effectiveRoomNum[i] = i;
-                roomDrawn[i] = true;
+                roomDrawn[i] = false;
             }
 
                 //////////   ADD STAIR UP TO PARENT UNLESS IN C: DIRECTORY ///////
@@ -202,14 +202,14 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    Console.WriteLine("Found Hidden File " + dirs[i]);
+                    //Console.WriteLine("Found Hidden File " + dirs[i]);
                     try
                     {
                         //hiddenFound(dirs[i]);
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("{0}", e.ToString());
+                        //Console.WriteLine("{0}", e.ToString());
                     }
                     //hiddenFound(dirs[i]);
                     
@@ -288,12 +288,12 @@ namespace DungeonDrive
                 }
                 if (count == numStairs || breaker > 100)
                 {
-                    Console.WriteLine("Iteration: "+breaker+" for hallway generation");
+                    //Console.WriteLine("Iteration: "+breaker+" for hallway generation");
                     breaker++;
                     break;
                 }
 
-                Console.WriteLine("Iteration: " + breaker + " for hallway generation");
+                //Console.WriteLine("Iteration: " + breaker + " for hallway generation");
 
                 for (int i = 0; i < staticNumRooms; i++)              // go through each room
                 {
@@ -394,7 +394,7 @@ namespace DungeonDrive
             {
                 addBoundaries();
             }
-            //recalcRoomNums();
+            recalcRoomNums();
 
             updateDrawingGrid(roomNumSpace[(int) state.hero.x, (int)state.hero.y]);
 
@@ -917,51 +917,6 @@ namespace DungeonDrive
             return 0;
         }
 
-        public void mergeRoom(int x, int y, int newRoomNum){
-           
-            roomNumSpace[x,y] = newRoomNum;
-            if( x > 2 && roomNumSpace[x-1,y] != -1 && roomNumSpace[x - 1, y] != newRoomNum){
-                if (!wallSpace[x - 1, y])
-                {
-                    mergeRoom(x - 1, y, newRoomNum);
-                }
-                else
-                {
-                    wallIntersection[x - 1, y] = true;
-                }
-            }
-            if( (x + 1) < (width - 1) && roomNumSpace[x+1,y] != -1 && roomNumSpace[x+1,y] != newRoomNum){
-                if (!wallSpace[x + 1, y])
-                {
-                    mergeRoom(x + 1, y, newRoomNum);
-                }
-                else
-                {
-                    wallIntersection[x + 1, y] = true;
-                }
-            }
-            if( y > 2 && roomNumSpace[x,y-1] != -1 && roomNumSpace[x,y-1] != newRoomNum){
-                if( !wallSpace[x, y -1]){
-                mergeRoom(x,y-1,newRoomNum);
-                }
-                else
-                {
-                    wallIntersection[x, y - 1] = true;
-                }
-            }
-            if( (y + 1) < (height - 1) && roomNumSpace[x,y+1] != -1 && roomNumSpace[x,y+1] != newRoomNum){
-                if (!wallSpace[x, y + 1])
-                {
-                    mergeRoom(x, y + 1, newRoomNum);
-                }
-                else
-                {
-                    wallIntersection[x, y + 1] = true;
-                }
-            }
-
-            
-        }
 
         public void recalcRoomNums()
         {
@@ -1006,7 +961,7 @@ namespace DungeonDrive
 
             for(int i = 0; i < width; i++){
                 for (int j = 0; j < height; j++){
-                    if(roomNumSpace[i,j] == -1 || wallSpace[i,j]){
+                    if(roomNumSpace[i,j] == -1 || wallSpace[i,j] || doorSpace[i,j]){
                         walkingSpace[i, j] = false;
                     }
                 }
@@ -1027,7 +982,7 @@ namespace DungeonDrive
                         }
                         wallSpace[door.x + i, door.y + j] = false;
                         doorSpace[door.x + i, door.y + j] = true;
-                        walkingSpace[door.x + i, door.y + j] = true;
+                        //walkingSpace[door.x + i, door.y + j] = true;
                     }
                 }
             }
@@ -1497,7 +1452,7 @@ namespace DungeonDrive
 
             if (xChange)
             {
-                Console.WriteLine("Making horizontal hallway");
+                //Console.WriteLine("Making horizontal hallway");
                 int otherX;
 
                 if (door1.vertical)
@@ -1553,7 +1508,7 @@ namespace DungeonDrive
             //yChange = false;
             if (yChange)
             {
-                Console.WriteLine("Making vertical hallway");
+                //Console.WriteLine("Making vertical hallway");
                 int otherY;
 
                 if (!door1.vertical)
@@ -1576,7 +1531,7 @@ namespace DungeonDrive
                         }
                     }
 
-                    Console.WriteLine("Making vertical box");
+                    //Console.WriteLine("Making vertical box");
                     // make box with bounds from (x) door1.x - door2Low and (y) door1High to door1
                     makeBox(door1Low, door1High, door1.y, otherY, hallwayNum);
 
@@ -2037,7 +1992,7 @@ namespace DungeonDrive
             int minY = Math.Min(y1, y2);
             int maxY = Math.Max(y1, y2);
 
-            Console.WriteLine("Making Hallway #"+roomNum+" that (x) is " + (maxX - minX) + " wide and (y) is " + (maxY - minY));
+            //Console.WriteLine("Making Hallway #"+roomNum+" that (x) is " + (maxX - minX) + " wide and (y) is " + (maxY - minY));
 
             for(int i = minX; i <= maxX; i++){
                 for (int j = minY; j <= maxY; j++)
@@ -2057,7 +2012,7 @@ namespace DungeonDrive
                         {
                             if (roomNumSpace[i, j] < numNonHallways)
                             {
-                                Console.WriteLine("COULD HAVE SOME UNINTENDED SIDE EFFECTS IN ROOM NUMBERS");
+                                //Console.WriteLine("COULD HAVE SOME UNINTENDED SIDE EFFECTS IN ROOM NUMBERS");
                             }
 
                             //int highVal = Math.Max(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
@@ -2134,7 +2089,32 @@ namespace DungeonDrive
                 {
                     if (roomNumSpace[i, j] == newRoomNum)
                     {
+                        
                         drawingSpace[i, j] = true;
+
+                        if (!wallSpace[i, j] && !doorSpace[i,j])
+                        {
+                            for (int k = -1; k <= 1; k++)
+                            {
+                                for (int l = -1; l <= 1; l++)
+                                {
+                                    if (wallSpace[i + k, j + l])
+                                    {
+                                        drawingSpace[i + k, j + l] = true;
+                                    }
+                                    else if (doorSpace[i + k, j + l])
+                                    {
+                                        foreach (Door door in doorsNotDrawn)
+                                        {
+                                            if (door.x == i + k && door.y == j + l)
+                                            {
+                                                doors.Add(door);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                         // needs to also include the bordering walls that aren't the same roomNum
                     }
@@ -2146,32 +2126,37 @@ namespace DungeonDrive
             
             foreach (Stairs stair in stairsNotDrawn)
             {
-                //if(stair.roomNum == newRoomNum){
+                if(stair.roomNum == newRoomNum){
                     stairs.Add(stair);
                     //stairs.Remove(stair);
-                //}
+                }
             }
 
             
 
             foreach (Obstacle obstacle in obstaclesNotDrawn)
             {
-                //if(obstacle.roomNum == newRoomNum){
+                Console.WriteLine("Comparing " + obstacle.roomNum + " and " + newRoomNum);
+                if(obstacle.roomNum == newRoomNum){
+                    Console.WriteLine("Hit! Obstacle placed");
                     obstacles.Add(obstacle);
                     //obstacles.Remove(obstacle);
-                //}
+                }
             }
 
             foreach (Obstacle obstacle in obstacles)
             {
                 obstaclesNotDrawn.Remove(obstacle);
+                
             }
 
             foreach (Unit enemy in enemiesNotDrawn){
-                //if(enemy.roomNum == newRoomNum){
+                Console.WriteLine("Comparing " + enemy.roomNum + " and " + newRoomNum);
+                if(enemy.roomNum == newRoomNum){
+                    Console.WriteLine("Hit! Generating Enemy");
                     enemies.Add(enemy);
                     //enemies.Remove(enemy);
-                //}
+                }
             }
 
             foreach (Unit enemy in enemies)
@@ -2179,12 +2164,17 @@ namespace DungeonDrive
                 enemiesNotDrawn.Remove(enemy);
             }
 
+            /*
             foreach (Door door in doorsNotDrawn)
             {
-                doors.Add(door);
+                //if (door.getNegativeRoom() == newRoomNum || door.getPositiveRoom() == newRoomNum)
+                //{
+                    doors.Add(door);
+                //}
                 //foreach
                 //door.draw(g);
             }
+            */
 
             foreach (Door door in doors)
             {
@@ -2201,9 +2191,16 @@ namespace DungeonDrive
                 {
                     if (drawingSpace[i, j])
                     {
-                        if (roomNumSpace[i, j] != -1)
+                        //if (roomNumSpace[i, j] != -1)
+                        //{
+
+                        if (wallSpace[i, j])
                         {
-                            g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                            g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                            continue;
+                        }
+                        
+                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
                             //if (!hallwaySpace[i, j])
                             //{
@@ -2223,15 +2220,11 @@ namespace DungeonDrive
                         //   g.FillRectangle(Brushes.Pink, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
 
                         //}else
-                        if (wallSpace[i, j])
-                        {
-                            g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                        }
                         //else
                         //{
                         //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
                         //}
-                    }
+                    //}
                 }
             }
 

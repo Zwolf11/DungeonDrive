@@ -133,10 +133,19 @@ namespace DungeonDrive
         public bool vertical;
         public int maxPositive;
         public int maxNegative;
-        public bool closed = false;
+        public bool closed = true;
+        private Bitmap doorClosed; 
+        private Bitmap doorOpen;
 
         public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive) : base(state, x,y,width,height, roomNum) {
 
+            if(vertical){
+                doorClosed = new Bitmap(Properties.Resources.doorClosedVertical);
+                doorOpen = new Bitmap(Properties.Resources.doorOpenVertical);
+            } else {
+                doorClosed = new Bitmap(Properties.Resources.doorClosedHorizontal);
+                doorOpen = new Bitmap(Properties.Resources.doorOpenHorizontal);
+            }
             this.vertical = vertical;
             this.maxPositive = maxPositive;
             this.maxNegative = maxNegative;
@@ -145,8 +154,12 @@ namespace DungeonDrive
         public bool switchClosed(){
             if(closed){
                 closed = false;
+                state.room.walkingSpace[x, y] = true;
+                state.room.walkingSpace[(int) x + (width / 2), (int) y + (height / 2)] = true;
             } else {
                 closed = true;
+                state.room.walkingSpace[x, y] = false;
+                state.room.walkingSpace[(int)x + (width / 2), (int)y + (height / 2)] = false;
             }
 
             return closed;
@@ -178,12 +191,14 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            if(closed){
-                g.FillRectangle(Brushes.Red, DrawX, DrawY, state.size * width, state.size * height);
-            } else {
-                g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
+            if (closed)
+            {
+                g.DrawImage(doorClosed, DrawX, DrawY, state.size * width, state.size * height);
             }
-
+            else
+            {
+                g.DrawImage(doorOpen, DrawX, DrawY, state.size * width, state.size * height);
+            }
         }
     }
 }
