@@ -42,6 +42,7 @@ namespace DungeonDrive
         public bool[,] wallSpace;
         public bool[,] doorSpace;
         public bool[,] wallIntersection;
+        public bool[,] drawingSpace;
 
         public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
@@ -141,6 +142,7 @@ namespace DungeonDrive
             doorSpace = new bool[width, height];
             wallIntersection = new bool[width, height];
             effectiveRoomNum = new int[2 * maxStairs];
+            drawingSpace = new bool[width, height];
             
             for (int i = 0; i < width; i++)
             {
@@ -154,6 +156,7 @@ namespace DungeonDrive
                     wallSpace[i, j] = false;
                     doorSpace[i, j] = false;
                     wallIntersection[i, j] = false;
+                    drawingSpace[i, j] = true;
                 }
             }
 
@@ -389,6 +392,8 @@ namespace DungeonDrive
                 addBoundaries();
             }
             //recalcRoomNums();
+
+            updateDrawingGrid(roomNumSpace[(int) state.hero.x, (int)state.hero.y]);
 
             watch.Stop();
             Console.WriteLine("Time it took to generate level = "+ (watch.ElapsedMilliseconds / 1000.0 ));
@@ -2038,7 +2043,7 @@ namespace DungeonDrive
                             }
                         }
                         
-                        if (roomNumSpace[i, j] == roomNum)
+                        if (roomNumSpace[i, j] >= numNonHallways)
                         {
                             wallSpace[i, j] = false;
                         }
@@ -2087,31 +2092,49 @@ namespace DungeonDrive
             {
                 for (int j = 0; j < height; j++)
                 {
+                    if (roomNumSpace[i, j] == newRoomNum)
+                    {
+                        drawingSpace[i, j] = true;
 
+                        // needs to also include the bordering walls that aren't the same roomNum
+                    }
 
 
 
                 }
             }
-            /*
+            
             foreach (Stairs stair in stairs)
             {
-                stair.draw(g);
-                //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
+                //if(stair.roomNum == newRoomNum){
+                    stairsToDraw.Add(stair);
+                    //stairs.Remove(stair);
+                //}
             }
+
+            
 
             foreach (Obstacle obstacle in obstacles)
             {
-                obstacle.draw(g);
+                //if(obstacle.roomNum == newRoomNum){
+                    obstaclesToDraw.Add(obstacle);
+                    //obstacles.Remove(obstacle);
+                //}
             }
-            foreach (Unit enemy in enemies)
-                enemy.draw(g);
+            foreach (Unit enemy in enemies){
+                //if(enemy.roomNum == newRoomNum){
+                    enemiesToDraw.Add(enemy);
+                    //enemies.Remove(enemy);
+                //}
+            }
 
             foreach (Door door in doors)
             {
-                door.draw(g);
+                doorsToDraw.Add(door);
+                //foreach
+                //door.draw(g);
             }
-             * */
+            
         }
 
         public void draw(Graphics g)
@@ -2120,49 +2143,53 @@ namespace DungeonDrive
             for (int i = 0; i < state.room.width; i++){
                 for (int j = 0; j < state.room.height; j++)
                 {
-                    if (roomNumSpace[i, j] != -1)
+                    if (drawingSpace[i, j])
                     {
-                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                        
-                        //if (!hallwaySpace[i, j])
-                        //{
+                        if (roomNumSpace[i, j] != -1)
+                        {
+                            g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+
+                            //if (!hallwaySpace[i, j])
+                            //{
                             //g.DrawImage(floor, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
-                        //}
+                            //}
+                            //else
+                            //{
+                            //    g.DrawRectangle(Pens.Pink, (int)(state.width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
+                            //}
+
+
+                            //g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), state.size, state.size);
+                        }
+
+                        //if (wallIntersection[i, j])
+                        //{
+                        //   g.FillRectangle(Brushes.Pink, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
+
+                        //}else
+                        if (wallSpace[i, j])
+                        {
+                            g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                        }
                         //else
                         //{
-                        //    g.DrawRectangle(Pens.Pink, (int)(state.width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
+                        //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
                         //}
-                        
-
-                        //g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), state.size, state.size);
                     }
-
-                    //if (wallIntersection[i, j])
-                    //{
-                    //   g.FillRectangle(Brushes.Pink, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
-
-                    //}else
-                    if(wallSpace[i,j]){
-                        g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                    }
-                    //else
-                    //{
-                    //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-                    //}
                 }
             }
 
-            foreach (Obstacle obstacle in obstacles)
+            foreach (Obstacle obstacle in obstaclesToDraw)
             {
                 obstacle.draw(g);
             }
 
-            foreach (Door door in doors)
+            foreach (Door door in doorsToDraw)
             {
                 door.draw(g);
             }
 
-            foreach (Stairs stair in stairs)
+            foreach (Stairs stair in stairsToDraw)
             {
                 stair.draw(g);
                 //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
@@ -2181,7 +2208,7 @@ namespace DungeonDrive
             }
 
             
-            foreach (Unit enemy in enemies)
+            foreach (Unit enemy in enemiesToDraw)
                 enemy.draw(g);
 
 
