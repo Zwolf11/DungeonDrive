@@ -126,11 +126,11 @@ namespace DungeonDrive
             imgs[1, 7] = new Bitmap(Properties.Resources.wa8);
 
             // for testing
-            this.atk_dmg = 100;
+/*            this.atk_dmg = 100;
             this.full_hp = 1000;
             this.hp = this.full_hp;
             r = new Random();
-
+*/
             Projectile.style = Projectile.AtkStyle.Frozen;
 
             attack1 = new SoundPlayer(Properties.Resources.attack1);
@@ -143,6 +143,9 @@ namespace DungeonDrive
         {
             foreach (Unit enemy in state.room.enemies)
                 enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
+
+//            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
+//                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
         }
 
         private void handleMovement()

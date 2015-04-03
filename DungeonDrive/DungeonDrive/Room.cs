@@ -1911,6 +1911,13 @@ namespace DungeonDrive
             foreach(KeyValuePair<Item, PointF> item in droppedItems)
             {
                 g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
+              /*  
+                if (item.Key.showDes)
+                {
+                    Console.WriteLine("showing");
+                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
+                }
+               * */
             }
 
             foreach (Unit enemy in enemies)

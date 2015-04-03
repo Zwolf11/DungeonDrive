@@ -9,6 +9,7 @@ namespace DungeonDrive
         protected GameState state;
         public Bitmap img;
         public String description;
+        public bool showDes = false;
 
         public Item(GameState state) { this.state = state; }
     }
