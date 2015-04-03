@@ -21,20 +21,16 @@ namespace DungeonDrive
 
         public GameState(MainForm form, bool load) : base(form)
         {
+            hero = new Hero(this, 0, 0);
             for (int i = 0; i < inventory.Length; i++)
                 inventory[i] = new Item[5];
 
             if (load)
-            {
-                String[] loadFile = File.ReadAllLines("save");
-
-                hero = new Hero(this, double.Parse(loadFile[0]), double.Parse(loadFile[1]));
-                room = new Room(this, loadFile[2]);
-            }
+                loadGame();
             else
             {
-                hero = new Hero(this, 0, 0);
                 room = new Room(this, "C:\\");
+                inventory[0][0] = randomItem();
             }
         }
 
@@ -111,13 +107,136 @@ namespace DungeonDrive
 
         public void saveGame()
         {
-            String[] save = new String[3];
-            save[0] = "" + hero.x;
-            save[1] = "" + hero.y;
-            save[2] = room.currentRoom;
+            List<String> save = new List<String>();
+
+            if (pastRoom != null) save.Add(pastRoom);
+            else save.Add("NULL");
+
+            save.Add(room.currentRoom);
+
+            save.Add("" + hero.x);
+            save.Add("" + hero.y);
+            save.Add("" + hero.level);
+            save.Add("" + hero.exp);
+            save.Add("" + hero.full_hp);
+            save.Add("" + hero.hp);
+            save.Add("" + hero.atk_dmg);
+            save.Add("" + hero.atk_speed);
+
+            if (hero.helmet == null) save.Add("NULL");
+            else save.Add(hero.helmet.name + "_" + hero.helmet.defense);
+            if (hero.armor == null) save.Add("NULL");
+            else save.Add(hero.armor.name + "_" + hero.armor.defense);
+            if (hero.legs == null) save.Add("NULL");
+            else save.Add(hero.legs.name + "_" + hero.legs.defense);
+            if (hero.shield == null) save.Add("NULL");
+            else save.Add(hero.shield.name + "_" + hero.shield.defense);
+            if (hero.weapon == null) save.Add("NULL");
+            else save.Add(hero.weapon.name + "_" + hero.weapon.damage);
+
+            for(int j=0;j<inventory[0].Length;j++)
+                for(int i=0;i<inventory.Length;i++)
+                {
+                    if (inventory[i][j] == null)
+                        save.Add("NULL");
+                    else
+                    {
+                        if(inventory[i][j] is Helmet)
+                        {
+                            Helmet helmet = (Helmet)inventory[i][j];
+                            save.Add("HELMET_" + helmet.name + "_" + helmet.defense);
+                        }
+                        else if (inventory[i][j] is Armor)
+                        {
+                            Armor armor = (Armor)inventory[i][j];
+                            save.Add("ARMOR_" + armor.name + "_" + armor.defense);
+                        }
+                        else if (inventory[i][j] is Legs)
+                        {
+                            Legs legs = (Legs)inventory[i][j];
+                            save.Add("LEGS_" + legs.name + "_" + legs.defense);
+                        }
+                        else if (inventory[i][j] is Shield)
+                        {
+                            Shield shield = (Shield)inventory[i][j];
+                            save.Add("SHIELD_" + shield.name + "_" + shield.defense);
+                        }
+                        else if (inventory[i][j] is Weapon)
+                        {
+                            Weapon weapon = (Weapon)inventory[i][j];
+                            save.Add("WEAPON_" + weapon.name + "_" + weapon.damage);
+                        }
+                        else
+                        {
+                            save.Add(inventory[i][j].name);
+                        }
+                    }
+                }
+
             File.WriteAllLines("save", save);
 
             saveSound.Play();
+        }
+
+        private void loadGame()
+        {
+            String[] loadFile = File.ReadAllLines("save");
+
+            if(loadFile[0] != "NULL")
+                pastRoom = loadFile[0];
+            room = new Room(this, loadFile[1]);
+
+            hero.x = double.Parse(loadFile[2]);
+            hero.y = double.Parse(loadFile[3]);
+            hero.level = int.Parse(loadFile[4]);
+            hero.exp = double.Parse(loadFile[5]);
+            hero.full_hp = double.Parse(loadFile[6]);
+            hero.hp = double.Parse(loadFile[7]);
+            hero.atk_dmg = double.Parse(loadFile[8]);
+            hero.atk_speed = double.Parse(loadFile[9]);
+
+            String[] helmet = loadFile[10].Split('_');
+            if (helmet[0] != "NULL")
+                hero.helmet = new Helmet(this, helmet[0], int.Parse(helmet[1]));
+            String[] armor = loadFile[11].Split('_');
+            if (armor[0] != "NULL")
+                hero.armor = new Armor(this, armor[0], int.Parse(armor[1]));
+            String[] legs = loadFile[12].Split('_');
+            if (legs[0] != "NULL")
+                hero.legs = new Legs(this, legs[0], int.Parse(legs[1]));
+            String[] shield = loadFile[13].Split('_');
+            if (shield[0] != "NULL")
+                hero.shield = new Shield(this, shield[0], int.Parse(shield[1]));
+            String[] weapon = loadFile[14].Split('_');
+            if (weapon[0] != "NULL")
+                hero.weapon = new Weapon(this, weapon[0], int.Parse(weapon[1]));
+
+            int loc = 15;
+            for (int j = 0; j < inventory[0].Length; j++)
+                for (int i = 0; i < inventory.Length; i++)
+                {
+                    String[] item = loadFile[loc++].Split('_');
+
+                    if(item[0] != "NULL")
+                    {
+                        if (item[0] == "HELMET")
+                            inventory[i][j] = new Helmet(this, item[1], int.Parse(item[2]));
+                        else if (item[0] == "ARMOR")
+                            inventory[i][j] = new Armor(this, item[1], int.Parse(item[2]));
+                        else if (item[0] == "LEGS")
+                            inventory[i][j] = new Legs(this, item[1], int.Parse(item[2]));
+                        else if (item[0] == "SHIELD")
+                            inventory[i][j] = new Shield(this, item[1], int.Parse(item[2]));
+                        else if (item[0] == "WEAPON")
+                            inventory[i][j] = new Weapon(this, item[1], int.Parse(item[2]));
+                        else if (item[0] == "Small Potion")
+                            inventory[i][j] = new SmallPotion(this);
+                        else if (item[0] == "Medium Potion")
+                            inventory[i][j] = new MediumPotion(this);
+                        else if (item[0] == "Large Potion")
+                            inventory[i][j] = new LargePotion(this);
+                    }
+                }
         }
 
         public override void mouseUp(object sender, MouseEventArgs e) { }

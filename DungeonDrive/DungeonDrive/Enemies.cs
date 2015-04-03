@@ -135,7 +135,7 @@ namespace DungeonDrive
         public Skeleton(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 15;
+            this.full_hp = 10;
             this.hp = full_hp;
             this.atk_dmg = 2;
             this.speed = 0.03;
@@ -234,7 +234,7 @@ namespace DungeonDrive
         public Snake(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 10;
+            this.full_hp = 8;
             this.hp = full_hp;
             this.atk_dmg = 2;
             this.speed = 0.1;

@@ -8,6 +8,7 @@ namespace DungeonDrive
     {
         protected GameState state;
         public Bitmap img;
+        public String name;
         public String description;
         public bool showDes = false;
 
@@ -25,18 +26,27 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.helmet_1;
+                    name = "Basic Helmet";
+                    img = Properties.Resources.helmet_1;
                     defense = 1 + rand.Next(state.hero.level);
-                    this.description = "Basic Helmet\nDefense: " + defense;
                     break;
             }
+
+            description = name + "\nDefense: " + defense;
         }
 
-        public Helmet(GameState state, Bitmap img, String description, int defense) : base(state)
+        public Helmet(GameState state, String name, int defense) : base(state)
         {
-            this.img = img;
-            this.description = description;
+            switch(name)
+            {
+                case "Basic Helmet":
+                    img = Properties.Resources.helmet_1;
+                    break;
+            }
+
+            this.name = name;
             this.defense = defense;
+            this.description = name + "\nDefense: " + defense;
         }
     }
 
@@ -51,18 +61,27 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.armor_1;
+                    name = "Basic Armor";
+                    img = Properties.Resources.armor_1;
                     defense = 1 + rand.Next(state.hero.level);
-                    this.description = "Basic Armor\nDefense: " + defense;
                     break;
             }
+
+            description = name + "\nDefense: " + defense;
         }
 
-        public Armor(GameState state, Bitmap img, String description, int defense) : base(state)
+        public Armor(GameState state, String name, int defense) : base(state)
         {
-            this.img = img;
-            this.description = description;
+            switch (name)
+            {
+                case "Basic Armor":
+                    img = Properties.Resources.armor_1;
+                    break;
+            }
+
+            this.name = name;
             this.defense = defense;
+            this.description = name + "\nDefense: " + defense;
         }
     }
 
@@ -77,18 +96,27 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.legs_1;
+                    name = "Basic Legs";
+                    img = Properties.Resources.legs_1;
                     defense = 1 + rand.Next(state.hero.level);
-                    this.description = "Basic Legs\nDefense: " + defense;
                     break;
             }
+
+            description = name + "\nDefense: " + defense;
         }
 
-        public Legs(GameState state, Bitmap img, String description, int defense) : base(state)
+        public Legs(GameState state, String name, int defense) : base(state)
         {
-            this.img = img;
-            this.description = description;
+            switch (name)
+            {
+                case "Basic Legs":
+                    img = Properties.Resources.legs_1;
+                    break;
+            }
+
+            this.name = name;
             this.defense = defense;
+            this.description = name + "\nDefense: " + defense;
         }
     }
 
@@ -103,23 +131,35 @@ namespace DungeonDrive
             switch(rand.Next(2))
             {
                 case 0:
-                    this.img = Properties.Resources.shield_2;
+                    name = "Basic Shield";
+                    img = Properties.Resources.shield_2;
                     defense = 1 + rand.Next(state.hero.level);
-                    this.description = "Basic Shield\nDefense: " + defense;
                     break;
                 case 1:
-                    this.img = Properties.Resources.shield_1;
+                    name = "Diamond Shield";
+                    img = Properties.Resources.shield_1;
                     defense = 3 + rand.Next(state.hero.level);
-                    this.description = "Diamond Shield\nDefense: " + defense;
                     break;
             }
+
+            description = name + "\nDefense: " + defense;
         }
 
-        public Shield(GameState state, Bitmap img, String description, int defense) : base(state)
+        public Shield(GameState state, String name, int defense) : base(state)
         {
-            this.img = img;
-            this.description = description;
+            switch (name)
+            {
+                case "Basic Shield":
+                    img = Properties.Resources.shield_2;
+                    break;
+                case "Diamond Shield":
+                    img = Properties.Resources.shield_1;
+                    break;
+            }
+
+            this.name = name;
             this.defense = defense;
+            this.description = name + "\nDefense: " + defense;
         }
     }
 
@@ -136,29 +176,40 @@ namespace DungeonDrive
             switch(rand.Next(1))
             {
                 case 0:
-                    this.img = Properties.Resources.wand_1;
+                    name = "Basic Wand";
+                    img = Properties.Resources.wand_1;
                     projectileImg = Properties.Resources.fire;
-                    damage = 1 + rand.Next(state.hero.level);
                     ranged = true;
-                    this.description = "Basic Wand\nDamage: " + damage + "\nRanged: " + ranged;
+                    damage = 1 + rand.Next(state.hero.level);
                     break;
             }
+
+            description = name + "\nDamage: " + damage + "\nRanged: " + ranged;
         }
 
-        public Weapon(GameState state, Bitmap img, String description, int damage, bool ranged) : base(state)
+        public Weapon(GameState state, String name, int damage) : base(state)
         {
-            this.img = img;
-            this.description = description;
+            switch (name)
+            {
+                case "Basic Wand":
+                    img = Properties.Resources.wand_1;
+                    projectileImg = Properties.Resources.fire;
+                    ranged = true;
+                    break;
+            }
+
+            this.name = name;
+            description = name + "\nDamage: " + damage + "\nRanged: " + ranged;
             this.damage = damage;
-            this.ranged = ranged;
         }
     }
 
     public abstract class Consumable : Item
     {
-        public Consumable(GameState state, Bitmap img, String description) : base(state)
+        public Consumable(GameState state, Bitmap img, String name, String description) : base(state)
         {
             this.img = img;
+            this.name = name;
             this.description = description;
         }
 
@@ -169,7 +220,7 @@ namespace DungeonDrive
     {
         private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion);
 
-        public SmallPotion(GameState state) : base(state, Properties.Resources.HP_Potion_s, "Small Potion (+10 HP)") { }
+        public SmallPotion(GameState state) : base(state, Properties.Resources.HP_Potion_s, "Small Potion", "Small Potion (+10 HP)") { }
 
         public override void use()
         {
@@ -187,7 +238,7 @@ namespace DungeonDrive
     {
         private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion);
 
-        public MediumPotion(GameState state) : base(state, Properties.Resources.HP_Potion_m, "Medium Potion (+30 HP)") { }
+        public MediumPotion(GameState state) : base(state, Properties.Resources.HP_Potion_m, "Medium Potion", "Medium Potion (+30 HP)") { }
 
         public override void use()
         {
@@ -205,7 +256,7 @@ namespace DungeonDrive
     {
         private SoundPlayer sound = new SoundPlayer(Properties.Resources.potion2);
 
-        public LargePotion(GameState state) : base(state, Properties.Resources.HP_Postion_g, "Large Potion (+50 HP)") { }
+        public LargePotion(GameState state) : base(state, Properties.Resources.HP_Postion_g, "Large Potion", "Large Potion (+50 HP)") { }
 
         public override void use()
         {
