@@ -340,6 +340,16 @@ namespace DungeonDrive.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap doom {
+            get {
+                object obj = ResourceManager.GetObject("doom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap doorClosed {
             get {
                 object obj = ResourceManager.GetObject("doorClosed", resourceCulture);
@@ -549,9 +559,29 @@ namespace DungeonDrive.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap lightening {
+            get {
+                object obj = ResourceManager.GetObject("lightening", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pillar {
             get {
                 object obj = ResourceManager.GetObject("pillar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap poison {
+            get {
+                object obj = ResourceManager.GetObject("poison", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -958,6 +988,16 @@ namespace DungeonDrive.Properties {
         internal static System.Drawing.Bitmap trigger_door {
             get {
                 object obj = ResourceManager.GetObject("trigger_door", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trigger_door_not {
+            get {
+                object obj = ResourceManager.GetObject("trigger_door_not", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

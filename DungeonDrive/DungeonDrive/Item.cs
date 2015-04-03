@@ -198,6 +198,16 @@ namespace DungeonDrive
                 case GameState.AtkStyle.Flame:
                     description += "\nFLM SEC: " + powerSec + "\nFLM FAC: " + powerFac;
                     break;
+                case GameState.AtkStyle.Doom:
+                    description += "\nSLW SEC: " + powerSec + "\nSLW FAC: " + powerFac;
+                    break;
+                case GameState.AtkStyle.Lightening:
+                    description += "\nFLM SEC: " + powerSec + "\nFLM FAC: " + powerFac;
+                    break;
+                case GameState.AtkStyle.Poison:
+                    description += "\nSLW SEC: " + powerSec + "\nSLW FAC: " + powerFac;
+                    break;
+                
             }
         }
 
@@ -233,6 +243,16 @@ namespace DungeonDrive
                 case GameState.AtkStyle.Flame:
                     projectileImg = Properties.Resources.fire;
                     break;
+                case GameState.AtkStyle.Poison:
+                    projectileImg = Properties.Resources.poison;
+                    break;
+                case GameState.AtkStyle.Doom:
+                    projectileImg = Properties.Resources.doom;
+                    break;
+                case GameState.AtkStyle.Lightening:
+                    projectileImg = Properties.Resources.lightening;
+                    break;
+                
                 default:
                     projectileImg = Properties.Resources.proj;
                     break;
@@ -252,7 +272,7 @@ namespace DungeonDrive
                     atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
                     proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
                     proj_range = rand.Next(5, 12);
-                    style = (GameState.AtkStyle)rand.Next(0,3);
+                    style = (GameState.AtkStyle)rand.Next(0,6);
                     powerSec = rdnDouble(0.5, 2.0, rand);
                     powerFac = rdnDouble(0.3, 0.5, rand);
                     ranged = true;

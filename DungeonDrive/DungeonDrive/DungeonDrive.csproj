@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\lightening.png" />
+    <None Include="Resources\poison.png" />
+    <None Include="Resources\trigger_door_not.png" />
     <None Include="Resources\trigger_door.png" />
     <None Include="Resources\fire2.png" />
     <None Include="Resources\fire1.png" />
@@ -132,6 +135,7 @@
     <None Include="Resources\doorOpen.png" />
     <Content Include="Properties\fire2.png" />
     <None Include="Resources\chest_trigger.png" />
+    <None Include="Resources\doom.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

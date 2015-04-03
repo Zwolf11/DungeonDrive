@@ -28,7 +28,10 @@ namespace DungeonDrive
         {
             Basic,
             Flame,
-            Frozen
+            Frozen,
+            Doom,
+            Lightening,
+            Poison
         }
 
         public GameState(MainForm form, bool load) : base(form)
@@ -393,8 +396,8 @@ namespace DungeonDrive
             float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
             this.chest_triggered = false;
             this.door_triggered = false;
-            if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
-            {
+            
+            //{
                 
                 foreach (Obstacle ob in room.obstacles)
                     if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
@@ -417,6 +420,14 @@ namespace DungeonDrive
                         if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
                         {
                             // this is the correct door
+                            if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                            {
+
+                                door_trigger = Properties.Resources.trigger_door;
+                            }
+                            else {
+                                door_trigger = Properties.Resources.trigger_door_not;
+                            }
                             this.door_triggered = true;
                             this.mouseX = e.X;
                             this.mouseY = e.Y;
@@ -424,7 +435,7 @@ namespace DungeonDrive
                     }
                    
                 }
-            } 
+           // } 
             //
         }
 
