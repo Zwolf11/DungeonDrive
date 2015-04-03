@@ -32,7 +32,6 @@ namespace DungeonDrive
 
         public float dir = 0;
         private bool shooting = false;
-        public bool alive = true;
         public bool[] dirs = { false, false, false, false };
         public bool[] attacks = { false, false, false };
 
@@ -126,11 +125,11 @@ namespace DungeonDrive
             imgs[1, 7] = new Bitmap(Properties.Resources.wa8);
 
             // for testing
-/*            this.atk_dmg = 100;
-            this.full_hp = 1000;
-            this.hp = this.full_hp;
+            //this.atk_dmg = 100;
+            //this.full_hp = 1000;
+            //this.hp = this.full_hp;
             r = new Random();
-*/
+
             Projectile.style = Projectile.AtkStyle.Frozen;
 
             attack1 = new SoundPlayer(Properties.Resources.attack1);
@@ -361,8 +360,6 @@ namespace DungeonDrive
 
         public void basicAtk()
         {
-            if (!alive) return;
-
             // melee
             if (!shooting && atk_cd[0])
             {
@@ -409,26 +406,6 @@ namespace DungeonDrive
             this.exp -= this.expcap;
             this.expcap *= 1.5;
             this.level += 1;
-
-            /*//update weapon system
-            WeaponStats.atk_damage[0] += 1;
-            WeaponStats.atk_damage[1] += 1;
-            WeaponStats.atk_speed[0] /= 1.1;
-            WeaponStats.atk_speed[1] /= 1.1;
-            WeaponStats.proj_speed[0] /= 1.1;
-            WeaponStats.proj_speed[1] /= 1.1;*/
-
-            /*
-             * this only works for current room
-            for (int i = 0; i < state.room.enemies.Count; i++)
-            {
-                state.room.enemies[i].full_hp += 5;
-                state.room.enemies[i].hp = state.room.enemies[i].full_hp;
-                state.room.enemies[i].atk_dmg += 3;
-                state.room.enemies[i].speed *= 0.01;
-                state.room.enemies[i].level++;
-            }
-             */
         }
 
         public void removeProj(Projectile proj)
@@ -438,8 +415,11 @@ namespace DungeonDrive
 
         public override void act()
         {
-            if (!alive) return;
-            if (hp <= 0) alive = false;
+            if (hp <= 0)
+            {
+                state.addChildState(new GameOverState(state.form), false, true);
+                return;
+            }
             handleAttacking();
             handleMovement();
             handleCursor();
@@ -451,12 +431,6 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            if (!alive)
-            {
-                g.DrawString("Game Over", new Font("Arial", 20), Brushes.White, new PointF(state.form.ClientSize.Width / 2 - 60, 5));
-                return;
-            }
-
             foreach (Projectile proj in projectiles)
                 proj.draw(g);
 

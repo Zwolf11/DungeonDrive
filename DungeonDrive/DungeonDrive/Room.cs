@@ -2122,7 +2122,7 @@ namespace DungeonDrive
                 {
                     if (roomNumSpace[i, j] != -1)
                     {
-                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
+                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                         
                         //if (!hallwaySpace[i, j])
                         //{
@@ -2143,7 +2143,7 @@ namespace DungeonDrive
 
                     //}else
                     if(wallSpace[i,j]){
-                        g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size));
+                        g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                     }
                     //else
                     //{

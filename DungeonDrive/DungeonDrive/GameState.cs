@@ -12,9 +12,8 @@ namespace DungeonDrive
         public Hero hero;
         public Room room;
         public Item[][] inventory = new Item[5][];
-        public Item[] actionBar = new Item[10];
         public Font font = new Font("Arial", 12);
-        public int size = 32;
+        public int size = 40;
         public String graveyard = "C:\\graveyard";
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
         public String currentRoom = "C:\\";
@@ -37,14 +36,6 @@ namespace DungeonDrive
                 hero = new Hero(this, 0, 0);
                 room = new Room(this, "C:\\");
             }
-
-            inventory[0][0] = randomItem();
-            inventory[0][1] = randomItem();
-            inventory[1][1] = randomItem();
-            inventory[2][0] = randomItem();
-            inventory[2][1] = randomItem();
-            hero.shield = new Shield(this);
-            actionBar[0] = new SmallPotion(this);
         }
 
         public Item randomItem()
@@ -81,6 +72,32 @@ namespace DungeonDrive
 
         public bool tryPickupItem(Item item)
         {
+            if(item is Helmet && hero.helmet == null)
+            {
+                hero.helmet = (Helmet)item;
+                return true;
+            }
+            else if (item is Armor && hero.armor == null)
+            {
+                hero.armor = (Armor)item;
+                return true;
+            }
+            else if (item is Legs && hero.legs == null)
+            {
+                hero.legs = (Legs)item;
+                return true;
+            }
+            else if (item is Shield && hero.shield == null)
+            {
+                hero.shield = (Shield)item;
+                return true;
+            }
+            else if (item is Weapon && hero.weapon == null)
+            {
+                hero.weapon = (Weapon)item;
+                return true;
+            }
+
             for(int j=0;j<inventory[0].Length;j++)
                 for(int i=0;i<inventory.Length;i++)
                     if(inventory[i][j] == null)
@@ -182,10 +199,8 @@ namespace DungeonDrive
                         if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
                         {
                             if (tryPickupItem(entry.Key))
-                            {
-                                inventory[0][0] = entry.Key;
                                 room.droppedItems.Remove(entry.Key);
-                            }
+
                             break;
                         }
 
@@ -209,21 +224,6 @@ namespace DungeonDrive
             hero.dir = (float)Math.Atan2(e.Y - (form.ClientSize.Height / 2), e.X - (form.ClientSize.Width / 2));
         }
 
-        private void drawActionBar(Graphics g)
-        {
-            int boxSize = form.ClientSize.Width / (actionBar.Length + 8);
-            int barHeight = form.ClientSize.Height - (int)(1.25 * boxSize);
-            int padding = form.ClientSize.Width / 300;
-
-            for (int i = 0; i < actionBar.Length; i++)
-            {
-                g.DrawImage(Properties.Resources.box, (i + 4) * boxSize + padding, barHeight + padding, boxSize - padding * 2, boxSize - padding * 2);
-
-                if(actionBar[i] != null)
-                    g.DrawImage(actionBar[i].img, (i + 4) * boxSize + padding, barHeight + padding, boxSize - padding * 2, boxSize - padding * 2);
-            }
-        }
-
         public override void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -231,8 +231,6 @@ namespace DungeonDrive
 
             room.draw(g);
             hero.draw(g);
-
-            //drawActionBar(g);
         }
 
         public override void tick(object sender, EventArgs e)
@@ -245,7 +243,6 @@ namespace DungeonDrive
             foreach (Projectile proj in hero.projectiles)
                 proj.act();
 
-            if (!hero.alive) return;
             foreach (Unit enemy in room.enemies)
                 if (Math.Sqrt(Math.Pow(hero.x - enemy.x, 2) + Math.Pow(hero.y - enemy.y, 2)) < hero.radius + enemy.radius)
                     enemy.attackHero();
