@@ -133,6 +133,7 @@ namespace DungeonDrive
         public bool vertical;
         public int maxPositive;
         public int maxNegative;
+        public bool closed = false;
 
         public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive) : base(state, x,y,width,height, roomNum) {
 

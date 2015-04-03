@@ -29,10 +29,10 @@ namespace DungeonDrive
         public List<Stairs> stairs = new List<Stairs>();
         public List<int> connectedRooms = new List<int>();
 
-        public List<Stairs> stairsToDraw = new List<Stairs>();
-        public List<Door> doorsToDraw = new List<Door>();
-        public List<Unit> enemiesToDraw = new List<Unit>();
-        public List<Obstacle> obstaclesToDraw = new List<Obstacle>();
+        public List<Stairs> stairsNotDrawn = new List<Stairs>();
+        public List<Door> doorsNotDrawn = new List<Door>();
+        public List<Unit> enemiesNotDrawn = new List<Unit>();
+        public List<Obstacle> obstaclesNotDrawn = new List<Obstacle>();
 
         public bool[,] freeSpace;                      // something can be placed here (not in front of door, not enemy starting spot, not obstacle spot
         public bool[,] walkingSpace;                   // hero can walk here.
@@ -73,6 +73,7 @@ namespace DungeonDrive
         public const int maxChests = 2;
 
         public int[] effectiveRoomNum;
+        public bool[] roomDrawn;
         public const int minRoomWidth = 35;
         public const int minRoomHeight = 35;
         public const int maxRoomWidth = 300;
@@ -142,6 +143,7 @@ namespace DungeonDrive
             doorSpace = new bool[width, height];
             wallIntersection = new bool[width, height];
             effectiveRoomNum = new int[2 * maxStairs];
+            roomDrawn = new bool[2 * maxStairs];
             drawingSpace = new bool[width, height];
             
             for (int i = 0; i < width; i++)
@@ -163,6 +165,7 @@ namespace DungeonDrive
             for (int i = 0; i < 2 * maxStairs; i++)
             {
                 effectiveRoomNum[i] = i;
+                roomDrawn[i] = true;
             }
 
                 //////////   ADD STAIR UP TO PARENT UNLESS IN C: DIRECTORY ///////
@@ -237,7 +240,7 @@ namespace DungeonDrive
             
 
 
-            foreach (Stairs stair in stairs)
+            foreach (Stairs stair in stairsNotDrawn)
             {
                 if (stair.path.Equals(state.pastRoom))
                 {                                         
@@ -265,7 +268,7 @@ namespace DungeonDrive
                 roomStairs[i] = new List<Stairs>();
             }
 
-            foreach (Stairs tempStair in stairs)
+            foreach (Stairs tempStair in stairsNotDrawn)
             {
                 //Console.WriteLine("Stair room number = " + tempStair.roomNum);
                 roomStairs[tempStair.roomNum].Add(tempStair);                   // have an array of lists of stairs sorted by room numbers
@@ -741,7 +744,7 @@ namespace DungeonDrive
 
             //Console.WriteLine("Here2");
 
-            stairs.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4)));
+            stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4)));
 
             //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
 
@@ -846,7 +849,7 @@ namespace DungeonDrive
             }
 
 
-            obstacles.Add(newObs);
+            obstaclesNotDrawn.Add(newObs);
             for(int i = x; i < (x + oWidth); i++)
             {
                 for(int j = y; j < (y + oHeight); j++)
@@ -875,7 +878,7 @@ namespace DungeonDrive
             }
 
             e.addName(filename);
-            enemies.Add(e);
+            enemiesNotDrawn.Add(e);
             freeSpace[(int)e.x, (int)e.y] = false;
 
             numEnemies++;
@@ -977,13 +980,23 @@ namespace DungeonDrive
                     }
                 }
 
-            foreach (Stairs stair in stairs)
+            foreach (Stairs stair in stairsNotDrawn)
             {
                 stair.roomNum = roomNumSpace[stair.x,stair.y];
                 //Console.WriteLine("Changed Stairs at "+ stair.x+","+stair.y+" to num "+ roomNumSpace[stair.x,stair.y]);
             }
 
-            foreach (Unit unit in enemies)
+            foreach (Obstacle obstacle in obstaclesNotDrawn)
+            {
+                obstacle.roomNum = roomNumSpace[(int)obstacle.x, (int)obstacle.y];
+            }
+
+            foreach (Door door in doorsNotDrawn)
+            {
+                door.roomNum = roomNumSpace[(int)door.x, (int)door.y];
+            }
+
+            foreach (Unit unit in enemiesNotDrawn)
             {
                 unit.roomNum = roomNumSpace[(int) unit.x, (int) unit.y];
             }
@@ -999,16 +1012,29 @@ namespace DungeonDrive
                 }
             }
 
-            foreach (Door door in doors)
+            List<Door> duplicateDoors = new List<Door>();
+
+            foreach (Door door in doorsNotDrawn)
             {
                 for (int i = 0; i < door.width; i++)
                 {
                     for (int j = 0; j < door.height; j++)
                     {
+                        if (doorSpace[door.x + i, door.y + j])
+                        {
+                            duplicateDoors.Add(door);
+                            // duplicate door
+                        }
                         wallSpace[door.x + i, door.y + j] = false;
+                        doorSpace[door.x + i, door.y + j] = true;
                         walkingSpace[door.x + i, door.y + j] = true;
                     }
                 }
+            }
+
+            foreach (Door door in duplicateDoors)
+            {
+                doorsNotDrawn.Remove(door);
             }
 
         }
@@ -1233,11 +1259,11 @@ namespace DungeonDrive
             {
                 if (door1Found)
                 {
-                    doors.Add(door1);
+                    doorsNotDrawn.Add(door1);
                 }
                 else
                 {
-                    doors.Add(door2);
+                    doorsNotDrawn.Add(door2);
                 }
                 // add door and return;
                 return;
@@ -1417,12 +1443,12 @@ namespace DungeonDrive
 
             if (door1Found)
             {
-                doors.Add(door1);
+                doorsNotDrawn.Add(door1);
             }
 
             if (door2Found)
             {
-                doors.Add(door2);
+                doorsNotDrawn.Add(door2);
             }
 
 
@@ -1967,12 +1993,17 @@ namespace DungeonDrive
                 // calculating vertical door location
                 int xTemp = x1;
                 while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp++, y1] == roomNumSpace[x1, y1]) ;
-                int xMax = xTemp;
+                int xMax = xTemp - 1;
+                
                 
                 xTemp = x1;
                 while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp--, y1] == roomNumSpace[x1, y1]) ;
+                int xMin = xTemp + 1;
 
-                return new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xTemp + 1, xMax - 1);
+
+
+
+                return new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xMin, xMax);
 
             }
             else
@@ -1981,12 +2012,14 @@ namespace DungeonDrive
 
                 int yTemp = x1;
                 while (yTemp > 0 && yTemp < height && wallSpace[x1, yTemp] && roomNumSpace[x1,yTemp++] == roomNumSpace[x1, y1]) ;
-                int yMax = yTemp;
+                int yMax = yTemp - 1;
 
                 yTemp = x1;
                 while (yTemp > 0 && yTemp < height && wallSpace[x1, yTemp] && roomNumSpace[x1, yTemp--] == roomNumSpace[x1, y1]) ;
-             
-                return new Door(state, x1,y1,1,2,roomNumSpace[x1 + xInc,y1],true,yTemp + 1,yMax - 1);
+                int yMin = yTemp + 1;
+
+
+                return new Door(state, x1,y1,1,2,roomNumSpace[x1 + xInc,y1],true,yMin,yMax);
 
 
             }
@@ -2088,6 +2121,13 @@ namespace DungeonDrive
 
         public void updateDrawingGrid(int newRoomNum)
         {
+            /*
+            if (roomDrawn[newRoomNum])
+            {
+                return;
+            }
+            //*/
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -2104,35 +2144,51 @@ namespace DungeonDrive
                 }
             }
             
-            foreach (Stairs stair in stairs)
+            foreach (Stairs stair in stairsNotDrawn)
             {
                 //if(stair.roomNum == newRoomNum){
-                    stairsToDraw.Add(stair);
+                    stairs.Add(stair);
                     //stairs.Remove(stair);
                 //}
             }
 
             
 
-            foreach (Obstacle obstacle in obstacles)
+            foreach (Obstacle obstacle in obstaclesNotDrawn)
             {
                 //if(obstacle.roomNum == newRoomNum){
-                    obstaclesToDraw.Add(obstacle);
+                    obstacles.Add(obstacle);
                     //obstacles.Remove(obstacle);
                 //}
             }
-            foreach (Unit enemy in enemies){
+
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstaclesNotDrawn.Remove(obstacle);
+            }
+
+            foreach (Unit enemy in enemiesNotDrawn){
                 //if(enemy.roomNum == newRoomNum){
-                    enemiesToDraw.Add(enemy);
+                    enemies.Add(enemy);
                     //enemies.Remove(enemy);
                 //}
             }
 
-            foreach (Door door in doors)
+            foreach (Unit enemy in enemies)
             {
-                doorsToDraw.Add(door);
+                enemiesNotDrawn.Remove(enemy);
+            }
+
+            foreach (Door door in doorsNotDrawn)
+            {
+                doors.Add(door);
                 //foreach
                 //door.draw(g);
+            }
+
+            foreach (Door door in doors)
+            {
+                doorsNotDrawn.Remove(door);
             }
             
         }
@@ -2179,17 +2235,17 @@ namespace DungeonDrive
                 }
             }
 
-            foreach (Obstacle obstacle in obstaclesToDraw)
+            foreach (Obstacle obstacle in obstacles)
             {
                 obstacle.draw(g);
             }
 
-            foreach (Door door in doorsToDraw)
+            foreach (Door door in doors)
             {
                 door.draw(g);
             }
 
-            foreach (Stairs stair in stairsToDraw)
+            foreach (Stairs stair in stairs)
             {
                 stair.draw(g);
                 //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
@@ -2208,7 +2264,7 @@ namespace DungeonDrive
             }
 
             
-            foreach (Unit enemy in enemiesToDraw)
+            foreach (Unit enemy in enemies)
                 enemy.draw(g);
 
 
