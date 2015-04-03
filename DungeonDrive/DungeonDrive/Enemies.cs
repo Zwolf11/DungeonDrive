@@ -238,7 +238,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.atk_dmg = 2;
             this.speed = 0.1;
-            this.radius = 0.2;
+            this.radius = 0.35;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
@@ -369,7 +369,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.atk_dmg = 3;
             this.speed = 0.05;
-            this.radius = 0.3;
+            this.radius = 0.35;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
