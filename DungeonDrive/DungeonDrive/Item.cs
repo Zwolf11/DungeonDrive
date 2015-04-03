@@ -178,38 +178,8 @@ namespace DungeonDrive
         public GameState.AtkStyle style;
         public Bitmap projectileImg = null;
 
-        public Weapon(GameState state) : base(state)
+        private void setDesc()
         {
-            Random rand = new Random();
-
-            switch(rand.Next(1))
-            {
-                case 0:
-                    name = "Basic Wand";
-                    img = Properties.Resources.wand_1;
-                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
-                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
-                    proj_range = rand.Next(5, 12);
-                    style = (GameState.AtkStyle)rand.Next(0,3);
-                    switch (style)
-                    {
-                        case GameState.AtkStyle.Frozen:
-                            projectileImg = Properties.Resources.ice;
-                            break;
-                        case GameState.AtkStyle.Flame:
-                            projectileImg = Properties.Resources.fire;
-                            break;
-                        default:
-                            projectileImg = Properties.Resources.fire;
-                            break;
-                    }
-                    powerSec = rdnDouble(0.5, 2.0, rand);
-                    powerFac = rdnDouble(0.3, 0.5, rand);
-                    ranged = true;
-                    damage = 1 + rand.Next(state.hero.level);
-                    break;
-            }
-
             description = name
                 + "\nATT: " + style.ToString()
                 + "\nDMG: " + damage
@@ -229,20 +199,64 @@ namespace DungeonDrive
             }
         }
 
-        public Weapon(GameState state, String name, int damage) : base(state)
+        private void setProjImg()
         {
-            switch (name)
+            switch (style)
             {
-                case "Basic Wand":
-                    img = Properties.Resources.wand_1;
+                case GameState.AtkStyle.Frozen:
+                    projectileImg = Properties.Resources.ice;
+                    break;
+                case GameState.AtkStyle.Flame:
                     projectileImg = Properties.Resources.fire;
+                    break;
+                default:
+                    projectileImg = Properties.Resources.fire;
+                    break;
+            }
+        }
+
+        public Weapon(GameState state) : base(state)
+        {
+            Random rand = new Random();
+
+            switch(rand.Next(1))
+            {
+                case 0:
+                    name = "Basic Wand";
+                    damage = 1 + rand.Next(state.hero.level);
+                    img = Properties.Resources.wand_1;
+                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_range = rand.Next(5, 12);
+                    style = (GameState.AtkStyle)rand.Next(0,3);
+                    powerSec = rdnDouble(0.5, 2.0, rand);
+                    powerFac = rdnDouble(0.3, 0.5, rand);
                     ranged = true;
+                    setProjImg();
                     break;
             }
 
+            setDesc();
+        }
+
+        public Weapon(GameState state, String name, int damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
+        {
             this.name = name;
-            description = name + "\nDamage: " + damage + "\nRanged: " + ranged;
             this.damage = damage;
+            this.ranged = ranged;
+            this.atk_speed = atk_speed;
+            this.proj_speed = proj_speed;
+            this.proj_range = proj_range;
+            this.powerSec = powerSec;
+            this.powerFac = powerFac;
+            this.style = (GameState.AtkStyle)style;
+
+            if (ranged)
+            {
+                this.img = Properties.Resources.wand_1;
+                setProjImg();
+            }
+            setDesc();
         }
     }
 

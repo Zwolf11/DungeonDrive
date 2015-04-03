@@ -140,7 +140,7 @@ namespace DungeonDrive
             if (hero.shield == null) save.Add("NULL");
             else save.Add(hero.shield.name + "_" + hero.shield.defense);
             if (hero.weapon == null) save.Add("NULL");
-            else save.Add(hero.weapon.name + "_" + hero.weapon.damage);
+            else save.Add(hero.weapon.name + "_" + hero.weapon.damage + "_" + hero.weapon.ranged + "_" + hero.weapon.atk_speed + "_" + hero.weapon.proj_speed + "_" + hero.weapon.proj_range + "_" + hero.weapon.powerSec + "_" + hero.weapon.powerFac + "_" + (int)hero.weapon.style);
 
             for(int j=0;j<inventory[0].Length;j++)
                 for(int i=0;i<inventory.Length;i++)
@@ -172,7 +172,7 @@ namespace DungeonDrive
                         else if (inventory[i][j] is Weapon)
                         {
                             Weapon weapon = (Weapon)inventory[i][j];
-                            save.Add("WEAPON_" + weapon.name + "_" + weapon.damage);
+                            save.Add("WEAPON_" + weapon.name + "_" + weapon.damage + "_" + weapon.ranged + "_" + weapon.atk_speed + "_" + weapon.proj_speed + "_" + weapon.proj_range + "_" + weapon.powerSec + "_" + weapon.powerFac + "_" + (int)weapon.style);
                         }
                         else
                         {
@@ -217,7 +217,7 @@ namespace DungeonDrive
                 hero.shield = new Shield(this, shield[0], int.Parse(shield[1]));
             String[] weapon = loadFile[14].Split('_');
             if (weapon[0] != "NULL")
-                hero.weapon = new Weapon(this, weapon[0], int.Parse(weapon[1]));
+                hero.weapon = new Weapon(this, weapon[0], int.Parse(weapon[1]), bool.Parse(weapon[2]), double.Parse(weapon[3]), double.Parse(weapon[4]), int.Parse(weapon[5]), double.Parse(weapon[6]), double.Parse(weapon[7]), int.Parse(weapon[8]) );
 
             int loc = 15;
             for (int j = 0; j < inventory[0].Length; j++)
@@ -236,7 +236,7 @@ namespace DungeonDrive
                         else if (item[0] == "SHIELD")
                             inventory[i][j] = new Shield(this, item[1], int.Parse(item[2]));
                         else if (item[0] == "WEAPON")
-                            inventory[i][j] = new Weapon(this, item[1], int.Parse(item[2]));
+                            inventory[i][j] = new Weapon(this, item[1], int.Parse(item[2]), bool.Parse(item[3]), double.Parse(item[4]), double.Parse(item[5]), int.Parse(item[6]), double.Parse(item[7]), double.Parse(item[8]), int.Parse(item[9]));
                         else if (item[0] == "Small Potion")
                             inventory[i][j] = new SmallPotion(this);
                         else if (item[0] == "Medium Potion")
