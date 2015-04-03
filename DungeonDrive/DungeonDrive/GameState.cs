@@ -334,6 +334,22 @@ namespace DungeonDrive
                             }
                             break;
                         }
+
+                    if (room.doorSpace[(int) x, (int) y])
+                    {
+                        foreach (Door door in room.doors)
+                        {
+                            if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1)  ||   (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x,2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
+                            {
+                                // this is the correct door
+                                if (!door.switchClosed())
+                                {
+                                    room.updateDrawingGrid(door.getNegativeRoom());
+                                    room.updateDrawingGrid(door.getPositiveRoom());
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

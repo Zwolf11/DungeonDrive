@@ -142,10 +142,47 @@ namespace DungeonDrive
             this.maxNegative = maxNegative;
         }
 
+        public bool switchClosed(){
+            if(closed){
+                closed = false;
+            } else {
+                closed = true;
+            }
+
+            return closed;
+        }
+
+        public int getNegativeRoom()
+        {
+            if (vertical)
+            {
+                return state.room.roomNumSpace[x - 1, y];
+            }
+            else
+            {
+                return state.room.roomNumSpace[x, y - 1];
+            }
+        }
+
+        public int getPositiveRoom()
+        {
+            if (vertical)
+            {
+                return state.room.roomNumSpace[x + 1, y];
+            }
+            else
+            {
+                return state.room.roomNumSpace[x, y + 1];
+            }
+        }
+
         public override void draw(Graphics g)
         {
-
-            g.FillRectangle(Brushes.DarkGray, DrawX, DrawY, state.size * width, state.size * height);
+            if(closed){
+                g.FillRectangle(Brushes.Red, DrawX, DrawY, state.size * width, state.size * height);
+            } else {
+                g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
+            }
 
         }
     }
