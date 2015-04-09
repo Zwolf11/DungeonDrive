@@ -20,7 +20,10 @@ namespace DungeonDrive
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
         public bool noFogOfWar = false;
-        
+
+        public String environment = "dungeon";
+
+
         public int width;
         public int height;
         public List<Obstacle> obstacles = new List<Obstacle>();
@@ -74,6 +77,8 @@ namespace DungeonDrive
 
         public int[] effectiveRoomNum;
         public bool[] roomDrawn;
+        
+
         public const int minRoomWidth = 35;
         public const int minRoomHeight = 35;
         public const int maxRoomWidth = 300;
@@ -167,6 +172,8 @@ namespace DungeonDrive
                 effectiveRoomNum[i] = i;
                 roomDrawn[i] = false;
             }
+
+            
 
                 //////////   ADD STAIR UP TO PARENT UNLESS IN C: DIRECTORY ///////
 
@@ -400,9 +407,13 @@ namespace DungeonDrive
             {
                 eliminateFogOfWar();
             }
-            else
+            else if(environment.Equals("dungeon"))
             {
                 updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
+            }
+            else if (environment.Equals("cave"))
+            {
+                updateHeroVisibility();
             }
 
             watch.Stop();
@@ -2240,10 +2251,35 @@ namespace DungeonDrive
             }
         }
 
+        public void updateHeroVisibility()
+        {
+            int radius = 7;
+            int startX, endX, startY, endY;
+            startX = Math.Max(0,(int)state.hero.x - radius);
+            endX = Math.Min(width - 1, (int)state.hero.x + radius);
+            startY = Math.Max(0, (int)state.hero.y - radius);
+            endY = Math.Min(height - 1, (int)state.hero.y + radius);
+
+            for (int i = startX; i < endX; i++)
+            {
+                for (int j = startY; j < endY; j++)
+                {
+                    if (!drawingSpace[i, j])
+                    {
+                        if (distanceBtwnPts((int)state.hero.x, (int)state.hero.y, i, j) < radius)
+                        {
+                            drawingSpace[i, j] = true;
+                        }
+                    }
+                }
+            }
+
+        }
+
         public void updateDrawingGrid(int newRoomNum)
         {
             //*
-            if (roomDrawn[newRoomNum])
+            if (roomDrawn[newRoomNum] || environment.Equals("cave"))
             {
                 return;
             }
@@ -2332,24 +2368,6 @@ namespace DungeonDrive
                 enemiesNotDrawn.Remove(enemy);
             }
 
-            /*
-            foreach (Door door in doorsNotDrawn)
-            {
-                //if (door.getNegativeRoom() == newRoomNum || door.getPositiveRoom() == newRoomNum)
-                //{
-                    doors.Add(door);
-                //}
-                //foreach
-                //door.draw(g);
-            }
-            */
-
-            /*
-            foreach (Door door in doors)
-            {
-                doorsNotDrawn.Remove(door);
-            }
-             * */
             
         }
 
@@ -2393,82 +2411,134 @@ namespace DungeonDrive
         public void draw(Graphics g)
         {
 
-                  
-            for (int i = 0; i < state.room.width; i++){
-                for (int j = 0; j < state.room.height; j++)
+            if (environment.Equals("dungeon"))
+            {
+
+                for (int i = 0; i < state.room.width; i++)
                 {
-                    if (drawingSpace[i, j])
+                    for (int j = 0; j < state.room.height; j++)
                     {
-                        //if (roomNumSpace[i, j] != -1)
-                        //{
-
-                        if (wallSpace[i, j])
+                        if (drawingSpace[i, j])
                         {
-                            g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                            continue;
-                        }
-                        
-                        g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
-                            //if (!hallwaySpace[i, j])
-                            //{
-                            //g.DrawImage(floor, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
-                            //}
-                            //else
-                            //{
-                            //    g.DrawRectangle(Pens.Pink, (int)(state.width / 2 + i * state.size - state.hero.x * state.size), (int)(state.height / 2 + j * state.size - state.hero.y * state.size), state.size, state.size);
-                            //}
+                            if (wallSpace[i, j])
+                            {
+                                g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                continue;
+                            }
 
+                            g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
-                            //g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size * state.hero.radius * 2 - state.size * state.hero.radius * 2), state.size, state.size);
                         }
 
-                        //if (wallIntersection[i, j])
-                        //{
-                        //   g.FillRectangle(Brushes.Pink, (int)(state.form.Width / 2 + i * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + j * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
-
-                        //}else
-                        //else
-                        //{
-                        //    g.DrawRectangle(Pens.Black, (int)(i * state.size + state.width / 2 - state.hero.x * state.size - state.size / 2), (int)(j * state.size + state.height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-                        //}
-                    //}
+                    }
                 }
-            }
 
-            foreach (Obstacle obstacle in obstacles)
+                foreach (Obstacle obstacle in obstacles)
+                {
+                    obstacle.draw(g);
+                }
+
+                foreach (Door door in doors)
+                {
+                    door.draw(g);
+                }
+
+                foreach (Stairs stair in stairs)
+                {
+                    stair.draw(g);
+                    //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
+                }
+
+                foreach (KeyValuePair<Item, PointF> item in droppedItems)
+                {
+                    g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
+                    /*  
+    +                if (item.Key.showDes)
+    +                {
+    +                    Console.WriteLine("showing");
+    +                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
+    +                }
+    +               * */
+                }
+
+
+                foreach (Unit enemy in enemies)
+                    enemy.draw(g);
+
+
+            } else if (environment.Equals("cave"))
             {
-                obstacle.draw(g);
+                updateHeroVisibility();
+
+                for (int i = 0; i < state.room.width; i++)
+                {
+                    for (int j = 0; j < state.room.height; j++)
+                    {
+                        if (drawingSpace[i, j])
+                        {
+
+                            if (wallSpace[i, j])
+                            {
+                                g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                continue;
+                            }
+                            else if (roomNumSpace[i, j] != -1)
+                            {
+
+                                g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+
+                            }
+                        }
+
+                    }
+                }
+
+                foreach (Obstacle obstacle in obstacles)
+                {
+                    if (drawingSpace[obstacle.x, obstacle.y])
+                    {
+                        obstacle.draw(g);
+                    }
+                }
+
+                foreach (Door door in doors)
+                {
+                    door.draw(g);
+                }
+
+                foreach (Stairs stair in stairs)
+                {
+                    if (drawingSpace[stair.x, stair.y])
+                    {
+                        stair.draw(g);
+                    }
+                }
+
+                foreach (KeyValuePair<Item, PointF> item in droppedItems)
+                {
+                    if (drawingSpace[(int)item.Value.X, (int)item.Value.Y])
+                    {
+                        g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
+                        /*  
+        +                if (item.Key.showDes)
+        +                {
+        +                    Console.WriteLine("showing");
+        +                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
+        +                }
+        +               * */
+                    }
+                }
+
+
+                foreach (Unit enemy in enemies)
+                    if (drawingSpace[(int)enemy.x,(int) enemy.y])
+                    {
+                        enemy.draw(g);
+                    }
+
+
             }
-
-            foreach (Door door in doors)
-            {
-                door.draw(g);
-            }
-
-            foreach (Stairs stair in stairs)
-            {
-                stair.draw(g);
-                //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
-            }
-
-            foreach (KeyValuePair<Item, PointF> item in droppedItems)
-            {
-                g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-                /*  
-+                if (item.Key.showDes)
-+                {
-+                    Console.WriteLine("showing");
-+                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
-+                }
-+               * */
-            }
-
-            
-            foreach (Unit enemy in enemies)
-                enemy.draw(g);
-
-
         }
 
     }
