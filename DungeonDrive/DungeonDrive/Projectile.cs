@@ -6,15 +6,14 @@ namespace DungeonDrive
     public class Projectile
     {
         private GameState state;
-        public static int dmg = 1;
-        public static double atk_speed = 0.5;
-        public static double proj_speed = 0.8;
-        public static int proj_range = 10;
-        public static GameState.AtkStyle style = GameState.AtkStyle.Basic;
-        public static double powerSec = 1;
-        public static double powerFac = 0.3;
-        public static Bitmap proj_img = Properties.Resources.fire;
-
+        public int dmg = 1;
+        public double atk_speed = 0.5;
+        public double proj_speed = 0.8;
+        public int proj_range = 10;
+        public GameState.AtkStyle style = GameState.AtkStyle.Basic;
+        public double powerSec = 1;
+        public double powerFac = 0.3;
+        public Bitmap proj_img = Properties.Resources.fire;
         public double x, y;
         public double x_origin, y_origin;
         public double x_speed, y_speed;
@@ -33,7 +32,17 @@ namespace DungeonDrive
             this.x_speed = x_dir * proj_speed;
             this.y_speed = y_dir * proj_speed;
         }
-
+        public Projectile() { }
+        public void setProjectile(GameState state, double x, double y, double x_dir, double y_dir)
+        {
+            this.state = state;
+            this.x = x;
+            this.y = y;
+            this.x_origin = x;
+            this.y_origin = y;
+            this.x_speed = x_dir * proj_speed;
+            this.y_speed = y_dir * proj_speed;
+        }
         public void tryMove(double xNext, double yNext)
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
@@ -52,11 +61,11 @@ namespace DungeonDrive
             foreach (Unit unit in state.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
-                    unit.hp -= Projectile.dmg;
-                    if (Projectile.style == GameState.AtkStyle.Frozen)
-                        unit.slow(Projectile.powerSec, Projectile.powerFac);
-                    else if (Projectile.style == GameState.AtkStyle.Flame)
-                        unit.burn(Projectile.powerSec, Projectile.powerFac * Projectile.dmg);
+                    unit.hp -= this.dmg;
+                    if (this.style == GameState.AtkStyle.Frozen)
+                        unit.slow(this.powerSec, this.powerFac);
+                    else if (this.style == GameState.AtkStyle.Flame)
+                        unit.burn(this.powerSec, this.powerFac * this.dmg);
 
                     state.hero.removeProj(this);
                     if (unit.hp <= 0)
@@ -74,7 +83,12 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
-            g.DrawImage(Projectile.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+
+            g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+
         }
     }
+
+
+    
 }

@@ -15,7 +15,7 @@ namespace DungeonDrive
         public List<Projectile> projectiles = new List<Projectile>();
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
-
+        public Projectile weapon_proj;
         private bool testing = true;
 
         private SoundPlayer attack1;
@@ -50,6 +50,7 @@ namespace DungeonDrive
             this.status = "Normal";
             this.poison_sec = 0;
 
+            this.weapon_proj = new Projectile();
             // init hero imges
             //w
             imgs[2, 0] = new Bitmap(Properties.Resources.w1);
@@ -143,6 +144,16 @@ namespace DungeonDrive
             // change stats for projectiles
             if (weapon.ranged)
             {
+                this.weapon = weapon;
+                weapon_proj.dmg = weapon.damage;
+                weapon_proj.atk_speed = weapon.atk_speed;
+                weapon_proj.proj_speed = weapon.proj_speed;
+                weapon_proj.proj_range = weapon.proj_range;
+                weapon_proj.style = weapon.style;
+                weapon_proj.powerSec = weapon.powerSec;
+                weapon_proj.powerFac = weapon.powerFac;
+                weapon_proj.proj_img = weapon.projectileImg;
+                /*
                 Projectile.dmg = weapon.damage;
                 Projectile.atk_speed = weapon.atk_speed;
                 Projectile.proj_speed = weapon.proj_speed;
@@ -150,7 +161,7 @@ namespace DungeonDrive
                 Projectile.style = weapon.style;
                 Projectile.powerSec = weapon.powerSec;
                 Projectile.powerFac = weapon.powerFac;
-                Projectile.proj_img = weapon.projectileImg;
+                Projectile.proj_img = weapon.projectileImg;*/
             }
 
             // change stats for hero when using non-ranged weapons
@@ -379,14 +390,16 @@ namespace DungeonDrive
 
         public void basicAtk()
         {
-            // projectiles
+
+            
             if (this.weapon != null && this.weapon.ranged)
             {
                 if (atk_cd[2])
                 {
                     attack3.Play();
-                    projectiles.Add(new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir)));
-                    cd(Projectile.atk_speed, 2);
+                    weapon_proj.setProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir));
+                    projectiles.Add(weapon_proj);
+                    cd(weapon_proj.atk_speed, 2);
                 }
             }
 
