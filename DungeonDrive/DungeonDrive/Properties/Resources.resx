@@ -430,20 +430,11 @@
   <data name="ghost2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ghost2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="armor_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\armor_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="chest_closed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chest_closed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chest_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chest_open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="helmet_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\helmet_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="legs_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\legs_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pillar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pillar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -501,5 +492,149 @@
   </data>
   <data name="trigger_door_not" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\trigger_door_not.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="armor_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armor_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="helmet_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\helmet_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="legs_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\legs_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
