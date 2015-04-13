@@ -16,7 +16,7 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
-        private bool testing = false;
+        private bool testing = true;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -128,8 +128,9 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.atk_dmg = 100;
-                this.full_hp = 1000;
+                this.level = 100;
+                this.atk_dmg = 100000;
+                this.full_hp = 1000000;
                 this.hp = this.full_hp;
             }
 
