@@ -9,6 +9,7 @@ namespace DungeonDrive
         protected GameState state;
         public Bitmap img;
         public String name;
+        public int level;
         public String description;
         public bool showDes = false;
 
@@ -59,155 +60,290 @@ namespace DungeonDrive
 
     public class Helmet : Item
     {
-        public int defense;
-
-        public Helmet(GameState state) : base(state)
+        public Helmet(GameState state)
+            : base(state)
         {
             Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level);
 
-            switch(rand.Next(1))
+            switch (rand.Next(1))
             {
                 case 0:
-                    name = "Basic Helmet";
-                    img = Properties.Resources.helmet_1;
-                    defense = 1 + rand.Next(state.hero.level);
+                    name += " Helmet";
+                    setImg();
                     break;
             }
 
-            description = name + "\nDefense: " + defense;
+            setDesc();
         }
 
-        public Helmet(GameState state, String name, int defense) : base(state)
+        public Helmet(GameState state, String name, int level)
+            : base(state)
         {
-            switch(name)
-            {
-                case "Basic Helmet":
-                    img = Properties.Resources.helmet_1;
-                    break;
-            }
-
             this.name = name;
-            this.defense = defense;
-            this.description = name + "\nDefense: " + defense;
+            this.level = level;
+            setImg();
+            setDesc();
+        }
+
+        private void setImg()
+        {
+            if (level == 1 || level == 2)
+                this.img = Properties.Resources.helmet_1;
+            else if (level > 2 && level <= 5)
+                this.img = Properties.Resources.helmet_2;
+            else if (level > 5 && level <= 10)
+                this.img = Properties.Resources.helmet_3;
+            else if (level > 10 && level <= 15)
+                this.img = Properties.Resources.helmet_4;
+            else if (level > 15 && level <= 20)
+                this.img = Properties.Resources.helmet_5;
+            else if (level > 20 && level <= 25)
+                this.img = Properties.Resources.helmet_6;
+            else if (level > 25 && level <= 30)
+                this.img = Properties.Resources.helmet_7;
+            else if (level > 30 && level <= 35)
+                this.img = Properties.Resources.helmet_8;
+            else if (level > 35 && level <= 40)
+                this.img = Properties.Resources.helmet_9;
+            else if (level > 40 && level <= 45)
+                this.img = Properties.Resources.helmet_10;
+            else if (level > 45 && level <= 50)
+                this.img = Properties.Resources.helmet_11;
+            else if (level > 50 && level <= 55)
+                this.img = Properties.Resources.helmet_12;
+            else if (level > 55 && level <= 60)
+                this.img = Properties.Resources.helmet_13;
+            else if (level > 60 && level <= 65)
+                this.img = Properties.Resources.helmet_14;
+            else if (level > 65 && level <= 70)
+                this.img = Properties.Resources.helmet_15;
+            else if (level > 70)
+                this.img = Properties.Resources.helmet_16;
+        }
+
+        private void setDesc()
+        {
+            description = name
+                + "\nLVL: " + level;
         }
     }
 
     public class Armor : Item
     {
-        public int defense;
-
-        public Armor(GameState state) : base(state)
+        public Armor(GameState state)
+            : base(state)
         {
             Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level);
 
-            switch(rand.Next(1))
+            switch (rand.Next(1))
             {
                 case 0:
-                    name = "Basic Armor";
-                    img = Properties.Resources.armor_1;
-                    defense = 1 + rand.Next(state.hero.level);
+                    name += " Armor";
+                    setImg();
                     break;
             }
 
-            description = name + "\nDefense: " + defense;
+            setDesc();
         }
 
-        public Armor(GameState state, String name, int defense) : base(state)
+        public Armor(GameState state, String name, int level)
+            : base(state)
         {
-            switch (name)
-            {
-                case "Basic Armor":
-                    img = Properties.Resources.armor_1;
-                    break;
-            }
-
             this.name = name;
-            this.defense = defense;
-            this.description = name + "\nDefense: " + defense;
+            this.level = level;
+            setImg();
+            setDesc();
+        }
+
+        private void setImg()
+        {
+            if (level == 1 || level == 2)
+                this.img = Properties.Resources.armor_1;
+            else if (level > 2 && level <= 5)
+                this.img = Properties.Resources.armor_2;
+            else if (level > 5 && level <= 10)
+                this.img = Properties.Resources.armor_3;
+            else if (level > 10 && level <= 15)
+                this.img = Properties.Resources.armor_4;
+            else if (level > 15 && level <= 20)
+                this.img = Properties.Resources.armor_5;
+            else if (level > 20 && level <= 25)
+                this.img = Properties.Resources.armor_6;
+            else if (level > 25 && level <= 30)
+                this.img = Properties.Resources.armor_7;
+            else if (level > 30 && level <= 35)
+                this.img = Properties.Resources.armor_8;
+            else if (level > 35 && level <= 40)
+                this.img = Properties.Resources.armor_9;
+            else if (level > 40 && level <= 45)
+                this.img = Properties.Resources.armor_10;
+            else if (level > 45 && level <= 50)
+                this.img = Properties.Resources.armor_11;
+            else if (level > 50 && level <= 55)
+                this.img = Properties.Resources.armor_12;
+            else if (level > 55 && level <= 60)
+                this.img = Properties.Resources.armor_13;
+            else if (level > 60 && level <= 65)
+                this.img = Properties.Resources.armor_14;
+            else if (level > 65 && level <= 70)
+                this.img = Properties.Resources.armor_15;
+            else if (level > 70)
+                this.img = Properties.Resources.armor_16;
+        }
+
+        private void setDesc()
+        {
+            description = name
+                + "\nLVL: " + level;
         }
     }
 
     public class Legs : Item
     {
-        public int defense;
-
         public Legs(GameState state) : base(state)
         {
             Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level);
 
             switch(rand.Next(1))
             {
                 case 0:
-                    name = "Basic Legs";
-                    img = Properties.Resources.legs_1;
-                    defense = 1 + rand.Next(state.hero.level);
+                    name += " Legs";
+                    setImg();
                     break;
             }
 
-            description = name + "\nDefense: " + defense;
+            setDesc();
         }
 
-        public Legs(GameState state, String name, int defense) : base(state)
+        public Legs(GameState state, String name, int level) : base(state)
         {
-            switch (name)
-            {
-                case "Basic Legs":
-                    img = Properties.Resources.legs_1;
-                    break;
-            }
-
             this.name = name;
-            this.defense = defense;
-            this.description = name + "\nDefense: " + defense;
+            this.level = level;
+            setImg();
+            setDesc();
+        }
+
+        private void setImg()
+        {
+            if (level == 1 || level == 2)
+                this.img = Properties.Resources.legs_1;
+            else if (level > 2 && level <= 5)
+                this.img = Properties.Resources.legs_2;
+            else if (level > 5 && level <= 10)
+                this.img = Properties.Resources.legs_3;
+            else if (level > 10 && level <= 15)
+                this.img = Properties.Resources.legs_4;
+            else if (level > 15 && level <= 20)
+                this.img = Properties.Resources.legs_5;
+            else if (level > 20 && level <= 25)
+                this.img = Properties.Resources.legs_6;
+            else if (level > 25 && level <= 30)
+                this.img = Properties.Resources.legs_7;
+            else if (level > 30 && level <= 35)
+                this.img = Properties.Resources.legs_8;
+            else if (level > 35 && level <= 40)
+                this.img = Properties.Resources.legs_9;
+            else if (level > 40 && level <= 45)
+                this.img = Properties.Resources.legs_10;
+            else if (level > 45 && level <= 50)
+                this.img = Properties.Resources.legs_11;
+            else if (level > 50 && level <= 55)
+                this.img = Properties.Resources.legs_12;
+            else if (level > 55 && level <= 60)
+                this.img = Properties.Resources.legs_13;
+            else if (level > 60 && level <= 65)
+                this.img = Properties.Resources.legs_14;
+            else if (level > 65 && level <= 70)
+                this.img = Properties.Resources.legs_15;
+            else if (level > 70)
+                this.img = Properties.Resources.legs_16;
+        }
+
+        private void setDesc()
+        {
+            description = name 
+                + "\nLVL: " + level;
         }
     }
 
     public class Shield : Item
     {
-        public int defense;
-
         public Shield(GameState state) : base(state)
         {
             Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level);
 
-            switch(rand.Next(2))
+            switch(rand.Next(1))
             {
                 case 0:
-                    name = "Basic Shield";
-                    img = Properties.Resources.shield_1;
-                    defense = 1 + rand.Next(state.hero.level);
-                    break;
-                case 1:
-                    name = "Diamond Shield";
-                    img = Properties.Resources.shield_2;
-                    defense = 3 + rand.Next(state.hero.level);
+                    name += " Shield";
+                    setImg();
                     break;
             }
 
-            description = name + "\nDefense: " + defense;
+            setDesc();
         }
 
-        public Shield(GameState state, String name, int defense) : base(state)
+        public Shield(GameState state, String name, int level) : base(state)
         {
-            switch (name)
-            {
-                case "Basic Shield":
-                    img = Properties.Resources.shield_2;
-                    break;
-                case "Diamond Shield":
-                    img = Properties.Resources.shield_1;
-                    break;
-            }
-
             this.name = name;
-            this.defense = defense;
-            this.description = name + "\nDefense: " + defense;
+            this.level = level;
+            setImg();
+            setDesc();
+        }
+
+        private void setImg()
+        {
+            if (level == 1 || level == 2)
+                this.img = Properties.Resources.shield_1;
+            else if (level > 2 && level <= 5)
+                this.img = Properties.Resources.shield_2;
+            else if (level > 5 && level <= 10)
+                this.img = Properties.Resources.shield_3;
+            else if (level > 10 && level <= 15)
+                this.img = Properties.Resources.shield_4;
+            else if (level > 15 && level <= 20)
+                this.img = Properties.Resources.shield_5;
+            else if (level > 20 && level <= 25)
+                this.img = Properties.Resources.shield_6;
+            else if (level > 25 && level <= 30)
+                this.img = Properties.Resources.shield_7;
+            else if (level > 30 && level <= 35)
+                this.img = Properties.Resources.shield_8;
+            else if (level > 35 && level <= 40)
+                this.img = Properties.Resources.shield_9;
+            else if (level > 40 && level <= 45)
+                this.img = Properties.Resources.shield_10;
+            else if (level > 45 && level <= 50)
+                this.img = Properties.Resources.shield_11;
+            else if (level > 50 && level <= 55)
+                this.img = Properties.Resources.shield_12;
+            else if (level > 55 && level <= 60)
+                this.img = Properties.Resources.shield_13;
+            else if (level > 60 && level <= 65)
+                this.img = Properties.Resources.shield_14;
+            else if (level > 65 && level <= 70)
+                this.img = Properties.Resources.shield_15;
+            else if (level > 70)
+                this.img = Properties.Resources.shield_16;
+        }
+
+        private void setDesc()
+        {
+            description = name 
+                + "\nLVL: " + level;
         }
     }
 
     public class Weapon : Item
     {
-        public int level;
         public double damage;
         public bool ranged;
         public double atk_speed;
@@ -217,6 +353,62 @@ namespace DungeonDrive
         public double powerFac;
         public GameState.AtkStyle style;
         public Bitmap projectileImg = null;
+
+        public Weapon(GameState state)
+            : base(state)
+        {
+            Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level);
+
+            switch (rand.Next(2))
+            {
+                case 0:
+                    name += " Wand";
+                    damage = 1 + (int)((double)state.hero.level * rdnDouble(0.5, 0.8, rand));
+                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_range = rand.Next(5, 12);
+                    style = (GameState.AtkStyle)rand.Next(0, 6);
+                    powerSec = rdnDouble(0.5, 2.0, rand);
+                    powerFac = rdnDouble(0.3, 0.5, rand);
+                    ranged = true;
+                    setProjImg();
+                    break;
+                case 1:
+                    name += " Sword";
+                    damage = state.hero.atk_dmg + (int)((double)state.hero.level * rdnDouble(0.5, 0.8, rand));
+                    atk_speed = state.hero.atk_speed - rdnDouble(0.01 * Math.Pow(1.11, (double)state.hero.level), 0.03 * Math.Pow(1.11, (double)state.hero.level), rand);
+                    style = (GameState.AtkStyle)rand.Next(0, 6);
+                    powerSec = rdnDouble(0.8, 2.3, rand);
+                    powerFac = rdnDouble(0.6, 0.8, rand);
+                    ranged = false;
+                    break;
+            }
+
+            setImg();
+            setDesc();
+        }
+
+        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style)
+            : base(state)
+        {
+            this.name = name;
+            this.level = level;
+            this.damage = damage;
+            this.ranged = ranged;
+            this.atk_speed = atk_speed;
+            this.proj_speed = proj_speed;
+            this.proj_range = proj_range;
+            this.powerSec = powerSec;
+            this.powerFac = powerFac;
+            this.style = (GameState.AtkStyle)style;
+
+            if (ranged)
+                setProjImg();
+            setImg();
+            setDesc();
+        }
 
         private void setDesc()
         {
@@ -249,9 +441,8 @@ namespace DungeonDrive
             }
         }
 
-        private void setWpnImg()
+        private void setImg()
         {
-            Console.WriteLine("level: " + level);
             if (ranged)
             {
                 if (level == 1 || level == 2)
@@ -348,60 +539,6 @@ namespace DungeonDrive
                     projectileImg = Properties.Resources.proj;
                     break;
             }
-        }
-
-        public Weapon(GameState state) : base(state)
-        {
-            Random rand = new Random();
-            level = state.hero.level;
-            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level); 
-
-            switch(rand.Next(2))
-            {
-                case 0:
-                    name += " Wand";
-                    damage = 1 + (int)((double)state.hero.level * rdnDouble(0.5,0.8,rand));
-                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
-                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
-                    proj_range = rand.Next(5, 12);
-                    style = (GameState.AtkStyle)rand.Next(0,6);
-                    powerSec = rdnDouble(0.5, 2.0, rand);
-                    powerFac = rdnDouble(0.3, 0.5, rand);
-                    ranged = true;
-                    setProjImg();
-                    break;
-                case 1:
-                    name += " Sword";
-                    damage = state.hero.atk_dmg + (int)((double)state.hero.level * rdnDouble(0.5,0.8,rand));
-                    atk_speed = state.hero.atk_speed - rdnDouble(0.01 * Math.Pow(1.11, (double)state.hero.level), 0.03 * Math.Pow(1.11, (double)state.hero.level), rand);
-                    style = (GameState.AtkStyle)rand.Next(0,6);
-                    powerSec = rdnDouble(0.8, 2.3, rand);
-                    powerFac = rdnDouble(0.6, 0.8, rand);
-                    ranged = false;
-                    break;
-            }
-
-            setWpnImg();
-            setDesc();
-        }
-
-        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
-        {
-            this.name = name;
-            this.level = level;
-            this.damage = damage;
-            this.ranged = ranged;
-            this.atk_speed = atk_speed;
-            this.proj_speed = proj_speed;
-            this.proj_range = proj_range;
-            this.powerSec = powerSec;
-            this.powerFac = powerFac;
-            this.style = (GameState.AtkStyle)style;
-
-            if (ranged)
-                setProjImg();
-            setWpnImg();
-            setDesc();
         }
     }
 

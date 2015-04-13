@@ -16,7 +16,7 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
