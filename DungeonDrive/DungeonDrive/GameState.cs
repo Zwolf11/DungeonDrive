@@ -141,13 +141,13 @@ namespace DungeonDrive
             save.Add("" + hero.atk_speed);
 
             if (hero.helmet == null) save.Add("NULL");
-            else save.Add(hero.helmet.name + "_" + hero.helmet.defense);
+            else save.Add(hero.helmet.name + "_" + hero.helmet.level);
             if (hero.armor == null) save.Add("NULL");
-            else save.Add(hero.armor.name + "_" + hero.armor.defense);
+            else save.Add(hero.armor.name + "_" + hero.armor.level);
             if (hero.legs == null) save.Add("NULL");
-            else save.Add(hero.legs.name + "_" + hero.legs.defense);
+            else save.Add(hero.legs.name + "_" + hero.legs.level);
             if (hero.shield == null) save.Add("NULL");
-            else save.Add(hero.shield.name + "_" + hero.shield.defense);
+            else save.Add(hero.shield.name + "_" + hero.shield.level);
             if (hero.weapon == null) save.Add("NULL");
             else save.Add(hero.weapon.name + "_" + hero.weapon.level + "_" + hero.weapon.damage + "_" + hero.weapon.ranged + "_" + hero.weapon.atk_speed + "_" + hero.weapon.proj_speed + "_" + hero.weapon.proj_range + "_" + hero.weapon.powerSec + "_" + hero.weapon.powerFac + "_" + (int)hero.weapon.style);
 
@@ -161,22 +161,22 @@ namespace DungeonDrive
                         if(inventory[i][j] is Helmet)
                         {
                             Helmet helmet = (Helmet)inventory[i][j];
-                            save.Add("HELMET_" + helmet.name + "_" + helmet.defense);
+                            save.Add("HELMET_" + helmet.name + "_" + helmet.level);
                         }
                         else if (inventory[i][j] is Armor)
                         {
                             Armor armor = (Armor)inventory[i][j];
-                            save.Add("ARMOR_" + armor.name + "_" + armor.defense);
+                            save.Add("ARMOR_" + armor.name + "_" + armor.level);
                         }
                         else if (inventory[i][j] is Legs)
                         {
                             Legs legs = (Legs)inventory[i][j];
-                            save.Add("LEGS_" + legs.name + "_" + legs.defense);
+                            save.Add("LEGS_" + legs.name + "_" + legs.level);
                         }
                         else if (inventory[i][j] is Shield)
                         {
                             Shield shield = (Shield)inventory[i][j];
-                            save.Add("SHIELD_" + shield.name + "_" + shield.defense);
+                            save.Add("SHIELD_" + shield.name + "_" + shield.level);
                         }
                         else if (inventory[i][j] is Weapon)
                         {

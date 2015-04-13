@@ -128,8 +128,9 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.atk_dmg = 100;
-                this.full_hp = 1000;
+                this.level = 100;
+                this.atk_dmg = 100000;
+                this.full_hp = 1000000;
                 this.hp = this.full_hp;
             }
 
