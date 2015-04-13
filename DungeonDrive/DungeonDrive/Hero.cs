@@ -167,6 +167,9 @@ namespace DungeonDrive
             // change stats for hero when using non-ranged weapons
             else
             {
+                this.atk_dmg = weapon.damage;
+                this.atk_speed = weapon.atk_speed;
+                // TODO add other effects
             }
         }
 

@@ -6,7 +6,7 @@ namespace DungeonDrive
     public class Projectile
     {
         private GameState state;
-        public int dmg = 1;
+        public double dmg = 1;
         public double atk_speed = 0.5;
         public double proj_speed = 0.8;
         public int proj_range = 10;

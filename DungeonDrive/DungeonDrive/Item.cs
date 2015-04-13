@@ -16,6 +16,45 @@ namespace DungeonDrive
 
         public double rdnDouble(double first, double second, Random r)
         { return Math.Round(r.NextDouble() * (second - first) + first, 2); }
+
+        public String genName(int level)
+        {
+            String name = "";
+            if (level == 1 || level == 2)
+                name = state.tierAdj[0];
+            else if (level > 2 && level <= 5)
+                name = state.tierAdj[1];
+            else if (level > 5 && level <= 10)
+                name = state.tierAdj[2];
+            else if (level > 10 && level <= 15)
+                name = state.tierAdj[3];
+            else if (level > 15 && level <= 20)
+                name = state.tierAdj[4];
+            else if (level > 20 && level <= 25)
+                name = state.tierAdj[5];
+            else if (level > 25 && level <= 30)
+                name = state.tierAdj[6];
+            else if (level > 30 && level <= 35)
+                name = state.tierAdj[7];
+            else if (level > 35 && level <= 40)
+                name = state.tierAdj[8];
+            else if (level > 40 && level <= 45)
+                name = state.tierAdj[9];
+            else if (level > 45 && level <= 50)
+                name = state.tierAdj[10];
+            else if (level > 50 && level <= 55)
+                name = state.tierAdj[11];
+            else if (level > 55 && level <= 60)
+                name = state.tierAdj[12];
+            else if (level > 60 && level <= 65)
+                name = state.tierAdj[13];
+            else if (level > 65 && level <= 70)
+                name = state.tierAdj[14];
+            else if (level > 70)
+                name = state.tierAdj[15];
+
+            return name;
+        }
     }
 
     public class Helmet : Item
@@ -169,7 +208,7 @@ namespace DungeonDrive
     public class Weapon : Item
     {
         public int level;
-        public int damage;
+        public double damage;
         public bool ranged;
         public double atk_speed;
         public double proj_speed;
@@ -207,7 +246,6 @@ namespace DungeonDrive
                 case GameState.AtkStyle.Poison:
                     description += "\nSLW SEC: " + powerSec + "\nSLW FAC: " + powerFac;
                     break;
-                
             }
         }
 
@@ -220,16 +258,69 @@ namespace DungeonDrive
                     this.img = Properties.Resources.wand_1;
                 else if (level > 2 && level <= 5)
                     this.img = Properties.Resources.wand_2;
-                else if (level > 5 && level <= 20)
+                else if (level > 5 && level <= 10)
                     this.img = Properties.Resources.wand_3;
-                else if (level > 20 && level <= 45)
+                else if (level > 10 && level <= 15)
                     this.img = Properties.Resources.wand_4;
-                else if (level > 45 && level <= 60)
+                else if (level > 15 && level <= 20)
                     this.img = Properties.Resources.wand_5;
-                else if (level > 60 && level <= 75)
+                else if (level > 20 && level <= 25)
                     this.img = Properties.Resources.wand_6;
-                else if (level > 75)
+                else if (level > 25 && level <= 30)
                     this.img = Properties.Resources.wand_7;
+                else if (level > 30 && level <= 35)
+                    this.img = Properties.Resources.wand_8;
+                else if (level > 35 && level <= 40)
+                    this.img = Properties.Resources.wand_9;
+                else if (level > 40 && level <= 45)
+                    this.img = Properties.Resources.wand_10;
+                else if (level > 45 && level <= 50)
+                    this.img = Properties.Resources.wand_11;
+                else if (level > 50 && level <= 55)
+                    this.img = Properties.Resources.wand_12;
+                else if (level > 55 && level <= 60)
+                    this.img = Properties.Resources.wand_13;
+                else if (level > 60 && level <= 65)
+                    this.img = Properties.Resources.wand_14;
+                else if (level > 65 && level <= 70)
+                    this.img = Properties.Resources.wand_15;
+                else if (level > 70)
+                    this.img = Properties.Resources.wand_16;
+            }
+            else
+            {
+                if (level == 1 || level == 2)
+                    this.img = Properties.Resources.sword_1;
+                else if (level > 2 && level <= 5)
+                    this.img = Properties.Resources.sword_2;
+                else if (level > 5 && level <= 10)
+                    this.img = Properties.Resources.sword_3;
+                else if (level > 10 && level <= 15)
+                    this.img = Properties.Resources.sword_4;
+                else if (level > 15 && level <= 20)
+                    this.img = Properties.Resources.sword_5;
+                else if (level > 20 && level <= 25)
+                    this.img = Properties.Resources.sword_6;
+                else if (level > 25 && level <= 30)
+                    this.img = Properties.Resources.sword_7;
+                else if (level > 30 && level <= 35)
+                    this.img = Properties.Resources.sword_8;
+                else if (level > 35 && level <= 40)
+                    this.img = Properties.Resources.sword_9;
+                else if (level > 40 && level <= 45)
+                    this.img = Properties.Resources.sword_10;
+                else if (level > 45 && level <= 50)
+                    this.img = Properties.Resources.sword_11;
+                else if (level > 50 && level <= 55)
+                    this.img = Properties.Resources.sword_12;
+                else if (level > 55 && level <= 60)
+                    this.img = Properties.Resources.sword_13;
+                else if (level > 60 && level <= 65)
+                    this.img = Properties.Resources.sword_14;
+                else if (level > 65 && level <= 70)
+                    this.img = Properties.Resources.sword_15;
+                else if (level > 70)
+                    this.img = Properties.Resources.sword_16;
             }
         }
 
@@ -262,12 +353,13 @@ namespace DungeonDrive
         public Weapon(GameState state) : base(state)
         {
             Random rand = new Random();
+            level = state.hero.level;
+            name = state.adjectives[rand.Next(state.adjectives.Length)] + " " + genName(level); 
 
-            switch(rand.Next(1))
+            switch(rand.Next(2))
             {
                 case 0:
-                    name = state.adjectives[rand.Next(state.adjectives.Length)] + " Wand";
-                    level = state.hero.level;
+                    name += " Wand";
                     damage = 1 + (int)((double)state.hero.level * rdnDouble(0.5,0.8,rand));
                     atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
                     proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
@@ -278,13 +370,22 @@ namespace DungeonDrive
                     ranged = true;
                     setProjImg();
                     break;
+                case 1:
+                    name += " Sword";
+                    damage = state.hero.atk_dmg + (int)((double)state.hero.level * rdnDouble(0.5,0.8,rand));
+                    atk_speed = state.hero.atk_speed - rdnDouble(0.01 * Math.Pow(1.11, (double)state.hero.level), 0.03 * Math.Pow(1.11, (double)state.hero.level), rand);
+                    style = (GameState.AtkStyle)rand.Next(0,6);
+                    powerSec = rdnDouble(0.8, 2.3, rand);
+                    powerFac = rdnDouble(0.6, 0.8, rand);
+                    ranged = false;
+                    break;
             }
 
             setWpnImg();
             setDesc();
         }
 
-        public Weapon(GameState state, String name, int level, int damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
+        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style ) : base(state)
         {
             this.name = name;
             this.level = level;
