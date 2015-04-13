@@ -18,9 +18,7 @@ namespace DungeonDrive
         public double x_origin, y_origin;
         public double x_speed, y_speed;
         public double radius = 0.3;
-        public int frame = 0;
-        public Bitmap[] animation = new Bitmap[20];
-        public bool isMagic = false;
+
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
@@ -80,17 +78,14 @@ namespace DungeonDrive
 
         public void act()
         {
-            frame++;
-            if (frame >= 20) { frame = 0; }
             tryMove(x + x_speed, y + y_speed);
         }
 
         public void draw(Graphics g)
         {
-            if(!isMagic)
-                g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
-            else
-                g.DrawImage(this.animation[frame], new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+
+            g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+
         }
     }
 

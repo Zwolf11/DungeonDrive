@@ -396,11 +396,7 @@ namespace DungeonDrive
                 }
             }*/
         }
-        public void specialAtk() {
 
-           
-            
-        }
         public void basicAtk()
         {
 
