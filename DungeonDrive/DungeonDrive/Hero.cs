@@ -16,7 +16,7 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -41,9 +41,9 @@ namespace DungeonDrive
             this.hp = 20;
             this.full_hp = hp;
             this.base_full_hp = this.full_hp;
-            this.atk_dmg = 20;
+            this.atk_dmg = 10;
             this.base_atk_dmg = this.atk_dmg;
-            this.atk_speed = 0.2;
+            this.atk_speed = 0.4;
             this.base_atk_speed = this.atk_speed;
             this.speed = 0.2;
             this.base_speed = this.speed;
@@ -132,7 +132,7 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.level = 100;
+                this.level = 1;
                 this.atk_dmg = 100000;
                 this.base_atk_dmg = this.atk_dmg;
                 this.full_hp = 100000;
@@ -153,13 +153,15 @@ namespace DungeonDrive
         {
             double hp_inc = 0;
             double ms_inc = 0;
+            double atk_inc = 0;
+            double atk_spd_dec = 0;
 
             if (weapon != null)
             {
                 // change stats for projectiles
                 if (weapon.ranged)
                 {
-                    weapon_proj.dmg = weapon.damage;
+                    weapon_proj.dmg = this.atk_dmg + weapon.damage;
                     weapon_proj.atk_speed = weapon.atk_speed;
                     weapon_proj.proj_speed = weapon.proj_speed;
                     weapon_proj.proj_range = weapon.proj_range;
@@ -181,8 +183,8 @@ namespace DungeonDrive
                 // change stats for hero when using non-ranged weapons
                 else
                 {
-                    this.atk_dmg = weapon.damage;
-                    this.atk_speed = weapon.atk_speed;
+                    atk_inc = weapon.damage;
+                    atk_spd_dec = weapon.atk_speed;
                     // TODO add other effects
                 }
             }
@@ -227,6 +229,8 @@ namespace DungeonDrive
                 this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
             }
 
+            this.atk_dmg = this.base_atk_dmg + atk_inc;
+            this.atk_speed = this.base_atk_speed - atk_spd_dec;
             this.full_hp = this.base_full_hp + hp_inc;
             this.speed = this.base_speed + ms_inc;
         }

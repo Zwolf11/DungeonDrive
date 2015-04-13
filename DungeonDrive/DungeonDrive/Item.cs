@@ -232,7 +232,7 @@ namespace DungeonDrive
                 case 0:
                     name += " Legs";
                     hp = rdnDouble(0.1 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level), 0.2 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level), rand);
-                    ms = rdnDouble(0.1 * Math.Pow(1.001, (double)state.hero.level), 0.3 * Math.Pow(1.001, (double)state.hero.level), rand);
+                    ms = rdnDouble(0.06 * Math.Pow(1.01, (double)state.hero.level), 0.1 * Math.Pow(1.01, (double)state.hero.level), rand);
                     setImg();
                     break;
             }
@@ -389,8 +389,8 @@ namespace DungeonDrive
                 case 0:
                     name += " Wand";
                     damage = 1 + (int)((double)state.hero.level * rdnDouble(1.5, 1.8, rand));
-                    atk_speed = rdnDouble(0.3 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level), rand);
-                    proj_speed = rdnDouble(0.2 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    atk_speed = rdnDouble(0.5 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level), rand);
+                    proj_speed = rdnDouble(0.2 * Math.Pow(1.001, (double)state.hero.level), 0.8 * Math.Pow(1.001, (double)state.hero.level), rand);
                     proj_range = rand.Next(5, 12);
                     style = (GameState.AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.5, 2.0, rand);
@@ -400,8 +400,8 @@ namespace DungeonDrive
                     break;
                 case 1:
                     name += " Sword";
-                    damage = state.hero.atk_dmg + (int)((double)state.hero.level * rdnDouble(1.5, 1.8, rand));
-                    atk_speed = state.hero.atk_speed - rdnDouble(0.001 * Math.Pow(1.01, (double)state.hero.level), 0.005 * Math.Pow(1.01, (double)state.hero.level), rand);
+                    damage = 1 + (int)((double)state.hero.level * rdnDouble(1.8, 2.0, rand));
+                    atk_speed = rdnDouble(0.08 * Math.Pow(1.01, (double)state.hero.level), 0.1 * Math.Pow(1.01, (double)state.hero.level), rand);
                     style = (GameState.AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.8, 2.3, rand);
                     powerFac = rdnDouble(0.6, 0.8, rand);
@@ -437,9 +437,9 @@ namespace DungeonDrive
         {
             description = name
                 + "\nLVL:  " + level
-                + "\nATT:  " + style.ToString()
-                + "\nDMG:  " + Math.Round(damage,2)
-                + "\nATK SPD:  " + Math.Round(atk_speed,2);
+                + "\nSTY:  " + style.ToString()
+                + "\nDMG: +" + Math.Round(damage,2)
+                + "\nATK SPD: " + (ranged?" ":"-") + Math.Round(atk_speed,2);
 
             if (ranged)
                 description += "\nRNG:  " + proj_range;
