@@ -13,12 +13,17 @@ namespace DungeonDrive
         public double origin_y;
         public double center_x;
         public double center_y;
+        public double base_speed = 0.01;
         public double speed = 0.01;
         public double radius = 0.5;
         public double full_hp = 1;
+        public double base_full_hp = 1;
         public double hp = 1;
+        public double hp_reg = 0;
         public double atk_dmg = 1;
+        public double base_atk_dmg = 1;
         public double atk_speed = 1;
+        public double base_atk_speed = 1;
         public bool stuned = false;
         public bool teleport = false;
         public bool moving = false;

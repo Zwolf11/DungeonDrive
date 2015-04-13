@@ -122,7 +122,6 @@ namespace DungeonDrive
                         if (state.hero.weapon != null)
                             inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
                         state.hero.weapon = (Weapon)selection;
-                        state.hero.equipWeapon((Weapon)selection);
                     }
                     else if (selection is Helmet)
                     {
@@ -203,7 +202,6 @@ namespace DungeonDrive
                         if (state.hero.weapon != null)
                             inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
                         state.hero.weapon = (Weapon)selection;
-                        state.hero.equipWeapon((Weapon)selection);
                     }
                     else
                     {

@@ -16,7 +16,7 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
-        private bool testing = false;
+        private bool testing = true;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -40,9 +40,13 @@ namespace DungeonDrive
         {
             this.hp = 20;
             this.full_hp = hp;
+            this.base_full_hp = this.full_hp;
             this.atk_dmg = 20;
+            this.base_atk_dmg = this.atk_dmg;
             this.atk_speed = 0.2;
-            this.speed = 0.3;
+            this.base_atk_speed = this.atk_speed;
+            this.speed = 0.2;
+            this.base_speed = this.speed;
             this.radius = 0.49;
             this.exp = 0.0;
             this.expcap = 10.0;
@@ -130,7 +134,12 @@ namespace DungeonDrive
             {
                 this.level = 100;
                 this.atk_dmg = 100000;
-                this.full_hp = 1000000;
+                this.base_atk_dmg = this.atk_dmg;
+                this.full_hp = 100000;
+                this.base_full_hp = 100000;
+//                this.speed = 0.8;
+//                this.base_speed = 0.8;
+                this.expcap = this.expcap * Math.Pow(1.5, this.level-1);
                 this.hp = this.full_hp;
             }
 
@@ -140,54 +149,86 @@ namespace DungeonDrive
             level_up = new SoundPlayer(Properties.Resources.level_up);
         }
 
-        public void equipWeapon(Weapon weapon)
+        public void equipItems()
         {
-            // change stats for projectiles
-            if (weapon.ranged)
-            {
-                this.weapon = weapon;
-                weapon_proj.dmg = weapon.damage;
-                weapon_proj.atk_speed = weapon.atk_speed;
-                weapon_proj.proj_speed = weapon.proj_speed;
-                weapon_proj.proj_range = weapon.proj_range;
-                weapon_proj.style = weapon.style;
-                weapon_proj.powerSec = weapon.powerSec;
-                weapon_proj.powerFac = weapon.powerFac;
-                weapon_proj.proj_img = weapon.projectileImg;
-                /*
-                Projectile.dmg = weapon.damage;
-                Projectile.atk_speed = weapon.atk_speed;
-                Projectile.proj_speed = weapon.proj_speed;
-                Projectile.proj_range = weapon.proj_range;
-                Projectile.style = weapon.style;
-                Projectile.powerSec = weapon.powerSec;
-                Projectile.powerFac = weapon.powerFac;
-                Projectile.proj_img = weapon.projectileImg;*/
-            }
+            double hp_inc = 0;
+            double ms_inc = 0;
 
-            // change stats for hero when using non-ranged weapons
+            if (weapon != null)
+            {
+                // change stats for projectiles
+                if (weapon.ranged)
+                {
+                    weapon_proj.dmg = weapon.damage;
+                    weapon_proj.atk_speed = weapon.atk_speed;
+                    weapon_proj.proj_speed = weapon.proj_speed;
+                    weapon_proj.proj_range = weapon.proj_range;
+                    weapon_proj.style = weapon.style;
+                    weapon_proj.powerSec = weapon.powerSec;
+                    weapon_proj.powerFac = weapon.powerFac;
+                    weapon_proj.proj_img = weapon.projectileImg;
+                    /*
+                    Projectile.dmg = weapon.damage;
+                    Projectile.atk_speed = weapon.atk_speed;
+                    Projectile.proj_speed = weapon.proj_speed;
+                    Projectile.proj_range = weapon.proj_range;
+                    Projectile.style = weapon.style;
+                    Projectile.powerSec = weapon.powerSec;
+                    Projectile.powerFac = weapon.powerFac;
+                    Projectile.proj_img = weapon.projectileImg;*/
+                }
+
+                // change stats for hero when using non-ranged weapons
+                else
+                {
+                    this.atk_dmg = weapon.damage;
+                    this.atk_speed = weapon.atk_speed;
+                    // TODO add other effects
+                }
+            }
             else
             {
-                this.atk_dmg = weapon.damage;
-                this.atk_speed = weapon.atk_speed;
-                // TODO add other effects
+                this.atk_dmg = this.base_atk_dmg;
+                this.atk_speed = this.base_atk_speed;
             }
-        }
 
-        public void equipHelmet(Helmet helmet)
-        {
-        }
+            if (helmet != null)
+            {
+                hp_inc += helmet.hp;
+                this.hp_reg = helmet.hp_reg;
+                if (this.hp < this.full_hp)
+                {
+                    // TODO and not in combat
+                    this.hp += helmet.hp_reg;
+                }
+            }
+            else
+            {
+                this.hp_reg = 0;
+                this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
+            }
 
-        public void equipArmor(Armor armor)
-        {
-        }
+            if (armor != null)
+            {
+                hp_inc += armor.hp;
+            }
+            else
+            {
+                this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
+            }
 
-        public void equipLegs(Legs legs)
-        {
-        }
+            if (legs != null)
+            {
+                hp_inc += legs.hp;
+                ms_inc += legs.ms;
+            }
+            else
+            {
+                this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
+            }
 
-        public void equipShield(Shield shield)
-        {
+            this.full_hp = this.base_full_hp + hp_inc;
+            this.speed = this.base_speed + ms_inc;
         }
 
         private void handleCursor()
@@ -371,7 +412,7 @@ namespace DungeonDrive
             {
                 if (poison_sec == 0)
                 {
-                    poison_sec = 300;
+                    poison_sec = 200;
                     speed -= speed * 0.5;
                 }
 
@@ -379,7 +420,7 @@ namespace DungeonDrive
 
                 if (poison_sec == 0)
                 {
-                    speed = 0.3;
+                    speed = this.base_speed;
                     status = "Normal";
                 }
             }
@@ -405,11 +446,9 @@ namespace DungeonDrive
             }
 
         }
+
         public void basicAtk()
         {
-
-            
-            
             if (this.weapon != null && this.weapon.ranged)
             {
                 if (atk_cd[2])
@@ -454,10 +493,17 @@ namespace DungeonDrive
         {
             try { level_up.Play(); }
             catch (FileNotFoundException) { }
-            this.full_hp += 10;
+            double hp_inc = 10;
+            double dmg_inc = 1;
+            double atk_spd_dec = 0.0001;
+            
+            this.full_hp += hp_inc;
+            this.base_full_hp += hp_inc;
             this.hp = this.full_hp;
-            this.atk_dmg += 1;
-            this.atk_speed -= 0.01;
+            this.atk_dmg += dmg_inc;
+            this.base_atk_dmg += dmg_inc;
+            this.atk_speed -= atk_spd_dec;
+            this.base_atk_speed -= atk_spd_dec;
             this.exp -= this.expcap;
             this.expcap *= 1.5;
             this.level += 1;
@@ -479,10 +525,23 @@ namespace DungeonDrive
             handleMovement();
             handleCursor();
             handleAilment();
+            equipItems();
         }
 
         public void drawExpBar(Graphics g)
         { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
+
+        public void drawDesc(Graphics g)
+        {   
+            g.DrawString(
+            "\nLVL: " + this.level
+            + "\nHP: " + Math.Round(this.hp,2) + "/" + Math.Round(this.full_hp,2)
+            + "\nHP REG: " + Math.Round(this.hp_reg,2)
+            + "\nATK: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.damage,2) : Math.Round(this.atk_dmg,2))
+            + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed,2) : Math.Round(this.atk_speed,2))
+            + "\nMV  SPD: " + Math.Round(this.speed, 2)
+            , state.font, Brushes.White, 5, state.room.height - 20);
+        }
 
         public override void draw(Graphics g)
         {
@@ -499,6 +558,7 @@ namespace DungeonDrive
 
             drawHpBar(g);
             drawExpBar(g);
+            drawDesc(g);
         }
     }
 }

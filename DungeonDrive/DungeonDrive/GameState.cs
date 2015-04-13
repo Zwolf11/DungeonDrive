@@ -107,7 +107,6 @@ namespace DungeonDrive
             else if (item is Weapon && hero.weapon == null)
             {
                 hero.weapon = (Weapon)item;
-                hero.equipWeapon((Weapon)item);
                 return true;
             }
 
@@ -141,11 +140,11 @@ namespace DungeonDrive
             save.Add("" + hero.atk_speed);
 
             if (hero.helmet == null) save.Add("NULL");
-            else save.Add(hero.helmet.name + "_" + hero.helmet.level);
+            else save.Add(hero.helmet.name + "_" + hero.helmet.level + "_" + hero.helmet.hp + "_" + hero.helmet.hp_reg);
             if (hero.armor == null) save.Add("NULL");
-            else save.Add(hero.armor.name + "_" + hero.armor.level);
+            else save.Add(hero.armor.name + "_" + hero.armor.level + "_" + hero.armor.hp);
             if (hero.legs == null) save.Add("NULL");
-            else save.Add(hero.legs.name + "_" + hero.legs.level);
+            else save.Add(hero.legs.name + "_" + hero.legs.level + "_" + hero.legs.hp + "_" + hero.legs.ms);
             if (hero.shield == null) save.Add("NULL");
             else save.Add(hero.shield.name + "_" + hero.shield.level);
             if (hero.weapon == null) save.Add("NULL");
@@ -161,17 +160,17 @@ namespace DungeonDrive
                         if(inventory[i][j] is Helmet)
                         {
                             Helmet helmet = (Helmet)inventory[i][j];
-                            save.Add("HELMET_" + helmet.name + "_" + helmet.level);
+                            save.Add("HELMET_" + helmet.name + "_" + helmet.level + "_" + helmet.hp + "_" + helmet.hp_reg);
                         }
                         else if (inventory[i][j] is Armor)
                         {
                             Armor armor = (Armor)inventory[i][j];
-                            save.Add("ARMOR_" + armor.name + "_" + armor.level);
+                            save.Add("ARMOR_" + armor.name + "_" + armor.level + "_" + armor.hp);
                         }
                         else if (inventory[i][j] is Legs)
                         {
                             Legs legs = (Legs)inventory[i][j];
-                            save.Add("LEGS_" + legs.name + "_" + legs.level);
+                            save.Add("LEGS_" + legs.name + "_" + legs.level + "_" + legs.hp + "_" + legs.ms);
                         }
                         else if (inventory[i][j] is Shield)
                         {
@@ -214,13 +213,13 @@ namespace DungeonDrive
 
             String[] helmet = loadFile[10].Split('_');
             if (helmet[0] != "NULL")
-                hero.helmet = new Helmet(this, helmet[0], int.Parse(helmet[1]));
+                hero.helmet = new Helmet(this, helmet[0], int.Parse(helmet[1]), double.Parse(helmet[2]), double.Parse(helmet[3]));
             String[] armor = loadFile[11].Split('_');
             if (armor[0] != "NULL")
-                hero.armor = new Armor(this, armor[0], int.Parse(armor[1]));
+                hero.armor = new Armor(this, armor[0], int.Parse(armor[1]), double.Parse(armor[2]));
             String[] legs = loadFile[12].Split('_');
             if (legs[0] != "NULL")
-                hero.legs = new Legs(this, legs[0], int.Parse(legs[1]));
+                hero.legs = new Legs(this, legs[0], int.Parse(legs[1]), double.Parse(legs[2]), double.Parse(legs[3]));
             String[] shield = loadFile[13].Split('_');
             if (shield[0] != "NULL")
                 hero.shield = new Shield(this, shield[0], int.Parse(shield[1]));
@@ -237,11 +236,11 @@ namespace DungeonDrive
                     if(item[0] != "NULL")
                     {
                         if (item[0] == "HELMET")
-                            inventory[i][j] = new Helmet(this, item[1], int.Parse(item[2]));
+                            inventory[i][j] = new Helmet(this, item[1], int.Parse(item[2]), double.Parse(item[3]), double.Parse(item[4]));
                         else if (item[0] == "ARMOR")
-                            inventory[i][j] = new Armor(this, item[1], int.Parse(item[2]));
+                            inventory[i][j] = new Armor(this, item[1], int.Parse(item[2]), double.Parse(item[3]));
                         else if (item[0] == "LEGS")
-                            inventory[i][j] = new Legs(this, item[1], int.Parse(item[2]));
+                            inventory[i][j] = new Legs(this, item[1], int.Parse(item[2]), double.Parse(item[3]), double.Parse(item[4]));
                         else if (item[0] == "SHIELD")
                             inventory[i][j] = new Shield(this, item[1], int.Parse(item[2]));
                         else if (item[0] == "WEAPON")
