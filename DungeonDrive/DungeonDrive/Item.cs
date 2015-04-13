@@ -135,12 +135,12 @@ namespace DungeonDrive
             {
                 case 0:
                     name = "Basic Shield";
-                    img = Properties.Resources.shield_2;
+                    img = Properties.Resources.shield_1;
                     defense = 1 + rand.Next(state.hero.level);
                     break;
                 case 1:
                     name = "Diamond Shield";
-                    img = Properties.Resources.shield_1;
+                    img = Properties.Resources.shield_2;
                     defense = 3 + rand.Next(state.hero.level);
                     break;
             }

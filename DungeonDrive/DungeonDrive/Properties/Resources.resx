@@ -319,27 +319,6 @@
   <data name="wa8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wa8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="wand_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wand_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\wand_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="wd1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wd1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -405,12 +384,6 @@
   </data>
   <data name="shield" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\shield.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shield_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\shield_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="shield_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\shield_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="weapon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\weapon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -636,5 +609,149 @@
   </data>
   <data name="legs_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\legs_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sword_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sword_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_10.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_12.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_13.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_14.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_15.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_16.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_3.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_4.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_5.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_6.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_7.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wand_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wand_9.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_11.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

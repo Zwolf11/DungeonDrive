@@ -341,7 +341,13 @@ namespace DungeonDrive
                     if (rand.Next(5) == 0)
                         state.room.droppedItems.Add(state.randomItem(), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
                     if (testing)
+                    {
                         state.room.droppedItems.Add(new Weapon(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                        state.room.droppedItems.Add(new Helmet(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                        state.room.droppedItems.Add(new Legs(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                        state.room.droppedItems.Add(new Armor(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                        state.room.droppedItems.Add(new Shield(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
+                    }
 
                 }
                 deletingList.Clear();
