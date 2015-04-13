@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Room.cs" />
     <Compile Include="SkillStreeState.cs" />
+    <Compile Include="Spell.cs" />
     <Compile Include="State.cs" />
     <Compile Include="TitleState.cs" />
     <Compile Include="Unit.cs" />

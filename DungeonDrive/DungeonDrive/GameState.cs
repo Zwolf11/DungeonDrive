@@ -256,7 +256,10 @@ namespace DungeonDrive
                 }
         }
 
-        public override void mouseUp(object sender, MouseEventArgs e) { }
+        public override void mouseUp(object sender, MouseEventArgs e) {
+
+            
+        }
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
@@ -296,6 +299,7 @@ namespace DungeonDrive
             {
                 hero.attacks[2] = true;
             }
+            
         }
 
         public override void keyUp(object sender, KeyEventArgs e)
@@ -384,6 +388,9 @@ namespace DungeonDrive
                             room.updateDrawingGrid(clickedDoor.getPositiveRoom());
                         }
                     }
+                }
+                else {
+                    this.hero.specialAtk();
                 }
                
             }
