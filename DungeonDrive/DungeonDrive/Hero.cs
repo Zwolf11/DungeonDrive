@@ -16,7 +16,7 @@ namespace DungeonDrive
         private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -40,7 +40,7 @@ namespace DungeonDrive
         {
             this.hp = 20;
             this.full_hp = hp;
-            this.atk_dmg = 2;
+            this.atk_dmg = 20;
             this.atk_speed = 0.2;
             this.speed = 0.3;
             this.radius = 0.49;
@@ -397,10 +397,18 @@ namespace DungeonDrive
                 }
             }*/
         }
+        public void specialAtk()
+        {
+            if (atk_cd[1])
+            {
+                LighteningBall light = new LighteningBall(state, state.hero);
+            }
 
+        }
         public void basicAtk()
         {
 
+            
             
             if (this.weapon != null && this.weapon.ranged)
             {

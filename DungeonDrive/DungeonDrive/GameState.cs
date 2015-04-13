@@ -385,6 +385,7 @@ namespace DungeonDrive
                         }
                     }
                 }
+                else { this.hero.specialAtk(); }
                
             }
         }

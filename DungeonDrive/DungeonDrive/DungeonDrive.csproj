@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Room.cs" />
     <Compile Include="SkillStreeState.cs" />
+    <Compile Include="Spell.cs" />
     <Compile Include="State.cs" />
     <Compile Include="TitleState.cs" />
     <Compile Include="Unit.cs" />
@@ -91,6 +92,26 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\lighteningball_1_20_20.png" />
+    <None Include="Resources\lighteningball_1_20_19.png" />
+    <None Include="Resources\lighteningball_1_20_18.png" />
+    <None Include="Resources\lighteningball_1_20_17.png" />
+    <None Include="Resources\lighteningball_1_20_16.png" />
+    <None Include="Resources\lighteningball_1_20_15.png" />
+    <None Include="Resources\lighteningball_1_20_14.png" />
+    <None Include="Resources\lighteningball_1_20_13.png" />
+    <None Include="Resources\lighteningball_1_20_12.png" />
+    <None Include="Resources\lighteningball_1_20_11.png" />
+    <None Include="Resources\lighteningball_1_20_10.png" />
+    <None Include="Resources\lighteningball_1_20_9.png" />
+    <None Include="Resources\lighteningball_1_20_8.png" />
+    <None Include="Resources\lighteningball_1_20_7.png" />
+    <None Include="Resources\lighteningball_1_20_6.png" />
+    <None Include="Resources\lighteningball_1_20_5.png" />
+    <None Include="Resources\lighteningball_1_20_4.png" />
+    <None Include="Resources\lighteningball_1_20_3.png" />
+    <None Include="Resources\lighteningball_1_20_2.png" />
+    <None Include="Resources\lighteningball_1_20_1.png" />
     <None Include="Resources\shield_16.gif" />
     <None Include="Resources\shield_15.gif" />
     <None Include="Resources\shield_14.gif" />

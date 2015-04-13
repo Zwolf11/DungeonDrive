@@ -19,6 +19,10 @@ namespace DungeonDrive
         public double x_speed, y_speed;
         public double radius = 0.3;
 
+        public int frame = 0;
+        public Bitmap[] animation = new Bitmap[20];
+        public bool isMagic = false;
+
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
@@ -31,6 +35,17 @@ namespace DungeonDrive
             this.y_origin = y;
             this.x_speed = x_dir * proj_speed;
             this.y_speed = y_dir * proj_speed;
+        }
+        public Projectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+        {
+            this.state = state;
+            this.x = x;
+            this.y = y;
+            this.x_origin = x;
+            this.y_origin = y;
+            this.x_speed = x_dir * proj_speed;
+            this.y_speed = y_dir * proj_speed;
+            this.proj_range = proj_range;
         }
         public Projectile() { }
         public void setProjectile(GameState state, double x, double y, double x_dir, double y_dir)
@@ -78,14 +93,17 @@ namespace DungeonDrive
 
         public void act()
         {
+            frame++;
+            if (frame >= 20) { frame = 0; }
             tryMove(x + x_speed, y + y_speed);
         }
 
         public void draw(Graphics g)
         {
-
-            g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
-
+            if(!isMagic)
+                g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+            else
+                g.DrawImage(this.animation[frame], new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));     
         }
     }
 
