@@ -814,4 +814,22 @@
   <data name="lighteningball_1_20_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lighteningball_1_20_9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="frame_0_acid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-acid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_1_acid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-1-acid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_1_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-1-blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_7_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-7-blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_8_acid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-8-acid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
