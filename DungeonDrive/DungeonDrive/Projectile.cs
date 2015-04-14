@@ -10,7 +10,7 @@ namespace DungeonDrive
         public double atk_speed = 0.5;
         public double proj_speed = 0.8;
         public int proj_range = 10;
-        public GameState.AtkStyle style = GameState.AtkStyle.Basic;
+        public Item.AtkStyle style = Item.AtkStyle.Basic;
         public double powerSec = 1;
         public double powerFac = 0.3;
         public Bitmap proj_img = Properties.Resources.fire;
@@ -77,9 +77,9 @@ namespace DungeonDrive
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
                     unit.hp -= this.dmg;
-                    if (this.style == GameState.AtkStyle.Frozen)
+                    if (this.style == Item.AtkStyle.Frozen)
                         unit.slow(this.powerSec, this.powerFac);
-                    else if (this.style == GameState.AtkStyle.Flame)
+                    else if (this.style == Item.AtkStyle.Flame)
                         unit.burn(this.powerSec, this.powerFac * this.dmg);
 
                     state.hero.removeProj(this);

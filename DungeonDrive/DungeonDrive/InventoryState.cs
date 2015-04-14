@@ -12,6 +12,7 @@ namespace DungeonDrive
         private Point mouse = new Point(-1, -1);
         private bool dragging = false;
         private GameState state { get { return (GameState)parent; } }
+        private Item mouseOverItem = null;
 
         private Bitmap boxImg = new Bitmap(Properties.Resources.box);
         private Bitmap helmetImg = new Bitmap(Properties.Resources.helmet);
@@ -20,8 +21,12 @@ namespace DungeonDrive
         private Bitmap shieldImg = new Bitmap(Properties.Resources.shield);
         private Bitmap weaponImg = new Bitmap(Properties.Resources.weapon);
         private Bitmap infoImg = new Bitmap(Properties.Resources.info);
+        private Font font;
 
-        public InventoryState(MainForm form) : base(form) { }
+        public InventoryState(MainForm form) : base(form)
+        {
+            font = new Font("Arial", form.ClientSize.Height / 70);
+        }
 
         private RectangleF getBoxBounds(float i, float j)
         {
@@ -34,6 +39,35 @@ namespace DungeonDrive
             float size = boxSize - 2 * padding;
 
             return new RectangleF(left, top, size, size);
+        }
+
+        private void updateMouseOverItem(int x, int y)
+        {
+            Item[][] inventory = state.inventory;
+            Rectangle click = new Rectangle(x, y, 1, 1);
+
+            for (int i = 0; i < inventory.Length; i++)
+                for (int j = 0; j < inventory[i].Length; j++)
+                    if (getBoxBounds(i, j).Contains(click))
+                    {
+                        if (inventory[i][j] != null)
+                            mouseOverItem = inventory[i][j];
+
+                        return;
+                    }
+
+            if (getBoxBounds(-1, 0.5f).Contains(click))
+                mouseOverItem = state.hero.shield;
+            else if (getBoxBounds(-2, 0).Contains(click))
+                mouseOverItem = state.hero.helmet;
+            else if (getBoxBounds(-2, 1).Contains(click))
+                mouseOverItem = state.hero.armor;
+            else if (getBoxBounds(-2, 2).Contains(click))
+                mouseOverItem = state.hero.legs;
+            else if (getBoxBounds(-3, 0.5f).Contains(click))
+                mouseOverItem = state.hero.weapon;
+
+            mouseOverItem = null;
         }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
@@ -168,6 +202,7 @@ namespace DungeonDrive
                                 selection = null;
 
                                 dragging = false;
+                                updateMouseOverItem(e.X, e.Y);
                                 form.Invalidate();
                                 return;
                             }
@@ -210,6 +245,7 @@ namespace DungeonDrive
                 }
 
                 dragging = false;
+                updateMouseOverItem(e.X, e.Y);
                 form.Invalidate();
             }
         }
@@ -221,9 +257,13 @@ namespace DungeonDrive
                 mouse = e.Location;
                 if (!dragging && Math.Sqrt(Math.Pow(e.X - dragLoc.X, 2) + Math.Pow(e.Y - dragLoc.Y, 2)) > 20)
                     dragging = true;
-
-                form.Invalidate();
             }
+            else
+            {
+                updateMouseOverItem(e.X, e.Y);
+            }
+
+            form.Invalidate();
         }
 
         public override void keyDown(object sender, KeyEventArgs e)
@@ -269,15 +309,17 @@ namespace DungeonDrive
             infoBox.Height *= 2;
             g.DrawImage(infoImg, infoBox);
 
+            String infoString = "";
+            if (mouseOverItem != null)
+                infoString = mouseOverItem.description;
             if (selection != null)
-            {
-                Font font = new Font("Arial", form.ClientSize.Height / 70);
-                g.DrawString(selection.description, font, Brushes.White, new PointF(infoBox.X + infoBox.Width / 20, infoBox.Y + infoBox.Height / 20));
-            }
+                infoString = selection.description;
+
+            g.DrawString(infoString, font, Brushes.White, new PointF(infoBox.X + infoBox.Width / 20, infoBox.Y + infoBox.Height / 20));
 
             if (selection != null)
             {
-                if(dragging)
+                if (dragging)
                     g.DrawImage(selection.img, mouse.X - boxSize / 2, mouse.Y - boxSize / 2, boxSize, boxSize);
                 else
                     g.DrawImage(selection.img, getBoxBounds((int)selectOrigin.X, (int)selectOrigin.Y));
