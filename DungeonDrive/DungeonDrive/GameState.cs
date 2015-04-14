@@ -14,6 +14,7 @@ namespace DungeonDrive
         public Item[][] inventory = new Item[5][];
         public Font font = new Font("Arial", 12);
         public int size = 40;
+        private int konami = 0;
         public String graveyard = "C:\\graveyard";
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
         public String currentRoom = "C:\\";
@@ -44,10 +45,7 @@ namespace DungeonDrive
             if (load)
                 loadGame();
             else
-            {
                 room = new Room(this, "C:\\");
-                inventory[0][0] = randomItem();
-            }
         }
 
         public Item randomItem()
@@ -259,42 +257,49 @@ namespace DungeonDrive
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Up && (konami == 0 || konami == 1))
+                konami++;
+            else if (e.KeyCode == Keys.Down && (konami == 2 || konami == 3))
+                konami++;
+            else if (e.KeyCode == Keys.Left && (konami == 4 || konami == 6))
+                konami++;
+            else if (e.KeyCode == Keys.Right && (konami == 5 || konami == 7))
+                konami++;
+            else if (e.KeyCode == Keys.B && konami == 8)
+                konami++;
+            else if (e.KeyCode == Keys.A && konami == 9)
+                konami++;
+            else if (e.KeyCode == Keys.Enter && konami == 10)
+            {
+                for(int i=0;i<10;i++)
+                    hero.levelUp();
+
+                for (int i = 0; i < inventory.Length; i++)
+                    for (int j = 0; j < inventory[i].Length; j++)
+                        if (inventory[i][j] == null)
+                            inventory[i][j] = randomItem();
+            }
+            else
+                konami = 0;
+
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
-            {
                 this.addChildState(new PauseState(form), false, true);
-            }
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
-            {
                 hero.dirs[0] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.LeftKey)
-            {
                 hero.dirs[1] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.DownKey)
-            {
                 hero.dirs[2] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.RightKey)
-            {
                 hero.dirs[3] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.InventoryKey)
-            {
                 this.addChildState(new InventoryState(form), false, false);
-            }
             else if (e.KeyCode == Properties.Settings.Default.Attack1Key)
-            {
                 hero.attacks[0] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.Attack2Key)
-            {
                 hero.attacks[1] = true;
-            }
             else if (e.KeyCode == Properties.Settings.Default.Attack3Key)
-            {
                 hero.attacks[2] = true;
-            }
         }
 
         public override void keyUp(object sender, KeyEventArgs e)
@@ -305,8 +310,6 @@ namespace DungeonDrive
               
                 this.chest_triggered = false;
                 this.door_triggered = false;
-                    
-               
             }
             else if (e.KeyCode == Properties.Settings.Default.LeftKey)
             {

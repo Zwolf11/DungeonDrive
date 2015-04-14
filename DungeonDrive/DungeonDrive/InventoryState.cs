@@ -113,10 +113,10 @@ namespace DungeonDrive
         {
             if (selection != null)
             {
+                Item[][] inventory = state.inventory;
+
                 if (!dragging)
                 {
-                    Item[][] inventory = state.inventory;
-
                     if (selection is Weapon)
                     {
                         if (state.hero.weapon != null)
@@ -156,7 +156,6 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    Item[][] inventory = state.inventory;
                     Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
 
                     for (int i = 0; i < inventory.Length; i++)
@@ -205,7 +204,7 @@ namespace DungeonDrive
                     }
                     else
                     {
-                        inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = selection;
+                        state.room.droppedItems.Add(selection, new PointF((float)state.hero.x, (float)state.hero.y));
                     }
                     selection = null;
                 }
