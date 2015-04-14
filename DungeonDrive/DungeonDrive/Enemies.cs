@@ -21,7 +21,6 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 2 * Math.Pow(1.1, state.hero.level);
             this.status = "Normal";
-
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
             imgs[2] = new Bitmap(Properties.Resources.bat2);

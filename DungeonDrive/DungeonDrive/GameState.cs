@@ -285,13 +285,33 @@ namespace DungeonDrive
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
                 this.addChildState(new PauseState(form), false, true);
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
-                hero.dirs[0] = true;
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[2] = true;
+                else
+                    hero.dirs[0] = true;
+            }
             else if (e.KeyCode == Properties.Settings.Default.LeftKey)
-                hero.dirs[1] = true;
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[3] = true;
+                else
+                    hero.dirs[1] = true;
+            }
             else if (e.KeyCode == Properties.Settings.Default.DownKey)
-                hero.dirs[2] = true;
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[0] = true;
+                else
+                    hero.dirs[2] = true;
+            }
             else if (e.KeyCode == Properties.Settings.Default.RightKey)
-                hero.dirs[3] = true;
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[1] = true;
+                else
+                    hero.dirs[3] = true;
+            }
             else if (e.KeyCode == Properties.Settings.Default.InventoryKey)
                 this.addChildState(new InventoryState(form), false, false);
             else if (e.KeyCode == Properties.Settings.Default.Attack1Key)
@@ -306,26 +326,41 @@ namespace DungeonDrive
         {
             if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
-                hero.dirs[0] = false;
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[2] = false;
+                else
+                    hero.dirs[0] = false;
               
                 this.chest_triggered = false;
                 this.door_triggered = false;
             }
             else if (e.KeyCode == Properties.Settings.Default.LeftKey)
             {
-                hero.dirs[1] = false;
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[3] = false;
+                else
+                    hero.dirs[1] = false;
+
                 this.chest_triggered = false;
                 this.door_triggered = false;
             }
             else if (e.KeyCode == Properties.Settings.Default.DownKey)
             {
-                hero.dirs[2] = false;
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[0] = false;
+                else
+                    hero.dirs[2] = false;
+        
                 this.chest_triggered = false;
                 this.door_triggered = false;
             }
             else if (e.KeyCode == Properties.Settings.Default.RightKey)
             {
-                hero.dirs[3] = false;
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[1] = false;
+                else
+                    hero.dirs[3] = false;
+
                 this.chest_triggered = false;
                 this.door_triggered = false;
             }

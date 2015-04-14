@@ -412,23 +412,23 @@ namespace DungeonDrive
 
         private void handleAilment()
         {
-            if (this.status.Equals("Poisoned"))
+            if (status.Equals("Poisoned"))
             {
                 if (poison_sec == 0)
                 {
-                    poison_sec = 200;
-                    speed -= speed * 0.5;
+                    poison_sec = 300;
                 }
 
-                --poison_sec;
+                this.hp -= 0.01;
+                --this.poison_sec;
 
-                if (poison_sec == 0)
+                if (this.poison_sec == 0)
                 {
-                    speed = this.base_speed;
+                    //speed = this.base_speed;
                     status = "Normal";
                 }
             }
-            /*else if (this.status.Equals("Cursed"))
+            else if (this.status.Equals("Cursed"))
             {
                 if (curse_sec == 0)
                 {
@@ -440,7 +440,7 @@ namespace DungeonDrive
                 {
                     this.status = "Normal";
                 }
-            }*/
+            }
         }
         public void specialAtk()
         {
@@ -544,6 +544,7 @@ namespace DungeonDrive
             + "\nATK: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.damage,2) : Math.Round(this.atk_dmg,2))
             + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed,2) : Math.Round(this.atk_speed,2))
             + "\nMV  SPD: " + Math.Round(this.speed, 2)
+            + "\nSTATUS: " + this.status
             , state.font, Brushes.White, 5, state.room.height - 20);
         }
 
