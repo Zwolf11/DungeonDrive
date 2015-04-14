@@ -92,6 +92,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\frame-1-blue.png" />
+    <None Include="Resources\frame-1-acid.png" />
+    <None Include="Resources\frame-0-blue.png" />
+    <None Include="Resources\frame-0-acid.png" />
+    <None Include="Resources\frame-8-acid.png" />
+    <None Include="Resources\frame-7-blue.png" />
     <None Include="Resources\lighteningball_1_20_20.png" />
     <None Include="Resources\lighteningball_1_20_19.png" />
     <None Include="Resources\lighteningball_1_20_18.png" />
