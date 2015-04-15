@@ -61,7 +61,7 @@ namespace DungeonDrive
         public void tryMove(double xNext, double yNext)
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
-                state.hero.removeProj(this);
+                state.room.removeProj(this);
 
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
@@ -71,7 +71,7 @@ namespace DungeonDrive
             for (int i = left; i < left + width; i++)
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
-                        state.hero.removeProj(this);
+                        state.room.removeProj(this);
             
             foreach (Unit unit in state.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
@@ -82,7 +82,7 @@ namespace DungeonDrive
                     else if (this.style == Item.AtkStyle.Flame)
                         unit.burn(this.powerSec, this.powerFac * this.dmg);
 
-                    state.hero.removeProj(this);
+                    state.room.removeProj(this);
                     if (unit.hp <= 0)
                         state.hero.deletingList.Add(unit);
                 }

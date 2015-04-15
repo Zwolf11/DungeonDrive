@@ -513,10 +513,7 @@ namespace DungeonDrive
             this.level += 1;
         }
 
-        public void removeProj(Projectile proj)
-        {
-            state.room.deletingProj.Add(proj);
-        }
+        
 
         public override void act()
         {

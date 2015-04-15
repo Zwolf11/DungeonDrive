@@ -2410,7 +2410,10 @@ namespace DungeonDrive
             }
 
         }
-
+        public void removeProj(Projectile proj)
+        {
+            state.room.deletingProj.Add(proj);
+        }
         public void draw(Graphics g)
         {
 
