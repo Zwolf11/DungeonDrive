@@ -18,7 +18,7 @@ namespace DungeonDrive
         public double x_origin, y_origin;
         public double x_speed, y_speed;
         public double radius = 0.3;
-
+        public bool friendlyFire = true;
         public int frame = 0;
         public Bitmap[] animation = new Bitmap[20];
         public bool isMagic = false;
@@ -91,11 +91,53 @@ namespace DungeonDrive
             y = yNext;
         }
 
+
+        public void tryMove2(double xNext, double yNext)
+        {
+            if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
+                state.room.removeProj(this);
+
+            int left = (int)(xNext - radius);
+            int top = (int)(yNext - radius);
+            int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
+            int height = (int)(radius * 2 + (yNext - (int)yNext < radius || 1 - (yNext - (int)yNext) < radius ? 2 : 1));
+
+            for (int i = left; i < left + width; i++)
+                for (int j = top; j < top + height; j++)
+                    if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
+                        state.room.removeProj(this);
+
+            
+                if (Math.Sqrt(Math.Pow(xNext - state.hero.x, 2) + Math.Pow(yNext - state.hero.y, 2)) < radius + state.hero.radius)
+                {
+                    state.hero.hp -= this.dmg;
+                    if (this.style == Item.AtkStyle.Frozen)
+                        state.hero.slow(this.powerSec, this.powerFac);
+                    else if (this.style == Item.AtkStyle.Flame)
+                        state.hero.burn(this.powerSec, this.powerFac * this.dmg);
+
+                    state.room.removeProj(this);
+                    if (state.hero.hp <= 0)
+                    {
+                        state.addChildState(new GameOverState(state.form), false, true);
+                        return;
+                    }
+                }
+
+            x = xNext;
+            y = yNext;
+        }
         public void act()
         {
             frame++;
             if (frame >= 20) { frame = 0; }
-            tryMove(x + x_speed, y + y_speed);
+            if (friendlyFire == true)
+            {
+                tryMove(x + x_speed, y + y_speed);
+            }
+            else { 
+                tryMove2(x + x_speed, y + y_speed);
+            }
         }
 
         public void draw(Graphics g)
