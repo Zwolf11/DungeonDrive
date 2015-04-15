@@ -67,11 +67,11 @@ namespace DungeonDrive
             proj5.proj_img = Properties.Resources.lightening;
             proj5.animation = this.animation;
 
-            state.hero.projectiles.Add(proj1);
-            state.hero.projectiles.Add(proj2);
-            state.hero.projectiles.Add(proj3);
-            state.hero.projectiles.Add(proj4);
-            state.hero.projectiles.Add(proj5);
+            state.room.projectiles.Add(proj1);
+            state.room.projectiles.Add(proj2);
+            state.room.projectiles.Add(proj3);
+            state.room.projectiles.Add(proj4);
+            state.room.projectiles.Add(proj5);
         }
 
     

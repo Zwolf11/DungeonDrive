@@ -10,7 +10,7 @@ namespace DungeonDrive
         private Bitmap skillFrame1 = Properties.Resources.frame_0_acid;
         private Bitmap skillFrame2 = Properties.Resources.frame_1_acid;
         private Bitmap skillFrame3 = Properties.Resources.frame_8_acid;
-        private Bitmap skillTreeBackGround = Properties.Resources.skilltreeabackground;
+        private Bitmap skillTreeBackGround = Properties.Resources.box;
         private Rectangle skillTreeRectangle;
         private int selected;
         private bool isSelected = false;

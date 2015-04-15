@@ -92,6 +92,9 @@ namespace DungeonDrive
         private Bitmap floor = new Bitmap(Properties.Resources.floor);
         private Bitmap wall = new Bitmap(Properties.Resources.wall);
 
+        public List<Projectile> projectiles = new List<Projectile>();
+        public List<Projectile> deletingProj = new List<Projectile>();
+
         public Room(GameState state, string path)
         {
             this.state = state;
@@ -2411,6 +2414,7 @@ namespace DungeonDrive
         public void draw(Graphics g)
         {
 
+            
             if (environment.Equals("dungeon"))
             {
 
@@ -2438,7 +2442,8 @@ namespace DungeonDrive
                 {
                     obstacle.draw(g);
                 }
-
+                foreach (Projectile proj in projectiles)
+                    proj.draw(g);
                 foreach (Door door in doors)
                 {
                     door.draw(g);

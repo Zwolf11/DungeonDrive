@@ -489,7 +489,7 @@ namespace DungeonDrive
             foreach (Unit unit in room.enemies)
                 unit.act();
 
-            foreach (Projectile proj in hero.projectiles)
+            foreach (Projectile proj in room.projectiles)
                 proj.act();
 
             foreach (Unit enemy in room.enemies)

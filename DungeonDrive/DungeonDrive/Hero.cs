@@ -12,8 +12,8 @@ namespace DungeonDrive
         new public int DrawX { get { return (int)(state.form.ClientSize.Width / 2 - state.size * radius); } }
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
-        public List<Projectile> projectiles = new List<Projectile>();
-        private List<Projectile> deletingProj = new List<Projectile>();
+ //       public List<Projectile> projectiles = new List<Projectile>();
+//        private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
         public Projectile weapon_proj;
         private bool testing = false;
@@ -402,11 +402,11 @@ namespace DungeonDrive
                 deletingList.Clear();
             }
 
-            if (deletingProj.Count > 0)
+            if (state.room.deletingProj.Count > 0)
             {
-                foreach (Projectile proj in deletingProj)
-                    projectiles.Remove(proj);
-                deletingProj.Clear();
+                foreach (Projectile proj in state.room.deletingProj)
+                    state.room.projectiles.Remove(proj);
+                    state.room.deletingProj.Clear();
             }
         }
 
@@ -459,7 +459,7 @@ namespace DungeonDrive
                 {
                     attack3.Play();
                     weapon_proj.setProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir));
-                    projectiles.Add(weapon_proj);
+                    state.room.projectiles.Add(weapon_proj);
                     cd(weapon_proj.atk_speed, 2);
                 }
             }
@@ -515,7 +515,7 @@ namespace DungeonDrive
 
         public void removeProj(Projectile proj)
         {
-            deletingProj.Add(proj);
+            state.room.deletingProj.Add(proj);
         }
 
         public override void act()
@@ -550,8 +550,7 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-            foreach (Projectile proj in projectiles)
-                proj.draw(g);
+            
 
             // cd indicator
             for (int i = 0; i < state.hero.atk_cd.Length; i++)
