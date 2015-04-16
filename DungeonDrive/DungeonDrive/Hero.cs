@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -407,11 +407,19 @@ namespace DungeonDrive
         }
         public void specialAtk()
         {
-            if (atk_cd[1])
+            if (atk_cd[4])
             {
                 LighteningBall light = new LighteningBall(state, state.hero);
+                cd(0, 4);
             }
 
+            if (testing)
+            {
+                this.weapon = new Weapon(state);
+                this.armor = new Armor(state);
+                this.helmet = new Helmet(state);
+                this.legs = new Legs(state);
+            }
         }
 
         public void basicAtk()
@@ -444,7 +452,7 @@ namespace DungeonDrive
                 {
                     foreach (Unit enemy in state.room.enemies)
                     {
-                        if (Math.Abs(enemy.x - (Math.Cos(dir) * 2 + x)) < 2 && Math.Abs(enemy.y - (Math.Sin(dir) * 2 + y)) < 2 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
+                        if (Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05)
                         {
                             try { attack1.Play(); }
                             catch (FileNotFoundException) { }
@@ -517,7 +525,7 @@ namespace DungeonDrive
             + "\nMV  SPD: " + Math.Round(this.speed, 2)
             + "\nATK RNG: " + ((this.weapon != null && this.weapon.ranged) ? this.weapon.proj_range : 1)
             + "\nSTATUS: " + this.status
-            , state.font, Brushes.White, 5, state.room.height - 20);
+            , state.font, Brushes.White, 5, 20);
         }
 
         public override void draw(Graphics g)

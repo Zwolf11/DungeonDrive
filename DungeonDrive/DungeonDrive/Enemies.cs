@@ -12,6 +12,7 @@ namespace DungeonDrive
         {
             this.full_hp = 30 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
+            this.hp_reg = this.full_hp * 0.001;
             this.atk_dmg = 1 * Math.Pow(1.05, state.hero.level);
             this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.45;
@@ -30,6 +31,33 @@ namespace DungeonDrive
         {
             double xNext;
             double yNext;
+
+            //If bat units are below a certain HP threshold, they will start running from the player
+            //Only a basic placeholder for future additions. Eventually, I will add more dynamic behaviors on top of this (ex. bats' escape route will prioritize nearby mobs and then turn on the player
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                /*foreach (Unit enemy in state.room.enemies)
+                {
+                    if (Math.Sqrt(Math.Pow(x - enemy.x, 2) + Math.Pow(y - enemy.y, 2)) < 3)
+                    {
+                        this.moving = true;
+                        xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                        yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                        tryMove(xNext, yNext);
+                        this.center_x = x + radius;
+                        this.center_y = y + radius;
+                    }
+                }*/
+
+                return;
+            }
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -58,6 +86,13 @@ namespace DungeonDrive
                     return;
                 }
             }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
+            }
         }
 
         public override void act()
@@ -71,35 +106,6 @@ namespace DungeonDrive
             if (sleep_sec > 0)
             {
                 sleep_sec--;
-                return;
-            }
-
-            double xNext;
-            double yNext;
-
-            //If bat units are below a certain HP threshold, they will start running from the player
-            //Only a basic placeholder for future additions. Eventually, I will add more dynamic behaviors on top of this (ex. bats' escape route will prioritize nearby mobs and then turn on the player
-            if (this.hp < 10)
-            {
-                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
-                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
-                tryMove(xNext, yNext, this);
-                this.center_x = x + radius;
-                this.center_y = y + radius;
-
-                /*foreach (Unit enemy in state.room.enemies)
-                {
-                    if (Math.Sqrt(Math.Pow(x - enemy.x, 2) + Math.Pow(y - enemy.y, 2)) < 3)
-                    {
-                        this.moving = true;
-                        xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-                        yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-                        tryMove(xNext, yNext);
-                        this.center_x = x + radius;
-                        this.center_y = y + radius;
-                    }
-                }*/
-
                 return;
             }
 
@@ -134,8 +140,9 @@ namespace DungeonDrive
         public Skeleton(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 10 * Math.Pow(1.05, state.hero.level);
+            this.full_hp = 25 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
+            this.hp_reg = this.full_hp * 0.005;
             this.atk_dmg = 2 * Math.Pow(1.05, state.hero.level);
             this.speed = 0.03 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.4;
@@ -155,6 +162,18 @@ namespace DungeonDrive
         {
             double xNext;
             double yNext;
+
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                return;
+            }
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -182,6 +201,13 @@ namespace DungeonDrive
                     this.y = origin_y;
                     return;
                 }
+            }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
             }
         }
 
@@ -234,8 +260,9 @@ namespace DungeonDrive
         public Snake(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 8 * Math.Pow(1.05, state.hero.level);
+            this.full_hp = 25 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
+            this.hp_reg = this.full_hp * 0.001;
             this.atk_dmg = 2 * Math.Pow(1.05, state.hero.level);
             this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
@@ -258,6 +285,18 @@ namespace DungeonDrive
         {
             double xNext;
             double yNext;
+
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                return;
+            }
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -285,6 +324,13 @@ namespace DungeonDrive
                     this.y = origin_y;
                     return;
                 }
+            }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
             }
         }
 
@@ -366,8 +412,9 @@ namespace DungeonDrive
         public Ghost(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 5 * Math.Pow(1.05, state.hero.level);
+            this.full_hp = 20 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
+            this.hp_reg = this.full_hp * 0.0005;
             this.atk_dmg = 3 * Math.Pow(1.05, state.hero.level);
             this.speed = 0.05 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
@@ -391,6 +438,18 @@ namespace DungeonDrive
         {
             double xNext;
             double yNext;
+
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                return;
+            }
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -418,6 +477,13 @@ namespace DungeonDrive
                     this.y = origin_y;
                     return;
                 }
+            }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
             }
         }
 
