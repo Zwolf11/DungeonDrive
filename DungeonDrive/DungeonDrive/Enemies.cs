@@ -43,19 +43,6 @@ namespace DungeonDrive
                 this.center_x = x + radius;
                 this.center_y = y + radius;
 
-                /*foreach (Unit enemy in state.room.enemies)
-                {
-                    if (Math.Sqrt(Math.Pow(x - enemy.x, 2) + Math.Pow(y - enemy.y, 2)) < 3)
-                    {
-                        this.moving = true;
-                        xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-                        yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-                        tryMove(xNext, yNext);
-                        this.center_x = x + radius;
-                        this.center_y = y + radius;
-                    }
-                }*/
-
                 return;
             }
 
@@ -136,6 +123,7 @@ namespace DungeonDrive
     public class Skeleton : Unit
     {
         private Bitmap[] imgs = new Bitmap[3];
+        private Random rand;
 
         public Skeleton(GameState state, double x, double y)
             : base(state, x, y)
@@ -156,6 +144,8 @@ namespace DungeonDrive
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
             imgs[1] = new Bitmap(Properties.Resources.skeleton1);
             imgs[2] = new Bitmap(Properties.Resources.skeleton2);
+
+            rand = new Random();
         }
 
         public void move()
@@ -229,6 +219,16 @@ namespace DungeonDrive
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+
+            if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
+            {
+                if (atk_cd[0])
+                {
+                    int random = rand.Next(0, 100);
+                    if (random <= 25)
+                        statusChanged(state.hero, "head_bind");
+                }
+            }
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {

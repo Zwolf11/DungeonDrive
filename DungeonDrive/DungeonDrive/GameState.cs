@@ -359,11 +359,86 @@ namespace DungeonDrive
         {
             if (e.Button == MouseButtons.Left)
             {
-                hero.basicAtk();
+                if (hero.status.Equals("Binded Arm"))
+                {
+                    hero.bind_remove++;
+                    if (hero.bind_remove == 15)
+                    {
+                        hero.status = "Normal";
+                        hero.bind_remove = 0;
+                        hero.basicAtk();
+                    }
+                }
+                else
+                    hero.basicAtk();
             }
             else if(e.Button == MouseButtons.Right)
             {
-                float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
+                if (hero.status.Equals("Binded Head"))
+                {
+                    hero.bind_remove++;
+                    if (hero.bind_remove == 15)
+                    {
+                        hero.status = "Normal";
+                        hero.bind_remove = 0;
+                    }
+                }
+                else
+                {
+                    float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
+                    float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
+
+                    if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                    {
+                        foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
+                            if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
+                            {
+                                if (tryPickupItem(entry.Key))
+                                    room.droppedItems.Remove(entry.Key);
+
+                                break;
+                            }
+
+                        foreach (Obstacle ob in room.obstacles)
+                            if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
+                            {
+                                Chest chest = (Chest)ob;
+                                if (chest.closed)
+                                {
+                                    chest.closed = false;
+                                    room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
+                                }
+                                break;
+                            }
+
+                        if (room.doorSpace[(int)x, (int)y])
+                        {
+                            Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0);
+                            foreach (Door door in room.doors)
+                            {
+                                if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
+                                {
+                                    // this is the correct door
+                                    if (!door.switchClosed())
+                                    {
+                                        clickedDoor = door;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (clickedDoor.x != -1)
+                            {
+                                room.updateDrawingGrid(clickedDoor.getNegativeRoom());
+                                room.updateDrawingGrid(clickedDoor.getPositiveRoom());
+                            }
+                        }
+                    }
+                    else { this.hero.specialAtk(); }
+                }
+
+
+
+                /*float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
                 float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
 
                 if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
@@ -411,7 +486,7 @@ namespace DungeonDrive
                         }
                     }
                 }
-                else { this.hero.specialAtk(); }
+                else { this.hero.specialAtk(); }*/
                
             }
         }

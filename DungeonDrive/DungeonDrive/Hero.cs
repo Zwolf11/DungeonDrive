@@ -378,31 +378,33 @@ namespace DungeonDrive
             if (status.Equals("Poisoned"))
             {
                 if (poison_sec == 0)
-                {
                     poison_sec = 300;
-                }
 
                 this.hp -= 0.01;
                 --this.poison_sec;
 
                 if (this.poison_sec == 0)
-                {
-                    //speed = this.base_speed;
                     status = "Normal";
-                }
             }
             else if (this.status.Equals("Cursed"))
             {
                 if (curse_sec == 0)
-                {
                     curse_sec = 300;
-                }
+                
                 --curse_sec;
 
                 if (curse_sec == 0)
-                {
                     this.status = "Normal";
-                }
+            }
+            else if (this.status.Equals("Binded Arm"))
+            {
+                if (bind_sec == 0)
+                    bind_sec = 300;
+
+                --bind_sec;
+
+                if (bind_sec == 0)
+                    this.status = "Normal";
             }
         }
         public void specialAtk()

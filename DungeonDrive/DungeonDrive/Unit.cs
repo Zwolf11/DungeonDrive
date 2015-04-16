@@ -40,6 +40,7 @@ namespace DungeonDrive
         public bool phase = false;
         public int totalMoves = 4;
         public int moves;
+        public int bind_remove = 0;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -49,6 +50,7 @@ namespace DungeonDrive
         public double sleep_sec = 0;        // amount of time that unit can't move
         public double poison_sec = 0;       // amount of time that unit is poisoned
         public double curse_sec = 0;        // amount of time that unit is cursed
+        public double bind_sec = 0;         // amount of time that unit is disabled
         public double burning_sec = 0;      // amount of time that unit is burning
         public double burning_amount = 0;
 
@@ -234,8 +236,12 @@ namespace DungeonDrive
                     unit.status = "Cursed";
                     break;
 
-                case "bind":
-                    unit.status = "Binded";
+                case "arm_bind":
+                    unit.status = "Binded Arm";
+                    break;
+
+                case "head_bind":
+                    unit.status = "Binded Head";
                     break;
 
                 case "sleep":
