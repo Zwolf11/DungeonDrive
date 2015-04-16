@@ -416,6 +416,7 @@ namespace DungeonDrive
             }
             else if (environment.Equals("cave"))
             {
+                makeAllObjectsEligible();
                 updateHeroVisibility();
             }
 
@@ -2257,6 +2258,9 @@ namespace DungeonDrive
         public void updateHeroVisibility()
         {
             int radius = 7;
+
+            int currentHeroRoom = roomNumSpace[(int)state.hero.x, (int)state.hero.y];
+
             int startX, endX, startY, endY;
             startX = Math.Max(0,(int)state.hero.x - radius);
             endX = Math.Min(width - 1, (int)state.hero.x + radius);
@@ -2269,9 +2273,24 @@ namespace DungeonDrive
                 {
                     if (!drawingSpace[i, j])
                     {
-                        if (distanceBtwnPts((int)state.hero.x, (int)state.hero.y, i, j) < radius)
+                        if (roomNumSpace[i,j] == currentHeroRoom && distanceBtwnPts((int)state.hero.x, (int)state.hero.y, i, j) < radius)
                         {
                             drawingSpace[i, j] = true;
+
+                            if (!wallSpace[i, j])
+                            {
+                                for (int k = -1; k <= 1; k++)
+                                {
+                                    for (int q = -1; q <= 1; q++)
+                                    {
+                                        if (wallSpace[i + k, j + q] || doorSpace[i+k,j+q])
+                                        {
+                                            drawingSpace[i + k, j + q] = true;
+                                        }
+                                    }
+                                }
+                            }
+
                         }
                     }
                 }
@@ -2393,27 +2412,40 @@ namespace DungeonDrive
                  roomDrawn[i] = true;
              }
 
-            foreach(Unit enemy in enemiesNotDrawn){
+             makeAllObjectsEligible();
+            
+
+        }
+
+
+        public void makeAllObjectsEligible()
+        {
+            foreach (Unit enemy in enemiesNotDrawn)
+            {
                 enemies.Add(enemy);
             }
 
-            foreach(Obstacle obstacle in obstaclesNotDrawn){
+            foreach (Obstacle obstacle in obstaclesNotDrawn)
+            {
                 obstacles.Add(obstacle);
             }
 
-            foreach(Stairs stair in stairsNotDrawn){
+            foreach (Stairs stair in stairsNotDrawn)
+            {
                 stairs.Add(stair);
             }
-            
-            foreach(Door door in doorsNotDrawn){
+
+            foreach (Door door in doorsNotDrawn)
+            {
                 doors.Add(door);
             }
-
         }
+
         public void removeProj(Projectile proj)
         {
             state.room.deletingProj.Add(proj);
         }
+
         public void draw(Graphics g)
         {
 
@@ -2512,7 +2544,10 @@ namespace DungeonDrive
 
                 foreach (Door door in doors)
                 {
-                    door.draw(g);
+                    if (drawingSpace[door.x, door.y] || drawingSpace[door.x + (door.width - 1), door.y + (door.height - 1)])
+                    {
+                        door.draw(g);
+                    }
                 }
 
                 foreach (Stairs stair in stairs)
