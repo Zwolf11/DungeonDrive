@@ -12,11 +12,8 @@ namespace DungeonDrive
         new public int DrawX { get { return (int)(state.form.ClientSize.Width / 2 - state.size * radius); } }
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
- //       public List<Projectile> projectiles = new List<Projectile>();
-//        private List<Projectile> deletingProj = new List<Projectile>();
         public List<Unit> deletingList = new List<Unit>();
-        public Projectile weapon_proj;
-        private bool testing = false;
+        private bool testing = true;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -54,7 +51,6 @@ namespace DungeonDrive
             this.status = "Normal";
             this.poison_sec = 0;
 
-            this.weapon_proj = new Projectile();
             // init hero imges
             //w
             imgs[2, 0] = new Bitmap(Properties.Resources.w1);
@@ -132,14 +128,14 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.level = 1;
-                this.atk_dmg = 100000;
+                this.level = 100;
+                this.atk_dmg = 100;
                 this.base_atk_dmg = this.atk_dmg;
-                this.full_hp = 100000;
-                this.base_full_hp = 100000;
-//                this.speed = 0.8;
-//                this.base_speed = 0.8;
-                this.expcap = this.expcap * Math.Pow(1.5, this.level-1);
+                this.full_hp = 1000;
+                this.base_full_hp = 1000;
+                //                this.speed = 0.8;
+                //                this.base_speed = 0.8;
+                this.expcap = this.expcap * Math.Pow(1.5, this.level - 1);
                 this.hp = this.full_hp;
             }
 
@@ -158,30 +154,8 @@ namespace DungeonDrive
 
             if (weapon != null)
             {
-                // change stats for projectiles
-                if (weapon.ranged)
-                {
-                    weapon_proj.dmg = this.atk_dmg + weapon.damage;
-                    weapon_proj.atk_speed = weapon.atk_speed;
-                    weapon_proj.proj_speed = weapon.proj_speed;
-                    weapon_proj.proj_range = weapon.proj_range;
-                    weapon_proj.style = weapon.style;
-                    weapon_proj.powerSec = weapon.powerSec;
-                    weapon_proj.powerFac = weapon.powerFac;
-                    weapon_proj.proj_img = weapon.projectileImg;
-                    /*
-                    Projectile.dmg = weapon.damage;
-                    Projectile.atk_speed = weapon.atk_speed;
-                    Projectile.proj_speed = weapon.proj_speed;
-                    Projectile.proj_range = weapon.proj_range;
-                    Projectile.style = weapon.style;
-                    Projectile.powerSec = weapon.powerSec;
-                    Projectile.powerFac = weapon.powerFac;
-                    Projectile.proj_img = weapon.projectileImg;*/
-                }
-
                 // change stats for hero when using non-ranged weapons
-                else
+                if (!weapon.ranged)
                 {
                     atk_inc = weapon.damage;
                     atk_spd_dec = weapon.atk_speed;
@@ -198,11 +172,13 @@ namespace DungeonDrive
             {
                 hp_inc += helmet.hp;
                 this.hp_reg = helmet.hp_reg;
-                if (this.hp < this.full_hp)
+                if (this.hp + helmet.hp_reg <= this.full_hp)
                 {
                     // TODO and not in combat
                     this.hp += helmet.hp_reg;
                 }
+                else
+                    this.hp = this.full_hp;
             }
             else
             {
@@ -312,19 +288,6 @@ namespace DungeonDrive
 
         private void handleAttacking()
         {
-            /*            // toggle melee/projectiles
-                        if (attacks[2])
-                        {
-                            if (atk_cd[4])
-                            {
-                                shooting = !shooting;
-                                cd(1, 4);
-                            }
-
-                            attacks[2] = false;
-                        }
-             * */
-
             // knockback skill
             if (attacks[0])
             {
@@ -406,7 +369,7 @@ namespace DungeonDrive
             {
                 foreach (Projectile proj in state.room.deletingProj)
                     state.room.projectiles.Remove(proj);
-                    state.room.deletingProj.Clear();
+                state.room.deletingProj.Clear();
             }
         }
 
@@ -435,7 +398,7 @@ namespace DungeonDrive
                     curse_sec = 300;
                 }
                 --curse_sec;
-                
+
                 if (curse_sec == 0)
                 {
                     this.status = "Normal";
@@ -457,8 +420,18 @@ namespace DungeonDrive
             {
                 if (atk_cd[2])
                 {
-                    attack3.Play();
-                    weapon_proj.setProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir));
+                    try { attack3.Play(); }
+                    catch (FileNotFoundException) { }
+
+                    Projectile weapon_proj = new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir));
+                    weapon_proj.dmg = this.atk_dmg + weapon.damage;
+                    weapon_proj.atk_speed = weapon.atk_speed;
+                    weapon_proj.proj_speed = weapon.proj_speed;
+                    weapon_proj.proj_range = weapon.proj_range;
+                    weapon_proj.style = weapon.style;
+                    weapon_proj.powerSec = weapon.powerSec;
+                    weapon_proj.powerFac = weapon.powerFac;
+                    weapon_proj.proj_img = weapon.projectileImg;
                     state.room.projectiles.Add(weapon_proj);
                     cd(weapon_proj.atk_speed, 2);
                 }
@@ -500,7 +473,7 @@ namespace DungeonDrive
             double hp_inc = 10;
             double dmg_inc = 1;
             double atk_spd_dec = 0.0001;
-            
+
             this.full_hp += hp_inc;
             this.base_full_hp += hp_inc;
             this.hp = this.full_hp;
@@ -513,12 +486,13 @@ namespace DungeonDrive
             this.level += 1;
         }
 
-        
+
 
         public override void act()
         {
             if (hp <= 0)
             {
+                hp = 0;
                 state.addChildState(new GameOverState(state.form), false, true);
                 return;
             }
@@ -533,21 +507,22 @@ namespace DungeonDrive
         { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
 
         public void drawDesc(Graphics g)
-        {   
+        {
             g.DrawString(
             "\nLVL: " + this.level
-            + "\nHP: " + Math.Round(this.hp,2) + "/" + Math.Round(this.full_hp,2)
-            + "\nHP REG: " + Math.Round(this.hp_reg,2)
-            + "\nATK: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.damage,2) : Math.Round(this.atk_dmg,2))
-            + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed,2) : Math.Round(this.atk_speed,2))
+            + "\nHP: " + Math.Round(this.hp, 2) + "/" + Math.Round(this.full_hp, 2)
+            + "\nHP REG: " + Math.Round(this.hp_reg, 2)
+            + "\nATK: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.damage + this.atk_dmg, 2) : Math.Round(this.atk_dmg,2) )
+            + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed, 2) : Math.Round(this.atk_speed, 2))
             + "\nMV  SPD: " + Math.Round(this.speed, 2)
+            + "\nATK RNG: " + ((this.weapon != null && this.weapon.ranged) ? this.weapon.proj_range : 1)
             + "\nSTATUS: " + this.status
             , state.font, Brushes.White, 5, state.room.height - 20);
         }
 
         public override void draw(Graphics g)
         {
-            
+
 
             // cd indicator
             for (int i = 0; i < state.hero.atk_cd.Length; i++)

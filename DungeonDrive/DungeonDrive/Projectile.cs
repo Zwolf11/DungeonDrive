@@ -47,7 +47,6 @@ namespace DungeonDrive
             this.y_speed = y_dir * proj_speed;
             this.proj_range = proj_range;
         }
-        public Projectile() { }
         public void setProjectile(GameState state, double x, double y, double x_dir, double y_dir)
         {
             this.state = state;

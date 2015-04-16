@@ -85,7 +85,7 @@ namespace DungeonDrive
                 case 0:
                     name += " Helmet";
                     hp = rdnDouble(0.1 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level), 0.2 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level));
-                    hp_reg = rdnDouble(0.01 * Math.Pow(1.1, (double)state.hero.level), 0.03 * Math.Pow(1.1, (double)state.hero.level));
+                    hp_reg = rdnDouble(0.001 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level), 0.002 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level));
                     setImg();
                     break;
             }
@@ -394,7 +394,7 @@ namespace DungeonDrive
                     damage = 1 + (int)((double)state.hero.level * rdnDouble(1.5, 1.8));
                     atk_speed = rdnDouble(0.5 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level));
                     proj_speed = rdnDouble(0.2 * Math.Pow(1.001, (double)state.hero.level), 0.8 * Math.Pow(1.001, (double)state.hero.level));
-                    proj_range = rand.Next(5, 12);
+                    proj_range = (int)(rdnDouble(4 * Math.Pow(1.01, (double)state.hero.level), 6 * Math.Pow(1.01, (double)state.hero.level)));
                     style = (AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.5, 2.0);
                     powerFac = rdnDouble(0.3, 0.5);

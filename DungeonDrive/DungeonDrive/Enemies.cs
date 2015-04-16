@@ -10,16 +10,16 @@ namespace DungeonDrive
         public Bat(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 30 * Math.Pow(1.1, state.hero.level);
+            this.full_hp = 30 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
-            this.atk_dmg = 1 * Math.Pow(1.1, state.hero.level);
-            this.speed = 0.1 * Math.Pow(1.1, state.hero.level);
+            this.atk_dmg = 1 * Math.Pow(1.05, state.hero.level);
+            this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.45;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
             this.center_y = y + radius;
-            this.exp = 2 * Math.Pow(1.1, state.hero.level);
+            this.exp = 2 * Math.Pow(1.05, state.hero.level);
             this.status = "Normal";
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
@@ -107,10 +107,10 @@ namespace DungeonDrive
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {
-                this.full_hp = 15 * Math.Pow(1.1, state.hero.level);
+                this.full_hp = 15 * Math.Pow(1.05, state.hero.level);
                 this.hp = full_hp;
-                this.atk_dmg = atk_dmg * 3 * Math.Pow(1.1, state.hero.level);
-                this.speed += (speed * 0.4) * Math.Pow(1.1, state.hero.level);
+                this.atk_dmg = atk_dmg * 3 * Math.Pow(1.05, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
 
             //tryMove(xNext, yNext);
@@ -134,16 +134,16 @@ namespace DungeonDrive
         public Skeleton(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 10 * Math.Pow(1.1, state.hero.level);
+            this.full_hp = 10 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
-            this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
-            this.speed = 0.03 * Math.Pow(1.1, state.hero.level);
+            this.atk_dmg = 2 * Math.Pow(1.05, state.hero.level);
+            this.speed = 0.03 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.4;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
             this.center_y = y + radius;
-            this.exp = 2 * Math.Pow(1.1, state.hero.level);
+            this.exp = 2 * Math.Pow(1.05, state.hero.level);
             this.status = "Normal";
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
@@ -206,10 +206,10 @@ namespace DungeonDrive
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {
-                this.full_hp = 10 * Math.Pow(1.1, state.hero.level);
+                this.full_hp = 10 * Math.Pow(1.05, state.hero.level);
                 this.hp = full_hp;
-                this.atk_dmg = atk_dmg * 3 * Math.Pow(1.1, state.hero.level);
-                this.speed += (speed * 0.4) * Math.Pow(1.1, state.hero.level);
+                this.atk_dmg = atk_dmg * 3 * Math.Pow(1.05, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
 
             //tryMove(xNext, yNext);
@@ -234,16 +234,16 @@ namespace DungeonDrive
         public Snake(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 8 * Math.Pow(1.1, state.hero.level);
+            this.full_hp = 8 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
-            this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
-            this.speed = 0.1 * Math.Pow(1.1, state.hero.level);
+            this.atk_dmg = 2 * Math.Pow(1.05, state.hero.level);
+            this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
             this.center_y = y + radius;
-            this.exp = 3 * Math.Pow(1.1, state.hero.level);
+            this.exp = 3 * Math.Pow(1.05, state.hero.level);
             this.status = "Normal";
             this.lunge = true;
 
@@ -314,10 +314,10 @@ namespace DungeonDrive
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {
-                this.full_hp = 5 * Math.Pow(1.1, state.hero.level);
+                this.full_hp = 5 * Math.Pow(1.05, state.hero.level);
                 this.hp = full_hp;
-                this.atk_dmg += (atk_dmg * 0.30) * Math.Pow(1.1, state.hero.level);
-                this.speed += (speed * 0.4) * Math.Pow(1.1, state.hero.level);
+                this.atk_dmg += (atk_dmg * 0.30) * Math.Pow(1.05, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
 
             if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
@@ -366,16 +366,16 @@ namespace DungeonDrive
         public Ghost(GameState state, double x, double y)
             : base(state, x, y)
         {
-            this.full_hp = 5 * Math.Pow(1.1, state.hero.level);
+            this.full_hp = 5 * Math.Pow(1.05, state.hero.level);
             this.hp = full_hp;
-            this.atk_dmg = 3 * Math.Pow(1.1, state.hero.level);
-            this.speed = 0.05 * Math.Pow(1.1, state.hero.level);
+            this.atk_dmg = 3 * Math.Pow(1.05, state.hero.level);
+            this.speed = 0.05 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
             this.center_y = y + radius;
-            this.exp = 4 * Math.Pow(1.1, state.hero.level);
+            this.exp = 4 * Math.Pow(1.05, state.hero.level);
             this.status = "Normal";
             this.teleport = true;
             this.phase = true;
@@ -447,10 +447,10 @@ namespace DungeonDrive
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {
-                this.full_hp = 5 * Math.Pow(1.1, state.hero.level);
+                this.full_hp = 5 * Math.Pow(1.05, state.hero.level);
                 this.hp = full_hp;
-                this.atk_dmg += (atk_dmg * 0.30) * Math.Pow(1.1, state.hero.level);
-                this.speed += (speed * 0.4);
+                this.atk_dmg += (atk_dmg * 0.30) * Math.Pow(1.05, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
 
 
