@@ -75,7 +75,8 @@ namespace DungeonDrive
         public double hp;
         public double hp_reg;
 
-        public Helmet(GameState state) : base(state)
+        public Helmet(GameState state)
+            : base(state)
         {
             level = state.hero.level;
             name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
@@ -93,7 +94,8 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Helmet(GameState state, String name, int level, double hp, double hp_reg) : base(state)
+        public Helmet(GameState state, String name, int level, double hp, double hp_reg)
+            : base(state)
         {
             this.name = name;
             this.level = level;
@@ -143,8 +145,8 @@ namespace DungeonDrive
         {
             description = name
                 + "\nLVL:  " + level
-                + "\nHP : +" + Math.Round(hp,2)
-                + "\nHP REG: +" + Math.Round(hp_reg,2);
+                + "\nHP : +" + Math.Round(hp, 2)
+                + "\nHP REG: +" + Math.Round(hp_reg, 2);
         }
     }
 
@@ -152,7 +154,8 @@ namespace DungeonDrive
     {
         public double hp;
 
-        public Armor(GameState state) : base(state)
+        public Armor(GameState state)
+            : base(state)
         {
             level = state.hero.level;
             name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
@@ -169,7 +172,8 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Armor(GameState state, String name, int level, double hp) : base(state)
+        public Armor(GameState state, String name, int level, double hp)
+            : base(state)
         {
             this.name = name;
             this.level = level;
@@ -218,7 +222,7 @@ namespace DungeonDrive
         {
             description = name
                 + "\nLVL:  " + level
-                + "\nHP : +" + Math.Round(hp,2);
+                + "\nHP : +" + Math.Round(hp, 2);
         }
     }
 
@@ -227,12 +231,13 @@ namespace DungeonDrive
         public double hp;
         public double ms;
 
-        public Legs(GameState state) : base(state)
+        public Legs(GameState state)
+            : base(state)
         {
             level = state.hero.level;
             name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
 
-            switch(rand.Next(1))
+            switch (rand.Next(1))
             {
                 case 0:
                     name += " Legs";
@@ -245,7 +250,8 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Legs(GameState state, String name, int level, double hp, double ms) : base(state)
+        public Legs(GameState state, String name, int level, double hp, double ms)
+            : base(state)
         {
             this.name = name;
             this.level = level;
@@ -293,22 +299,23 @@ namespace DungeonDrive
 
         private void setDesc()
         {
-            description = name 
+            description = name
                 + "\nLVL:  " + level
-                + "\nHP : +" + Math.Round(hp,2)
-                + "\nMS : +" + Math.Round(ms,2);
+                + "\nHP : +" + Math.Round(hp, 2)
+                + "\nMS : +" + Math.Round(ms, 2);
         }
     }
 
     public class Shield : Item
     {
-        public Shield(GameState state) : base(state)
+        public Shield(GameState state)
+            : base(state)
         {
             Random rand = new Random(DateTime.Now.Millisecond);
             level = state.hero.level;
             name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
 
-            switch(rand.Next(1))
+            switch (rand.Next(1))
             {
                 case 0:
                     name += " Shield";
@@ -319,7 +326,8 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Shield(GameState state, String name, int level) : base(state)
+        public Shield(GameState state, String name, int level)
+            : base(state)
         {
             this.name = name;
             this.level = level;
@@ -365,7 +373,7 @@ namespace DungeonDrive
 
         private void setDesc()
         {
-            description = name 
+            description = name
                 + "\nLVL:  " + level;
         }
     }
@@ -382,7 +390,8 @@ namespace DungeonDrive
         public AtkStyle style;
         public Bitmap projectileImg = null;
 
-        public Weapon(GameState state) : base(state)
+        public Weapon(GameState state)
+            : base(state)
         {
             level = state.hero.level;
             name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
@@ -391,7 +400,7 @@ namespace DungeonDrive
             {
                 case 0:
                     name += " Wand";
-                    damage = 1 + (int)((double)state.hero.level * rdnDouble(1.5, 1.8));
+                    damage = 1 + (int)((double)state.hero.level * rdnDouble(0.4, 0.7));
                     atk_speed = rdnDouble(0.5 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level));
                     proj_speed = rdnDouble(0.2 * Math.Pow(1.001, (double)state.hero.level), 0.8 * Math.Pow(1.001, (double)state.hero.level));
                     proj_range = (int)(rdnDouble(4 * Math.Pow(1.01, (double)state.hero.level), 6 * Math.Pow(1.01, (double)state.hero.level)));
@@ -403,7 +412,7 @@ namespace DungeonDrive
                     break;
                 case 1:
                     name += " Sword";
-                    damage = 1 + (int)((double)state.hero.level * rdnDouble(1.8, 2.0));
+                    damage = 1 + (int)((double)state.hero.level * rdnDouble(0.7, 1.0));
                     atk_speed = rdnDouble(0.08 * Math.Pow(1.01, (double)state.hero.level), 0.1 * Math.Pow(1.01, (double)state.hero.level));
                     style = (AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.8, 2.3);
@@ -416,7 +425,8 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style) : base(state)
+        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style)
+            : base(state)
         {
             this.name = name;
             this.level = level;
@@ -440,8 +450,8 @@ namespace DungeonDrive
             description = name
                 + "\nLVL:  " + level
                 + "\nSTY:  " + style.ToString()
-                + "\nDMG: +" + Math.Round(damage,2)
-                + "\nATK SPD: " + (ranged?" ":"-") + Math.Round(atk_speed,2);
+                + "\nDMG: +" + Math.Round(damage, 2)
+                + "\nATK SPD: " + (ranged ? " " : "-") + Math.Round(atk_speed, 2);
 
             if (ranged)
                 description += "\nRNG:  " + proj_range;
@@ -449,19 +459,19 @@ namespace DungeonDrive
             switch (style)
             {
                 case AtkStyle.Frozen:
-                    description += "\nSLW SEC:  " + Math.Round(powerSec,2) + "\nSLW FAC:  " + Math.Round(powerFac,2);
+                    description += "\nSLW SEC:  " + Math.Round(powerSec, 2) + "\nSLW FAC:  " + Math.Round(powerFac, 2);
                     break;
                 case AtkStyle.Flame:
-                    description += "\nFLM SEC:  " + Math.Round(powerSec,2) + "\nFLM FAC:  " + Math.Round(powerFac,2);
+                    description += "\nFLM SEC:  " + Math.Round(powerSec, 2) + "\nFLM FAC:  " + Math.Round(powerFac, 2);
                     break;
                 case AtkStyle.Doom:
-                    description += "\nSLW SEC:  " + Math.Round(powerSec,2) + "\nSLW FAC:  " + Math.Round(powerFac,2);
+                    description += "\nSLW SEC:  " + Math.Round(powerSec, 2) + "\nSLW FAC:  " + Math.Round(powerFac, 2);
                     break;
                 case AtkStyle.Lightening:
-                    description += "\nFLM SEC:  " + Math.Round(powerSec,2) + "\nFLM FAC:  " + Math.Round(powerFac,2);
+                    description += "\nFLM SEC:  " + Math.Round(powerSec, 2) + "\nFLM FAC:  " + Math.Round(powerFac, 2);
                     break;
                 case AtkStyle.Poison:
-                    description += "\nSLW SEC:  " + Math.Round(powerSec,2) + "\nSLW FAC:  " + Math.Round(powerFac,2);
+                    description += "\nSLW SEC:  " + Math.Round(powerSec, 2) + "\nSLW FAC:  " + Math.Round(powerFac, 2);
                     break;
             }
         }
@@ -559,7 +569,7 @@ namespace DungeonDrive
                 case AtkStyle.Lightening:
                     projectileImg = Properties.Resources.lightening;
                     break;
-                
+
                 default:
                     projectileImg = Properties.Resources.proj;
                     break;
@@ -569,7 +579,8 @@ namespace DungeonDrive
 
     public abstract class Consumable : Item
     {
-        public Consumable(GameState state, Bitmap img, String name, String description) : base(state)
+        public Consumable(GameState state, Bitmap img, String name, String description)
+            : base(state)
         {
             this.img = img;
             this.name = name;

@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = false;
+        private bool testing = true;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -31,6 +31,11 @@ namespace DungeonDrive
         public float dir = 0;
         public bool[] dirs = { false, false, false, false };
         public bool[] attacks = { false, false, false };
+        
+        // lvlup
+        private double hp_inc = 1.085;
+        private double dmg_inc = 1.085;
+        private double atk_spd_dec = 0.0001;
 
         public Hero(GameState state, double x, double y)
             : base(state, x, y)
@@ -38,7 +43,7 @@ namespace DungeonDrive
             this.hp = 20;
             this.full_hp = hp;
             this.base_full_hp = this.full_hp;
-            this.atk_dmg = 10;
+            this.atk_dmg = 5;
             this.base_atk_dmg = this.atk_dmg;
             this.atk_speed = 0.4;
             this.base_atk_speed = this.atk_speed;
@@ -129,10 +134,10 @@ namespace DungeonDrive
             if (testing)
             {
                 this.level = 100;
-                this.atk_dmg = 100;
+                this.atk_dmg *= Math.Pow(dmg_inc, level);
                 this.base_atk_dmg = this.atk_dmg;
-                this.full_hp = 1000;
-                this.base_full_hp = 1000;
+                this.full_hp *= Math.Pow(hp_inc, level);
+                this.base_full_hp = this.full_hp;
                 //                this.speed = 0.8;
                 //                this.base_speed = 0.8;
                 this.expcap = this.expcap * Math.Pow(1.5, this.level - 1);
@@ -480,23 +485,18 @@ namespace DungeonDrive
         {
             try { level_up.Play(); }
             catch (FileNotFoundException) { }
-            double hp_inc = 10;
-            double dmg_inc = 1;
-            double atk_spd_dec = 0.0001;
 
-            this.full_hp += hp_inc;
-            this.base_full_hp += hp_inc;
+            this.full_hp *= hp_inc;
+            this.base_full_hp *= hp_inc;
             this.hp = this.full_hp;
-            this.atk_dmg += dmg_inc;
-            this.base_atk_dmg += dmg_inc;
+            this.atk_dmg *= dmg_inc;
+            this.base_atk_dmg *= dmg_inc;
             this.atk_speed -= atk_spd_dec;
             this.base_atk_speed -= atk_spd_dec;
             this.exp -= this.expcap;
             this.expcap *= 1.5;
             this.level += 1;
         }
-
-
 
         public override void act()
         {
