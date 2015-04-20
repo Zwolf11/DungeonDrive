@@ -308,6 +308,10 @@ namespace DungeonDrive
 
     public class Shield : Item
     {
+        public double hp;
+        public double blockDmg;
+        public double blockChan;
+
         public Shield(GameState state)
             : base(state)
         {
@@ -319,6 +323,9 @@ namespace DungeonDrive
             {
                 case 0:
                     name += " Shield";
+                    hp = rdnDouble(0.1 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level), 0.2 * state.hero.base_full_hp * Math.Pow(1.01, (double)state.hero.level));
+                    blockDmg = Math.Pow(1.1, state.hero.level);                    
+                    blockChan = rdnDouble(0.1 * Math.Pow(1.004, (double)state.hero.level), 0.4 * Math.Pow(1.004, (double)state.hero.level));
                     setImg();
                     break;
             }
@@ -326,11 +333,14 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Shield(GameState state, String name, int level)
+        public Shield(GameState state, String name, int level, double hp, double blockDmg, double blockChan)
             : base(state)
         {
             this.name = name;
             this.level = level;
+            this.hp = hp;
+            this.blockDmg = blockDmg;
+            this.blockChan = blockChan;
             setImg();
             setDesc();
         }
@@ -374,7 +384,10 @@ namespace DungeonDrive
         private void setDesc()
         {
             description = name
-                + "\nLVL:  " + level;
+                + "\nLVL:  " + level
+                + "\nHP : +" + Math.Round(hp,2)
+                + "\nBLC DMG:  " + Math.Round(blockDmg,2)
+                + "\nBLC CHN:  " + Math.Round(blockChan, 2);
         }
     }
 
@@ -413,7 +426,7 @@ namespace DungeonDrive
                 case 1:
                     name += " Sword";
                     damage = 1 + (int)((double)state.hero.level * rdnDouble(0.7, 1.0));
-                    atk_speed = rdnDouble(0.08 * Math.Pow(1.01, (double)state.hero.level), 0.1 * Math.Pow(1.01, (double)state.hero.level));
+                    atk_speed = rdnDouble(0.4 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level));
                     style = (AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.8, 2.3);
                     powerFac = rdnDouble(0.6, 0.8);
@@ -451,7 +464,7 @@ namespace DungeonDrive
                 + "\nLVL:  " + level
                 + "\nSTY:  " + style.ToString()
                 + "\nDMG: +" + Math.Round(damage, 2)
-                + "\nATK SPD: " + (ranged ? " " : "-") + Math.Round(atk_speed, 2);
+                + "\nATK SPD: " + Math.Round(atk_speed, 2);
 
             if (ranged)
                 description += "\nRNG:  " + proj_range;

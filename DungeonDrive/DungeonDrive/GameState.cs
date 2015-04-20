@@ -133,7 +133,7 @@ namespace DungeonDrive
             if (hero.legs == null) save.Add("NULL");
             else save.Add(hero.legs.name + "_" + hero.legs.level + "_" + hero.legs.hp + "_" + hero.legs.ms);
             if (hero.shield == null) save.Add("NULL");
-            else save.Add(hero.shield.name + "_" + hero.shield.level);
+            else save.Add(hero.shield.name + "_" + hero.shield.level + "_" + hero.shield.hp + "_" + hero.shield.blockDmg + "_" + hero.shield.blockChan);
             if (hero.weapon == null) save.Add("NULL");
             else save.Add(hero.weapon.name + "_" + hero.weapon.level + "_" + hero.weapon.damage + "_" + hero.weapon.ranged + "_" + hero.weapon.atk_speed + "_" + hero.weapon.proj_speed + "_" + hero.weapon.proj_range + "_" + hero.weapon.powerSec + "_" + hero.weapon.powerFac + "_" + (int)hero.weapon.style);
 
@@ -162,7 +162,7 @@ namespace DungeonDrive
                         else if (inventory[i][j] is Shield)
                         {
                             Shield shield = (Shield)inventory[i][j];
-                            save.Add("SHIELD_" + shield.name + "_" + shield.level);
+                            save.Add("SHIELD_" + shield.name + "_" + shield.level + "_" + shield.hp + "_" + shield.blockDmg + "_" + shield.blockChan);
                         }
                         else if (inventory[i][j] is Weapon)
                         {
@@ -209,7 +209,7 @@ namespace DungeonDrive
                 hero.legs = new Legs(this, legs[0], int.Parse(legs[1]), double.Parse(legs[2]), double.Parse(legs[3]));
             String[] shield = loadFile[13].Split('_');
             if (shield[0] != "NULL")
-                hero.shield = new Shield(this, shield[0], int.Parse(shield[1]));
+                hero.shield = new Shield(this, shield[0], int.Parse(shield[1]), double.Parse(shield[2]), double.Parse(shield[3]), double.Parse(shield[4]));
             String[] weapon = loadFile[14].Split('_');
             if (weapon[0] != "NULL")
                 hero.weapon = new Weapon(this, weapon[0], int.Parse(weapon[1]), double.Parse(weapon[2]), bool.Parse(weapon[3]), double.Parse(weapon[4]), double.Parse(weapon[5]), int.Parse(weapon[6]), double.Parse(weapon[7]), double.Parse(weapon[8]), int.Parse(weapon[9]) );
@@ -229,7 +229,7 @@ namespace DungeonDrive
                         else if (item[0] == "LEGS")
                             inventory[i][j] = new Legs(this, item[1], int.Parse(item[2]), double.Parse(item[3]), double.Parse(item[4]));
                         else if (item[0] == "SHIELD")
-                            inventory[i][j] = new Shield(this, item[1], int.Parse(item[2]));
+                            inventory[i][j] = new Shield(this, item[1], int.Parse(item[2]), double.Parse(item[3]), double.Parse(item[4]), double.Parse(item[5]));
                         else if (item[0] == "WEAPON")
                             inventory[i][j] = new Weapon(this, item[1], int.Parse(item[2]), double.Parse(item[3]), bool.Parse(item[4]), double.Parse(item[5]), double.Parse(item[6]), int.Parse(item[7]), double.Parse(item[8]), double.Parse(item[9]), int.Parse(item[10]));
                         else if (item[0] == "Small Potion")

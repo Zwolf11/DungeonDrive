@@ -154,10 +154,13 @@ namespace DungeonDrive
                 int dirX = Math.Sign(state.hero.x - this.x);
                 int dirY = Math.Sign(state.hero.y - this.y);
                 this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
-                state.hero.hp -= this.atk_dmg;
                 state.hero.inCombat = true;
                 state.hero.combatCd = 3 * 17;
                 this.sleep_sec = 1 * 17;
+                if (state.hero.shield != null && state.hero.shield.blockChan > state.hero.shield.rdnDouble(0.0, 1.0))
+                    state.hero.hp -= (this.atk_dmg - state.hero.shield.blockDmg);
+                else
+                    state.hero.hp -= this.atk_dmg;
                 this.cd(1, 0);
             }
         }

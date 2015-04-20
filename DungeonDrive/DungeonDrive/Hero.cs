@@ -35,7 +35,7 @@ namespace DungeonDrive
         // lvlup
         private double hp_inc = 1.085;
         private double dmg_inc = 1.085;
-        private double atk_spd_dec = 0.0001;
+        private double atk_spd_dec = 0.001;
 
         public Hero(GameState state, double x, double y)
             : base(state, x, y)
@@ -138,9 +138,9 @@ namespace DungeonDrive
                 this.base_atk_dmg = this.atk_dmg;
                 this.full_hp *= Math.Pow(hp_inc, level);
                 this.base_full_hp = this.full_hp;
-                //                this.speed = 0.8;
-                //                this.base_speed = 0.8;
-                this.expcap = this.expcap * Math.Pow(1.5, this.level - 1);
+                this.atk_speed -= this.atk_spd_dec * level;
+                this.base_atk_speed = this.atk_speed;
+                this.expcap = this.expcap * Math.Pow(1.11, this.level - 1);
                 this.hp = this.full_hp;
             }
 
@@ -155,7 +155,6 @@ namespace DungeonDrive
             double hp_inc = 0;
             double ms_inc = 0;
             double atk_inc = 0;
-            double atk_spd_dec = 0;
 
             if (weapon != null)
             {
@@ -163,7 +162,7 @@ namespace DungeonDrive
                 if (!weapon.ranged)
                 {
                     atk_inc = weapon.damage;
-                    atk_spd_dec = weapon.atk_speed;
+                    this.atk_speed = weapon.atk_speed;
                     // TODO add other effects
                 }
             }
@@ -215,8 +214,16 @@ namespace DungeonDrive
                 this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
             }
 
+            if (shield != null)
+            {
+                hp_inc += shield.hp;
+            }
+            else
+            {
+                this.hp = this.hp > this.full_hp ? this.full_hp : this.hp;
+            }
+
             this.atk_dmg = this.base_atk_dmg + atk_inc;
-            this.atk_speed = this.base_atk_speed - atk_spd_dec;
             this.full_hp = this.base_full_hp + hp_inc;
             this.speed = this.base_speed + ms_inc;
         }
@@ -362,15 +369,6 @@ namespace DungeonDrive
                     Random rand = new Random();
                     if (rand.Next(5) == 0)
                         state.room.droppedItems.Add(state.randomItem(), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                    if (testing)
-                    {
-                        state.room.droppedItems.Add(new Weapon(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                        state.room.droppedItems.Add(new Helmet(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                        state.room.droppedItems.Add(new Legs(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                        state.room.droppedItems.Add(new Armor(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                        state.room.droppedItems.Add(new Shield(state), new PointF((float)deletingEnemy.x, (float)deletingEnemy.y));
-                    }
-
                 }
                 deletingList.Clear();
             }
@@ -431,6 +429,7 @@ namespace DungeonDrive
                 this.armor = new Armor(state);
                 this.helmet = new Helmet(state);
                 this.legs = new Legs(state);
+                this.shield = new Shield(state);
             }
         }
 
@@ -505,7 +504,7 @@ namespace DungeonDrive
             this.atk_speed -= atk_spd_dec;
             this.base_atk_speed -= atk_spd_dec;
             this.exp -= this.expcap;
-            this.expcap *= 1.5;
+            this.expcap *= 1.11;
             this.level += 1;
         }
 
@@ -537,7 +536,9 @@ namespace DungeonDrive
             + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed, 2) : Math.Round(this.atk_speed, 2))
             + "\nMV  SPD: " + Math.Round(this.speed, 2)
             + "\nATK RNG: " + ((this.weapon != null && this.weapon.ranged) ? this.weapon.proj_range : 1)
+            + "\nATK STY: " + (this.weapon != null ? this.weapon.style : Item.AtkStyle.Basic)
             + "\nSTATUS: " + this.status
+            + "\nEXP: " + Math.Round(this.exp,2) + "/" + Math.Round(this.expcap,2)
             , state.font, Brushes.White, 5, 20);
         }
 
