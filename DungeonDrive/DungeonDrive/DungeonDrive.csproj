@@ -93,6 +93,37 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\frame-9-red.png" />
+    <None Include="Resources\frame-9-jade.png" />
+    <None Include="Resources\frame-9-grey.png" />
+    <None Include="Resources\frame-8-grey.png" />
+    <None Include="Resources\frame-8-eerie.png" />
+    <None Include="Resources\frame-7-grey.png" />
+    <None Include="Resources\frame-7-eerie.png" />
+    <None Include="Resources\frame-6-sky.png" />
+    <None Include="Resources\frame-6-royal.png" />
+    <None Include="Resources\frame-6-grey.png" />
+    <None Include="Resources\frame-5-orange.png" />
+    <None Include="Resources\frame-5-magenta.png" />
+    <None Include="Resources\frame-5-grey.png" />
+    <None Include="Resources\frame-4-sky.png" />
+    <None Include="Resources\frame-4-royal.png" />
+    <None Include="Resources\frame-4-grey.png" />
+    <None Include="Resources\frame-3-red.png" />
+    <None Include="Resources\frame-3-jade.png" />
+    <None Include="Resources\frame-3-grey.png" />
+    <None Include="Resources\frame-2-orange.png" />
+    <None Include="Resources\frame-2-magenta.png" />
+    <None Include="Resources\frame-2-grey.png" />
+    <None Include="Resources\frame-1-grey.png" />
+    <None Include="Resources\frame-0-sky.png" />
+    <None Include="Resources\frame-0-royal.png" />
+    <None Include="Resources\frame-0-red.png" />
+    <None Include="Resources\frame-0-orange.png" />
+    <None Include="Resources\frame-0-magenta.png" />
+    <None Include="Resources\frame-0-jade.png" />
+    <None Include="Resources\frame-0-grey.png" />
+    <None Include="Resources\frame-0-eerie.png" />
     <None Include="Resources\frame-1-blue.png" />
     <None Include="Resources\frame-1-acid.png" />
     <None Include="Resources\frame-0-blue.png" />

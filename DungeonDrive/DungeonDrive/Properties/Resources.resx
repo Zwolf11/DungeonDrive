@@ -832,4 +832,97 @@
   <data name="frame_8_acid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\frame-8-acid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="frame_0_eerie" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-eerie.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_jade" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-jade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_magenta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-magenta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_royal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-royal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_0_sky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-0-sky.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_1_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-1-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_2_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-2-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_2_magenta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-2-magenta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_2_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-2-orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_3_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-3-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_3_jade" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-3-jade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_3_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-3-red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_4_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-4-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_4_royal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-4-royal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_4_sky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-4-sky.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_5_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-5-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_5_magenta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-5-magenta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_5_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-5-orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_6_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-6-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_6_royal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-6-royal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_6_sky" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-6-sky.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_7_eerie" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-7-eerie.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_7_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-7-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_8_eerie" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-8-eerie.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_8_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-8-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_9_grey" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-9-grey.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_9_jade" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-9-jade.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frame_9_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frame-9-red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
