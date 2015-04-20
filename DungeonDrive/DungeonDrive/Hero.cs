@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -36,7 +36,7 @@ namespace DungeonDrive
         private double hp_inc = 1.085;
         private double dmg_inc = 1.085;
         private double atk_spd_dec = 0.001;
-
+        
         public Hero(GameState state, double x, double y)
             : base(state, x, y)
         {
@@ -148,6 +148,8 @@ namespace DungeonDrive
             attack2 = new SoundPlayer(Properties.Resources.attack2);
             attack3 = new SoundPlayer(Properties.Resources.attack3);
             level_up = new SoundPlayer(Properties.Resources.level_up);
+
+            
         }
 
         public void equipItems()
@@ -420,7 +422,9 @@ namespace DungeonDrive
             if (atk_cd[4])
             {
                 LighteningBall light = new LighteningBall(state, state.hero);
+                light.cast();
                 cd(0, 4);
+               
             }
 
             if (testing)
