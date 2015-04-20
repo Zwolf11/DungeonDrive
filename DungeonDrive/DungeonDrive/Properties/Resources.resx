@@ -925,4 +925,13 @@
   <data name="frame_9_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\frame-9-red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="LighteningBall1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LighteningBall1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LighteningBall2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LighteningBall2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LighteningBall3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LighteningBall3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

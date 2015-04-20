@@ -11,7 +11,7 @@ namespace DungeonDrive
     {
         GameState state;
         Hero castor;
-
+        public Bitmap[] spellIcon = new Bitmap[SkillStreeState.skillLevel];
         public Spell(GameState state, Hero unit) 
         {
             this.state = state;
@@ -20,12 +20,27 @@ namespace DungeonDrive
     }
 
     class LighteningBall : Spell {
+        
+        //public static Bitmap[] Icon = new Bitmap[SkillStreeState.skillLevel];
         private Bitmap[] animation= new Bitmap[20];
+        public int level = 1;
+
+        public void cast() { 
+        
+        
+        }
         public LighteningBall(GameState state, Hero unit)
             : base(state, unit)
         {
 
+            for (int i = 0; i < SkillStreeState.skillLevel; i++ )
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
 
+            }
+            spellIcon[0] = Properties.Resources.LighteningBall1;
+            spellIcon[1] = Properties.Resources.LighteningBall2;
+            spellIcon[2] = Properties.Resources.LighteningBall3;
             this.animation[0] = Properties.Resources.lighteningball_1_20_1;
             this.animation[1] = Properties.Resources.lighteningball_1_20_2;
             this.animation[2] = Properties.Resources.lighteningball_1_20_3;
@@ -70,8 +85,14 @@ namespace DungeonDrive
             state.room.projectiles.Add(proj1);
             state.room.projectiles.Add(proj2);
             state.room.projectiles.Add(proj3);
-            state.room.projectiles.Add(proj4);
-            state.room.projectiles.Add(proj5);
+            if (this.level == 2)
+            {
+                state.room.projectiles.Add(proj4);
+            }
+            else if (this.level == 3)
+            {
+                state.room.projectiles.Add(proj5);
+            }
         }
 
     

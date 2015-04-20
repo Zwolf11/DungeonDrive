@@ -1589,6 +1589,36 @@ namespace DungeonDrive.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LighteningBall1 {
+            get {
+                object obj = ResourceManager.GetObject("LighteningBall1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LighteningBall2 {
+            get {
+                object obj = ResourceManager.GetObject("LighteningBall2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LighteningBall3 {
+            get {
+                object obj = ResourceManager.GetObject("LighteningBall3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pillar {
             get {
                 object obj = ResourceManager.GetObject("pillar", resourceCulture);
