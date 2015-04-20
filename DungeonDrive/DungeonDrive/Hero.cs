@@ -179,7 +179,12 @@ namespace DungeonDrive
                 this.hp_reg = helmet.hp_reg;
                 if (this.hp + helmet.hp_reg <= this.full_hp)
                 {
-                    // TODO and not in combat
+                    if (inCombat)
+                        if (combatCd-- > 0)
+                            return;
+                        else
+                            inCombat = false;
+
                     this.hp += helmet.hp_reg;
                 }
                 else
@@ -465,8 +470,14 @@ namespace DungeonDrive
                             catch (FileNotFoundException) { }
                             knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                             enemy.hp -= atk_dmg;
+                            if (weapon != null && weapon.style == Item.AtkStyle.Frozen)
+                                enemy.slow(weapon.powerSec, weapon.powerFac);
+                            else if (weapon != null && weapon.style == Item.AtkStyle.Flame)
+                                enemy.burn(weapon.powerSec, weapon.powerFac * weapon.damage);
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
+                            this.inCombat = true;
+                            this.combatCd = 3 * 17;
                         }
                     }
                     cd(atk_speed, 0);

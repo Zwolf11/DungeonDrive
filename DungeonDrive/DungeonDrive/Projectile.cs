@@ -84,6 +84,9 @@ namespace DungeonDrive
                     state.room.removeProj(this);
                     if (unit.hp <= 0)
                         state.hero.deletingList.Add(unit);
+
+                    state.hero.inCombat = true;
+                    state.hero.combatCd = 3 * 17;
                 }
             
             x = xNext;

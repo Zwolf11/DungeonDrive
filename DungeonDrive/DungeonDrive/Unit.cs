@@ -41,6 +41,8 @@ namespace DungeonDrive
         public int totalMoves = 4;
         public int moves;
         public int bind_remove = 0;
+        public bool inCombat = false;
+        public int combatCd = 0;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -153,6 +155,8 @@ namespace DungeonDrive
                 int dirY = Math.Sign(state.hero.y - this.y);
                 this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
                 state.hero.hp -= this.atk_dmg;
+                state.hero.inCombat = true;
+                state.hero.combatCd = 3 * 17;
                 this.sleep_sec = 1 * 17;
                 this.cd(1, 0);
             }
