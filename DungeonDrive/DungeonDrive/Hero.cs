@@ -27,6 +27,7 @@ namespace DungeonDrive
         public Legs legs = null;
         public Shield shield = null;
         public Weapon weapon = null;
+        public LighteningBall light = new LighteningBall();
 
         public float dir = 0;
         public bool[] dirs = { false, false, false, false };
@@ -148,8 +149,7 @@ namespace DungeonDrive
             attack2 = new SoundPlayer(Properties.Resources.attack2);
             attack3 = new SoundPlayer(Properties.Resources.attack3);
             level_up = new SoundPlayer(Properties.Resources.level_up);
-
-            
+                    
         }
 
         public void equipItems()
@@ -421,7 +421,7 @@ namespace DungeonDrive
         {
             if (atk_cd[4])
             {
-                LighteningBall light = new LighteningBall(state, state.hero);
+                light.setLighteningBall(this.state, this);
                 light.cast();
                 cd(0, 4);
                

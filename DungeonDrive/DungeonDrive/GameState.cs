@@ -309,6 +309,9 @@ namespace DungeonDrive
                 hero.attacks[1] = true;
             else if (e.KeyCode == Properties.Settings.Default.Attack3Key)
                 hero.attacks[2] = true;
+            else if (e.KeyCode == Properties.Settings.Default.SkillTreeKey)
+                this.addChildState(new SkillStreeState(form), false, false);
+            
         }
 
         public override void keyUp(object sender, KeyEventArgs e)

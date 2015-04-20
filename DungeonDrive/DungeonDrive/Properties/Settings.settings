@@ -41,5 +41,8 @@
     <Setting Name="Attack3Key" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">T</Value>
     </Setting>
+    <Setting Name="SkillTreeKey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">U</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -134,9 +134,9 @@ namespace DungeonDrive
             int heightTop = (int) Math.Min(maxRoomHeight, heightBottom + ((rand.NextDouble() * .7) * (maxItems + maxMaxDirectories)));
 
             //Console.WriteLine("Width between {0} and {1}, and Height between {2} and {3}", widthBottom, widthTop, heightBottom, heightTop);
-            this.width = rand.Next(widthBottom, widthTop); // width is x-axis
+            this.width = rand.Next(widthBottom, widthTop) ; // width is x-axis
 
-            this.height = rand.Next(heightBottom, heightTop); // height is y-axis
+            this.height = rand.Next(heightBottom, heightTop) ; // height is y-axis
 
             //Console.WriteLine("Width = {0} and Height = {1}", width, height);
 

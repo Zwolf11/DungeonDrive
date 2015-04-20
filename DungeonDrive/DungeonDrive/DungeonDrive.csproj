@@ -295,6 +295,7 @@
     <None Include="Resources\armor_14.gif" />
     <None Include="Resources\armor_15.gif" />
     <None Include="Resources\armor_16.gif" />
+    <None Include="Resources\empty.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

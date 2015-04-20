@@ -7,10 +7,12 @@ namespace DungeonDrive
     class SkillStreeState : State
     {
         public static int availablePoints = 0;
-        public static int skillList = 7;
+        public static int skillList = 6;
         public static int skillLevel = 3;
-
+        private Rectangle[,] skillFrame = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillFrameImages = new Bitmap[10, 10];
+
+        private Rectangle[,] skillSet = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillSetImages = new Bitmap[10, 10];
 
         private Bitmap skillFrame1 = Properties.Resources.frame_0_acid;
@@ -26,21 +28,44 @@ namespace DungeonDrive
         private bool isSettled = false;
         private int toLeft = 10, toTop = 10;
 
-
-        private Rectangle[,] skillSet = new Rectangle[skillList, skillLevel];
+        private int padding = 12;
+        
         
         public SkillStreeState(MainForm form) : base(form) {
 
-            //addSpell(LighteningBall LighteningBall, );
+            skillSetImages[0, 0] = Properties.Resources.frame_0_eerie;
+            skillSetImages[0, 1] = Properties.Resources.frame_7_eerie;
+            skillSetImages[0, 2] = Properties.Resources.frame_8_eerie;
+            skillSetImages[1, 0] = Properties.Resources.frame_0_jade;
+            skillSetImages[1, 1] = Properties.Resources.frame_3_jade;
+            skillSetImages[1, 2] = Properties.Resources.frame_9_jade;
+            skillSetImages[2, 0] = Properties.Resources.frame_0_orange;
+            skillSetImages[2, 1] = Properties.Resources.frame_2_orange;
+            skillSetImages[2, 2] = Properties.Resources.frame_5_orange;
+            skillSetImages[3, 0] = Properties.Resources.frame_0_sky;
+            skillSetImages[3, 1] = Properties.Resources.frame_4_sky;
+            skillSetImages[3, 2] = Properties.Resources.frame_4_sky;
+            skillSetImages[4, 0] = Properties.Resources.frame_0_royal;
+            skillSetImages[4, 1] = Properties.Resources.frame_4_royal;
+            skillSetImages[4, 2] = Properties.Resources.frame_6_royal;
+            skillSetImages[5, 0] = Properties.Resources.frame_0_acid;
+            skillSetImages[5, 1] = Properties.Resources.frame_1_acid;
+            skillSetImages[5, 2] = Properties.Resources.frame_8_acid;
+            skillSetImages[6, 0] = Properties.Resources.frame_0_magenta;
+            skillSetImages[6, 1] = Properties.Resources.frame_2_magenta;
+            skillSetImages[6, 2] = Properties.Resources.frame_5_magenta;
+
             
             for (int i = 0; i < skillList; i++ )
             {
                  for (int j = 0; j < skillLevel; j++ )
                  {
-                     skillFrameImages[i, j] = Properties.Resources.ghost2;
+                     skillFrameImages[i, j] = Properties.Resources.frame_8_grey;
+                     skillSetImages[i, j] = Properties.Resources.frame_9_grey;
                  }
             }
 
+            addSpell(new LighteningBall(), 0);
             skillFrameImages[0, 0] = Properties.Resources.frame_0_eerie;
             skillFrameImages[0, 1] = Properties.Resources.frame_7_eerie;
             skillFrameImages[0, 2] = Properties.Resources.frame_8_eerie;
@@ -75,7 +100,9 @@ namespace DungeonDrive
         }
 
         private GameState state { get { return (GameState)parent; } }
-        public override void keyDown(object sender, KeyEventArgs e) { 
+        public override void keyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Properties.Settings.Default.CloseKey || e.KeyCode == Properties.Settings.Default.SkillTreeKey)
+                this.close();
         }
         public override void mouseMove(object sender, MouseEventArgs e) {
             Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
@@ -83,7 +110,7 @@ namespace DungeonDrive
             {
                 for (int j = 0; j < skillLevel; j++)
                 {
-                    if (skillSet[this.skillSelected, j].Contains(click))
+                    if (skillFrame[this.skillSelected, j].Contains(click))
                     {
                         this.levelMouseOver = j;
                         this.skillMouseOver = this.skillSelected;
@@ -99,7 +126,7 @@ namespace DungeonDrive
             {
                 for (int j = 0; j < skillLevel; j++)
                 {
-                    if (skillSet[i, j].Contains(click))
+                    if (skillFrame[i, j].Contains(click))
                     {
                         skillMouseOver = i;
                         levelMouseOver = j;
@@ -116,20 +143,35 @@ namespace DungeonDrive
 
             Rectangle rect = this.skillTreeRectangle;
             int size = form.ClientSize.Height/10;
-            int padding = form.ClientSize.Height / 10;
-            int y = (rect.Height + (form.ClientSize.Height - rect.Height) / -size) - padding;
-            int x = (form.ClientSize.Width - rect.Width) / 2 + padding;
+            int y = form.ClientSize.Height / (skillLevel+1);
+            int x = form.ClientSize.Width / (skillList + 1);
             iconSize = size;
-            skillSet[i, j] = new Rectangle(x + size * i * 2, y - size * j * 2, size, size);
-            return skillSet[i, j];
+            skillFrame[i, j] = new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)), form.ClientSize.Height - size / 2 - (y * (j + 1)), size, size);
+            return skillFrame[i, j];
             
         }
+
+        private RectangleF getIconBoxBounds(int i, int j)
+        {
+
+            Rectangle rect = this.skillTreeRectangle;
+            int size = form.ClientSize.Height / 10;
+            int y = form.ClientSize.Height / (skillLevel + 1);
+            int x = form.ClientSize.Width / (skillList + 1);
+            iconSize = size;
+            skillSet[i,j] = new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2 
+                - (y * (j + 1)) + padding / 2, size - padding, size - padding);
+            return new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2
+                - (y * (j + 1)) + padding / 2, size - padding, size - padding);
+
+        }
+
         public override void mouseDown(object sender, MouseEventArgs e) {
             Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
             if (selectedOrNot == true) {
                 for (int j = 0; j < skillLevel; j++)
                 {
-                    if (skillSet[this.skillSelected, j].Contains(click))
+                    if (skillFrame[this.skillSelected, j].Contains(click))
                     {
                         this.levelSelected = j;
                         selectedOrNot = true;
@@ -144,7 +186,8 @@ namespace DungeonDrive
             {
                 for (int j = 0; j < skillLevel; j++ )
                 {
-                    if (skillSet[i, j].Contains(click)) { 
+                    if (skillFrame[i, j].Contains(click))
+                    { 
                         this.skillSelected = i;
                         this.levelSelected = j;
                         selectedOrNot = true; return; 
@@ -161,21 +204,23 @@ namespace DungeonDrive
 
             if (selectedOrNot == true)
             {
-                if ( (this.skillSet[skillSelected, levelSelected].X - this.form.ClientSize.Width / 2) >15)
+                if ((this.skillFrame[skillSelected, levelSelected].X - this.form.ClientSize.Width / 2) > 25)
                 {
                     isSettled = false;
                     for (int j = 0; j < skillLevel; j++ )
                     {
-                        this.skillSet[this.skillSelected,j].X -= 15;
+                        this.skillFrame[this.skillSelected, j].X -= 25;
+                        this.skillSet[this.skillSelected, j].X -= 25;
                     }
                     
                 }
-                else if ((this.skillSet[skillSelected, levelSelected].X < this.form.ClientSize.Width / 2))
+                else if ((this.skillFrame[skillSelected, levelSelected].X < this.form.ClientSize.Width / 2))
                 {
                     isSettled = false;
                     for (int j = 0; j < skillLevel; j++)
                     {
-                        this.skillSet[this.skillSelected, j].X += 15;
+                        this.skillFrame[this.skillSelected, j].X += 25;
+                        this.skillSet[this.skillSelected, j].X += 25;
                     }
                 }
                 else {
@@ -200,8 +245,8 @@ namespace DungeonDrive
 
             for (int j = 0; j < skillLevel; j++ )
             {
-                g.DrawImage(this.skillFrameImages[i, j], this.skillSet[i, j]);
-                
+                g.DrawImage(this.skillFrameImages[i, j], this.skillFrame[i, j]);
+                g.DrawImage(skillSetImages[i, j], this.skillSet[i, j]);
             }
 
         }
@@ -213,7 +258,7 @@ namespace DungeonDrive
             for (int j = 0; j < skillLevel-1; j++ )
             {
 
-                g.DrawLine(pen, new Point(skillSet[i, j].X + iconSize / 2, skillSet[i, j].Y), new Point(skillSet[i, j + 1].X + iconSize / 2, skillSet[i, j + 1].Y + +iconSize ));
+                g.DrawLine(pen, new Point(skillFrame[i, j].X + iconSize / 2, skillFrame[i, j].Y), new Point(skillFrame[i, j + 1].X + iconSize / 2, skillFrame[i, j + 1].Y + +iconSize));
             }
         }
         public override void paint(object sender, PaintEventArgs e) {
@@ -230,17 +275,20 @@ namespace DungeonDrive
                     for (int j = 0; j < skillLevel; j++ )
                     {
                         g.DrawImage(skillFrameImages[i, j], getBoxBounds(i, j));
+                        g.DrawImage(skillSetImages[i, j], getIconBoxBounds(i, j));
+                        
                     }
                 }
             }
             else if (selectedOrNot == true)
             {
-                g.DrawImage(this.skillFrameImages[this.skillSelected, this.levelSelected], this.skillSet[this.skillSelected, this.levelSelected]);
-                drawSingleList(e, this.skillSelected);                
-                g.DrawImage(Properties.Resources.ice, this.skillSet[this.skillSelected, this.levelSelected]);
+                g.DrawImage(this.skillFrameImages[this.skillSelected, this.levelSelected], this.skillFrame[this.skillSelected, this.levelSelected]);
+                drawSingleList(e, this.skillSelected);
+               
+                
                 if (isSettled) { connectSkillList(e, this.skillSelected); }
             }
-            if (mouseOverOrNot) { g.DrawImage(this.highLight, this.skillSet[this.skillMouseOver, this.levelMouseOver]); }
+            if (mouseOverOrNot) { g.DrawImage(Properties.Resources.empty, this.skillFrame[this.skillMouseOver, this.levelMouseOver]); }
             
         }
     }
