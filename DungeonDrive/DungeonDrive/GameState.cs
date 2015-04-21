@@ -15,15 +15,18 @@ namespace DungeonDrive
         public Font font = new Font("Arial", 12);
         public int size = 40;
         private int konami = 0;
+        private bool startTutorial = false;
         public String graveyard = "C:\\graveyard";
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
         public String currentRoom = "C:\\";
         public String pastRoom;
-        private bool door_triggered = false;
-        private bool chest_triggered = false;
         private int mouseX, mouseY;
-        private Bitmap door_trigger = Properties.Resources.trigger_door;
-        private Bitmap chest_trigger = Properties.Resources.chest_trigger;
+        public double angle = -1;
+
+        private Bitmap mouseDoorImg = Properties.Resources.trigger_door;
+        private Bitmap mouseNotDoorImg = Properties.Resources.trigger_door_not;
+        private Bitmap mouseChestImg = Properties.Resources.chest_trigger;
+        private Bitmap mouseImg = null;
 
         public GameState(MainForm form, bool load) : base(form)
         {
@@ -34,7 +37,10 @@ namespace DungeonDrive
             if (load)
                 loadGame();
             else
+            {
                 room = new Room(this, "C:\\");
+                startTutorial = true;
+            }
         }
 
         public Item randomItem()
@@ -107,6 +113,11 @@ namespace DungeonDrive
 
             return false;
         }
+
+        private void beginTutorial() { addChildState(new MessageState(form, "Welcome to Dungeon Drive (D:)! This game creates dungeons from your file system.", tutorial2), false, true); }
+        private void tutorial2() { addChildState(new MessageState(form, "You are currently in your C: Drive. There are stairs that lead to deeper folders.", tutorial3), false, true); }
+        private void tutorial3() { addChildState(new MessageState(form, "Enemies, chests, and obstacles are placed in the dungeons depending on what kinds of files are in your folders.", tutorial4), false, true); }
+        private void tutorial4() { addChildState(new MessageState(form, "Click to attack, press space to open your inventory, and I bet you can figure out the rest."), false, true); }
 
         public void saveGame()
         {
@@ -330,9 +341,8 @@ namespace DungeonDrive
                     hero.dirs[2] = false;
                 else
                     hero.dirs[0] = false;
-              
-                this.chest_triggered = false;
-                this.door_triggered = false;
+
+                mouseImg = null;
             }
             else if (e.KeyCode == Properties.Settings.Default.LeftKey)
             {
@@ -341,8 +351,7 @@ namespace DungeonDrive
                 else
                     hero.dirs[1] = false;
 
-                this.chest_triggered = false;
-                this.door_triggered = false;
+                mouseImg = null;
             }
             else if (e.KeyCode == Properties.Settings.Default.DownKey)
             {
@@ -350,9 +359,8 @@ namespace DungeonDrive
                     hero.dirs[0] = false;
                 else
                     hero.dirs[2] = false;
-        
-                this.chest_triggered = false;
-                this.door_triggered = false;
+
+                mouseImg = null;
             }
             else if (e.KeyCode == Properties.Settings.Default.RightKey)
             {
@@ -361,8 +369,7 @@ namespace DungeonDrive
                 else
                     hero.dirs[3] = false;
 
-                this.chest_triggered = false;
-                this.door_triggered = false;
+                mouseImg = null;
             }
         }
 
@@ -377,11 +384,15 @@ namespace DungeonDrive
                     {
                         hero.status = "Normal";
                         hero.bind_remove = 0;
+                        angle = 0;
                         hero.basicAtk();
                     }
                 }
                 else
+                {
+                    angle = 0;
                     hero.basicAtk();
+                }
             }
             else if(e.Button == MouseButtons.Right)
             {
@@ -505,52 +516,45 @@ namespace DungeonDrive
         public override void mouseMove(object sender, MouseEventArgs e)
         {
             hero.dir = (float)Math.Atan2(e.Y - (form.ClientSize.Height / 2), e.X - (form.ClientSize.Width / 2));
-            //
+            
             float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
             float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
-            this.chest_triggered = false;
-            this.door_triggered = false;
-            
-            //{
+            mouseImg = null;
                 
-                foreach (Obstacle ob in room.obstacles)
-                    if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
-                    {
-                        Chest chest = (Chest)ob;
-                        if (chest.closed)
-                        {
-                            this.chest_triggered = true;
-                            this.mouseX = e.X;
-                            this.mouseY = e.Y;
-                        }
-                        break;
-                    }
-
-                if (room.doorSpace[(int)x, (int)y])
+            foreach (Obstacle ob in room.obstacles)
+                if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
                 {
-                    Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0);
-                    foreach (Door door in room.doors)
+                    Chest chest = (Chest)ob;
+                    if (chest.closed)
                     {
-                        if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
-                        {
-                            // this is the correct door
-                            if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
-                            {
-
-                                door_trigger = Properties.Resources.trigger_door;
-                            }
-                            else {
-                                door_trigger = Properties.Resources.trigger_door_not;
-                            }
-                            this.door_triggered = true;
-                            this.mouseX = e.X;
-                            this.mouseY = e.Y;
-                        }
+                        mouseImg = mouseChestImg;
+                        this.mouseX = e.X;
+                        this.mouseY = e.Y;
                     }
-                   
+                    break;
                 }
-           // } 
-            //
+
+            if (room.doorSpace[(int)x, (int)y])
+            {
+                if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                    mouseImg = mouseDoorImg;
+                else
+                    mouseImg = mouseNotDoorImg;
+            }
+
+            this.mouseX = e.X;
+            this.mouseY = e.Y;
+        }
+
+        private Bitmap rotateImg(System.Drawing.Image oldBitmap, double angle)
+        {
+            var newBitmap = new Bitmap(oldBitmap.Width, oldBitmap.Height);
+            var graphics = Graphics.FromImage(newBitmap);
+            graphics.TranslateTransform((float)oldBitmap.Width / 2, (float)oldBitmap.Height / 2);
+            graphics.RotateTransform((float)angle);
+            graphics.TranslateTransform(-(float)oldBitmap.Width / 2, -(float)oldBitmap.Height / 2);
+            graphics.DrawImage(oldBitmap, new Point(0, 0));
+            return newBitmap;
         }
 
         public override void paint(object sender, PaintEventArgs e)
@@ -560,16 +564,30 @@ namespace DungeonDrive
 
             room.draw(g);
             hero.draw(g);
-            if (this.door_triggered == true) {
-                g.DrawImage(door_trigger, this.mouseX - door_trigger.Width/2, this.mouseY - door_trigger.Height/2);
-            }
-            else if(this.chest_triggered == true){
-                g.DrawImage(chest_trigger, this.mouseX - door_trigger.Width / 2, this.mouseY - door_trigger.Height / 2);
+
+            if(mouseImg != null)
+                g.DrawImage(mouseImg, this.mouseX - mouseImg.Width / 2, this.mouseY - mouseImg.Height / 2);
+
+            if (hero.weapon != null && angle >= 0)
+            {
+                double heroAngle = Math.Atan2(mouseY - form.ClientSize.Height / 2, mouseX - form.ClientSize.Width / 2);
+                g.DrawImage(rotateImg(hero.weapon.img, (angle + heroAngle) * 180 / Math.PI), form.ClientSize.Width / 2 - size / 2, form.ClientSize.Height / 2 - size / 2, size, size);
             }
         }
 
         public override void tick(object sender, EventArgs e)
         {
+            if (angle >= 0)
+                angle += Math.PI / 16;
+            if (angle > Math.PI / 2)
+                angle = -1;
+
+            if(startTutorial)
+            {
+                startTutorial = false;
+                beginTutorial();
+            }
+
             hero.act();
 
             foreach (Unit unit in room.enemies)

@@ -7,7 +7,6 @@ namespace DungeonDrive
     public class GameOverState : State
     {
         private Font titleFont = new Font("Arial", 36);
-        private GameState state { get { return (GameState)parent; } }
 
         public GameOverState(MainForm form) : base(form) { }
 
@@ -19,7 +18,7 @@ namespace DungeonDrive
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Properties.Settings.Default.CloseKey)
+            if (e.KeyCode == Properties.Settings.Default.SelectKey || e.KeyCode == Properties.Settings.Default.CloseKey)
             {
                 parent.close();
                 form.Invalidate();

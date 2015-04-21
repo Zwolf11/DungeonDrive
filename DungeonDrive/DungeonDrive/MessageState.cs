@@ -8,10 +8,12 @@ namespace DungeonDrive
     {
         private String message;
         private Font font = new Font("Arial", 24);
+        private Action func;
 
-        public MessageState(MainForm form, String message) : base(form)
+        public MessageState(MainForm form, String message, Action func = null) : base(form)
         {
             this.message = message;
+            this.func = func;
         }
 
         public override void mouseMove(object sender, MouseEventArgs e) { }
@@ -22,11 +24,17 @@ namespace DungeonDrive
         public override void keyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Properties.Settings.Default.SelectKey)
+            {
+                if(func != null)
+                    func();
                 this.close();
+            }
         }
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
+            if (func != null)
+                func();
             this.close();
         }
 
