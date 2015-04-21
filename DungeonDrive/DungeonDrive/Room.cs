@@ -154,6 +154,22 @@ namespace DungeonDrive
             roomDrawn = new bool[2 * maxStairs];
             drawingSpace = new bool[width, height];
             
+            /*
+            projectiles.Clear();
+            deletingProj.Clear();
+
+            obstacles.Clear();
+            enemies.Clear();
+            doors.Clear();
+            stairs.Clear();
+            connectedRooms.Clear();
+
+            stairsNotDrawn.Clear();
+            doorsNotDrawn.Clear();
+            enemiesNotDrawn.Clear();
+            obstaclesNotDrawn.Clear();
+            */
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -863,7 +879,7 @@ namespace DungeonDrive
                     break;
                 case "chest":
                     numChests++;
-                    newObs = new Chest(state, x, y, oWidth, oHeight, roomNumSpace[x, y]);
+                    newObs = new Chest(state, x, y, oWidth, oHeight, roomNumSpace[x, y], false);
                     break;
                 default:
                     newObs = new Pillar(state, x, y, oWidth, oHeight, roomNumSpace[x, y]);
@@ -1067,8 +1083,8 @@ namespace DungeonDrive
                 yInc = -1;
             }
 
-            Door door1 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1);
-            Door door2 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1);
+            Door door1 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1, false);
+            Door door2 = new Door(state, 0, 0, 1, 2, 0, true, -1, -1, false);
 
 
             // CHECK X DIfference for door locations
@@ -1091,7 +1107,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1);
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1, false);
                                 
                             }
                            
@@ -1105,7 +1121,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door2 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1);
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true, -1, -1, false);
                             }
                         }
 
@@ -1129,7 +1145,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1 ,-1);
+                                door1 = new Door(state, -1, -1, 1, 2, 0, true, -1 ,-1, false);
                             }
 
                         }
@@ -1142,7 +1158,7 @@ namespace DungeonDrive
                             }
                             else
                             {
-                                door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
+                                door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1, false);
                             }
 
                         }
@@ -1177,7 +1193,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1, false);
                                 }
                             }
                             else if (roomNumSpace[x2, i] == secondRoom && !door2Found)
@@ -1189,7 +1205,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1, false);
                                 }
 
                             }
@@ -1216,7 +1232,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
+                                    door1 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1, false);
                                 }
 
                             }
@@ -1229,7 +1245,7 @@ namespace DungeonDrive
                                 }
                                 else
                                 {
-                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1);
+                                    door2 = new Door(state, -1, -1, 1, 2, 0, true,-1,-1, false);
                                 }
 
                             }
@@ -1986,7 +2002,7 @@ namespace DungeonDrive
                 while (xTemp > 0 && xTemp < width && wallSpace[xTemp, y1] && roomNumSpace[xTemp--, y1] == roomNumSpace[x1, y1]) ;
                 int xMin = xTemp + 1;
 
-                Door retDoor =  new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xMin, xMax);
+                Door retDoor =  new Door(state, x1,y1,2,1,roomNumSpace[x1,y1+yInc],false,xMin, xMax, false);
 
                 
                 int originalX = retDoor.x;
@@ -2034,7 +2050,7 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1);
+                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1, false);
                 }
 
             }
@@ -2051,7 +2067,7 @@ namespace DungeonDrive
                 int yMin = yTemp + 1;
 
 
-                Door retDoor = new Door(state, x1, y1, 1, 2, roomNumSpace[x1 + xInc, y1], true, yMin, yMax);
+                Door retDoor = new Door(state, x1, y1, 1, 2, roomNumSpace[x1 + xInc, y1], true, yMin, yMax, false);
                 int originalY = retDoor.y;
 
                 bool good = true;
@@ -2096,7 +2112,7 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1);
+                    return new Door(state, -1, -1, 1, 2, -1, true, -1, -1, false);
                 }
 
 
@@ -2328,7 +2344,7 @@ namespace DungeonDrive
                                     }
                                     else if (doorSpace[i + k, j + l])
                                     {
-                                        Door doorToRemove = new Door(state, -1, -1, -1, -1, -1, true, -1, -1);
+                                        Door doorToRemove = new Door(state, -1, -1, -1, -1, -1, true, -1, -1, false);
                                         foreach (Door door in doorsNotDrawn)
                                         {
                                             if (door.x == i + k && door.y == j + l)
@@ -2354,7 +2370,8 @@ namespace DungeonDrive
                 }
             }
             
-            foreach (Stairs stair in stairsNotDrawn)
+            
+            foreach(Stairs stair in stairsNotDrawn)
             {
                 if(stair.roomNum == newRoomNum){
                     stairs.Add(stair);

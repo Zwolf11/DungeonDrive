@@ -48,9 +48,15 @@ namespace DungeonDrive
         public bool closed = true;
         private Bitmap openImg = new Bitmap(Properties.Resources.chest_open);
         private Bitmap closedImg = new Bitmap(Properties.Resources.chest_closed);
- 
+        public bool locked;
 
-        public Chest(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
+        public Chest(GameState state, int x, int y, int width, int height, int roomNum, bool locked) : base(state, x, y, width, height, roomNum) {
+            this.locked = locked;
+        }
+
+        public void unlock(){
+            locked = false;
+        }
 
         public override void draw(Graphics g)
         {
@@ -136,8 +142,9 @@ namespace DungeonDrive
         public bool closed = true;
         private Bitmap doorClosed; 
         private Bitmap doorOpen;
+        public bool locked;
 
-        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive) : base(state, x,y,width,height, roomNum) {
+        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive, bool locked) : base(state, x,y,width,height, roomNum) {
 
             if(vertical){
                 doorClosed = new Bitmap(Properties.Resources.doorClosedVertical);
@@ -149,6 +156,12 @@ namespace DungeonDrive
             this.vertical = vertical;
             this.maxPositive = maxPositive;
             this.maxNegative = maxNegative;
+            this.locked = locked;
+        }
+
+        public void unlock()
+        {
+            locked = false;
         }
 
         public bool switchClosed(){
