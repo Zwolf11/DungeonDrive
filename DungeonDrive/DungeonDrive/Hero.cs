@@ -406,16 +406,6 @@ namespace DungeonDrive
                 if (curse_sec == 0)
                     this.status = "Normal";
             }
-            else if (this.status.Equals("Binded Arm"))
-            {
-                if (bind_sec == 0)
-                    bind_sec = 300;
-
-                --bind_sec;
-
-                if (bind_sec == 0)
-                    this.status = "Normal";
-            }
         }
         public void specialAtk()
         {

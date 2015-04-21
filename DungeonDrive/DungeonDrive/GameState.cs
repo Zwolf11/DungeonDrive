@@ -277,6 +277,8 @@ namespace DungeonDrive
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[2] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[0] = false;
                 else
                     hero.dirs[0] = true;
             }
@@ -284,6 +286,8 @@ namespace DungeonDrive
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[3] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[1] = false;
                 else
                     hero.dirs[1] = true;
             }
@@ -291,6 +295,8 @@ namespace DungeonDrive
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[0] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[2] = false;
                 else
                     hero.dirs[2] = true;
             }
@@ -298,6 +304,8 @@ namespace DungeonDrive
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[1] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[3] = false;
                 else
                     hero.dirs[3] = true;
             }
@@ -362,7 +370,7 @@ namespace DungeonDrive
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (hero.status.Equals("Binded Arm"))
+                if (hero.status.Equals("Binded Arm") || hero.status.Equals("Paralyzed"))
                 {
                     hero.bind_remove++;
                     if (hero.bind_remove == 15)
@@ -377,7 +385,7 @@ namespace DungeonDrive
             }
             else if(e.Button == MouseButtons.Right)
             {
-                if (hero.status.Equals("Binded Head"))
+                if (hero.status.Equals("Binded Head") || hero.status.Equals("Paralyzed"))
                 {
                     hero.bind_remove++;
                     if (hero.bind_remove == 15)

@@ -579,7 +579,7 @@ namespace DungeonDrive
             }
             else if (random <= 66)
             { 
-                while (!addEnemy(new Skeleton(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
+                while (!addEnemy(new Skeleton(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5, false), filename)) ;
                 numSkeletons++;
                 //while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
             }
@@ -588,7 +588,7 @@ namespace DungeonDrive
                 while (!addEnemy(new Snake(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSnakes++;
                 while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
-  
+                numGhosts++;
             }     
      
             

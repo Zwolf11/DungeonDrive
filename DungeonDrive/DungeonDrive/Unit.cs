@@ -28,6 +28,7 @@ namespace DungeonDrive
         public bool teleport = false;
         public bool moving = false;
         public bool lunge = false;
+        public bool split = false;
         public int roomNum = -1;
         public double exp;
         public double expcap;
@@ -54,6 +55,8 @@ namespace DungeonDrive
         public double curse_sec = 0;        // amount of time that unit is cursed
         public double bind_sec = 0;         // amount of time that unit is disabled
         public double burning_sec = 0;      // amount of time that unit is burning
+        public double paralyze_sec = 0;     // amount of time that unit is paralyzed
+        public double confuse_sec = 0;      // amount of time that unit is confused
         public double burning_amount = 0;
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability

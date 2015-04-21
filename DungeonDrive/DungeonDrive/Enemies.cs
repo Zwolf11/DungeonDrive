@@ -6,6 +6,7 @@ namespace DungeonDrive
     public class Bat : Unit
     {
         private Bitmap[] imgs = new Bitmap[3];
+        private Random rand;
 
         public Bat(GameState state, double x, double y)
             : base(state, x, y)
@@ -25,6 +26,8 @@ namespace DungeonDrive
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
             imgs[2] = new Bitmap(Properties.Resources.bat2);
+
+            rand = new Random();
         }
 
         public void move()
@@ -82,6 +85,7 @@ namespace DungeonDrive
             }
         }
 
+        
         public override void act()
         {
             if (knockback)
@@ -96,7 +100,22 @@ namespace DungeonDrive
                 return;
             }
 
+            if (state.hero.status.Equals("Paralyzed"))
+            {
+                this.atk_dmg += this.atk_dmg * 0.3;
+            }
+
             move();
+
+            if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
+            {
+                if (atk_cd[0])
+                {
+                    int random = rand.Next(0, 100);
+                    if (random <= 25)
+                        statusChanged(state.hero, "paralyze");
+                }
+            }
 
             if (state.room.currentRoom.Equals(state.graveyard))
             {
@@ -125,7 +144,7 @@ namespace DungeonDrive
         private Bitmap[] imgs = new Bitmap[3];
         private Random rand;
 
-        public Skeleton(GameState state, double x, double y)
+        public Skeleton(GameState state, double x, double y, bool half)
             : base(state, x, y)
         {
             this.full_hp = 25 * Math.Pow(1.09, state.hero.level) - 20;
@@ -140,6 +159,8 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 2 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
+
+            this.split = true;
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
             imgs[1] = new Bitmap(Properties.Resources.skeleton1);
@@ -216,6 +237,21 @@ namespace DungeonDrive
             }
 
             move();
+
+            if (state.hero.status.Equals("Paralyzed"))
+            {
+                this.atk_dmg += this.atk_dmg * 0.3;
+            }
+
+            /*if (this.split)
+            {
+                if (this.hp <= this.full_hp / 2)
+                {
+                    state.room.addEnemy(new Skeleton(state, rand.Next(0, state.room.width - 1) + 0.5, rand.Next(0, state.room.height - 1) + 0.5, false), "temp.surprise_mothafucka");
+                    state.room.numSkeletons++;
+                    this.split = false;
+                }
+            }*/
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
@@ -349,6 +385,11 @@ namespace DungeonDrive
             }
 
             move();
+
+            if (state.hero.status.Equals("Paralyzed"))
+            {
+                this.atk_dmg += this.atk_dmg * 0.3;
+            }
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
@@ -502,6 +543,11 @@ namespace DungeonDrive
             }
 
             move();
+
+            if (state.hero.status.Equals("Paralyzed"))
+            {
+                this.atk_dmg += this.atk_dmg * 0.3;
+            }
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
