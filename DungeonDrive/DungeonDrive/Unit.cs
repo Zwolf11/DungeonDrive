@@ -61,6 +61,8 @@ namespace DungeonDrive
 
         public bool[] atk_cd = new bool[5];      // flags for different skill's availability
 
+        public int sight = 7;
+
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
@@ -174,6 +176,7 @@ namespace DungeonDrive
                     state.hero.hp -= this.atk_dmg;
                 this.cd(1, 0);
             }
+            
         }
 
         public bool tryMove(double xNext, double yNext, Unit e)

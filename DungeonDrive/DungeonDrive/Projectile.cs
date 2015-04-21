@@ -71,24 +71,43 @@ namespace DungeonDrive
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
                         endingEffect();
+            if (friendlyFire == true)
+            {
+                foreach (Unit unit in state.room.enemies)
+                    if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
+                    {
+                        unit.hp -= this.dmg;
+                        if (this.style == Item.AtkStyle.Frozen)
+                            unit.slow(this.powerSec, this.powerFac);
+                        else if (this.style == Item.AtkStyle.Flame)
+                            unit.burn(this.powerSec, this.powerFac * this.dmg);
 
-            foreach (Unit unit in state.room.enemies)
-                if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
+                        endingEffect();
+                        if (unit.hp <= 0)
+                            state.hero.deletingList.Add(unit);
+
+                        state.hero.inCombat = true;
+                        state.hero.combatCd = 3 * 17;
+                    }
+            }
+            else {
+                if (Math.Sqrt(Math.Pow(xNext - state.hero.x, 2) + Math.Pow(yNext - state.hero.y, 2)) < radius + state.hero.radius)
                 {
-                    unit.hp -= this.dmg;
+                    state.hero.hp -= this.dmg;
                     if (this.style == Item.AtkStyle.Frozen)
-                        unit.slow(this.powerSec, this.powerFac);
+                        state.hero.slow(this.powerSec, this.powerFac);
                     else if (this.style == Item.AtkStyle.Flame)
-                        unit.burn(this.powerSec, this.powerFac * this.dmg);
+                        state.hero.burn(this.powerSec, this.powerFac * this.dmg);
 
                     endingEffect();
-                    if (unit.hp <= 0)
-                        state.hero.deletingList.Add(unit);
-
-                    state.hero.inCombat = true;
-                    state.hero.combatCd = 3 * 17;
+                    if (state.hero.hp <= 0)
+                    {
+                        state.addChildState(new GameOverState(state.form), false, true);
+                        return;
+                    }
                 }
-
+            
+            }
             x = xNext;
             y = yNext;
         }

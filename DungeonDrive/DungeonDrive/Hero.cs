@@ -29,7 +29,7 @@ namespace DungeonDrive
         public Weapon weapon = null;
         public LighteningBall light = new LighteningBall();
 
-        public float dir = 0;
+        //public float dir = 0;
         public bool[] dirs = { false, false, false, false };
         public bool[] attacks = { false, false, false };
         

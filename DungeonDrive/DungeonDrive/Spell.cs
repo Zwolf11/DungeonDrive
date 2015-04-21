@@ -20,12 +20,11 @@ namespace DungeonDrive
         private Bitmap[] animation= new Bitmap[20];
         public int level = 1;
         GameState state;
-        Hero unit;
+        Unit unit;
         public void cast() {
 
             Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
             proj1.isMagic = true;
-
             proj1.animation = this.animation;
             Projectile proj2 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.3, 15);
             proj2.isMagic = true;
@@ -41,6 +40,16 @@ namespace DungeonDrive
             proj5.proj_img = Properties.Resources.lightening;
             proj5.animation = this.animation;
 
+            if (this.unit is Hero) { }
+            else
+            {
+
+                proj1.friendlyFire = false;
+                proj2.friendlyFire = false;
+                proj3.friendlyFire = false;
+                proj4.friendlyFire = false;
+            }
+
             state.room.projectiles.Add(proj1);
             state.room.projectiles.Add(proj2);
             state.room.projectiles.Add(proj3);
@@ -54,7 +63,7 @@ namespace DungeonDrive
             }
         }
 
-        public void setLighteningBall(GameState state, Hero unit)
+        public void setLighteningBall(GameState state, Unit unit)
         {
             this.state = state;
             this.unit = unit;       
