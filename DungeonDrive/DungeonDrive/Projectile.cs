@@ -57,10 +57,10 @@ namespace DungeonDrive
             this.x_speed = x_dir * proj_speed;
             this.y_speed = y_dir * proj_speed;
         }
-        public void tryMove(double xNext, double yNext)
+        public virtual void tryMove(double xNext, double yNext)
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
-                state.room.removeProj(this);
+                endingEffect();
 
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
@@ -70,8 +70,8 @@ namespace DungeonDrive
             for (int i = left; i < left + width; i++)
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
-                        state.room.removeProj(this);
-            
+                        endingEffect();
+
             foreach (Unit unit in state.room.enemies)
                 if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                 {
@@ -81,23 +81,75 @@ namespace DungeonDrive
                     else if (this.style == Item.AtkStyle.Flame)
                         unit.burn(this.powerSec, this.powerFac * this.dmg);
 
-                    state.room.removeProj(this);
+                    endingEffect();
                     if (unit.hp <= 0)
                         state.hero.deletingList.Add(unit);
 
                     state.hero.inCombat = true;
                     state.hero.combatCd = 3 * 17;
                 }
-            
+
             x = xNext;
             y = yNext;
         }
 
+        public virtual void endingEffect()
+        {
+            state.room.removeProj(this);
+        }
 
-        public void tryMove2(double xNext, double yNext)
+        public virtual void act()
+        {
+            frame++;
+            if (frame >= 20) { frame = 0; }
+
+            tryMove(x + x_speed, y + y_speed);
+
+
+        }
+
+        public void draw(Graphics g)
+        {
+            if (!isMagic)
+                g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+            else
+                g.DrawImage(this.animation[frame], new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
+        }
+    }
+
+
+    public class explodingProjectiles : Projectile
+    {
+        private GameState state;
+        private int timer = 0;
+        public explodingProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.state = state;
+        }
+
+        public override void endingEffect()
+        {
+            this.x_speed = 0;
+            this.y_speed = 0;
+        }
+
+
+
+    }
+
+    public class enemyProjectile : Projectile
+    {
+        private GameState state;
+        public enemyProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.state = state;
+        }
+        public override void tryMove(double xNext, double yNext)
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
-                state.room.removeProj(this);
+                endingEffect();
 
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
@@ -107,50 +159,29 @@ namespace DungeonDrive
             for (int i = left; i < left + width; i++)
                 for (int j = top; j < top + height; j++)
                     if (i < 0 || i >= state.room.width || j < 0 || j >= state.room.height || !state.room.walkingSpace[i, j])
-                        state.room.removeProj(this);
+                        endingEffect();
 
-            
-                if (Math.Sqrt(Math.Pow(xNext - state.hero.x, 2) + Math.Pow(yNext - state.hero.y, 2)) < radius + state.hero.radius)
+
+            if (Math.Sqrt(Math.Pow(xNext - state.hero.x, 2) + Math.Pow(yNext - state.hero.y, 2)) < radius + state.hero.radius)
+            {
+                state.hero.hp -= this.dmg;
+                if (this.style == Item.AtkStyle.Frozen)
+                    state.hero.slow(this.powerSec, this.powerFac);
+                else if (this.style == Item.AtkStyle.Flame)
+                    state.hero.burn(this.powerSec, this.powerFac * this.dmg);
+
+                endingEffect();
+                if (state.hero.hp <= 0)
                 {
-                    state.hero.hp -= this.dmg;
-                    if (this.style == Item.AtkStyle.Frozen)
-                        state.hero.slow(this.powerSec, this.powerFac);
-                    else if (this.style == Item.AtkStyle.Flame)
-                        state.hero.burn(this.powerSec, this.powerFac * this.dmg);
-
-                    state.room.removeProj(this);
-                    if (state.hero.hp <= 0)
-                    {
-                        state.addChildState(new GameOverState(state.form), false, true);
-                        return;
-                    }
+                    state.addChildState(new GameOverState(state.form), false, true);
+                    return;
                 }
+            }
 
             x = xNext;
             y = yNext;
         }
-        public void act()
-        {
-            frame++;
-            if (frame >= 20) { frame = 0; }
-            if (friendlyFire == true)
-            {
-                tryMove(x + x_speed, y + y_speed);
-            }
-            else { 
-                tryMove2(x + x_speed, y + y_speed);
-            }
-        }
 
-        public void draw(Graphics g)
-        {
-            if(!isMagic)
-                g.DrawImage(this.proj_img, new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));
-            else
-                g.DrawImage(this.animation[frame], new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size)));     
-        }
     }
 
-
-    
 }
