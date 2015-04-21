@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = false;
+        private bool testing = true;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -134,7 +134,7 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.level = 100;
+                this.level = 1;
                 this.atk_dmg *= Math.Pow(dmg_inc, level);
                 this.base_atk_dmg = this.atk_dmg;
                 this.full_hp *= Math.Pow(hp_inc, level);

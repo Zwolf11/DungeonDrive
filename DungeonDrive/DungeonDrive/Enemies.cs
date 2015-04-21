@@ -15,6 +15,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.hp_reg = this.full_hp * 0.001;
             this.atk_dmg = 1 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
             this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.45;
             this.origin_x = x;
@@ -102,9 +103,9 @@ namespace DungeonDrive
             }
 
             if (state.hero.status.Equals("Paralyzed"))
-            {
-                this.atk_dmg += this.atk_dmg * 0.3;
-            }
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
 
             move();
 
@@ -156,6 +157,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.hp_reg = this.full_hp * 0.005;
             this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
             this.speed = 0.03 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.4;
             this.origin_x = x;
@@ -245,9 +247,9 @@ namespace DungeonDrive
             move();
 
             if (state.hero.status.Equals("Paralyzed"))
-            {
-                this.atk_dmg += this.atk_dmg * 0.3;
-            }
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
 
             /*if (this.split)
             {
@@ -306,6 +308,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.hp_reg = this.full_hp * 0.001;
             this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
             this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
             this.origin_x = x;
@@ -393,9 +396,9 @@ namespace DungeonDrive
             move();
 
             if (state.hero.status.Equals("Paralyzed"))
-            {
-                this.atk_dmg += this.atk_dmg * 0.3;
-            }
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
@@ -472,6 +475,7 @@ namespace DungeonDrive
             this.hp = full_hp;
             this.hp_reg = this.full_hp * 0.0005;
             this.atk_dmg = 3 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
             this.speed = 0.05 * Math.Pow(1.01, state.hero.level);
             this.radius = 0.35;
             this.origin_x = x;
@@ -560,9 +564,9 @@ namespace DungeonDrive
             move();
 
             if (state.hero.status.Equals("Paralyzed"))
-            {
-                this.atk_dmg += this.atk_dmg * 0.3;
-            }
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
 
             //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
             //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
