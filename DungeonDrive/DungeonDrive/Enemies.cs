@@ -88,8 +88,7 @@ namespace DungeonDrive
         
         public override void act()
         {
-            enemyProjectile weapon_proj = new enemyProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir),0.2,15);
-            state.room.projectiles.Add(weapon_proj);
+            
             if (knockback)
                 knockBacked();
 
@@ -126,7 +125,11 @@ namespace DungeonDrive
                 this.atk_dmg = atk_dmg * 3 * Math.Pow(1.09, state.hero.level);
                 this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
-
+            if (this.atk_cd[1]) {
+                enemyProjectile weapon_proj = new enemyProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir), 0.2, 15);
+                state.room.projectiles.Add(weapon_proj);
+                this.cd(5, 1);
+            }
             //tryMove(xNext, yNext);
         }
 
@@ -209,6 +212,7 @@ namespace DungeonDrive
                 if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
                 {
                     //Original position has been reached
+                    
                     this.moving = false;
                     this.x = origin_x;
                     this.y = origin_y;
@@ -417,6 +421,15 @@ namespace DungeonDrive
                     if (random <= 30)
                         statusChanged(state.hero, "poison");
                 }
+            }
+
+
+            if (this.atk_cd[1] )
+            {
+                LighteningBall LB = new LighteningBall();
+                LB.setLighteningBall(state, this);
+                LB.cast();
+                this.cd(5, 1);
             }
 
             /*if ((state.hero.x - x) < 3 && (state.hero.y - y) < 3)
