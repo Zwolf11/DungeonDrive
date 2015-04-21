@@ -88,6 +88,8 @@ namespace DungeonDrive
         
         public override void act()
         {
+            enemyProjectile weapon_proj = new enemyProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir),0.2,15);
+            state.room.projectiles.Add(weapon_proj);
             if (knockback)
                 knockBacked();
 

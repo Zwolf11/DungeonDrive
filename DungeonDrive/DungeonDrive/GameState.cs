@@ -591,8 +591,10 @@ namespace DungeonDrive
             hero.act();
 
             foreach (Unit unit in room.enemies)
+            {
+                unit.setDir();
                 unit.act();
-
+            }
             foreach (Projectile proj in room.projectiles)
                 proj.act();
 

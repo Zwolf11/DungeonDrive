@@ -64,12 +64,14 @@ namespace DungeonDrive
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
+        public float dir = 0;
         public Unit(GameState state, double x, double y)
         {
             this.state = state;
             this.x = x;
             this.y = y;
             for (int i = 0; i < atk_cd.Length; i++) atk_cd[i] = true;
+            
         }
 
         public abstract void act();
@@ -82,6 +84,11 @@ namespace DungeonDrive
             atk_cd[i] = true;
         }
 
+        public virtual void setDir() {
+            if (this is Hero)
+                return;
+            this.dir = (float)Math.Atan2(state.hero.y - this.y, state.hero.x - this.x);
+        }
         private void slowSleep(double sec, double fac)
         {
             this.speed *= fac;
@@ -154,6 +161,7 @@ namespace DungeonDrive
 
             if (this.atk_cd[0])
             {
+                
                 int dirX = Math.Sign(state.hero.x - this.x);
                 int dirY = Math.Sign(state.hero.y - this.y);
                 this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
