@@ -126,6 +126,7 @@ namespace DungeonDrive
         public RuneOfFire() : base()
 
         {
+            
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
@@ -176,7 +177,8 @@ namespace DungeonDrive
 
     public class EnergyBarrier : Spell
     {
-        private Bitmap[] animation = new Bitmap[20];
+        
+        private Bitmap[] animation = new Bitmap[32];
         public int level = 1;
         GameState state;
         Unit unit;
@@ -188,6 +190,7 @@ namespace DungeonDrive
         public EnergyBarrier()
             : base()
         {
+            this.maxFrame = 32;
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
@@ -215,6 +218,19 @@ namespace DungeonDrive
             this.animation[17] = Properties.Resources.EnergyBarrier18;
             this.animation[18] = Properties.Resources.EnergyBarrier19;
             this.animation[19] = Properties.Resources.EnergyBarrier20;
+            this.animation[20] = Properties.Resources.EnergyBarrier21;
+            this.animation[21] = Properties.Resources.EnergyBarrier22;
+            this.animation[22] = Properties.Resources.EnergyBarrier23;
+            this.animation[23] = Properties.Resources.EnergyBarrier24;
+            this.animation[24] = Properties.Resources.EnergyBarrier25;
+            this.animation[25] = Properties.Resources.EnergyBarrier26;
+            this.animation[26] = Properties.Resources.EnergyBarrier27;
+            this.animation[27] = Properties.Resources.EnergyBarrier28;
+            this.animation[28] = Properties.Resources.EnergyBarrier29;
+            this.animation[29] = Properties.Resources.EnergyBarrier30;
+            this.animation[30] = Properties.Resources.EnergyBarrier31;
+            this.animation[31] = Properties.Resources.EnergyBarrier32;
+            
         }
 
         public override void cast(GameState state, Unit unit)
@@ -225,7 +241,7 @@ namespace DungeonDrive
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
             proj1.radius = 3;
-
+            proj1.maxFrame = this.maxFrame;
             if (this.unit is Hero) { }
             else
             {

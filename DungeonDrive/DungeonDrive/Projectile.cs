@@ -20,6 +20,7 @@ namespace DungeonDrive
         public double radius = 0.3;
         public bool friendlyFire = true;
         public int frame = 0;
+        public int maxFrame = 20;
         public Bitmap[] animation = new Bitmap[20];
         public bool isMagic = false;
 
@@ -125,7 +126,7 @@ namespace DungeonDrive
         public virtual void act()
         {
             frame++;
-            if (frame >= 20) { frame = 0; }
+            if (frame >= maxFrame) { frame = 0; }
 
             tryMove(x + x_speed, y + y_speed);
 
