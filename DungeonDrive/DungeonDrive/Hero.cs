@@ -411,10 +411,8 @@ namespace DungeonDrive
         {
             if (atk_cd[4])
             {
-                RoF.setRuneOfFrost(this.state, this);
-                RoF.cast();
-                light.setLighteningBall(this.state, this);
-                light.cast();
+
+                this.cast(new RuneOfFire());
                 cd(0, 4);
                
             }

@@ -127,9 +127,9 @@ namespace DungeonDrive
                 this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
             if (this.atk_cd[1]) {
-                enemyProjectile weapon_proj = new enemyProjectile(state, x, y, Math.Cos(dir), Math.Sin(dir), 0.2, 15);
-                state.room.projectiles.Add(weapon_proj);
-                this.cd(5, 1);
+                LighteningBall LB = new LighteningBall();
+                this.cast(LB);
+                this.cd(LB.cd, 1);
             }
             //tryMove(xNext, yNext);
         }
@@ -429,9 +429,9 @@ namespace DungeonDrive
 
             if (this.atk_cd[1] )
             {
-                LighteningBall LB = new LighteningBall();
-                LB.setLighteningBall(state, this);
-                LB.cast();
+                //LighteningBall LB = new LighteningBall();
+                //LB.setLighteningBall(state, this);
+                //LB.cast();
                 this.cd(5, 1);
             }
 
@@ -832,9 +832,8 @@ namespace DungeonDrive
 
             if (this.atk_cd[1])
             {
-                LighteningBall LB = new LighteningBall();
-                LB.setLighteningBall(state, this);
-                LB.cast();
+
+                
                 if (this.status.Equals("Frenzied"))
                     this.cd(1, 1);
                 else

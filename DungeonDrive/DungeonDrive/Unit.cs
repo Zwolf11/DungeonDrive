@@ -116,7 +116,9 @@ namespace DungeonDrive
             this.burning_sec = sec * 17;
             this.burning_amount = fac / this.burning_sec;
         }
-
+        public void cast(Spell spell) {
+            spell.cast(this.state, this);
+        }
         public void burning()
         {   
             this.hp -= this.burning_amount;

@@ -11,9 +11,11 @@ namespace DungeonDrive
     {
         public Bitmap[] spellIcon = new Bitmap[SkillStreeState.skillLevel];
         public int duration;
+        public int cd = 5;
         public int maxFrame;
         public String spellDesc;
         public Spell() { }
+        public virtual void cast(GameState state, Unit unit) { }
         public virtual void tick() { }
     }
 
@@ -24,8 +26,9 @@ namespace DungeonDrive
         public int level = 1;
         GameState state;
         Unit unit;
-        public void cast() {
-
+        public override void cast(GameState state, Unit unit)
+        {
+            setLighteningBall(state, unit);
             Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
             proj1.isMagic = true;
             proj1.animation = this.animation;
@@ -71,8 +74,9 @@ namespace DungeonDrive
             this.state = state;
             this.unit = unit;       
         }
-     
+
         public LighteningBall()
+            : base()
 
         {
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
@@ -119,7 +123,7 @@ namespace DungeonDrive
             this.state = state;
             this.unit = unit;
         }
-        public RuneOfFire()
+        public RuneOfFire() : base()
 
         {
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
@@ -151,9 +155,9 @@ namespace DungeonDrive
             this.animation[19] = Properties.Resources.RUNEOFFIRE6;
         }
 
-        public void cast()
+        public override void cast(GameState state, Unit unit)
         {
-
+            setRuneOfFrost( state, unit);
             staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0,5);
             proj1.isMagic = true;
             proj1.animation = this.animation;
