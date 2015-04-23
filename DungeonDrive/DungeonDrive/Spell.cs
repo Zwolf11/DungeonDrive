@@ -23,7 +23,7 @@ namespace DungeonDrive
     public class LighteningBall : Spell {
         
         //public static Bitmap[] Icon = new Bitmap[SkillStreeState.skillLevel];
-        private Bitmap[] animation= new Bitmap[20];
+        public Bitmap[] animation= new Bitmap[20];
         public int level = 1;
         GameState state;
         Unit unit;
@@ -116,7 +116,7 @@ namespace DungeonDrive
     }
 
     public class RuneOfFire : Spell {
-        private Bitmap[] animation = new Bitmap[20];
+        public Bitmap[] animation = new Bitmap[20];
         public int level = 1;
         GameState state;
         Unit unit;
@@ -179,8 +179,8 @@ namespace DungeonDrive
 
     public class EnergyBarrier : Spell
     {
-        
-        private Bitmap[] animation = new Bitmap[32];
+
+        public Bitmap[] animation = new Bitmap[32];
         public int level = 1;
         GameState state;
         Unit unit;
@@ -252,6 +252,81 @@ namespace DungeonDrive
             }
             state.room.projectiles.Add(proj1);
 
+        }
+    }
+
+    public class CrusingFireBall : Spell{
+        public Bitmap[] animation = new Bitmap[32];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+
+        public CrusingFireBall()
+            : base()
+        {
+            this.maxFrame = 31;
+            this.spellName = "Crusing Fire";
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.CrusingfireIcon1;
+            spellIcon[1] = Properties.Resources.CrusingfireIcon2;
+            spellIcon[2] = Properties.Resources.CrusingfireIcon3;
+            this.animation[0] = Properties.Resources.CrusingFire1;
+            this.animation[1] = Properties.Resources.CrusingFire1;
+            this.animation[2] = Properties.Resources.CrusingFire2;
+            this.animation[3] = Properties.Resources.CrusingFire2;
+            this.animation[4] = Properties.Resources.CrusingFire3;
+            this.animation[5] = Properties.Resources.CrusingFire3;
+            this.animation[6] = Properties.Resources.CrusingFire4;
+            this.animation[7] = Properties.Resources.CrusingFire5;
+            this.animation[8] = Properties.Resources.CrusingFire6;
+            this.animation[9] = Properties.Resources.CrusingFire7;
+            this.animation[10] = Properties.Resources.CrusingFire8;
+            this.animation[11] = Properties.Resources.CrusingFire9;
+            this.animation[12] = Properties.Resources.CrusingFire10;
+            this.animation[13] = Properties.Resources.CrusingFire11;
+            this.animation[14] = Properties.Resources.CrusingFire12;
+            this.animation[15] = Properties.Resources.CrusingFire13;
+            this.animation[16] = Properties.Resources.CrusingFire14;
+            this.animation[17] = Properties.Resources.CrusingFire14;
+            this.animation[18] = Properties.Resources.CrusingFire13;
+            this.animation[19] = Properties.Resources.CrusingFire12;
+            this.animation[20] = Properties.Resources.CrusingFire11;
+            this.animation[21] = Properties.Resources.CrusingFire10;
+            this.animation[22] = Properties.Resources.CrusingFire9;
+            this.animation[23] = Properties.Resources.CrusingFire8;
+            this.animation[24] = Properties.Resources.CrusingFire7;
+            this.animation[25] = Properties.Resources.CrusingFire6;
+            this.animation[26] = Properties.Resources.CrusingFire5;
+            this.animation[27] = Properties.Resources.CrusingFire4;
+            this.animation[28] = Properties.Resources.CrusingFire3;
+            this.animation[29] = Properties.Resources.CrusingFire2;
+            this.animation[30] = Properties.Resources.CrusingFire1;
+                       
+        }
+        public override void cast(GameState state, Unit unit)
+        {
+            setCrusingFire(state, unit);
+            CircleAroundProjectiles proj1 = new CircleAroundProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1,5);
+            proj1.isMagic = true;
+            proj1.animation = this.animation;
+            proj1.dmg = 0.1;
+            proj1.radius = 1;
+            proj1.maxFrame = this.maxFrame;
+            if (this.unit is Hero) { }
+            else
+            {
+                proj1.friendlyFire = false;
+            }
+            state.room.projectiles.Add(proj1);
+
+        }
+        public void setCrusingFire(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
         }
     }
 }

@@ -982,6 +982,108 @@
   <data name="wd8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wd8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CrusingFire1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire23" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire27" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire27.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire28" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire28.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire29" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire29.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire31" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingFire9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingFire9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingfireIcon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingfireIcon1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingfireIcon2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingfireIcon2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CrusingfireIcon3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CrusingfireIcon3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="EB1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EB1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

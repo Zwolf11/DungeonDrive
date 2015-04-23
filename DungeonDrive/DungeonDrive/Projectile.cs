@@ -155,6 +155,8 @@ namespace DungeonDrive
         {
             this.x_speed = 0;
             this.y_speed = 0;
+            this.radius += 0.01;
+            this.animation = (new RuneOfFire()).animation;
         }
 
     }
@@ -174,8 +176,35 @@ namespace DungeonDrive
         {
             this.x = state.hero.x;
             this.y = state.hero.y;
+        } 
+    }
+    public class CircleAroundProjectiles : Projectile {
+        private GameState state;
+        public CircleAroundProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.state = state;
         }
-    
+        public override void trailType()
+        {
+            float dir = (float)Math.Atan2(state.hero.y - this.y, state.hero.x - this.x);
+            if (Math.Sqrt(Math.Pow(this.x - state.hero.x, 2) + Math.Pow(this.y - state.hero.y, 2)) >= 4)
+            {
+                this.x_speed = this.proj_speed/4 * Math.Cos(dir);
+                this.y_speed = this.proj_speed/4 * Math.Sin(dir);
+            }
+            else if (Math.Sqrt(Math.Pow(this.x - state.hero.x, 2) + Math.Pow(this.y - state.hero.y, 2)) >= 3.5)
+            {
+
+                this.x_speed = this.proj_speed/4 * Math.Cos(dir - Math.PI / 2);
+                this.y_speed = this.proj_speed/4 * Math.Sin(dir - Math.PI / 2);
+            }
+
+        }
+        public override void endingEffect()
+        {
+            //base.endingEffect();
+        }
     }
 
     public class staticProjectiles : Projectile
