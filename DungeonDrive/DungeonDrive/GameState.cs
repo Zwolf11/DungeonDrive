@@ -12,6 +12,7 @@ namespace DungeonDrive
         public Hero hero;
         public Room room;
         public Item[][] inventory = new Item[5][];
+        public static bool[,] heroSkill = new bool[SkillStreeState.skillList, SkillStreeState.skillLevel]; 
         public Font font = new Font("Arial", 12);
         public int size = 40;
         private int konami = 0;
@@ -39,10 +40,19 @@ namespace DungeonDrive
             else
             {
                 room = new Room(this, "C:\\");
+                initSkillTree();
                 startTutorial = true;
             }
         }
-
+        private void initSkillTree(){
+            for (int i = 0; i < SkillStreeState.skillList; i++ )
+            {
+                for (int j = 0; j < SkillStreeState.skillLevel; j ++ )
+                {
+                    GameState.heroSkill[i,j] = false;
+                }
+            }
+        }
         public Item randomItem()
         {
             Random rand = new Random(DateTime.Now.Millisecond);

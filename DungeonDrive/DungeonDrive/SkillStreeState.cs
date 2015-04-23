@@ -7,13 +7,15 @@ namespace DungeonDrive
     class SkillStreeState : State
     {
         public static int availablePoints = 0;
-        public static int skillList = 6;
+        public static int skillList = 3;
         public static int skillLevel = 3;
         private Rectangle[,] skillFrame = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillFrameImages = new Bitmap[10, 10];
 
         private Rectangle[,] skillSet = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillSetImages = new Bitmap[10, 10];
+
+        
 
         private Bitmap skillFrame1 = Properties.Resources.frame_0_acid;
         private Bitmap skillFrame2 = Properties.Resources.frame_1_acid;
@@ -64,7 +66,7 @@ namespace DungeonDrive
                      skillSetImages[i, j] = Properties.Resources.frame_9_grey;
                  }
             }
-
+            Console.Write("asdf");
             addSpell(new LighteningBall(), 0);
             skillFrameImages[0, 0] = Properties.Resources.frame_0_eerie;
             skillFrameImages[0, 1] = Properties.Resources.frame_7_eerie;
