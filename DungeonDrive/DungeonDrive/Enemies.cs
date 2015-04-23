@@ -467,6 +467,7 @@ namespace DungeonDrive
     {
         private Bitmap[] imgs = new Bitmap[3];
         private Random rand;
+        private int sleeparoni;
 
         public Ghost(GameState state, double x, double y)
             : base(state, x, y)
@@ -477,7 +478,7 @@ namespace DungeonDrive
             this.atk_dmg = 3 * Math.Pow(1.1, state.hero.level);
             this.base_atk_dmg = this.atk_dmg;
             this.speed = 0.05 * Math.Pow(1.01, state.hero.level);
-            this.radius = 0.35;
+            this.radius = 0.45;
             this.origin_x = x;
             this.origin_y = y;
             this.center_x = x + radius;
@@ -491,6 +492,7 @@ namespace DungeonDrive
             imgs[1] = new Bitmap(Properties.Resources.ghost1);
             imgs[2] = new Bitmap(Properties.Resources.ghost2);
 
+            sleeparoni = 100;
             rand = new Random();
         }
 
@@ -614,6 +616,12 @@ namespace DungeonDrive
 
             if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {
+                if (sleeparoni > 0)
+                {
+                    sleeparoni--;
+                    return;
+                }
+
                 this.teleport = false;
 
                 //If hero is 5 units close to the boss, have the boss teleport behind the player
@@ -685,17 +693,88 @@ namespace DungeonDrive
         }
     }
 
-    /*public class Boss : Unit
+    public class Boss : Unit
     {
-        public Boss(double x, double y)
-            : base(x, y)
+        private Bitmap[] imgs = new Bitmap[1];
+        private Random rand;
+        private int sleeparoni;
+
+        public Boss(GameState state, double x, double y)
+            : base(state, x, y)
         {
-            this.full_hp = 200;
+            this.full_hp = 150 * Math.Pow(1.09, state.hero.level) - 20;
             this.hp = full_hp;
-            this.atk_dmg = 5;
-            this.speed = 0.02;
-            this.radius = 0.6;
+            this.hp_reg = this.full_hp * 0.001;
+            this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
+            this.speed = 0.1 * Math.Pow(1.01, state.hero.level);
+            this.radius = 0.65;
+            this.origin_x = x;
+            this.origin_y = y;
+            this.center_x = x + radius;
+            this.center_y = y + radius;
+            this.exp = 8 * Math.Pow(1.09, state.hero.level);
+            this.status = "Normal";
+            this.lunge = true;
             this.teleport = true;
+
+            imgs[0] = new Bitmap(Properties.Resources.YHVH);
+
+            sleeparoni = 100;
+            rand = new Random();
+        }
+
+        public void move()
+        {
+            double xNext;
+            double yNext;
+
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                return;
+            }
+
+            if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
+            {
+                //Player draws aggro from bats if he is close enough
+                this.moving = true;
+                xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+            }
+            else if (this.moving)
+            {
+                //Move towards original position
+                xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+                if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
+                {
+                    //Original position has been reached
+                    this.moving = false;
+                    this.x = origin_x;
+                    this.y = origin_y;
+                    return;
+                }
+            }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
+            }
         }
 
         public override void act()
@@ -703,18 +782,74 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
+            if (burning_sec-- >= 0)
+                burning();
+
             if (sleep_sec > 0)
             {
                 sleep_sec--;
                 return;
             }
 
-            double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-            double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            if (this.hp < (this.full_hp / 2))
+            {
+                this.status = "Frenzied";
+            }
+
+            move();
+
+            if (state.hero.status.Equals("Paralyzed"))
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
+
+            //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+
+            /*if ((state.hero.x - x) < 3 && (state.hero.x - x) > 0.2 && (state.hero.y - y) < 3 && (state.hero.y - y) > 0.2)
+                this.speed = 0.15;
+            else
+                this.speed = 0.03;*/
+
+            if (state.room.currentRoom.Equals(state.graveyard))
+            {
+                this.full_hp = 5 * Math.Pow(1.09, state.hero.level);
+                this.hp = full_hp;
+                this.atk_dmg += (atk_dmg * 0.30) * Math.Pow(1.09, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
+            }
+
+            if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
+            {
+                if (atk_cd[0])
+                {
+                    int random = rand.Next(0, 100);
+                    if (random <= 30)
+                        statusChanged(state.hero, "head_bind");
+                }
+            }
+
+
+            if (this.atk_cd[1])
+            {
+                LighteningBall LB = new LighteningBall();
+                LB.setLighteningBall(state, this);
+                LB.cast();
+                if (this.status.Equals("Frenzied"))
+                    this.cd(1, 1);
+                else
+                    this.cd(3, 1);
+            }
 
             if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {
-                this.teleport = false;
+                if (sleeparoni > 0)
+                {
+                    sleeparoni--;
+                    return;
+                }
+                sleeparoni = 200;
+                //this.teleport = false;
 
                 //If hero is 5 units close to the boss, have the boss teleport behind the player
 
@@ -771,15 +906,16 @@ namespace DungeonDrive
                     return;
                 }
             }
-            else
-                this.speed = 0.02;
-
-            tryMove(xNext, yNext);
         }
 
         public override void draw(Graphics g)
         {
-            g.FillEllipse(Brushes.Black, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
-            drawHpBar(g);        }
-    }*/
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            animFrame = (animFrame + 0.1) % imgs.Length;
+            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            drawHpBar(g);
+            if (this.displayname)
+                drawFileName(g);
+        }
+    }
 }

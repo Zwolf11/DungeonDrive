@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\YHVH.gif" />
     <None Include="Resources\LighteningBall2.png" />
     <None Include="Resources\LighteningBall1.png" />
     <None Include="Resources\LighteningBall3.png" />
