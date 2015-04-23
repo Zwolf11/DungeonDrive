@@ -221,7 +221,7 @@ namespace DungeonDrive
                         //Console.WriteLine(dirs[i] + " found");
                         directoryFound(dirs[i]);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //Console.WriteLine("{0}", e.ToString());
                     }
@@ -233,7 +233,7 @@ namespace DungeonDrive
                     {
                         //hiddenFound(dirs[i]);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //Console.WriteLine("{0}", e.ToString());
                     }

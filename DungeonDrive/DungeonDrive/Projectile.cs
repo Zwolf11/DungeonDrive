@@ -140,7 +140,6 @@ namespace DungeonDrive
     public class explodingProjectiles : Projectile
     {
         private GameState state;
-        private int timer = 0;
         public explodingProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
@@ -160,7 +159,6 @@ namespace DungeonDrive
     public class staticProjectiles : Projectile
     {
         private GameState state;
-        private int timer = 0;
         public staticProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {

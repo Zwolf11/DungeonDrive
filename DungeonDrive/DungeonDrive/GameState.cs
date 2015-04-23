@@ -124,7 +124,7 @@ namespace DungeonDrive
             return false;
         }
 
-        private void beginTutorial() { addChildState(new MessageState(form, "Welcome to Dungeon Drive (D:)! This game creates dungeons from your file system.", tutorial2), false, true); }
+        private void beginTutorial() { startTutorial = false; addChildState(new MessageState(form, "Welcome to Dungeon Drive (D:)! This game creates dungeons from your file system.", tutorial2), false, true); }
         private void tutorial2() { addChildState(new MessageState(form, "You are currently in your C: Drive. There are stairs that lead to deeper folders.", tutorial3), false, true); }
         private void tutorial3() { addChildState(new MessageState(form, "Enemies, chests, and obstacles are placed in the dungeons depending on what kinds of files are in your folders.", tutorial4), false, true); }
         private void tutorial4() { addChildState(new MessageState(form, "Click to attack, press space to open your inventory, and I bet you can figure out the rest."), false, true); }
@@ -557,14 +557,14 @@ namespace DungeonDrive
             this.mouseY = e.Y;
         }
 
-        private Bitmap rotateImg(System.Drawing.Image oldBitmap, double angle)
+        private Bitmap rotateImg(Bitmap oldBitmap, double angle)
         {
-            var newBitmap = new Bitmap(oldBitmap.Width, oldBitmap.Height);
-            var graphics = Graphics.FromImage(newBitmap);
-            graphics.TranslateTransform((float)oldBitmap.Width / 2, (float)oldBitmap.Height / 2);
-            graphics.RotateTransform((float)angle);
-            graphics.TranslateTransform(-(float)oldBitmap.Width / 2, -(float)oldBitmap.Height / 2);
-            graphics.DrawImage(oldBitmap, new Point(0, 0));
+            Bitmap newBitmap = new Bitmap(oldBitmap.Width * 2, oldBitmap.Height * 2);
+            Graphics g = Graphics.FromImage(newBitmap);
+            g.TranslateTransform((float)oldBitmap.Width, (float)oldBitmap.Height);
+            g.RotateTransform((float)angle + 45);
+            g.TranslateTransform(-(float)oldBitmap.Width, -(float)oldBitmap.Height);
+            g.DrawImage(oldBitmap, new Point(oldBitmap.Width, 0));
             return newBitmap;
         }
 
@@ -574,16 +574,17 @@ namespace DungeonDrive
             g.Clear(Color.FromArgb(20, 20, 20));
 
             room.draw(g);
-            hero.draw(g);
-
-            if(mouseImg != null)
-                g.DrawImage(mouseImg, this.mouseX - mouseImg.Width / 2, this.mouseY - mouseImg.Height / 2);
 
             if (hero.weapon != null && angle >= 0)
             {
                 double heroAngle = Math.Atan2(mouseY - form.ClientSize.Height / 2, mouseX - form.ClientSize.Width / 2);
-                g.DrawImage(rotateImg(hero.weapon.img, (angle + heroAngle) * 180 / Math.PI), form.ClientSize.Width / 2 - size / 2, form.ClientSize.Height / 2 - size / 2, size, size);
+                g.DrawImage(rotateImg(hero.weapon.img, (angle + heroAngle) * 180 / Math.PI - 45), form.ClientSize.Width / 2 - size, form.ClientSize.Height / 2 - size, size * 2, size * 2);
             }
+
+            hero.draw(g);
+
+            if(mouseImg != null)
+                g.DrawImage(mouseImg, this.mouseX - mouseImg.Width / 2, this.mouseY - mouseImg.Height / 2);
         }
 
         public override void tick(object sender, EventArgs e)
@@ -594,10 +595,7 @@ namespace DungeonDrive
                 angle = -1;
 
             if(startTutorial)
-            {
-                startTutorial = false;
                 beginTutorial();
-            }
 
             hero.act();
 
