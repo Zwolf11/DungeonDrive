@@ -23,7 +23,7 @@ namespace DungeonDrive
         public int maxFrame = 20;
         public Bitmap[] animation = new Bitmap[20];
         public bool isMagic = false;
-
+        public Unit shooter;
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size * radius); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size * radius); } }
 
@@ -180,20 +180,22 @@ namespace DungeonDrive
     }
     public class CircleAroundProjectiles : Projectile {
         private GameState state;
-        public CircleAroundProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+        public CircleAroundProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit shooter)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
+            this.shooter = shooter;
             this.state = state;
         }
         public override void trailType()
         {
-            float dir = (float)Math.Atan2(state.hero.y - this.y, state.hero.x - this.x);
-            if (Math.Sqrt(Math.Pow(this.x - state.hero.x, 2) + Math.Pow(this.y - state.hero.y, 2)) >= 4)
+            //float dir = (float)Math.Atan2(state.hero.y - this.y, state.hero.x - this.x);
+            float dir = (float)Math.Atan2(shooter.y - this.y, shooter.x - this.x);
+            if (Math.Sqrt(Math.Pow(this.x - shooter.x, 2) + Math.Pow(this.y - shooter.y, 2)) >= 4)
             {
                 this.x_speed = this.proj_speed/4 * Math.Cos(dir);
                 this.y_speed = this.proj_speed/4 * Math.Sin(dir);
             }
-            else if (Math.Sqrt(Math.Pow(this.x - state.hero.x, 2) + Math.Pow(this.y - state.hero.y, 2)) >= 3.5)
+            else if (Math.Sqrt(Math.Pow(this.x - shooter.x, 2) + Math.Pow(this.y - shooter.y, 2)) >= 3.5)
             {
 
                 this.x_speed = this.proj_speed/4 * Math.Cos(dir - Math.PI / 2);

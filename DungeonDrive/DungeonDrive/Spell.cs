@@ -309,7 +309,7 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setCrusingFire(state, unit);
-            CircleAroundProjectiles proj1 = new CircleAroundProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1,5);
+            CircleAroundProjectiles proj1 = new CircleAroundProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1,5, unit);
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;

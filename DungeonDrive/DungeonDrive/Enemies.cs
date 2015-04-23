@@ -434,6 +434,11 @@ namespace DungeonDrive
                 //LB.cast();
                 this.cd(5, 1);
             }
+            else if(this.atk_cd[2]){
+
+                this.cast(new CrusingFireBall());
+                this.cd(10,2);
+            }
 
             /*if ((state.hero.x - x) < 3 && (state.hero.y - y) < 3)
             {
