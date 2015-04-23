@@ -108,10 +108,15 @@ namespace DungeonDrive
                 }
             
             }
+            
             x = xNext;
             y = yNext;
+            trailType();
         }
 
+        public virtual void trailType() { 
+        
+        }
         public virtual void endingEffect()
         {
             state.room.removeProj(this);
@@ -123,7 +128,6 @@ namespace DungeonDrive
             if (frame >= 20) { frame = 0; }
 
             tryMove(x + x_speed, y + y_speed);
-
 
         }
 
@@ -152,8 +156,25 @@ namespace DungeonDrive
             this.y_speed = 0;
         }
 
+    }
 
+    public class barrierProjectiles : Projectile {
+        private GameState state;
+        public barrierProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.state = state;
+        }
+        public override void endingEffect()
+        {
 
+        }
+        public override void trailType()
+        {
+            this.x = state.hero.x;
+            this.y = state.hero.y;
+        }
+    
     }
 
     public class staticProjectiles : Projectile

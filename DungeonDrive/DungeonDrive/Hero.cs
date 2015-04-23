@@ -412,7 +412,8 @@ namespace DungeonDrive
             if (atk_cd[4])
             {
 
-                this.cast(new RuneOfFire());
+                //this.cast(new RuneOfFire());
+                this.cast(new EnergyBarrier());
                 cd(0, 4);
                
             }

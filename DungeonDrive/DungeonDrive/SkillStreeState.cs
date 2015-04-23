@@ -99,7 +99,8 @@ namespace DungeonDrive
             }
 
             addSpell(new LighteningBall(), 0);
-            addSpell(new RuneOfFire(), 1);/*
+            addSpell(new RuneOfFire(), 1);
+            addSpell(new EnergyBarrier(), 2);/*
             skillFrameImages[0, 0] = Properties.Resources.frame_0_eerie;
             skillFrameImages[0, 1] = Properties.Resources.frame_7_eerie;
             skillFrameImages[0, 2] = Properties.Resources.frame_8_eerie;

@@ -982,4 +982,109 @@
   <data name="wd8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wd8.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="EB1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EB1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EB2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EB2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EB3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EB3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier23" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier27" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier27.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier28" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier28.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier29" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier29.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier30" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier31" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier31.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EnergyBarrier9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EnergyBarrier9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

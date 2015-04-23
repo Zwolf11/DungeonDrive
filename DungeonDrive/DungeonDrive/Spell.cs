@@ -158,11 +158,73 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setRuneOfFrost( state, unit);
-            staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0,5);
+            staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
-            proj1.radius = 2;
+            proj1.radius = 1;
+
+            if (this.unit is Hero) { }
+            else
+            {
+                proj1.friendlyFire = false;
+            }
+            state.room.projectiles.Add(proj1);
+
+        }
+    }
+
+    public class EnergyBarrier : Spell
+    {
+        private Bitmap[] animation = new Bitmap[20];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+        public void setEnergyBarrier(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+        public EnergyBarrier()
+            : base()
+        {
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.EB1;
+            spellIcon[1] = Properties.Resources.EB2;
+            spellIcon[2] = Properties.Resources.EB3;
+            this.animation[0] = Properties.Resources.EnergyBarrier1;
+            this.animation[1] = Properties.Resources.EnergyBarrier2;
+            this.animation[2] = Properties.Resources.EnergyBarrier3;
+            this.animation[3] = Properties.Resources.EnergyBarrier4;
+            this.animation[4] = Properties.Resources.EnergyBarrier5;
+            this.animation[5] = Properties.Resources.EnergyBarrier6;
+            this.animation[6] = Properties.Resources.EnergyBarrier7;
+            this.animation[7] = Properties.Resources.EnergyBarrier8;
+            this.animation[8] = Properties.Resources.EnergyBarrier9;
+            this.animation[9] = Properties.Resources.EnergyBarrier10;
+            this.animation[10] = Properties.Resources.EnergyBarrier11;
+            this.animation[11] = Properties.Resources.EnergyBarrier12;
+            this.animation[12] = Properties.Resources.EnergyBarrier13;
+            this.animation[13] = Properties.Resources.EnergyBarrier14;
+            this.animation[14] = Properties.Resources.EnergyBarrier15;
+            this.animation[15] = Properties.Resources.EnergyBarrier15;
+            this.animation[16] = Properties.Resources.EnergyBarrier17;
+            this.animation[17] = Properties.Resources.EnergyBarrier18;
+            this.animation[18] = Properties.Resources.EnergyBarrier19;
+            this.animation[19] = Properties.Resources.EnergyBarrier20;
+        }
+
+        public override void cast(GameState state, Unit unit)
+        {
+            setEnergyBarrier(state, unit);
+            barrierProjectiles proj1 = new barrierProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
+            proj1.isMagic = true;
+            proj1.animation = this.animation;
+            proj1.dmg = 0.1;
+            proj1.radius = 3;
 
             if (this.unit is Hero) { }
             else
