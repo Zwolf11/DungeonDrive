@@ -10,8 +10,11 @@ namespace DungeonDrive
     public class Spell
     {
         public Bitmap[] spellIcon = new Bitmap[SkillStreeState.skillLevel];
+        public int duration;
+        public int maxFrame;
         public String spellDesc;
         public Spell() { }
+        public virtual void tick() { }
     }
 
     public class LighteningBall : Spell {
@@ -104,5 +107,66 @@ namespace DungeonDrive
         }
 
     
+    }
+
+    public class RuneOfFire : Spell {
+        private Bitmap[] animation = new Bitmap[20];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+        public void setRuneOfFrost(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+        public RuneOfFire()
+
+        {
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.rune_1;
+            spellIcon[1] = Properties.Resources.rune_2;
+            spellIcon[2] = Properties.Resources.rune_3;
+            this.animation[0] = Properties.Resources.RUNEOFFIRE9;
+            this.animation[1] = Properties.Resources.RUNEOFFIRE9;
+            this.animation[2] = Properties.Resources.RUNEOFFIRE8;
+            this.animation[3] = Properties.Resources.RUNEOFFIRE8;
+            this.animation[4] = Properties.Resources.RUNEOFFIRE8;
+            this.animation[5] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[6] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[7] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[8] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[9] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[10] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[11] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[12] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[13] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[14] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[15] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[16] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[17] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[18] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[19] = Properties.Resources.RUNEOFFIRE6;
+        }
+
+        public void cast()
+        {
+
+            staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0,5);
+            proj1.isMagic = true;
+            proj1.animation = this.animation;
+            proj1.dmg = 0.1;
+            proj1.radius = 2;
+
+            if (this.unit is Hero) { }
+            else
+            {
+                proj1.friendlyFire = false;
+            }
+            state.room.projectiles.Add(proj1);
+
+        }
     }
 }

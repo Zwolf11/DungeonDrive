@@ -93,6 +93,20 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\rune_2.png" />
+    <None Include="Resources\rune_1.png" />
+    <None Include="Resources\rune_3.png" />
+    <None Include="Resources\RUNEOFFIRE10.png" />
+    <None Include="Resources\RUNEOFFIRE9.png" />
+    <None Include="Resources\RUNEOFFIRE8.png" />
+    <None Include="Resources\RUNEOFFIRE7.png" />
+    <None Include="Resources\RUNEOFFIRE6.png" />
+    <None Include="Resources\RUNEOFFIRE5.png" />
+    <None Include="Resources\RUNEOFFIRE4.png" />
+    <None Include="Resources\RUNEOFFIRE3.png" />
+    <None Include="Resources\RUNEOFFIRE2.png" />
+    <None Include="Resources\RUNEOFFIRE1.png" />
+    <None Include="Resources\RUNEOFFIRE11.png" />
     <None Include="Resources\YHVH.gif" />
     <None Include="Resources\LighteningBall2.png" />
     <None Include="Resources\LighteningBall1.png" />

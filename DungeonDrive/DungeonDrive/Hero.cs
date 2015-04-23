@@ -28,7 +28,7 @@ namespace DungeonDrive
         public Shield shield = null;
         public Weapon weapon = null;
         public LighteningBall light = new LighteningBall();
-
+        public RuneOfFire RoF = new RuneOfFire();
         //public float dir = 0;
         public bool[] dirs = { false, false, false, false };
         public bool[] attacks = { false, false, false };
@@ -411,6 +411,8 @@ namespace DungeonDrive
         {
             if (atk_cd[4])
             {
+                RoF.setRuneOfFrost(this.state, this);
+                RoF.cast();
                 light.setLighteningBall(this.state, this);
                 light.cast();
                 cd(0, 4);
