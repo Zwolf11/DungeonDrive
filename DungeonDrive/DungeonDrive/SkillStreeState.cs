@@ -11,6 +11,11 @@ namespace DungeonDrive
         public static int skillList = 3;
         //verticle, spell level
         public static int skillLevel = 5;
+        public static Spell spellSelected;
+
+
+        public Spell[] spellStored = new Spell[skillList];
+
         private Rectangle[,] skillFrame = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillFrameImages = new Bitmap[skillList, skillLevel];
 
@@ -145,6 +150,7 @@ namespace DungeonDrive
             for (int j = 0; j < skillLevel; j++)
             {
                 skillSetImages[i, j] = spell.spellIcon[j];
+                spellStored[i] = spell;
             }
 
         }
@@ -240,6 +246,7 @@ namespace DungeonDrive
                     selectedOrNot = false;
                     return;
                 }
+
                 for (int i = 0; i < skillList; i++)
                 {
                     for (int j = 0; j < skillLevel; j++)
@@ -248,7 +255,9 @@ namespace DungeonDrive
                         {
                             this.skillSelected = i;
                             this.levelSelected = j;
-                            selectedOrNot = true; return;
+                            selectedOrNot = true; 
+                            spellSelected = this.spellStored[i];
+                            return;
                         }
                     }
 
@@ -256,10 +265,12 @@ namespace DungeonDrive
                 this.selectedOrNot = false;
             }
             else if(e.Button == MouseButtons.Right){
+                spellSelected = null;
                 for (int j = 0; j < skillLevel; j++)
                 {
                     if (skillFrame[this.skillSelected, j].Contains(click))
                     {
+                        
                         tryToUnlearn(this.skillSelected, j);
                     }
 

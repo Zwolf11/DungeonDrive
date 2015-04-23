@@ -117,6 +117,7 @@ namespace DungeonDrive
             this.burning_amount = fac / this.burning_sec;
         }
         public void cast(Spell spell) {
+            if (spell == null) { return; }
             spell.cast(this.state, this);
         }
         public void burning()

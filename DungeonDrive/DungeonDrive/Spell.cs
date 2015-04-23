@@ -13,9 +13,10 @@ namespace DungeonDrive
         public int duration;
         public int cd = 5;
         public int maxFrame;
+        public String spellName = "";
         public String spellDesc;
-        public Spell() { }
-        public virtual void cast(GameState state, Unit unit) { }
+        public Spell() {}
+        public virtual void cast(GameState state, Unit unit) {}
         public virtual void tick() { }
     }
 
@@ -79,6 +80,7 @@ namespace DungeonDrive
             : base()
 
         {
+            this.spellName = "Lightening Ball";
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
@@ -126,7 +128,7 @@ namespace DungeonDrive
         public RuneOfFire() : base()
 
         {
-            
+            this.spellName = "Rune Of Fire";
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
@@ -163,7 +165,7 @@ namespace DungeonDrive
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
-            proj1.radius = 1;
+            proj1.radius = 3;
 
             if (this.unit is Hero) { }
             else
@@ -191,6 +193,7 @@ namespace DungeonDrive
             : base()
         {
             this.maxFrame = 32;
+            this.spellName = "Energy Barrier";
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;

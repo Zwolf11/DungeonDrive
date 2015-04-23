@@ -412,8 +412,8 @@ namespace DungeonDrive
             if (atk_cd[4])
             {
 
-                //this.cast(new RuneOfFire());
-                this.cast(new EnergyBarrier());
+                this.cast(SkillStreeState.spellSelected);
+                //this.cast(new EnergyBarrier());
                 cd(0, 4);
                
             }
@@ -522,7 +522,11 @@ namespace DungeonDrive
         { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
 
         public void drawDesc(Graphics g)
+        
         {
+            String spellName = "NULL";
+            if(SkillStreeState.spellSelected != null)
+                 spellName = SkillStreeState.spellSelected.spellName;
             g.DrawString(
             "\nLVL: " + this.level
             + "\nHP: " + Math.Round(this.hp, 2) + "/" + Math.Round(this.full_hp, 2)
@@ -534,6 +538,7 @@ namespace DungeonDrive
             + "\nATK STY: " + (this.weapon != null ? this.weapon.style : Item.AtkStyle.Basic)
             + "\nSTATUS: " + this.status
             + "\nEXP: " + Math.Round(this.exp,2) + "/" + Math.Round(this.expcap,2)
+            + "\nSpell: " + spellName
             , state.font, Brushes.White, 5, 20);
         }
 
