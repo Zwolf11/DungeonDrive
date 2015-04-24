@@ -93,6 +93,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\headbind.png" />
+    <None Include="Resources\paralyze.png" />
+    <None Include="Resources\poisoned.png" />
     <None Include="Resources\rune_2.png" />
     <None Include="Resources\rune_1.png" />
     <None Include="Resources\rune_3.png" />
@@ -380,6 +383,8 @@
     <None Include="Resources\CrusingfireIcon3.png" />
     <None Include="Resources\CrusingfireIcon1.png" />
     <None Include="Resources\CrusingfireIcon2.png" />
+    <None Include="Resources\cursed.png" />
+    <None Include="Resources\armbind.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

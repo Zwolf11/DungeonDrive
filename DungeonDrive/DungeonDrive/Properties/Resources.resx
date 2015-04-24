@@ -1189,4 +1189,19 @@
   <data name="EnergyBarrier9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EnergyBarrier9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="armbind" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\armbind.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cursed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cursed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="headbind" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\headbind.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paralyze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\paralyze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="poisoned" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poisoned.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -283,8 +283,8 @@ namespace DungeonDrive
                 if (atk_cd[0])
                 {
                     int random = rand.Next(0, 100);
-                    if (random <= 25)
-                        statusChanged(state.hero, "head_bind");
+                    if (random <= 35)
+                        statusChanged(state.hero, "arm_bind");
                 }
             }
 
@@ -628,7 +628,7 @@ namespace DungeonDrive
                 if (atk_cd[0])
                 {
                     int random = rand.Next(0, 100);
-                    if (random <= 25)
+                    if (random <= 35)
                         statusChanged(state.hero, "curse");
                 }
             }
@@ -867,7 +867,7 @@ namespace DungeonDrive
                 if (atk_cd[0])
                 {
                     int random = rand.Next(0, 100);
-                    if (random <= 30)
+                    if (random <= 35)
                         statusChanged(state.hero, "head_bind");
                 }
             }
