@@ -24,6 +24,7 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 2 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
+            this.inCombat = false;
             imgs[0] = new Bitmap(Properties.Resources.bat0);
             imgs[1] = new Bitmap(Properties.Resources.bat1);
             imgs[2] = new Bitmap(Properties.Resources.bat2);
@@ -89,6 +90,12 @@ namespace DungeonDrive
         
         public override void act()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0);
+                else
+                    inCombat = false;
+            }
             
             if (knockback)
                 knockBacked();
@@ -166,7 +173,7 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 2 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
-
+            this.inCombat = false;
             this.split = true;
 
             imgs[0] = new Bitmap(Properties.Resources.skeleton0);
@@ -232,6 +239,13 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0);
+                else
+                    inCombat = false;
+            }
+
             if (knockback)
                 knockBacked();
 
@@ -317,6 +331,7 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 3 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
+            this.inCombat = false;
             this.lunge = true;
 
             imgs[0] = new Bitmap(Properties.Resources.snake0);
@@ -381,6 +396,13 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0);
+                else
+                    inCombat = false;
+            }
+
             if (knockback)
                 knockBacked();
 
@@ -491,6 +513,7 @@ namespace DungeonDrive
             this.exp = 4 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
             this.teleport = true;
+            this.inCombat = false;
             this.phase = true;
 
             imgs[0] = new Bitmap(Properties.Resources.ghost0);
@@ -556,6 +579,13 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0);
+                else
+                    inCombat = false;
+            }
+
             /*if (knockback)
                 knockBacked();*/
 
@@ -721,6 +751,7 @@ namespace DungeonDrive
             this.exp = 8 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
             this.lunge = true;
+            this.inCombat = false;
             this.teleport = true;
 
             imgs[0] = new Bitmap(Properties.Resources.YHVH);
@@ -784,6 +815,13 @@ namespace DungeonDrive
 
         public override void act()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0);
+                else
+                    inCombat = false;
+            }
+
             if (knockback)
                 knockBacked();
 

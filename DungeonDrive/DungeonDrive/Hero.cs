@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = true;
+        private bool testing = false;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -134,7 +134,7 @@ namespace DungeonDrive
             // for testing
             if (testing)
             {
-                this.level = 1;
+                this.level = 100;
                 this.atk_dmg *= Math.Pow(dmg_inc, level);
                 this.base_atk_dmg = this.atk_dmg;
                 this.full_hp *= Math.Pow(hp_inc, level);
@@ -307,6 +307,7 @@ namespace DungeonDrive
 
         private void handleAttacking()
         {
+            /*
             // knockback skill
             if (attacks[0])
             {
@@ -322,7 +323,7 @@ namespace DungeonDrive
                             knockBack(enemy, (enemy.x - x) * factor, (enemy.y - y) * factor, 0.4);
                             enemy.hp -= 2 + 0.8 * atk_dmg;
                             /*if (status.Equals("Cursed"))
-                                this.full_hp -= 5;*/
+                                this.full_hp -= 5;
                             if (enemy.hp <= 0)
                                 deletingList.Add(enemy);
                         }
@@ -332,6 +333,7 @@ namespace DungeonDrive
 
                 attacks[0] = false;
             }
+*/
 
             // delete skill; doesn't actually delete the file, but moves it into a 'graveyard' directory in C:\
             if (attacks[1])
@@ -464,6 +466,8 @@ namespace DungeonDrive
                             catch (FileNotFoundException) { }
                             knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                             enemy.hp -= atk_dmg;
+                            enemy.inCombat = true;
+                            enemy.combatCd = 3 * 17;
                             if (weapon != null && weapon.style == Item.AtkStyle.Frozen)
                                 enemy.slow(weapon.powerSec, weapon.powerFac);
                             else if (weapon != null && weapon.style == Item.AtkStyle.Flame)
