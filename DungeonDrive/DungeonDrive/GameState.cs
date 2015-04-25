@@ -19,7 +19,12 @@ namespace DungeonDrive
         private bool startTutorial = false;
         public String graveyard = "C:\\graveyard";
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
-        public String currentRoom = "C:\\";
+        
+        // If you want to change the starting room, initialize currentRoom to that directory.
+        // Be sure to use \\ instead of a single \
+        public String currentRoom = "C:\\graveyard";
+        
+        
         public String pastRoom;
         private int mouseX, mouseY;
         public double angle = -1;
@@ -39,7 +44,7 @@ namespace DungeonDrive
                 loadGame();
             else
             {
-                room = new Room(this, "C:\\");
+                room = new Room(this, currentRoom);
                 initSkillTree();
                 startTutorial = true;
             }

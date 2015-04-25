@@ -13,9 +13,11 @@ namespace DungeonDrive
         Stopwatch watch = new Stopwatch();
 
         private GameState state;
-        public String currentRoom = "C:\\";
+
+        // Not the place you change the initial room. Change state.currentRoom
+        public String currentRoom;
+
         public Dictionary<Item, PointF> droppedItems = new Dictionary<Item, PointF>();
-        //public String pastRoom;
 
         //////// IF YOU WANT TO DISABLE WALL BOUNDARIES TO TEST OTHER THINGS, SET noBoundaries TO TRUE ////////
         public bool noBoundaries = false;
@@ -249,7 +251,7 @@ namespace DungeonDrive
 
             updateFreeSpace();
 
-            if (parentDir == null)
+            if (currentRoom.Equals(state.pastRoom))
             {
 
                 //Console.WriteLine("InitialRoom");
