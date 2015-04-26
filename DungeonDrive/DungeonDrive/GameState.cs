@@ -22,7 +22,7 @@ namespace DungeonDrive
         
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
-        public String currentRoom = "C:\\graveyard";
+        public String currentRoom = "C:\\";
         
         
         public String pastRoom;

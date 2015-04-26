@@ -8,9 +8,9 @@ namespace DungeonDrive
     {
         public static int availablePoints = 0;
         //horizonal 
-        public static int skillList = 4;
+        public static int skillList = 5;
         //verticle, spell level
-        public static int skillLevel = 5;
+        public static int skillLevel = 3;
         public static Spell spellSelected;
 
 
@@ -106,7 +106,8 @@ namespace DungeonDrive
             addSpell(new LighteningBall(), 0);
             addSpell(new RuneOfFire(), 1);
             addSpell(new EnergyBarrier(), 2);
-            addSpell(new CrusingFireBall(), 3);/*
+            addSpell(new CrusingFireBall(), 3);
+            addSpell(new Pyroblast(), 4);/*
             skillFrameImages[0, 0] = Properties.Resources.frame_0_eerie;
             skillFrameImages[0, 1] = Properties.Resources.frame_7_eerie;
             skillFrameImages[0, 2] = Properties.Resources.frame_8_eerie;

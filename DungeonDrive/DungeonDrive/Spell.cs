@@ -309,7 +309,7 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setCrusingFire(state, unit);
-            CircleAroundProjectiles proj1 = new CircleAroundProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1,5, unit);
+            CircleAroundProjectiles proj1 = new CircleAroundProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.3,2, unit);
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
@@ -328,5 +328,82 @@ namespace DungeonDrive
             this.state = state;
             this.unit = unit;
         }
+    }
+
+    public class Pyroblast : Spell{
+        public Bitmap[] animation = new Bitmap[32];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+        public Pyroblast()
+            : base()
+        {
+            this.maxFrame = 31;
+            this.spellName = "Pyroblast";
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.pyroblast1;
+            spellIcon[1] = Properties.Resources.pyroblast2;
+            spellIcon[2] = Properties.Resources.pyroblast3;
+            this.animation[0] = Properties.Resources.fireball_1_64_1;
+            this.animation[1] = Properties.Resources.fireball_1_64_2;
+            this.animation[2] = Properties.Resources.fireball_1_64_3;
+            this.animation[3] = Properties.Resources.fireball_1_64_4;
+            this.animation[4] = Properties.Resources.fireball_1_64_5;
+            this.animation[5] = Properties.Resources.fireball_1_64_6;
+            this.animation[6] = Properties.Resources.fireball_1_64_7;
+            this.animation[7] = Properties.Resources.fireball_1_64_8;
+            this.animation[8] = Properties.Resources.fireball_1_64_9;
+            this.animation[9] = Properties.Resources.fireball_1_64_10;
+            this.animation[10] = Properties.Resources.fireball_1_64_11;
+            this.animation[11] = Properties.Resources.fireball_1_64_12;
+            this.animation[12] = Properties.Resources.fireball_1_64_13;
+            this.animation[13] = Properties.Resources.fireball_1_64_14;
+            this.animation[14] = Properties.Resources.fireball_1_64_15;
+            this.animation[15] = Properties.Resources.fireball_1_64_16;
+            this.animation[16] = Properties.Resources.fireball_1_64_17;
+            this.animation[17] = Properties.Resources.fireball_1_64_18;
+            this.animation[18] = Properties.Resources.fireball_1_64_19;
+            this.animation[19] = Properties.Resources.fireball_1_64_20;
+            this.animation[20] = Properties.Resources.fireball_1_64_21;
+            this.animation[21] = Properties.Resources.fireball_1_64_22;
+            this.animation[22] = Properties.Resources.fireball_1_64_23;
+            this.animation[23] = Properties.Resources.fireball_1_64_24;
+            this.animation[24] = Properties.Resources.fireball_1_64_25;
+            this.animation[25] = Properties.Resources.fireball_1_64_26;
+            this.animation[26] = Properties.Resources.fireball_1_64_27;
+            this.animation[27] = Properties.Resources.fireball_1_64_28;
+            this.animation[28] = Properties.Resources.fireball_1_64_29;
+            this.animation[29] = Properties.Resources.fireball_1_64_30;
+            this.animation[30] = Properties.Resources.fireball_1_64_31;
+                       
+        }
+        public override void cast(GameState state, Unit unit)
+        {
+            setPyroblast(state, unit);
+            //knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 12, unit);
+            //Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
+            knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 15, unit);
+            proj1.isMagic = true;
+            proj1.animation = this.animation;
+            proj1.dmg = 0.1;
+            proj1.radius = 0.5;
+            //proj1.maxFrame = this.maxFrame;
+            if (this.unit is Hero) { }
+            else
+            {
+                proj1.friendlyFire = false;
+            }
+            state.room.projectiles.Add(proj1);
+
+        }
+        public void setPyroblast(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+
     }
 }

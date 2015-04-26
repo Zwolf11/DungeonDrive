@@ -5,11 +5,15 @@ namespace DungeonDrive
 {
     public class Projectile
     {
+        public const int MAX_RADIUS = 2;
         private GameState state;
+        
         public double dmg = 1;
         public double atk_speed = 0.5;
         public double proj_speed = 0.8;
         public int proj_range = 10;
+        public int proj_duration = 100;
+        public int timer = 0;
         public Item.AtkStyle style = Item.AtkStyle.Basic;
         public double powerSec = 1;
         public double powerFac = 0.3;
@@ -77,16 +81,10 @@ namespace DungeonDrive
                 foreach (Unit unit in state.room.enemies)
                     if (Math.Sqrt(Math.Pow(xNext - unit.x, 2) + Math.Pow(yNext - unit.y, 2)) < radius + unit.radius)
                     {
-                        unit.hp -= this.dmg;
-                        if (this.style == Item.AtkStyle.Frozen)
-                            unit.slow(this.powerSec, this.powerFac);
-                        else if (this.style == Item.AtkStyle.Flame)
-                            unit.burn(this.powerSec, this.powerFac * this.dmg);
-
-                        endingEffect();
+                        endingEffect(unit);
+                       
                         if (unit.hp <= 0)
                             state.hero.deletingList.Add(unit);
-
                         state.hero.inCombat = true;
                         state.hero.combatCd = 3 * 17;
                     }
@@ -94,13 +92,8 @@ namespace DungeonDrive
             else {
                 if (Math.Sqrt(Math.Pow(xNext - state.hero.x, 2) + Math.Pow(yNext - state.hero.y, 2)) < radius + state.hero.radius)
                 {
-                    state.hero.hp -= this.dmg;
-                    if (this.style == Item.AtkStyle.Frozen)
-                        state.hero.slow(this.powerSec, this.powerFac);
-                    else if (this.style == Item.AtkStyle.Flame)
-                        state.hero.burn(this.powerSec, this.powerFac * this.dmg);
 
-                    endingEffect();
+                    endingEffect(state.hero);
                     if (state.hero.hp <= 0)
                     {
                         state.addChildState(new GameOverState(state.form), false, true);
@@ -118,6 +111,14 @@ namespace DungeonDrive
         public virtual void trailType() { 
         
         }
+        public virtual void endingEffect(Unit unit) {
+            unit.hp -= this.dmg;
+            if (this.style == Item.AtkStyle.Frozen)
+                unit.slow(this.powerSec, this.powerFac);
+            else if (this.style == Item.AtkStyle.Flame)
+                unit.burn(this.powerSec, this.powerFac * this.dmg);
+            state.room.removeProj(this);
+        }
         public virtual void endingEffect()
         {
             state.room.removeProj(this);
@@ -126,10 +127,11 @@ namespace DungeonDrive
         public virtual void act()
         {
             frame++;
+            timer++;
             if (frame >= maxFrame) { frame = 0; }
 
             tryMove(x + x_speed, y + y_speed);
-
+            if (this.radius <= 0 || this.radius >= MAX_RADIUS || this.timer >= this.proj_duration) { state.room.removeProj(this); }
         }
 
         public void draw(Graphics g)
@@ -142,21 +144,32 @@ namespace DungeonDrive
     }
 
 
-    public class explodingProjectiles : Projectile
+    public class knockBackProjectile : Projectile
     {
         private GameState state;
-        public explodingProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+        private Unit castor;
+        public knockBackProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit castor)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
             this.state = state;
+            this.castor = castor;
         }
 
+        public override void endingEffect(Unit unit)
+        {
+            double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * 0.5, Math.Sin((double)(dir)) * 0.5, 0);
+            unit.hp -= unit.hp - this.dmg;
+            unit.burn(this.powerSec, this.powerFac * this.dmg);
+        }
         public override void endingEffect()
         {
-            this.x_speed = 0;
-            this.y_speed = 0;
+            this.radius += 0.5;
+        }
+        public override void act()
+        {
+            base.act();
             this.radius += 0.01;
-            this.animation = (new RuneOfFire()).animation;
         }
 
     }
@@ -207,6 +220,10 @@ namespace DungeonDrive
         {
             //base.endingEffect();
         }
+        public override void endingEffect(Unit unit)
+        {
+            unit.hp -= this.dmg*2;
+        }
     }
 
     public class staticProjectiles : Projectile
@@ -222,11 +239,16 @@ namespace DungeonDrive
         {
             
         }
+        public override void endingEffect(Unit unit)
+        {
+            unit.hp -= this.dmg;
+            unit.burn(this.powerSec, this.powerFac * this.dmg);
+        }
 
 
 
     }
-
+    /*
     public class enemyProjectile : Projectile
     {
         private GameState state;
@@ -272,5 +294,6 @@ namespace DungeonDrive
         }
 
     }
+    */
 
 }
