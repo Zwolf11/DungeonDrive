@@ -5,7 +5,7 @@ namespace DungeonDrive
 {
     public class Projectile
     {
-        public const int MAX_RADIUS = 2;
+        public const int MAX_RADIUS = 4;
         private GameState state;
         
         public double dmg = 1;
@@ -184,6 +184,12 @@ namespace DungeonDrive
         public override void endingEffect()
         {
 
+        }
+        public override void endingEffect(Unit unit)
+        {
+            unit.hp -= this.dmg;
+            double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * 1, Math.Sin((double)(dir)) * 1, 0);
         }
         public override void trailType()
         {

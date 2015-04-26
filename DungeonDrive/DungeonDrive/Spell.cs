@@ -116,7 +116,7 @@ namespace DungeonDrive
     }
 
     public class RuneOfFire : Spell {
-        public Bitmap[] animation = new Bitmap[20];
+        public Bitmap[] animation = new Bitmap[22];
         public int level = 1;
         GameState state;
         Unit unit;
@@ -136,26 +136,28 @@ namespace DungeonDrive
             spellIcon[0] = Properties.Resources.rune_1;
             spellIcon[1] = Properties.Resources.rune_2;
             spellIcon[2] = Properties.Resources.rune_3;
-            this.animation[0] = Properties.Resources.RUNEOFFIRE9;
-            this.animation[1] = Properties.Resources.RUNEOFFIRE9;
-            this.animation[2] = Properties.Resources.RUNEOFFIRE8;
-            this.animation[3] = Properties.Resources.RUNEOFFIRE8;
-            this.animation[4] = Properties.Resources.RUNEOFFIRE8;
-            this.animation[5] = Properties.Resources.RUNEOFFIRE7;
+            this.animation[0] = Properties.Resources.RUNEOFFIRE1;
+            this.animation[1] = Properties.Resources.RUNEOFFIRE2;
+            this.animation[2] = Properties.Resources.RUNEOFFIRE3;
+            this.animation[3] = Properties.Resources.RUNEOFFIRE4;
+            this.animation[4] = Properties.Resources.RUNEOFFIRE5;
+            this.animation[5] = Properties.Resources.RUNEOFFIRE6;
             this.animation[6] = Properties.Resources.RUNEOFFIRE7;
-            this.animation[7] = Properties.Resources.RUNEOFFIRE7;
-            this.animation[8] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[9] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[10] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[11] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[12] = Properties.Resources.RUNEOFFIRE7;
-            this.animation[13] = Properties.Resources.RUNEOFFIRE7;
-            this.animation[14] = Properties.Resources.RUNEOFFIRE7;
-            this.animation[15] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[7] = Properties.Resources.RUNEOFFIRE8;
+            this.animation[8] = Properties.Resources.RUNEOFFIRE9;
+            this.animation[9] = Properties.Resources.RUNEOFFIRE10;
+            this.animation[10] = Properties.Resources.RUNEOFFIRE10;
+            this.animation[11] = Properties.Resources.RUNEOFFIRE10;
+            this.animation[12] = Properties.Resources.RUNEOFFIRE10;
+            this.animation[13] = Properties.Resources.RUNEOFFIRE9;
+            this.animation[14] = Properties.Resources.RUNEOFFIRE8;
+            this.animation[15] = Properties.Resources.RUNEOFFIRE7;
             this.animation[16] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[17] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[18] = Properties.Resources.RUNEOFFIRE6;
-            this.animation[19] = Properties.Resources.RUNEOFFIRE6;
+            this.animation[17] = Properties.Resources.RUNEOFFIRE5;
+            this.animation[18] = Properties.Resources.RUNEOFFIRE4;
+            this.animation[19] = Properties.Resources.RUNEOFFIRE3;
+            this.animation[20] = Properties.Resources.RUNEOFFIRE2;
+            this.animation[21] = Properties.Resources.RUNEOFFIRE1;
         }
 
         public override void cast(GameState state, Unit unit)
@@ -239,11 +241,11 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setEnergyBarrier(state, unit);
-            barrierProjectiles proj1 = new barrierProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
+            barrierProjectiles proj1 = new barrierProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 2);
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
-            proj1.radius = 3;
+            proj1.radius = 2;
             proj1.maxFrame = this.maxFrame;
             if (this.unit is Hero) { }
             else
