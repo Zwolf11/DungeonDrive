@@ -210,6 +210,7 @@ namespace DungeonDrive
                     foreach (Stairs stairs in state.room.stairs)
                         if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius)
                         {
+                            state.room.saveState();
                             state.room = new Room(state,stairs.path);
                             return false;
                         }

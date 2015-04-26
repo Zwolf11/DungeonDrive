@@ -1,88 +1,121 @@
 ﻿using System;
+using System.Collections.Generic;
 
-public class LevelInfo
+namespace DungeonDrive
 {
-
-    public State state;
-    public String dirName;
-    public ArrayList<LevelInfo> subdirs = new ArrayList<LevelInfo>();
-    public bool[] chestsOpened;
-    public bool[] roomsDrawn;
-    //public bool[][] drawingSpace;
-    public bool[] doorsOpened;
-
-
-	public LevelInfo(State state, String dirName)
-	{
-        this.state = state;
-        this.dirName = dirName;
-	}
-
-    public void setLevel()
+    public class LevelInfo
     {
-        setDoors();
-        setRooms();
-        setChests();
-    }
 
-    public void setDoors()
-    {
-        doorsOpened = new bool[state.room.numRooms * 2];
+        public GameState state;
+        public String dirName;
+        public List<LevelInfo> subdirs = new List<LevelInfo>();
+        public bool[] chestsOpened;
+        public bool[] roomsDrawn;
+        //public bool[][] drawingSpace;
+        public bool[] doorsOpened;
 
-        
-        for (int i = 0; i < state.room.numRooms * 2; i++)
+        public bool initialized = false;
+
+
+        public LevelInfo(GameState state, String dirName, bool levelShouldBeSet)
         {
-            doorsOpened[i] = true;
-        }
-
-        for (int i = 0; i < state.room.doors.Length; i++)
-        {
-            doorsOpened[state.room.doors.get(i).id] = state.room.doors.get(i).closed;
-        }
-
-        for (int i = 0; i < state.room.doorsNotDrawn.Length; i++)
-        {
-            doorsOpened[state.room.doorsNotDrawn.get(i).id] = state.room.doorsNotDrawn.get(i).closed;
-        }
-
-    }
-
-    public void setRooms()
-    {
-        roomsRevealed = new bool[state.room.maxStairs];
-        for(int i = 0; i < state.room.maxStairs; i++)
-        {
-            if (i < state.room.numRooms)
+            this.state = state;
+            this.dirName = dirName;
+            if (levelShouldBeSet)
             {
-                roomsRevealed[i] = state.room.roomsDrawn[i];
-            }
-            else
-            {
-                roomsRevealed[i] = false;
+                setLevel();
             }
         }
 
+        public void setLevel()
+        {
+            setDoors();
+            setRooms();
+            setChests();
+            initialized = true;
+        }
+
+        public void setDoors()
+        {
+            doorsOpened = new bool[state.room.numRooms * 2];
+
+
+            for (int i = 0; i < state.room.numRooms * 2; i++)
+            {
+                doorsOpened[i] = true;
+            }
+
+            foreach(Door door in state.room.doors)
+            {
+                doorsOpened[door.id] = door.closed;
+            }
+
+            foreach(Door door in state.room.doorsNotDrawn)
+            {
+                doorsOpened[door.id] = door.closed;
+            }
+
+        }
+
+        public void setRooms()
+        {
+            
+            roomsDrawn = new bool[state.room.maxStairs];
+            for (int i = 0; i < state.room.maxStairs; i++)
+            {
+                if (i < state.room.numRooms)
+                {
+                    roomsDrawn[i] = state.room.roomDrawn[i];
+                }
+                else
+                {
+                    roomsDrawn[i] = false;
+                }
+            }
+
+
+        }
+
+        public void setChests()
+        {
+            chestsOpened = new bool[state.room.maxObstacles];
+
+            for (int i = 0; i < state.room.maxObstacles; i++)
+            {
+                chestsOpened[i] = true;
+            }
+
+            foreach(Obstacle obs in state.room.obstacles)
+            {
+                if (obs is Chest)
+                {
+                    Chest chest = (Chest) obs;
+                    chestsOpened[obs.id] = chest.closed;
+                }
+            }
+
+            foreach (Obstacle obs in state.room.obstaclesNotDrawn)
+            {
+                if (obs is Chest)
+                {
+                    Chest chest = (Chest)obs;
+                    chestsOpened[obs.id] = chest.closed;
+                }
+            }
+        }
+
+        public LevelInfo getSubDir(String subDirName)
+        {
+            foreach (LevelInfo levelInfo in subdirs)
+            {
+                if (levelInfo.dirName.Equals(subDirName))
+                {
+                    return levelInfo;
+                }
+            }
+
+            return null;
+        }
 
     }
-
-    public void setChests()
-    {
-        chestsOpened = new bool[state.room.maxObstacles];
-
-        for (int i = 0; i < state.room.maxObstacles; i++)
-        {
-            chestsOpened[i] = true;
-        }
-
-        for (int i = 0; i < state.room.obstacles.Length; i++)
-        {
-            chestsOpened[state.room.doors.get(i).id] = state.room.doors.get(i).closed;
-        }
-
-        for (int i = 0; i < state.room.obstaclesNotDrawn.Length; i++)
-        {
-            chestsOpened[state.room.obstaclesNotDrawn.get(i).id] = state.room.obstaclesNotDrawn.get(i).closed;
-        }
-    }
-
 }

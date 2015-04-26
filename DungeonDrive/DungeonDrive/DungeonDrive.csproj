@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllLevelInfo.cs" />
     <Compile Include="GameOverState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="InventoryState.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="LevelInfo.cs" />
     <Compile Include="MessageState.cs" />
     <Compile Include="OptionsState.cs" />
     <Compile Include="PauseState.cs" />

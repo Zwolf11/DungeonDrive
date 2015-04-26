@@ -23,7 +23,8 @@ namespace DungeonDrive
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
         public String currentRoom = "C:\\";
-        
+
+        public AllLevelInfo allLevelInfo;
         
         public String pastRoom;
         private int mouseX, mouseY;
@@ -44,6 +45,7 @@ namespace DungeonDrive
                 loadGame();
             else
             {
+                allLevelInfo = new AllLevelInfo(this);
                 room = new Room(this, currentRoom);
                 initSkillTree();
                 startTutorial = true;

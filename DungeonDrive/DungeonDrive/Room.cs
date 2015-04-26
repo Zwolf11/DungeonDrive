@@ -72,10 +72,10 @@ namespace DungeonDrive
         public const int minSizeHallway = 2;
         public const int maxSizeHallway = 4;
 
-        public const int maxEnemies = 15;
-        public const int maxObstacles = 15;   // max number of these objects to generate in a room.
-        public const int maxStairs = 100;
-        public const int maxChests = 2;
+        public int maxEnemies = 15;
+        public int maxObstacles = 15;   // max number of these objects to generate in a room.
+        public int maxStairs = 100;
+        public int maxChests = 2;
 
         public int[] effectiveRoomNum;
         public bool[] roomDrawn;
@@ -2471,6 +2471,11 @@ namespace DungeonDrive
         public void removeProj(Projectile proj)
         {
             state.room.deletingProj.Add(proj);
+        }
+
+        public void saveState()
+        {
+
         }
 
         public void draw(Graphics g)
