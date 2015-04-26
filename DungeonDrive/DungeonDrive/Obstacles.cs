@@ -11,13 +11,14 @@ namespace DungeonDrive
         public int width;
         public int height;
         public int roomNum;
+        public int id;
 
 
         public int DrawX { get { return (int)(x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size); } }
         public int DrawY { get { return (int)(y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size); } }
 
 
-        public Obstacle(GameState state, int x, int y, int width, int height, int roomNum)
+        public Obstacle(GameState state, int x, int y, int width, int height, int roomNum, int id)
         {
             this.state = state;
             this.x = x;
@@ -25,6 +26,7 @@ namespace DungeonDrive
             this.width = width;
             this.height = height;
             this.roomNum = roomNum;
+            this.id = id;
         }
 
         public abstract void draw(Graphics g);
@@ -34,7 +36,7 @@ namespace DungeonDrive
     {
         private Bitmap img = new Bitmap(Properties.Resources.pillar);
 
-        public Pillar(GameState state, int x, int y, int width, int height, int roomNum) : base(state, x, y, width, height, roomNum) { }
+        public Pillar(GameState state, int x, int y, int width, int height, int roomNum, int id) : base(state, x, y, width, height, roomNum, id) { }
 
         public override void draw(Graphics g)
         { 
@@ -50,7 +52,7 @@ namespace DungeonDrive
         private Bitmap closedImg = new Bitmap(Properties.Resources.chest_closed);
         public bool locked;
 
-        public Chest(GameState state, int x, int y, int width, int height, int roomNum, bool locked) : base(state, x, y, width, height, roomNum) {
+        public Chest(GameState state, int x, int y, int width, int height, int roomNum, bool locked, int id) : base(state, x, y, width, height, roomNum, id) {
             this.locked = locked;
         }
 
@@ -82,7 +84,7 @@ namespace DungeonDrive
         public int centerX, centerY;
 
 
-        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY ) : base(state, x, y, width, height, roomNum) {
+        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY, int id ) : base(state, x, y, width, height, roomNum, id) {
             this.down = down;
             this.path = path;
             this.direction = direction;
@@ -144,7 +146,7 @@ namespace DungeonDrive
         private Bitmap doorOpen;
         public bool locked;
 
-        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive, bool locked) : base(state, x,y,width,height, roomNum) {
+        public Door(GameState state, int x, int y, int width, int height, int roomNum, bool vertical, int maxNegative, int maxPositive, bool locked, int id) : base(state, x,y,width,height, roomNum, id) {
 
             if(vertical){
                 doorClosed = new Bitmap(Properties.Resources.doorClosedVertical);

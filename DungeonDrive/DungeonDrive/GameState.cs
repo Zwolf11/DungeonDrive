@@ -450,7 +450,7 @@ namespace DungeonDrive
 
                         if (room.doorSpace[(int)x, (int)y])
                         {
-                            Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0, false);
+                            Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0, false, -1);
                             foreach (Door door in room.doors)
                             {
                                 if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))

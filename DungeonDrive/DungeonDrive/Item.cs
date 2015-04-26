@@ -656,4 +656,13 @@ namespace DungeonDrive
             sound.Play();
         }
     }
+
+    public class Key : Item
+    {
+        public Key(GameState state)
+            : base(state)
+        {
+            
+        }
+    }
 }
