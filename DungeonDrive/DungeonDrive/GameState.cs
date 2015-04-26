@@ -284,9 +284,12 @@ namespace DungeonDrive
                 konami++;
             else if (e.KeyCode == Keys.A && konami == 9)
                 konami++;
+            else if (e.KeyCode == Keys.Tab) {
+                spellChange();
+            }
             else if (e.KeyCode == Keys.Enter && konami == 10)
             {
-                for(int i=0;i<10;i++)
+                for (int i = 0; i < 10; i++)
                     hero.levelUp();
 
                 for (int i = 0; i < inventory.Length; i++)
@@ -529,6 +532,31 @@ namespace DungeonDrive
             }
         }
 
+        public void spellChange() {
+
+            int index = 0;
+            int loop = 0;
+            for (int i = 0; i < SkillStreeState.skillList; i++ )
+            {
+                if (SkillStreeState.spellSelected== null) { break; }
+                if(SkillStreeState.spellSelected.Equals(SkillStreeState.spellStored[i]))
+                    index = i+1;
+            }
+            
+            for (int i = index; loop < SkillStreeState.skillList; i++)
+            {
+                i = i % SkillStreeState.skillList;
+                if(GameState.heroSkill[i,0]){
+                    SkillStreeState.spellSelected = SkillStreeState.spellStored[i];
+                    break;
+                }
+                loop++;
+            }
+            
+            
+
+            
+        }
         public override void mouseMove(object sender, MouseEventArgs e)
         {
             hero.dir = (float)Math.Atan2(e.Y - (form.ClientSize.Height / 2), e.X - (form.ClientSize.Width / 2));

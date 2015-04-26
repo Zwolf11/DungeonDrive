@@ -93,6 +93,23 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\notPB2.png" />
+    <None Include="Resources\notPB1.png" />
+    <None Include="Resources\notPB3.png" />
+    <None Include="Resources\notCF2.png" />
+    <None Include="Resources\notCF1.png" />
+    <None Include="Resources\notCF3.png" />
+    <None Include="Resources\notEB2.png" />
+    <None Include="Resources\notEB1.png" />
+    <None Include="Resources\notEB3.png" />
+    <None Include="Resources\notRuneOfFire2.png" />
+    <None Include="Resources\notRuneOfFire1.png" />
+    <None Include="Resources\notRuneOfFire3.png" />
+    <None Include="Resources\notLighteningBall2.png" />
+    <None Include="Resources\notLighteningBall1.png" />
+    <None Include="Resources\notLighteningBall3.png" />
+    <None Include="Resources\spell_bluetop_1_1.png" />
+    <None Include="Resources\spell_bluetop_1_2.png" />
     <None Include="Resources\pyroblast2.png" />
     <None Include="Resources\pyroblast1.png" />
     <None Include="Resources\pyroblast3.png" />
@@ -416,6 +433,11 @@
     <None Include="Resources\EB3.png" />
     <None Include="Resources\EB1.png" />
     <None Include="Resources\EB2.png" />
+    <None Include="Resources\CrusingfireIcon3.png" />
+    <None Include="Resources\CrusingfireIcon1.png" />
+    <None Include="Resources\CrusingfireIcon2.png" />
+    <None Include="Resources\cursed.png" />
+    <None Include="Resources\armbind.png" />
     <None Include="Resources\CrusingFire31.png" />
     <None Include="Resources\CrusingFire1.png" />
     <None Include="Resources\CrusingFire2.png" />
@@ -447,11 +469,6 @@
     <None Include="Resources\CrusingFire28.png" />
     <None Include="Resources\CrusingFire29.png" />
     <None Include="Resources\CrusingFire30.png" />
-    <None Include="Resources\CrusingfireIcon3.png" />
-    <None Include="Resources\CrusingfireIcon1.png" />
-    <None Include="Resources\CrusingfireIcon2.png" />
-    <None Include="Resources\cursed.png" />
-    <None Include="Resources\armbind.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

@@ -10,6 +10,7 @@ namespace DungeonDrive
     public class Spell
     {
         public Bitmap[] spellIcon = new Bitmap[SkillStreeState.skillLevel];
+        public Bitmap[] _spellIcon = new Bitmap[SkillStreeState.skillLevel];
         public int duration;
         public int cd = 5;
         public int maxFrame;
@@ -84,10 +85,15 @@ namespace DungeonDrive
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
+                _spellIcon[i] = Properties.Resources.ghost0;
             }
             spellIcon[0] = Properties.Resources.LighteningBall1;
             spellIcon[1] = Properties.Resources.LighteningBall2;
             spellIcon[2] = Properties.Resources.LighteningBall3;
+            _spellIcon[0] = Properties.Resources.notLighteningBall1;
+            _spellIcon[1] = Properties.Resources.notLighteningBall2;
+            _spellIcon[2] = Properties.Resources.notLighteningBall3;
+
             this.animation[0] = Properties.Resources.lighteningball_1_20_1;
             this.animation[1] = Properties.Resources.lighteningball_1_20_2;
             this.animation[2] = Properties.Resources.lighteningball_1_20_3;
@@ -136,6 +142,10 @@ namespace DungeonDrive
             spellIcon[0] = Properties.Resources.rune_1;
             spellIcon[1] = Properties.Resources.rune_2;
             spellIcon[2] = Properties.Resources.rune_3;
+
+            _spellIcon[0] = Properties.Resources.notRuneOfFire1;
+            _spellIcon[1] = Properties.Resources.notRuneOfFire2;
+            _spellIcon[2] = Properties.Resources.notRuneOfFire3;
             this.animation[0] = Properties.Resources.RUNEOFFIRE1;
             this.animation[1] = Properties.Resources.RUNEOFFIRE2;
             this.animation[2] = Properties.Resources.RUNEOFFIRE3;
@@ -203,6 +213,9 @@ namespace DungeonDrive
             spellIcon[0] = Properties.Resources.EB1;
             spellIcon[1] = Properties.Resources.EB2;
             spellIcon[2] = Properties.Resources.EB3;
+            _spellIcon[0] = Properties.Resources.notEB1;
+            _spellIcon[1] = Properties.Resources.notEB2;
+            _spellIcon[2] = Properties.Resources.notEB3;
             this.animation[0] = Properties.Resources.EnergyBarrier1;
             this.animation[1] = Properties.Resources.EnergyBarrier2;
             this.animation[2] = Properties.Resources.EnergyBarrier3;
@@ -275,6 +288,9 @@ namespace DungeonDrive
             spellIcon[0] = Properties.Resources.CrusingfireIcon1;
             spellIcon[1] = Properties.Resources.CrusingfireIcon2;
             spellIcon[2] = Properties.Resources.CrusingfireIcon3;
+            _spellIcon[0] = Properties.Resources.notCF1;
+            _spellIcon[1] = Properties.Resources.notCF2;
+            _spellIcon[2] = Properties.Resources.notCF3;
             this.animation[0] = Properties.Resources.CrusingFire1;
             this.animation[1] = Properties.Resources.CrusingFire1;
             this.animation[2] = Properties.Resources.CrusingFire2;
@@ -316,6 +332,7 @@ namespace DungeonDrive
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
             proj1.radius = 1;
+            proj1.proj_duration = 1000;
             proj1.maxFrame = this.maxFrame;
             if (this.unit is Hero) { }
             else
@@ -349,6 +366,10 @@ namespace DungeonDrive
             spellIcon[0] = Properties.Resources.pyroblast1;
             spellIcon[1] = Properties.Resources.pyroblast2;
             spellIcon[2] = Properties.Resources.pyroblast3;
+
+            _spellIcon[0] = Properties.Resources.notPB1;
+            _spellIcon[1] = Properties.Resources.notPB2;
+            _spellIcon[2] = Properties.Resources.notPB3;
             this.animation[0] = Properties.Resources.fireball_1_64_1;
             this.animation[1] = Properties.Resources.fireball_1_64_2;
             this.animation[2] = Properties.Resources.fireball_1_64_3;

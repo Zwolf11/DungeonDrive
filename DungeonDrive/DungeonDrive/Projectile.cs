@@ -17,7 +17,7 @@ namespace DungeonDrive
         public Item.AtkStyle style = Item.AtkStyle.Basic;
         public double powerSec = 1;
         public double powerFac = 0.3;
-        public Bitmap proj_img = Properties.Resources.fire;
+        public Bitmap proj_img = Properties.Resources.spell_bluetop_1_1;
         public double x, y;
         public double x_origin, y_origin;
         public double x_speed, y_speed;
@@ -189,7 +189,7 @@ namespace DungeonDrive
         {
             unit.hp -= this.dmg;
             double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
-            unit.knockBack(unit, Math.Cos((double)(dir)) * 1, Math.Sin((double)(dir)) * 1, 0);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * 0.3, Math.Sin((double)(dir)) * 0.3, 0);
         }
         public override void trailType()
         {
@@ -248,11 +248,20 @@ namespace DungeonDrive
         public override void endingEffect(Unit unit)
         {
             unit.hp -= this.dmg;
+            unit.statusChanged(unit, "paralyze");
             unit.burn(this.powerSec, this.powerFac * this.dmg);
         }
 
+    }
 
-
+    public class chainProjectile : Projectile {
+        private GameState state;
+        public chainProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit shooter)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.shooter = shooter;
+            this.state = state;
+        }
     }
     /*
     public class enemyProjectile : Projectile

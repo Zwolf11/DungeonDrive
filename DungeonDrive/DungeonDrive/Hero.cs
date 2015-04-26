@@ -21,7 +21,7 @@ namespace DungeonDrive
         private SoundPlayer attack3;
         private SoundPlayer level_up;
         private Bitmap[,] imgs = new Bitmap[8, 8];
-        private Bitmap[] st_imgs = new Bitmap[5];
+        public static Bitmap[] st_imgs = new Bitmap[5];
         private int imgDir = 0;
 
         public Helmet helmet = null;
@@ -420,6 +420,8 @@ namespace DungeonDrive
         }
         public void specialAtk()
         {
+            
+            //state.room.projectiles.Add(weapon_proj);
             if (atk_cd[4])
             {
 
@@ -570,17 +572,17 @@ namespace DungeonDrive
             drawHpBar(g);
             drawExpBar(g);
             drawDesc(g);
-
             if (this.status.Equals("Poisoned"))
-                g.DrawImage(st_imgs[0], DrawX + 5, DrawY - 40, 32, 32);
+                g.DrawImage(Hero.st_imgs[0], DrawX + 5, DrawY - 40, 32, 32);
             else if (this.status.Equals("Paralyzed"))
-                g.DrawImage(st_imgs[1], DrawX + 5, DrawY - 40, 32, 32);
+                g.DrawImage(Hero.st_imgs[1], DrawX + 5, DrawY - 40, 32, 32);
             else if (this.status.Equals("Cursed"))
-                g.DrawImage(st_imgs[2], DrawX + 5, DrawY - 40, 32, 32);
+                g.DrawImage(Hero.st_imgs[2], DrawX + 5, DrawY - 40, 32, 32);
             else if (this.status.Equals("Binded Arm"))
-                g.DrawImage(st_imgs[3], DrawX + 5, DrawY - 40, 32, 32);
+                g.DrawImage(Hero.st_imgs[3], DrawX + 5, DrawY - 40, 32, 32);
             else if (this.status.Equals("Binded Head"))
-                g.DrawImage(st_imgs[4], DrawX + 5, DrawY - 40, 32, 32);
+                g.DrawImage(Hero.st_imgs[4], DrawX + 5, DrawY - 40, 32, 32);
+            
         }
     }
 }

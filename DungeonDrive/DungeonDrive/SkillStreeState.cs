@@ -14,7 +14,7 @@ namespace DungeonDrive
         public static Spell spellSelected;
 
 
-        public Spell[] spellStored = new Spell[skillList];
+        public static Spell[] spellStored = new Spell[skillList];
 
         private Rectangle[,] skillFrame = new Rectangle[skillList, skillLevel];
         private Bitmap[,] skillFrameImages = new Bitmap[skillList, skillLevel];
@@ -49,37 +49,17 @@ namespace DungeonDrive
         public SkillStreeState(MainForm form)
             : base(form)
         {
-            /*
-            skillSetImages[0, 0] = Properties.Resources.frame_0_eerie;
-            skillSetImages[0, 1] = Properties.Resources.frame_7_eerie;
-            skillSetImages[0, 2] = Properties.Resources.frame_8_eerie;
-            skillSetImages[1, 0] = Properties.Resources.frame_0_jade;
-            skillSetImages[1, 1] = Properties.Resources.frame_3_jade;
-            skillSetImages[1, 2] = Properties.Resources.frame_9_jade;
-            skillSetImages[2, 0] = Properties.Resources.frame_0_orange;
-            skillSetImages[2, 1] = Properties.Resources.frame_2_orange;
-            skillSetImages[2, 2] = Properties.Resources.frame_5_orange;
-            skillSetImages[3, 0] = Properties.Resources.frame_0_sky;
-            skillSetImages[3, 1] = Properties.Resources.frame_4_sky;
-            skillSetImages[3, 2] = Properties.Resources.frame_4_sky;
-            skillSetImages[4, 0] = Properties.Resources.frame_0_royal;
-            skillSetImages[4, 1] = Properties.Resources.frame_4_royal;
-            skillSetImages[4, 2] = Properties.Resources.frame_6_royal;
-            skillSetImages[5, 0] = Properties.Resources.frame_0_acid;
-            skillSetImages[5, 1] = Properties.Resources.frame_1_acid;
-            skillSetImages[5, 2] = Properties.Resources.frame_8_acid;
-            skillSetImages[6, 0] = Properties.Resources.frame_0_magenta;
-            skillSetImages[6, 1] = Properties.Resources.frame_2_magenta;
-            skillSetImages[6, 2] = Properties.Resources.frame_5_magenta;
-            */
+           
 
             for (int i = 0; i < skillList; i++)
             {
                 for (int j = 0; j < skillLevel; j++)
                 {
+                    _skillSetImages[i, j] = Properties.Resources.empty;
                     if (GameState.heroSkill[i, j]) // if hero learnt this spell
                     {
                         skillSetImages[i, j] = Properties.Resources.empty;
+                        
                         skillFrameImages[i, j] = this.spellFrame;
 
                     }
@@ -107,28 +87,8 @@ namespace DungeonDrive
             addSpell(new RuneOfFire(), 1);
             addSpell(new EnergyBarrier(), 2);
             addSpell(new CrusingFireBall(), 3);
-            addSpell(new Pyroblast(), 4);/*
-            skillFrameImages[0, 0] = Properties.Resources.frame_0_eerie;
-            skillFrameImages[0, 1] = Properties.Resources.frame_7_eerie;
-            skillFrameImages[0, 2] = Properties.Resources.frame_8_eerie;
-            skillFrameImages[1, 0] = Properties.Resources.frame_0_jade;
-            skillFrameImages[1, 1] = Properties.Resources.frame_3_jade;
-            skillFrameImages[1, 2] = Properties.Resources.frame_9_jade;
-            skillFrameImages[2, 0] = Properties.Resources.frame_0_orange;
-            skillFrameImages[2, 1] = Properties.Resources.frame_2_orange;
-            skillFrameImages[2, 2] = Properties.Resources.frame_5_orange;
-            skillFrameImages[3, 0] = Properties.Resources.frame_0_sky;
-            skillFrameImages[3, 1] = Properties.Resources.frame_4_sky;
-            skillFrameImages[3, 2] = Properties.Resources.frame_4_sky;
-            skillFrameImages[4, 0] = Properties.Resources.frame_0_royal;
-            skillFrameImages[4, 1] = Properties.Resources.frame_4_royal;
-            skillFrameImages[4, 2] = Properties.Resources.frame_6_royal;
-            skillFrameImages[5, 0] = Properties.Resources.frame_0_acid;
-            skillFrameImages[5, 1] = Properties.Resources.frame_1_acid;
-            skillFrameImages[5, 2] = Properties.Resources.frame_8_acid;
-            skillFrameImages[6, 0] = Properties.Resources.frame_0_magenta;
-            skillFrameImages[6, 1] = Properties.Resources.frame_2_magenta;
-            skillFrameImages[6, 2] = Properties.Resources.frame_5_magenta;*/
+            addSpell(new Pyroblast(), 4);
+
 
         }
         public bool skillIsAvailable(int i, int j)
@@ -152,6 +112,7 @@ namespace DungeonDrive
             for (int j = 0; j < skillLevel; j++)
             {
                 skillSetImages[i, j] = spell.spellIcon[j];
+                _skillSetImages[i,j] = spell._spellIcon[j];
                 spellStored[i] = spell;
             }
 
@@ -258,7 +219,7 @@ namespace DungeonDrive
                             this.skillSelected = i;
                             this.levelSelected = j;
                             selectedOrNot = true; 
-                            spellSelected = this.spellStored[i];
+                            spellSelected = spellStored[i];
                             return;
                         }
                     }
@@ -369,7 +330,12 @@ namespace DungeonDrive
             for (int j = 0; j < skillLevel; j++)
             {
                 g.DrawImage(this.skillFrameImages[i, j], this.skillFrame[i, j]);
-                g.DrawImage(skillSetImages[i, j], this.skillSet[i, j]);
+                if (GameState.heroSkill[i, j])
+                    g.DrawImage(skillSetImages[i, j], this.skillSet[i, j]);
+                else {
+                    g.DrawImage(_skillSetImages[i, j], this.skillSet[i, j]);
+                }
+
             }
 
         }
@@ -410,7 +376,7 @@ namespace DungeonDrive
                         else
                         {
                             g.DrawImage(skillFrameImages[i,j], getBoxBounds(i, j));
-                            g.DrawImage(skillSetImages[i, j], getIconBoxBounds(i, j));
+                            g.DrawImage(_skillSetImages[i, j], getIconBoxBounds(i, j));
                         }
 
                     }

@@ -185,6 +185,7 @@ namespace DungeonDrive
 
         public bool tryMove(double xNext, double yNext, Unit e)
         {
+            
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
             int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
