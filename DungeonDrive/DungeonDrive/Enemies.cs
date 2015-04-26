@@ -114,7 +114,7 @@ namespace DungeonDrive
             else
                 this.atk_dmg = this.base_atk_dmg;
 
-           // move();
+             move();
 
             if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
             {
@@ -135,7 +135,7 @@ namespace DungeonDrive
             }
             if (this.atk_cd[1]) {
                 //LighteningBall  = new LighteningBall();
-                this.cast( new Pyroblast());
+               // this.cast( new Pyroblast());
                // this.cd(p.cd, 1);
             }
             //tryMove(xNext, yNext);
