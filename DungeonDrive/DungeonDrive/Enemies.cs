@@ -121,7 +121,7 @@ namespace DungeonDrive
                 if (atk_cd[0])
                 {
                     int random = rand.Next(0, 100);
-                    if (random <= 1)
+                    if (random <= 0)
                         statusChanged(state.hero, "paralyze");
                 }
             }
@@ -135,8 +135,8 @@ namespace DungeonDrive
             }
             if (this.atk_cd[1]) {
                 //LighteningBall  = new LighteningBall();
-                //this.cast(new GravityForceField());
-               // this.cd(p.cd, 1);
+                this.cast(new ShadowStep());
+                this.cd(5, 1);
             }
             //tryMove(xNext, yNext);
         }
@@ -882,7 +882,12 @@ namespace DungeonDrive
                 else
                     this.cd(3, 1);
             }
-
+            else if (this.atk_cd[2])
+            {
+                ShadowStep ss = new ShadowStep();
+                this.cast(ss);
+                this.cd(ss.cd, 2);
+            }
             if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {
                 if (sleeparoni > 0)
@@ -892,7 +897,7 @@ namespace DungeonDrive
                 }
                 sleeparoni = 200;
                 //this.teleport = false;
-
+                //BAK
                 //If hero is 5 units close to the boss, have the boss teleport behind the player
 
                 if ((state.hero.x - x) < 0 && (state.hero.y - y) < 0)

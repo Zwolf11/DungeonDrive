@@ -95,6 +95,37 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\notGF2.png" />
+    <None Include="Resources\notGF1.png" />
+    <None Include="Resources\notGF3.png" />
+    <None Include="Resources\notSS2.png" />
+    <None Include="Resources\notSS1.png" />
+    <None Include="Resources\notSS3.png" />
+    <None Include="Resources\GF2.png" />
+    <None Include="Resources\GF1.png" />
+    <None Include="Resources\GF3.png" />
+    <None Include="Resources\SS2.png" />
+    <None Include="Resources\SS1.png" />
+    <None Include="Resources\SS3.png" />
+    <None Include="Resources\shadowStep6.png" />
+    <None Include="Resources\shadowStep5.png" />
+    <None Include="Resources\shadowStep4.png" />
+    <None Include="Resources\shadowStep3.png" />
+    <None Include="Resources\shadowStep2.png" />
+    <None Include="Resources\shadowStep1.png" />
+    <None Include="Resources\shadowStep19.png" />
+    <None Include="Resources\shadowStep18.png" />
+    <None Include="Resources\shadowStep17.png" />
+    <None Include="Resources\shadowStep16.png" />
+    <None Include="Resources\shadowStep15.png" />
+    <None Include="Resources\shadowStep14.png" />
+    <None Include="Resources\shadowStep13.png" />
+    <None Include="Resources\shadowStep12.png" />
+    <None Include="Resources\shadowStep11.png" />
+    <None Include="Resources\shadowStep10.png" />
+    <None Include="Resources\shadowStep9.png" />
+    <None Include="Resources\shadowStep8.png" />
+    <None Include="Resources\shadowStep7.png" />
     <None Include="Resources\pulling19.png" />
     <None Include="Resources\pulling18.png" />
     <None Include="Resources\pulling17.png" />

@@ -8,7 +8,7 @@ namespace DungeonDrive
     {
         public static int availablePoints = 0;
         //horizonal 
-        public static int skillList = 5;
+        public static int skillList = 7;
         //verticle, spell level
         public static int skillLevel = 3;
         public static Spell spellSelected;
@@ -88,7 +88,8 @@ namespace DungeonDrive
             addSpell(new EnergyBarrier(), 2);
             addSpell(new CrusingFireBall(), 3);
             addSpell(new Pyroblast(), 4);
-
+            addSpell(new ShadowStep(), 5);
+            addSpell(new GravityForceField(), 6);
 
         }
         public bool skillIsAvailable(int i, int j)

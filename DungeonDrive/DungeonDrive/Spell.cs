@@ -260,6 +260,7 @@ namespace DungeonDrive
             proj1.dmg = 0.1;
             proj1.radius = 2;
             proj1.maxFrame = this.maxFrame;
+            proj1.proj_duration = 1000;
             if (this.unit is Hero) { }
             else
             {
@@ -431,66 +432,87 @@ namespace DungeonDrive
     }
 
     public class GravityForceField : Spell {
-        public Bitmap[] animation = new Bitmap[32];
+        public Bitmap[] animation = new Bitmap[52];
         public int level = 1;
         GameState state;
         Unit unit;
         public GravityForceField()
             : base()
         {
-            this.maxFrame = 20;
-            this.spellName = "Energy Barrier";
+            this.maxFrame = 48;
+            this.spellName = "GravityForceField";
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
             }
-            spellIcon[0] = Properties.Resources.EB1;
-            spellIcon[1] = Properties.Resources.EB2;
-            spellIcon[2] = Properties.Resources.EB3;
-            _spellIcon[0] = Properties.Resources.notEB1;
-            _spellIcon[1] = Properties.Resources.notEB2;
-            _spellIcon[2] = Properties.Resources.notEB3;
+            spellIcon[0] = Properties.Resources.GF1;
+            spellIcon[1] = Properties.Resources.GF2;
+            spellIcon[2] = Properties.Resources.GF3;
+            _spellIcon[0] = Properties.Resources.notGF1;
+            _spellIcon[1] = Properties.Resources.notGF2;
+            _spellIcon[2] = Properties.Resources.notGF3;
             this.animation[0] = Properties.Resources.pulling1;
-            this.animation[1] = Properties.Resources.pulling2;
-            this.animation[2] = Properties.Resources.pulling3;
-            this.animation[3] = Properties.Resources.pulling4;
-            this.animation[4] = Properties.Resources.pulling5;
-            this.animation[5] = Properties.Resources.pulling6;
-            this.animation[6] = Properties.Resources.pulling7;
-            this.animation[7] = Properties.Resources.pulling8;
-            this.animation[8] = Properties.Resources.pulling9;
-            this.animation[9] = Properties.Resources.pulling10;
-            this.animation[10] = Properties.Resources.pulling11;
-            this.animation[11] = Properties.Resources.pulling12;
-            this.animation[12] = Properties.Resources.pulling13;
-            this.animation[13] = Properties.Resources.pulling14;
-            this.animation[14] = Properties.Resources.pulling15;
-            this.animation[15] = Properties.Resources.pulling16;
-            this.animation[16] = Properties.Resources.pulling17;
-            this.animation[17] = Properties.Resources.pulling18;
-            this.animation[18] = Properties.Resources.pulling19;
-            this.animation[19] = Properties.Resources.pulling20;
-            /*this.animation[20] = Properties.Resources.pul;
-            this.animation[21] = Properties.Resources.EnergyBarrier22;
-            this.animation[22] = Properties.Resources.EnergyBarrier23;
-            this.animation[23] = Properties.Resources.EnergyBarrier24;
-            this.animation[24] = Properties.Resources.EnergyBarrier25;
-            this.animation[25] = Properties.Resources.EnergyBarrier26;
-            this.animation[26] = Properties.Resources.EnergyBarrier27;
-            this.animation[27] = Properties.Resources.EnergyBarrier28;
-            this.animation[28] = Properties.Resources.EnergyBarrier29;
-            this.animation[29] = Properties.Resources.EnergyBarrier30;
-            this.animation[30] = Properties.Resources.EnergyBarrier31;
-            this.animation[31] = Properties.Resources.EnergyBarrier32;*/
+            this.animation[1] = Properties.Resources.pulling1;
+            this.animation[2] = Properties.Resources.pulling1;
+            this.animation[3] = Properties.Resources.pulling2;
+            this.animation[4] = Properties.Resources.pulling2;
+            this.animation[5] = Properties.Resources.pulling2;
+            this.animation[6] = Properties.Resources.pulling3;
+            this.animation[7] = Properties.Resources.pulling3;
+            this.animation[8] = Properties.Resources.pulling3;
+            this.animation[9] = Properties.Resources.pulling4;
+            this.animation[10] = Properties.Resources.pulling4;
+            this.animation[11] = Properties.Resources.pulling4;
+            this.animation[12] = Properties.Resources.pulling5;
+            this.animation[13] = Properties.Resources.pulling5;
+            this.animation[14] = Properties.Resources.pulling5;
+            this.animation[15] = Properties.Resources.pulling6;
+            this.animation[16] = Properties.Resources.pulling6;
+            this.animation[17] = Properties.Resources.pulling6;
+            this.animation[18] = Properties.Resources.pulling7;
+            this.animation[19] = Properties.Resources.pulling7;
+            this.animation[20] = Properties.Resources.pulling7;
+            this.animation[21] = Properties.Resources.pulling8;
+            this.animation[22] = Properties.Resources.pulling8;
+            this.animation[23] = Properties.Resources.pulling8;
+            this.animation[24] = Properties.Resources.pulling9;
+            this.animation[25] = Properties.Resources.pulling9;
+            this.animation[26] = Properties.Resources.pulling9;
+            this.animation[27] = Properties.Resources.pulling10;
+            this.animation[28] = Properties.Resources.pulling10;
+            this.animation[29] = Properties.Resources.pulling10;
+            this.animation[30] = Properties.Resources.pulling11;
+            this.animation[31] = Properties.Resources.pulling11;
+            this.animation[32] = Properties.Resources.pulling11;
+            this.animation[33] = Properties.Resources.pulling12;
+            this.animation[34] = Properties.Resources.pulling12;
+            this.animation[35] = Properties.Resources.pulling12;
+            this.animation[36] = Properties.Resources.pulling13;
+            this.animation[37] = Properties.Resources.pulling13;
+            this.animation[38] = Properties.Resources.pulling13;
+            this.animation[39] = Properties.Resources.pulling14;
+            this.animation[40] = Properties.Resources.pulling14;
+            this.animation[41] = Properties.Resources.pulling14;
+            this.animation[42] = Properties.Resources.pulling15;
+            this.animation[43] = Properties.Resources.pulling15;
+            this.animation[44] = Properties.Resources.pulling16;
+            this.animation[45] = Properties.Resources.pulling17;
+            this.animation[46] = Properties.Resources.pulling17;
+            this.animation[47] = Properties.Resources.pulling18;
+            this.animation[48] = Properties.Resources.pulling19;
+            this.animation[49] = Properties.Resources.pulling20;
+            this.animation[50] = Properties.Resources.spell_bluetop_1_1;
+            this.animation[51] = Properties.Resources.spell_bluetop_1_2;
             
         }
         public override void cast(GameState state, Unit unit)
         {
+            if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse] == false) { return; }
             setGravityForceField(state, unit);
             pullingProjectile proj1 = new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 1 / 2);
             proj1.isMagic = true;
             proj1.animation = this.animation;
-            proj1.dmg = 0.1;
+            proj1.dmg = 0;
             proj1.radius = 2.9;
             proj1.maxFrame = this.maxFrame;
             proj1.proj_duration = 10000;
@@ -498,6 +520,8 @@ namespace DungeonDrive
             else
             {
                 proj1.friendlyFire = false;
+                proj1.x = state.hero.x;
+                proj1.y = state.hero.y;
             }
             state.room.projectiles.Add(proj1);
 
@@ -519,37 +543,37 @@ namespace DungeonDrive
             : base()
         {
             this.maxFrame = 20;
-            this.spellName = "Energy Barrier";
+            this.spellName = "ShadowStep";
             for (int i = 0; i < SkillStreeState.skillLevel; i++)
             {
                 spellIcon[i] = Properties.Resources.ghost0;
             }
-            spellIcon[0] = Properties.Resources.EB1;
-            spellIcon[1] = Properties.Resources.EB2;
-            spellIcon[2] = Properties.Resources.EB3;
-            _spellIcon[0] = Properties.Resources.notEB1;
-            _spellIcon[1] = Properties.Resources.notEB2;
-            _spellIcon[2] = Properties.Resources.notEB3;
-            this.animation[0] = Properties.Resources.pulling1;
-            this.animation[1] = Properties.Resources.pulling2;
-            this.animation[2] = Properties.Resources.pulling3;
-            this.animation[3] = Properties.Resources.pulling4;
-            this.animation[4] = Properties.Resources.pulling5;
-            this.animation[5] = Properties.Resources.pulling6;
-            this.animation[6] = Properties.Resources.pulling7;
-            this.animation[7] = Properties.Resources.pulling8;
-            this.animation[8] = Properties.Resources.pulling9;
-            this.animation[9] = Properties.Resources.pulling10;
-            this.animation[10] = Properties.Resources.pulling11;
-            this.animation[11] = Properties.Resources.pulling12;
-            this.animation[12] = Properties.Resources.pulling13;
-            this.animation[13] = Properties.Resources.pulling14;
-            this.animation[14] = Properties.Resources.pulling15;
-            this.animation[15] = Properties.Resources.pulling16;
-            this.animation[16] = Properties.Resources.pulling17;
-            this.animation[17] = Properties.Resources.pulling18;
-            this.animation[18] = Properties.Resources.pulling19;
-            this.animation[19] = Properties.Resources.pulling20;
+            spellIcon[0] = Properties.Resources.SS1;
+            spellIcon[1] = Properties.Resources.SS2;
+            spellIcon[2] = Properties.Resources.SS3;
+            _spellIcon[0] = Properties.Resources.notSS1;
+            _spellIcon[1] = Properties.Resources.notSS2;
+            _spellIcon[2] = Properties.Resources.notSS3;
+            this.animation[0] = Properties.Resources.shadowStep1;
+            this.animation[1] = Properties.Resources.shadowStep2;
+            this.animation[2] = Properties.Resources.shadowStep3;
+            this.animation[3] = Properties.Resources.shadowStep4;
+            this.animation[4] = Properties.Resources.shadowStep5;
+            this.animation[5] = Properties.Resources.shadowStep6;
+            this.animation[6] = Properties.Resources.shadowStep7;
+            this.animation[7] = Properties.Resources.shadowStep8;
+            this.animation[8] = Properties.Resources.shadowStep9;
+            this.animation[9] = Properties.Resources.shadowStep10;
+            this.animation[10] = Properties.Resources.shadowStep11;
+            this.animation[11] = Properties.Resources.shadowStep12;
+            this.animation[12] = Properties.Resources.shadowStep13;
+            this.animation[13] = Properties.Resources.shadowStep14;
+            this.animation[14] = Properties.Resources.shadowStep15;
+            this.animation[15] = Properties.Resources.shadowStep16;
+            this.animation[16] = Properties.Resources.shadowStep17;
+            this.animation[17] = Properties.Resources.shadowStep18;
+            this.animation[18] = Properties.Resources.shadowStep19;
+            this.animation[19] = Properties.Resources.shadowStep19;
             /*this.animation[20] = Properties.Resources.pul;
             this.animation[21] = Properties.Resources.EnergyBarrier22;
             this.animation[22] = Properties.Resources.EnergyBarrier23;
@@ -574,13 +598,49 @@ namespace DungeonDrive
             setShadowStep(state, unit);
             staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
             proj1.proj_duration = 10;
-            state.room.projectiles.Add(proj1);
-            state.hero.x = GameState.xMouse;
-            state.hero.y = GameState.yMouse;
-            state.angle = 0;
-            state.hero.basicAtk();
+            proj1.isMagic = true;
+            proj1.radius = 1;
+            proj1.animation = this.animation;
+            
+            if (unit is Hero)
+            {
+                if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse])
+                {
+                   state.hero.x = GameState.xMouse;
+                   state.hero.y = GameState.yMouse;
+                   state.angle = 0;
+                   state.hero.basicAtk();
+                }
+            }
+            else {
+                if (Math.Sqrt(Math.Pow(state.hero.x - unit.x, 2) + Math.Pow(state.hero.y - unit.y, 2)) < 5 &&
+                    state.room.walkingSpace[(int)(state.hero.x - 0.5), (int)(state.hero.y - 0.5)]) // distance
+                {
+                    unit.x = state.hero.x - 0.5;
+                    unit.y = state.hero.y - 0.5;
+                    unit.attackHero();
+                }
+                else { return; }
+            }
+            
+            
             staticProjectiles proj2 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
             proj2.proj_duration = 10;
+            proj2.isMagic = true;
+            proj2.radius = 1;
+            proj2.animation = this.animation;
+
+            if (unit is Hero)
+            {
+
+            }
+            else {
+                proj1.friendlyFire = false;
+                proj2.friendlyFire = false;
+            }
+            proj1.dmg = 0;
+            proj2.dmg = 0;
+            state.room.projectiles.Add(proj1);
             state.room.projectiles.Add(proj2);
         }
     }

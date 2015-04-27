@@ -1456,6 +1456,33 @@
   <data name="notRuneOfFire3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\notRuneOfFire3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GF1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GF1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GF2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GF2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GF3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GF3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notGF1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notGF1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notGF2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notGF2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notGF3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notGF3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notSS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notSS1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notSS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notSS2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="notSS3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\notSS3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="pulling1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulling1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1515,5 +1542,71 @@
   </data>
   <data name="pulling9" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pulling9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shadowStep9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shadowStep9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SS1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SS1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SS2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SS2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SS3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SS3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
