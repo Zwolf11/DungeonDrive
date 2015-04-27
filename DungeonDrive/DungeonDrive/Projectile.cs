@@ -17,7 +17,7 @@ namespace DungeonDrive
         public Item.AtkStyle style = Item.AtkStyle.Basic;
         public double powerSec = 1;
         public double powerFac = 0.3;
-        public Bitmap proj_img = Properties.Resources.spell_bluetop_1_1;
+        public Bitmap proj_img = Properties.Resources.lighteningball_1_20_9;
         public double x, y;
         public double x_origin, y_origin;
         public double x_speed, y_speed;
@@ -148,6 +148,7 @@ namespace DungeonDrive
     {
         private GameState state;
         private Unit castor;
+        private int bounce = 0;
         public knockBackProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit castor)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
@@ -164,7 +165,12 @@ namespace DungeonDrive
         }
         public override void endingEffect()
         {
-            this.radius += 0.5;
+            bounce++;
+            this.x_speed = -this.x_speed;
+            this.y_speed = -this.y_speed;
+            if(bounce >=30){
+                state.room.removeProj(this);
+            }
         }
         public override void act()
         {
@@ -250,6 +256,15 @@ namespace DungeonDrive
             unit.hp -= this.dmg;
             
         }
+        public override void act()
+        {
+            frame++;
+            timer++;
+            if (frame >= maxFrame) { frame = 0; }
+
+            tryMove(x, y);
+            if (this.radius <= 0 || this.radius >= MAX_RADIUS || this.timer >= this.proj_duration) { state.room.removeProj(this); }
+        }
 
     }
     public class pullingProjectile : Projectile
@@ -267,32 +282,47 @@ namespace DungeonDrive
         }
         public override void endingEffect(Unit unit)
         {
-            
+            if(unit is Boss){return;}
             double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
-            unit.knockBack(unit, Math.Cos((double)(dir)) * -0.3, Math.Sin((double)(dir)) * -0.3, 0);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * -0.2, Math.Sin((double)(dir)) * -0.2, 0);
         }
         public override void blockProjectiles()
         {
+            Rectangle Rekt = new Rectangle(DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             foreach(Projectile proj in state.room.projectiles){
-                if (proj is pullingProjectile) { return; }
+                 
+                if (proj is pullingProjectile) {  }
                 /*else if(proj is knockBackProjectile){ }*/
                 else{
-                    double dir = (float)Math.Atan2(proj.y - this.y, proj.x - this.x);
-                    proj.x_speed -= Math.Cos(dir)*0.1;
-                    proj.y_speed -= Math.Sin(dir) * 0.1;
+                    Rectangle temp = new Rectangle((int)proj.DrawX, (int)proj.DrawY, 1, 1);
+                    if (Rekt.Contains(temp))
+                    {
+                        double dir = (float)Math.Atan2(proj.y - this.y, proj.x - this.x);
+                        proj.x_speed = proj.x_speed - Math.Cos(dir) * 0.05;
+                        proj.y_speed = proj.y_speed-  Math.Sin(dir) * 0.05;
+                    }
                 }
             }
         }
 
     }
 
-    public class chainProjectile : Projectile {
+    public class bossProjectile : Projectile {
         private GameState state;
-        public chainProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit shooter)
+        public bossProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
             this.shooter = shooter;
             this.state = state;
+            this.atk_speed = 1;
+            this.dmg = 0.01;
+            this.proj_img = Properties.Resources.fire;
+
+        }
+
+        public override void endingEffect(Unit unit)
+        {
+            unit.hp -= this.dmg;
         }
     }
     /*

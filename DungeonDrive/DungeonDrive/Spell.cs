@@ -20,7 +20,25 @@ namespace DungeonDrive
         public virtual void cast(GameState state, Unit unit) {}
         public virtual void tick() { }
     }
-
+    public class BossSpell : Spell {
+        private GameState state;
+        private Unit unit;
+        public BossSpell()
+            : base(){}
+        public override void cast(GameState state, Unit unit)
+        {
+            setLighteningBall(state, unit);
+            bossProjectile proj1 = new bossProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
+            proj1.isMagic = false;
+            proj1.friendlyFire = false;
+            state.room.projectiles.Add(proj1);
+        }
+        public void setLighteningBall(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+    }
     public class LighteningBall : Spell {
         
         //public static Bitmap[] Icon = new Bitmap[SkillStreeState.skillLevel];
@@ -413,7 +431,7 @@ namespace DungeonDrive
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
-            proj1.radius = 0.5;
+            proj1.radius = 0.2;
             //proj1.maxFrame = this.maxFrame;
             if (this.unit is Hero) { }
             else
@@ -508,22 +526,27 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             
-            if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse] == false) { return; }
+           
             setGravityForceField(state, unit);
-            pullingProjectile proj1 = new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 1 / 2);
+            pullingProjectile proj1;
+            
+            if (this.unit is Hero) {
+                if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse] == false) { return; }
+                proj1 =  new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3);
+            }
+            else
+            {
+                proj1 = new pullingProjectile(state, state.hero.x, state.hero.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3);
+                proj1.friendlyFire = false;
+                proj1.x = state.hero.x;
+                proj1.y = state.hero.y;
+            }
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0;
             proj1.radius = 2.9;
             proj1.maxFrame = this.maxFrame;
             proj1.proj_duration = 10000;
-            if (this.unit is Hero) {  }
-            else
-            {
-                proj1.friendlyFire = false;
-                proj1.x = state.hero.x;
-                proj1.y = state.hero.y;
-            }
             state.room.projectiles.Add(proj1);
 
         }
