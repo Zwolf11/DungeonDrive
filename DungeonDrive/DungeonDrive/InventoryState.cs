@@ -66,8 +66,8 @@ namespace DungeonDrive
                 mouseOverItem = state.hero.legs;
             else if (getBoxBounds(-3, 0.5f).Contains(click))
                 mouseOverItem = state.hero.weapon;
-
-            mouseOverItem = null;
+            else
+                mouseOverItem = null;
         }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
@@ -197,8 +197,21 @@ namespace DungeonDrive
                             if (getBoxBounds(i, j).Contains(click))
                             {
                                 if (inventory[i][j] != null)
-                                    inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = inventory[i][j];
-                                inventory[i][j] = selection;
+                                {
+                                    if (selectOrigin.X >= 0 && selectOrigin.X < inventory.Length && selectOrigin.Y >= 0 && selectOrigin.Y < inventory[i].Length)
+                                    {
+                                        inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = inventory[i][j];
+                                        inventory[i][j] = selection;
+                                    }
+                                    else
+                                    {
+                                        state.room.droppedItems.Add(selection, new PointF((float)state.hero.x, (float)state.hero.y));
+                                    }
+                                }
+                                else
+                                {
+                                    inventory[i][j] = selection;
+                                }
                                 selection = null;
 
                                 dragging = false;

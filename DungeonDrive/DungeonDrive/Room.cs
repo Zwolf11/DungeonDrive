@@ -2480,11 +2480,8 @@ namespace DungeonDrive
 
         public void draw(Graphics g)
         {
-
-            
             if (environment.Equals("dungeon"))
             {
-
                 for (int i = 0; i < state.room.width; i++)
                 {
                     for (int j = 0; j < state.room.height; j++)
@@ -2506,40 +2503,24 @@ namespace DungeonDrive
                 }
 
                 foreach (Obstacle obstacle in obstacles)
-                {
                     obstacle.draw(g);
-                }
-                foreach (Projectile proj in projectiles)
-                    proj.draw(g);
+
                 foreach (Door door in doors)
-                {
                     door.draw(g);
-                }
 
                 foreach (Stairs stair in stairs)
-                {
                     stair.draw(g);
-                    //g.FillRectangle(Brushes.Green, (int)(state.form.Width / 2 + stair.centerX * state.size - state.hero.x * state.size), (int)(state.form.Height / 2 + stair.centerY * state.size - state.hero.y * state.size), state.size * 1, state.size * 1);
-                }
 
                 foreach (KeyValuePair<Item, PointF> item in droppedItems)
-                {
                     g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
-                    /*  
-    +                if (item.Key.showDes)
-    +                {
-    +                    Console.WriteLine("showing");
-    +                    g.DrawString(item.Key.description, state.font, Brushes.White, new PointF(item.Value.X, item.Value.Y - state.size));
-    +                }
-    +               * */
-                }
-
 
                 foreach (Unit enemy in enemies)
                     enemy.draw(g);
 
-
-            } else if (environment.Equals("cave"))
+                foreach (Projectile proj in projectiles)
+                    proj.draw(g);
+            }
+            else if (environment.Equals("cave"))
             {
                 updateHeroVisibility();
 

@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = true;
+        private bool testing = false;
         private int testing_level = 1;
 
         private SoundPlayer attack1;
@@ -461,6 +461,8 @@ namespace DungeonDrive
                     weapon_proj.proj_img = weapon.projectileImg;
                     state.room.projectiles.Add(weapon_proj);
                     cd(weapon_proj.atk_speed, 2);
+
+                    state.angle = 0;
                 }
             }
 
@@ -490,6 +492,8 @@ namespace DungeonDrive
                         }
                     }
                     cd(atk_speed, 0);
+
+                    state.angle = 0;
                 }
             }
         }
@@ -513,7 +517,7 @@ namespace DungeonDrive
             this.base_atk_dmg *= dmg_inc;
             this.atk_speed -= atk_spd_dec;
             this.base_atk_speed -= atk_spd_dec;
-            this.exp -= this.expcap;
+            this.exp = 0;
             this.expcap *= 1.11;
             this.level += 1;
         }

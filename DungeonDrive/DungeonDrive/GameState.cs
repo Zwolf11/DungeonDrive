@@ -287,9 +287,6 @@ namespace DungeonDrive
                 konami++;
             else if (e.KeyCode == Keys.A && konami == 9)
                 konami++;
-            else if (e.KeyCode == Keys.Tab) {
-                spellChange();
-            }
             else if (e.KeyCode == Keys.Enter && konami == 10)
             {
                 for (int i = 0; i < 10; i++)
@@ -299,12 +296,16 @@ namespace DungeonDrive
                     for (int j = 0; j < inventory[i].Length; j++)
                         if (inventory[i][j] == null)
                             inventory[i][j] = randomItem();
+
+                konami = 0;
             }
             else
                 konami = 0;
 
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
                 this.addChildState(new PauseState(form), false, true);
+            else if (e.KeyCode == Keys.Tab)
+                spellChange();
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
                 if (hero.status.Equals("Cursed"))
@@ -406,13 +407,11 @@ namespace DungeonDrive
                     {
                         hero.status = "Normal";
                         hero.bind_remove = 0;
-                        angle = 0;
                         hero.basicAtk();
                     }
                 }
                 else
                 {
-                    angle = 0;
                     hero.basicAtk();
                 }
             }
