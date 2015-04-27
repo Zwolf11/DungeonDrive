@@ -66,7 +66,7 @@ namespace DungeonDrive
         {
             if (Math.Sqrt(Math.Pow(x - x_origin, 2) + Math.Pow(y - y_origin, 2)) >= proj_range)
                 endingEffect();
-
+            blockProjectiles();
             int left = (int)(xNext - radius);
             int top = (int)(yNext - radius);
             int width = (int)(radius * 2 + (xNext - (int)xNext < radius || 1 - (xNext - (int)xNext) < radius ? 2 : 1));
@@ -107,7 +107,7 @@ namespace DungeonDrive
             y = yNext;
             trailType();
         }
-
+        public virtual void blockProjectiles() { }
         public virtual void trailType() { 
         
         }
@@ -248,8 +248,40 @@ namespace DungeonDrive
         public override void endingEffect(Unit unit)
         {
             unit.hp -= this.dmg;
-            unit.statusChanged(unit, "paralyze");
-            unit.burn(this.powerSec, this.powerFac * this.dmg);
+            
+        }
+
+    }
+    public class pullingProjectile : Projectile
+    {
+        private GameState state;
+        public pullingProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+            : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
+        {
+            this.state = state;
+        }
+
+        public override void endingEffect()
+        {
+
+        }
+        public override void endingEffect(Unit unit)
+        {
+            
+            double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * -0.3, Math.Sin((double)(dir)) * -0.3, 0);
+        }
+        public override void blockProjectiles()
+        {
+            foreach(Projectile proj in state.room.projectiles){
+                if (proj is pullingProjectile) { return; }
+                /*else if(proj is knockBackProjectile){ }*/
+                else{
+                    double dir = (float)Math.Atan2(proj.y - this.y, proj.x - this.x);
+                    proj.x_speed -= Math.Cos(dir)*0.1;
+                    proj.y_speed -= Math.Sin(dir) * 0.1;
+                }
+            }
         }
 
     }

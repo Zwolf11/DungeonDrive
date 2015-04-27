@@ -507,6 +507,7 @@ namespace DungeonDrive
         }
         public override void cast(GameState state, Unit unit)
         {
+            
             if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse] == false) { return; }
             setGravityForceField(state, unit);
             pullingProjectile proj1 = new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 1 / 2);
