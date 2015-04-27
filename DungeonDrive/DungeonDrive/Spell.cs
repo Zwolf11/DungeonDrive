@@ -177,7 +177,7 @@ namespace DungeonDrive
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
-            proj1.radius = 3;
+            proj1.radius = 2.9;
 
             if (this.unit is Hero) { }
             else
@@ -406,9 +406,9 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setPyroblast(state, unit);
-            //knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 12, unit);
+            knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 12, unit);
             //Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
-            knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 15, unit);
+            //pullingProjectile proj1 = new pullingProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 15);
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
@@ -428,5 +428,160 @@ namespace DungeonDrive
             this.unit = unit;
         }
 
+    }
+
+    public class GravityForceField : Spell {
+        public Bitmap[] animation = new Bitmap[32];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+        public GravityForceField()
+            : base()
+        {
+            this.maxFrame = 20;
+            this.spellName = "Energy Barrier";
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.EB1;
+            spellIcon[1] = Properties.Resources.EB2;
+            spellIcon[2] = Properties.Resources.EB3;
+            _spellIcon[0] = Properties.Resources.notEB1;
+            _spellIcon[1] = Properties.Resources.notEB2;
+            _spellIcon[2] = Properties.Resources.notEB3;
+            this.animation[0] = Properties.Resources.pulling1;
+            this.animation[1] = Properties.Resources.pulling2;
+            this.animation[2] = Properties.Resources.pulling3;
+            this.animation[3] = Properties.Resources.pulling4;
+            this.animation[4] = Properties.Resources.pulling5;
+            this.animation[5] = Properties.Resources.pulling6;
+            this.animation[6] = Properties.Resources.pulling7;
+            this.animation[7] = Properties.Resources.pulling8;
+            this.animation[8] = Properties.Resources.pulling9;
+            this.animation[9] = Properties.Resources.pulling10;
+            this.animation[10] = Properties.Resources.pulling11;
+            this.animation[11] = Properties.Resources.pulling12;
+            this.animation[12] = Properties.Resources.pulling13;
+            this.animation[13] = Properties.Resources.pulling14;
+            this.animation[14] = Properties.Resources.pulling15;
+            this.animation[15] = Properties.Resources.pulling16;
+            this.animation[16] = Properties.Resources.pulling17;
+            this.animation[17] = Properties.Resources.pulling18;
+            this.animation[18] = Properties.Resources.pulling19;
+            this.animation[19] = Properties.Resources.pulling20;
+            /*this.animation[20] = Properties.Resources.pul;
+            this.animation[21] = Properties.Resources.EnergyBarrier22;
+            this.animation[22] = Properties.Resources.EnergyBarrier23;
+            this.animation[23] = Properties.Resources.EnergyBarrier24;
+            this.animation[24] = Properties.Resources.EnergyBarrier25;
+            this.animation[25] = Properties.Resources.EnergyBarrier26;
+            this.animation[26] = Properties.Resources.EnergyBarrier27;
+            this.animation[27] = Properties.Resources.EnergyBarrier28;
+            this.animation[28] = Properties.Resources.EnergyBarrier29;
+            this.animation[29] = Properties.Resources.EnergyBarrier30;
+            this.animation[30] = Properties.Resources.EnergyBarrier31;
+            this.animation[31] = Properties.Resources.EnergyBarrier32;*/
+            
+        }
+        public override void cast(GameState state, Unit unit)
+        {
+            setGravityForceField(state, unit);
+            pullingProjectile proj1 = new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 1 / 2);
+            proj1.isMagic = true;
+            proj1.animation = this.animation;
+            proj1.dmg = 0.1;
+            proj1.radius = 2.9;
+            proj1.maxFrame = this.maxFrame;
+            proj1.proj_duration = 10000;
+            if (this.unit is Hero) {  }
+            else
+            {
+                proj1.friendlyFire = false;
+            }
+            state.room.projectiles.Add(proj1);
+
+        }
+        public void setGravityForceField(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+    }
+
+    public class ShadowStep : Spell {
+
+        public Bitmap[] animation = new Bitmap[32];
+        public int level = 1;
+        GameState state;
+        Unit unit;
+        public ShadowStep()
+            : base()
+        {
+            this.maxFrame = 20;
+            this.spellName = "Energy Barrier";
+            for (int i = 0; i < SkillStreeState.skillLevel; i++)
+            {
+                spellIcon[i] = Properties.Resources.ghost0;
+            }
+            spellIcon[0] = Properties.Resources.EB1;
+            spellIcon[1] = Properties.Resources.EB2;
+            spellIcon[2] = Properties.Resources.EB3;
+            _spellIcon[0] = Properties.Resources.notEB1;
+            _spellIcon[1] = Properties.Resources.notEB2;
+            _spellIcon[2] = Properties.Resources.notEB3;
+            this.animation[0] = Properties.Resources.pulling1;
+            this.animation[1] = Properties.Resources.pulling2;
+            this.animation[2] = Properties.Resources.pulling3;
+            this.animation[3] = Properties.Resources.pulling4;
+            this.animation[4] = Properties.Resources.pulling5;
+            this.animation[5] = Properties.Resources.pulling6;
+            this.animation[6] = Properties.Resources.pulling7;
+            this.animation[7] = Properties.Resources.pulling8;
+            this.animation[8] = Properties.Resources.pulling9;
+            this.animation[9] = Properties.Resources.pulling10;
+            this.animation[10] = Properties.Resources.pulling11;
+            this.animation[11] = Properties.Resources.pulling12;
+            this.animation[12] = Properties.Resources.pulling13;
+            this.animation[13] = Properties.Resources.pulling14;
+            this.animation[14] = Properties.Resources.pulling15;
+            this.animation[15] = Properties.Resources.pulling16;
+            this.animation[16] = Properties.Resources.pulling17;
+            this.animation[17] = Properties.Resources.pulling18;
+            this.animation[18] = Properties.Resources.pulling19;
+            this.animation[19] = Properties.Resources.pulling20;
+            /*this.animation[20] = Properties.Resources.pul;
+            this.animation[21] = Properties.Resources.EnergyBarrier22;
+            this.animation[22] = Properties.Resources.EnergyBarrier23;
+            this.animation[23] = Properties.Resources.EnergyBarrier24;
+            this.animation[24] = Properties.Resources.EnergyBarrier25;
+            this.animation[25] = Properties.Resources.EnergyBarrier26;
+            this.animation[26] = Properties.Resources.EnergyBarrier27;
+            this.animation[27] = Properties.Resources.EnergyBarrier28;
+            this.animation[28] = Properties.Resources.EnergyBarrier29;
+            this.animation[29] = Properties.Resources.EnergyBarrier30;
+            this.animation[30] = Properties.Resources.EnergyBarrier31;
+            this.animation[31] = Properties.Resources.EnergyBarrier32;*/
+            
+        }
+        public void setShadowStep(GameState state, Unit unit)
+        {
+            this.state = state;
+            this.unit = unit;
+        }
+        public override void cast(GameState state, Unit unit)
+        {
+            setShadowStep(state, unit);
+            staticProjectiles proj1 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
+            proj1.proj_duration = 10;
+            state.room.projectiles.Add(proj1);
+            state.hero.x = GameState.xMouse;
+            state.hero.y = GameState.yMouse;
+            state.angle = 0;
+            state.hero.basicAtk();
+            staticProjectiles proj2 = new staticProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 5);
+            proj2.proj_duration = 10;
+            state.room.projectiles.Add(proj2);
+        }
     }
 }

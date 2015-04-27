@@ -95,6 +95,26 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\pulling19.png" />
+    <None Include="Resources\pulling18.png" />
+    <None Include="Resources\pulling17.png" />
+    <None Include="Resources\pulling16.png" />
+    <None Include="Resources\pulling15.png" />
+    <None Include="Resources\pulling14.png" />
+    <None Include="Resources\pulling13.png" />
+    <None Include="Resources\pulling12.png" />
+    <None Include="Resources\pulling11.png" />
+    <None Include="Resources\pulling10.png" />
+    <None Include="Resources\pulling9.png" />
+    <None Include="Resources\pulling8.png" />
+    <None Include="Resources\pulling7.png" />
+    <None Include="Resources\pulling6.png" />
+    <None Include="Resources\pulling5.png" />
+    <None Include="Resources\pulling4.png" />
+    <None Include="Resources\pulling3.png" />
+    <None Include="Resources\pulling2.png" />
+    <None Include="Resources\pulling1.png" />
+    <None Include="Resources\pulling20.png" />
     <None Include="Resources\notPB2.png" />
     <None Include="Resources\notPB1.png" />
     <None Include="Resources\notPB3.png" />

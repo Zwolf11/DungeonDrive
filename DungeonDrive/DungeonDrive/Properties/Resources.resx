@@ -1456,4 +1456,64 @@
   <data name="notRuneOfFire3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\notRuneOfFire3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pulling1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pulling9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pulling9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

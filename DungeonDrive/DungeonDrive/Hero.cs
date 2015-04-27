@@ -425,8 +425,8 @@ namespace DungeonDrive
             if (atk_cd[4])
             {
 
-                this.cast(SkillStreeState.spellSelected);
-                //this.cast(new EnergyBarrier());
+                //this.cast(SkillStreeState.spellSelected);
+                this.cast(new GravityForceField());
                 cd(0, 4);
                
             }

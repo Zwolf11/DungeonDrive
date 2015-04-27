@@ -121,7 +121,7 @@ namespace DungeonDrive
                 if (atk_cd[0])
                 {
                     int random = rand.Next(0, 100);
-                    if (random <= 25)
+                    if (random <= 1)
                         statusChanged(state.hero, "paralyze");
                 }
             }
@@ -135,7 +135,7 @@ namespace DungeonDrive
             }
             if (this.atk_cd[1]) {
                 //LighteningBall  = new LighteningBall();
-               // this.cast( new Pyroblast());
+                //this.cast(new GravityForceField());
                // this.cd(p.cd, 1);
             }
             //tryMove(xNext, yNext);

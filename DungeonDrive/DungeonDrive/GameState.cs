@@ -18,6 +18,7 @@ namespace DungeonDrive
         private int konami = 0;
         private bool startTutorial = false;
         public String graveyard = "C:\\graveyard";
+        public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
         
         // If you want to change the starting room, initialize currentRoom to that directory.
@@ -395,6 +396,7 @@ namespace DungeonDrive
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
+           
             if (e.Button == MouseButtons.Left)
             {
                 if (hero.status.Equals("Binded Arm") || hero.status.Equals("Paralyzed"))
@@ -429,7 +431,9 @@ namespace DungeonDrive
                 {
                     float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
                     float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
-
+                    xMouse = x;
+                    yMouse = y;
+                    
                     if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
                     {
                         foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
