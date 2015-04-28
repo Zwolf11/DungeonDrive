@@ -14,6 +14,7 @@ namespace DungeonDrive
         public List<State> children = new List<State>();
         public bool covered = false;
         public bool paused = false;
+        public int sleepSec = 0;
 
         public State(MainForm form) { this.form = form; }
 

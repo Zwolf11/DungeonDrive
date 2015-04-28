@@ -573,8 +573,8 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    float x = (float)((hero.x - form.ClientSize.Width / 2.0) / size + hero.x);
-                    float y = (float)((hero.y - form.ClientSize.Height / 2.0) / size + hero.y);
+                    float x = (float)((current.ThumbSticks.Right.X - form.ClientSize.Width / 2.0) / size + hero.x);
+                    float y = (float)((current.ThumbSticks.Right.Y - form.ClientSize.Height / 2.0) / size + hero.y);
                     xMouse = x;
                     yMouse = y;
 
@@ -660,7 +660,7 @@ namespace DungeonDrive
             else if (current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 spellChange();
             
-            if (current.IsConnected && current.ThumbSticks.Left.Y == 1.0f)
+            if (current.IsConnected && current.ThumbSticks.Left.Y >= 0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[2] = true;
@@ -672,7 +672,8 @@ namespace DungeonDrive
             else
                 hero.dirs[0] = false;
 
-            if (current.IsConnected && current.ThumbSticks.Left.X == -1.0f)
+
+            if (current.IsConnected && current.ThumbSticks.Left.X <= -0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[3] = true;
@@ -684,7 +685,7 @@ namespace DungeonDrive
             else
                 hero.dirs[1] = false;
 
-            if (current.IsConnected && current.ThumbSticks.Left.Y == -1.0f)
+            if (current.IsConnected && current.ThumbSticks.Left.Y <= -0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[0] = true;
@@ -696,7 +697,7 @@ namespace DungeonDrive
             else
                 hero.dirs[2] = false;
 
-            if (current.IsConnected && current.ThumbSticks.Left.X == 1.0f)
+            if (current.IsConnected && current.ThumbSticks.Left.X >= 0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[1] = true;
