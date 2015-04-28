@@ -163,6 +163,14 @@ namespace DungeonDrive
 
         public void equipItems()
         {
+            if (inCombat)
+            {
+                if (combatCd-- > 0)
+                    return;
+                else
+                    inCombat = false;
+            }
+
             double hp_inc = 0;
             double ms_inc = 0;
             double atk_inc = 0;
@@ -174,7 +182,6 @@ namespace DungeonDrive
                 {
                     atk_inc = weapon.damage;
                     this.atk_speed = weapon.atk_speed;
-                    // TODO add other effects
                 }
             }
             else
@@ -187,16 +194,10 @@ namespace DungeonDrive
             {
                 hp_inc += helmet.hp;
                 this.hp_reg = helmet.hp_reg;
-                if (this.hp + helmet.hp_reg <= this.full_hp)
-                {
-                    if (inCombat)
-                        if (combatCd-- > 0)
-                            return;
-                        else
-                            inCombat = false;
-
-                    this.hp += helmet.hp_reg;
-                }
+                if (testing)
+                    this.hp_reg = 0;
+                if (this.hp + this.hp_reg <= this.full_hp)
+                    this.hp += this.hp_reg;
                 else
                     this.hp = this.full_hp;
             }
@@ -481,12 +482,16 @@ namespace DungeonDrive
                             try { attack1.Play(); }
                             catch (FileNotFoundException) { }
                             knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
+                            bool crit = false;
                             if (weapon != null && weapon.critChan > weapon.rdnDouble(0.0, 1.0))
+                            {
+                                crit = true;
                                 enemy.hp -= atk_dmg * 2;
+                            }
                             else
                                 enemy.hp -= atk_dmg;
                             if (weapon != null && weapon.lifestealChan > weapon.rdnDouble(0.0, 1.0))
-                                this.hp += atk_dmg * 0.25;
+                                this.hp += crit ? atk_dmg * 2 * 0.25 : atk_dmg * 0.25;
                             enemy.inCombat = true;
                             enemy.combatCd = 3 * 17;
                             if (weapon != null && weapon.style == Item.AtkStyle.Frozen)
