@@ -400,6 +400,8 @@ namespace DungeonDrive
         public int proj_range;
         public double powerSec;
         public double powerFac;
+        public double critChan;
+        public double lifestealChan;
         public AtkStyle style;
         public Bitmap projectileImg = null;
 
@@ -430,6 +432,8 @@ namespace DungeonDrive
                     style = (AtkStyle)rand.Next(0, 6);
                     powerSec = rdnDouble(0.8, 2.3);
                     powerFac = rdnDouble(0.6, 0.8);
+                    critChan = rdnDouble(0.1 * Math.Pow(1.004, (double)state.hero.level), 0.4 * Math.Pow(1.004, (double)state.hero.level));
+                    lifestealChan = rdnDouble(0.1 * Math.Pow(1.004, (double)state.hero.level), 0.4 * Math.Pow(1.004, (double)state.hero.level));
                     ranged = false;
                     break;
             }
@@ -438,7 +442,7 @@ namespace DungeonDrive
             setDesc();
         }
 
-        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style)
+        public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style, double critChan, double lifestealChan)
             : base(state)
         {
             this.name = name;
@@ -451,6 +455,8 @@ namespace DungeonDrive
             this.powerSec = powerSec;
             this.powerFac = powerFac;
             this.style = (AtkStyle)style;
+            this.critChan = critChan;
+            this.lifestealChan = lifestealChan;
 
             if (ranged)
                 setProjImg();
@@ -464,10 +470,14 @@ namespace DungeonDrive
                 + "\nLVL:  " + level
                 + "\nSTY:  " + style.ToString()
                 + "\nDMG: +" + Math.Round(damage, 2)
-                + "\nATK SPD: " + Math.Round(atk_speed, 2);
+                + "\nATK SPD:  " + Math.Round(atk_speed, 2);
 
             if (ranged)
                 description += "\nRNG:  " + proj_range;
+
+            if (!ranged)
+                description += "\nCRT CHN:  " + Math.Round(critChan,2)
+                    + "\nLFS CHN:  " + Math.Round(lifestealChan,2);
 
             switch (style)
             {

@@ -13,8 +13,8 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = false;
-        private int testing_level = 1;
+        private bool testing = true;
+        private int testing_level = 50;
 
         private SoundPlayer attack1;
         private SoundPlayer attack2;
@@ -481,7 +481,12 @@ namespace DungeonDrive
                             try { attack1.Play(); }
                             catch (FileNotFoundException) { }
                             knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
-                            enemy.hp -= atk_dmg;
+                            if (weapon != null && weapon.critChan > weapon.rdnDouble(0.0, 1.0))
+                                enemy.hp -= atk_dmg * 2;
+                            else
+                                enemy.hp -= atk_dmg;
+                            if (weapon != null && weapon.lifestealChan > weapon.rdnDouble(0.0, 1.0))
+                                this.hp += atk_dmg * 0.25;
                             enemy.inCombat = true;
                             enemy.combatCd = 3 * 17;
                             if (weapon != null && weapon.style == Item.AtkStyle.Frozen)
