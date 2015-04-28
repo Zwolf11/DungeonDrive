@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Media;
 using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace DungeonDrive
 {
@@ -64,10 +67,45 @@ namespace DungeonDrive
             form.Invalidate();
         }
 
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                Application.Exit();
+            }
+            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (--selection < 0)
+                    selection = options.Length - 1;
+            }
+            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                selection = (selection + 1) % options.Length;
+            }
+            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (selection == 0)
+                    this.addChildState(new GameState(form, false), true, true);
+                else if (selection == 1)
+                {
+                    if (File.Exists("save"))
+                        this.addChildState(new GameState(form, true), true, true);
+                    else
+                        errorSound.Play();
+                }
+                else if (selection == 2)
+                    this.addChildState(new OptionsState(form), true, true);
+                else if (selection == 3)
+                    Application.Exit();
+            }
+        }
+
         public override void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Clear(Color.FromArgb(20, 20, 20));
+            g.Clear(System.Drawing.Color.FromArgb(20, 20, 20));
 
             StringFormat align = new StringFormat();
             align.Alignment = StringAlignment.Center;

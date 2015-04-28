@@ -102,3 +102,9 @@ C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Deb
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\DungeonDrive.pdb
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.exe
 C:\Users\Zwolf11\Documents\GitHub\DungeonDrive\DungeonDrive\DungeonDrive\obj\Debug\DungeonDrive.pdb
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.dll
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.xml
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Graphics.xml

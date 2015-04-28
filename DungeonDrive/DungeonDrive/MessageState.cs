@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
 
 namespace DungeonDrive
 {
@@ -36,6 +39,18 @@ namespace DungeonDrive
             if (func != null)
                 func();
             this.close();
+        }
+
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (func != null)
+                    func();
+                this.close();
+            }
         }
 
         public override void paint(object sender, PaintEventArgs e)

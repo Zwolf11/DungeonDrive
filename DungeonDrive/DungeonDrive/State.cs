@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
 
 namespace DungeonDrive
 {
@@ -21,6 +24,7 @@ namespace DungeonDrive
         public abstract void mouseMove(object sender, MouseEventArgs e);
         public abstract void paint(object sender, PaintEventArgs e);
         public abstract void tick(object sender, EventArgs e);
+        public abstract void updateInput();
 
         public void addChildState(State state, bool cover, bool pause)
         {

@@ -2,6 +2,10 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
+
 namespace DungeonDrive
 {
     class SkillStreeState : State
@@ -16,10 +20,10 @@ namespace DungeonDrive
 
         public static Spell[] spellStored = new Spell[skillList];
 
-        private Rectangle[,] skillFrame = new Rectangle[skillList, skillLevel];
+        private System.Drawing.Rectangle[,] skillFrame = new System.Drawing.Rectangle[skillList, skillLevel];
         private Bitmap[,] skillFrameImages = new Bitmap[skillList, skillLevel];
 
-        private Rectangle[,] skillSet = new Rectangle[skillList, skillLevel];
+        private System.Drawing.Rectangle[,] skillSet = new System.Drawing.Rectangle[skillList, skillLevel];
         // already learnt spells
         private Bitmap[,] skillSetImages = new Bitmap[skillList, skillLevel];
         private Bitmap[,] _skillSetImages = new Bitmap[skillList, skillLevel]; // images of spells that has not learnt
@@ -36,7 +40,7 @@ namespace DungeonDrive
         private int iconSize;
         private Bitmap highLight = Properties.Resources.frame_0_red;
 
-        private Rectangle skillTreeRectangle;
+        private System.Drawing.Rectangle skillTreeRectangle;
         private int skillSelected, levelSelected;
         private int skillMouseOver, levelMouseOver;
         private bool selectedOrNot = false, mouseOverOrNot = false;
@@ -127,7 +131,7 @@ namespace DungeonDrive
         }
         public override void mouseMove(object sender, MouseEventArgs e)
         {
-            Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+            System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
             if (selectedOrNot == true)
             {
                 for (int j = 0; j < skillLevel; j++)
@@ -163,12 +167,12 @@ namespace DungeonDrive
         private RectangleF getBoxBounds(int i, int j)
         {
 
-            Rectangle rect = this.skillTreeRectangle;
+            System.Drawing.Rectangle rect = this.skillTreeRectangle;
             int size = form.ClientSize.Height / 10;
             int y = form.ClientSize.Height / (skillLevel + 1);
             int x = form.ClientSize.Width / (skillList + 1);
             iconSize = size;
-            skillFrame[i, j] = new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)), form.ClientSize.Height - size / 2 - (y * (j + 1)), size, size);
+            skillFrame[i, j] = new System.Drawing.Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)), form.ClientSize.Height - size / 2 - (y * (j + 1)), size, size);
             return skillFrame[i, j];
 
         }
@@ -176,21 +180,21 @@ namespace DungeonDrive
         private RectangleF getIconBoxBounds(int i, int j)
         {
 
-            Rectangle rect = this.skillTreeRectangle;
+            System.Drawing.Rectangle rect = this.skillTreeRectangle;
             int size = form.ClientSize.Height / 10;
             int y = form.ClientSize.Height / (skillLevel + 1);
             int x = form.ClientSize.Width / (skillList + 1);
             iconSize = size;
-            skillSet[i, j] = new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2
+            skillSet[i, j] = new System.Drawing.Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2
                 - (y * (j + 1)) + padding / 2, size - padding, size - padding);
-            return new Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2
+            return new System.Drawing.Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)) + padding / 2, form.ClientSize.Height - size / 2
                 - (y * (j + 1)) + padding / 2, size - padding, size - padding);
 
         }
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
-            Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+            System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
             if (e.Button == MouseButtons.Left)
             {
                 
@@ -317,10 +321,21 @@ namespace DungeonDrive
 
         }
 
-        private Rectangle getBackgroundRectangle(int top, int left)
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                this.close();
+            }
+            //TO-DO
+        }
+
+        private System.Drawing.Rectangle getBackgroundRectangle(int top, int left)
         {
 
-            return new Rectangle(this.form.ClientSize.Width / left, this.form.ClientSize.Height / top,
+            return new System.Drawing.Rectangle(this.form.ClientSize.Width / left, this.form.ClientSize.Height / top,
                 (left - 2) * form.ClientSize.Width / left, (top - 2) * form.ClientSize.Height / top);
         }
 
@@ -350,8 +365,8 @@ namespace DungeonDrive
             {
                 if (skillIsAvailable(i, j+1)) { this.pen.Color = System.Drawing.Color.Green; }
                 else { this.pen.Color = System.Drawing.Color.Gray; }
-                g.DrawLine(pen, new Point(skillFrame[i, j].X + iconSize / 2, skillFrame[i, j].Y), 
-                    new Point(skillFrame[i, j + 1].X + iconSize / 2, skillFrame[i, j + 1].Y + +iconSize));
+                g.DrawLine(pen, new System.Drawing.Point(skillFrame[i, j].X + iconSize / 2, skillFrame[i, j].Y),
+                    new System.Drawing.Point(skillFrame[i, j + 1].X + iconSize / 2, skillFrame[i, j + 1].Y + +iconSize));
                 
             }
         }

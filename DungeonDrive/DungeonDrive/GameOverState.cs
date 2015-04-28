@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
 
 namespace DungeonDrive
 {
@@ -19,6 +22,17 @@ namespace DungeonDrive
         public override void keyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Properties.Settings.Default.SelectKey || e.KeyCode == Properties.Settings.Default.CloseKey)
+            {
+                parent.close();
+                form.Invalidate();
+            }
+        }
+
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 parent.close();
                 form.Invalidate();

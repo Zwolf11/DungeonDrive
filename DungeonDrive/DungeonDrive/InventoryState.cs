@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
 
 namespace DungeonDrive
 {
@@ -8,8 +11,8 @@ namespace DungeonDrive
     {
         private Item selection = null;
         private PointF selectOrigin = new PointF(-1, -1);
-        private Point dragLoc = new Point(-1, -1);
-        private Point mouse = new Point(-1, -1);
+        private System.Drawing.Point dragLoc = new System.Drawing.Point(-1, -1);
+        private System.Drawing.Point mouse = new System.Drawing.Point(-1, -1);
         private bool dragging = false;
         private GameState state { get { return (GameState)parent; } }
         private Item mouseOverItem = null;
@@ -44,7 +47,7 @@ namespace DungeonDrive
         private void updateMouseOverItem(int x, int y)
         {
             Item[][] inventory = state.inventory;
-            Rectangle click = new Rectangle(x, y, 1, 1);
+            System.Drawing.Rectangle click = new System.Drawing.Rectangle(x, y, 1, 1);
 
             for (int i = 0; i < inventory.Length; i++)
                 for (int j = 0; j < inventory[i].Length; j++)
@@ -76,7 +79,7 @@ namespace DungeonDrive
         public override void mouseDown(object sender, MouseEventArgs e)
         {
             Item[][] inventory = state.inventory;
-            Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+            System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
 
             for(int i=0;i<inventory.Length;i++)
                 for(int j=0;j<inventory[i].Length;j++)
@@ -84,8 +87,8 @@ namespace DungeonDrive
                     {
                         selection = inventory[i][j];
                         inventory[i][j] = null;
-                        selectOrigin = new Point(i, j);
-                        dragLoc = new Point(e.X, e.Y);
+                        selectOrigin = new System.Drawing.Point(i, j);
+                        dragLoc = new System.Drawing.Point(e.X, e.Y);
 
                         mouse = e.Location;
                         form.Invalidate();
@@ -98,7 +101,7 @@ namespace DungeonDrive
                 {
                     selection = state.hero.shield;
                     state.hero.shield = null;
-                    selectOrigin = new Point(-1, 1);
+                    selectOrigin = new System.Drawing.Point(-1, 1);
                 }
             }
             else if (getBoxBounds(-2, 0).Contains(click))
@@ -107,7 +110,7 @@ namespace DungeonDrive
                 {
                     selection = state.hero.helmet;
                     state.hero.helmet = null;
-                    selectOrigin = new Point(-2, 0);
+                    selectOrigin = new System.Drawing.Point(-2, 0);
                 }
             }
             else if (getBoxBounds(-2, 1).Contains(click))
@@ -116,7 +119,7 @@ namespace DungeonDrive
                 {
                     selection = state.hero.armor;
                     state.hero.armor = null;
-                    selectOrigin = new Point(-2, 1);
+                    selectOrigin = new System.Drawing.Point(-2, 1);
                 }
             }
             else if (getBoxBounds(-2, 2).Contains(click))
@@ -125,7 +128,7 @@ namespace DungeonDrive
                 {
                     selection = state.hero.legs;
                     state.hero.legs = null;
-                    selectOrigin = new Point(-2, 2);
+                    selectOrigin = new System.Drawing.Point(-2, 2);
                 }
             }
             else if (getBoxBounds(-3, 0.5f).Contains(click))
@@ -138,7 +141,7 @@ namespace DungeonDrive
                 }
             }
 
-            dragLoc = new Point(e.X, e.Y);
+            dragLoc = new System.Drawing.Point(e.X, e.Y);
             mouse = e.Location;
             form.Invalidate();
         }
@@ -190,7 +193,7 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    Rectangle click = new Rectangle(e.X, e.Y, 1, 1);
+                    System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
 
                     for (int i = 0; i < inventory.Length; i++)
                         for (int j = 0; j < inventory[i].Length; j++)
@@ -283,6 +286,17 @@ namespace DungeonDrive
         {
             if (e.KeyCode == Properties.Settings.Default.CloseKey || e.KeyCode == Properties.Settings.Default.InventoryKey)
                 this.close();
+        }
+
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                parent.close();
+                form.Invalidate();
+            }
         }
 
         public override void paint(object sender, PaintEventArgs e)

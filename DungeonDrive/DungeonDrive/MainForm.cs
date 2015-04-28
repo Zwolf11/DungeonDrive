@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace DungeonDrive
 {

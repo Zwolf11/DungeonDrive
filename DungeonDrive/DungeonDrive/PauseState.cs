@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Input;
 
 namespace DungeonDrive
 {
@@ -43,6 +46,38 @@ namespace DungeonDrive
                 selection = (selection + 1) % options.Length;
             }
             else if (e.KeyCode == Properties.Settings.Default.SelectKey)
+            {
+                if (selection == 0)
+                    this.close();
+                else if (selection == 1)
+                    state.saveGame();
+                else if (selection == 2)
+                    this.addChildState(new OptionsState(form), true, true);
+                else if (selection == 3)
+                    parent.close();
+            }
+
+            form.Invalidate();
+        }
+
+        public override void updateInput()
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                this.close();
+            }
+            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (--selection < 0)
+                    selection = options.Length - 1;
+            }
+            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                selection = (selection + 1) % options.Length;
+            }
+            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
                     this.close();

@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Media;
 using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace DungeonDrive
 {
@@ -275,19 +278,19 @@ namespace DungeonDrive
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Up && (konami == 0 || konami == 1))
+            if (e.KeyCode == System.Windows.Forms.Keys.Up && (konami == 0 || konami == 1))
                 konami++;
-            else if (e.KeyCode == Keys.Down && (konami == 2 || konami == 3))
+            else if (e.KeyCode == System.Windows.Forms.Keys.Down && (konami == 2 || konami == 3))
                 konami++;
-            else if (e.KeyCode == Keys.Left && (konami == 4 || konami == 6))
+            else if (e.KeyCode == System.Windows.Forms.Keys.Left && (konami == 4 || konami == 6))
                 konami++;
-            else if (e.KeyCode == Keys.Right && (konami == 5 || konami == 7))
+            else if (e.KeyCode == System.Windows.Forms.Keys.Right && (konami == 5 || konami == 7))
                 konami++;
-            else if (e.KeyCode == Keys.B && konami == 8)
+            else if (e.KeyCode == System.Windows.Forms.Keys.B && konami == 8)
                 konami++;
-            else if (e.KeyCode == Keys.A && konami == 9)
+            else if (e.KeyCode == System.Windows.Forms.Keys.A && konami == 9)
                 konami++;
-            else if (e.KeyCode == Keys.Enter && konami == 10)
+            else if (e.KeyCode == System.Windows.Forms.Keys.Enter && konami == 10)
             {
                 for (int i = 0; i < 10; i++)
                     hero.levelUp();
@@ -304,7 +307,7 @@ namespace DungeonDrive
 
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
                 this.addChildState(new PauseState(form), false, true);
-            else if (e.KeyCode == Keys.Tab)
+            else if (e.KeyCode == System.Windows.Forms.Keys.Tab)
                 spellChange();
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
@@ -537,6 +540,95 @@ namespace DungeonDrive
             }
         }
 
+        public override void updateInput()
+        {
+            // Get the current gamepad state
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (hero.status.Equals("Binded Arm") || hero.status.Equals("Paralyzed"))
+                {
+                    hero.bind_remove++;
+                    if (hero.bind_remove == 15)
+                    {
+                        hero.status = "Normal";
+                        hero.bind_remove = 0;
+                        hero.basicAtk();
+                    }
+                }
+                else
+                    hero.basicAtk();
+            }
+            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (hero.status.Equals("Binded Head") || hero.status.Equals("Paralyzed"))
+                {
+                    hero.bind_remove++;
+                    if (hero.bind_remove == 15)
+                    {
+                        hero.status = "Normal";
+                        hero.bind_remove = 0;
+                    }
+                }
+                else
+                {
+                    float x = (float)((hero.x - form.ClientSize.Width / 2.0) / size + hero.x);
+                    float y = (float)((hero.y - form.ClientSize.Height / 2.0) / size + hero.y);
+                    xMouse = x;
+                    yMouse = y;
+
+                    if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                    {
+                        foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
+                            if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
+                            {
+                                if (tryPickupItem(entry.Key))
+                                    room.droppedItems.Remove(entry.Key);
+
+                                break;
+                            }
+
+                        foreach (Obstacle ob in room.obstacles)
+                            if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
+                            {
+                                Chest chest = (Chest)ob;
+                                if (chest.closed)
+                                {
+                                    chest.closed = false;
+                                    room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
+                                }
+                                break;
+                            }
+
+                        if (room.doorSpace[(int)x, (int)y])
+                        {
+                            Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0, false, -1);
+                            foreach (Door door in room.doors)
+                            {
+                                if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
+                                {
+                                    // this is the correct door
+                                    if (!door.switchClosed())
+                                    {
+                                        clickedDoor = door;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (clickedDoor.x != -1)
+                            {
+                                if (!clickedDoor.locked)
+                                    room.updateDrawingGrid(clickedDoor.getNegativeRoom());
+                                room.updateDrawingGrid(clickedDoor.getPositiveRoom());
+                            }
+                        }
+                    }
+                    else { this.hero.specialAtk(); }
+                }
+            }
+        }
+
         public void spellChange() {
 
             int index = 0;
@@ -602,14 +694,15 @@ namespace DungeonDrive
             g.TranslateTransform((float)oldBitmap.Width, (float)oldBitmap.Height);
             g.RotateTransform((float)angle + 45);
             g.TranslateTransform(-(float)oldBitmap.Width, -(float)oldBitmap.Height);
-            g.DrawImage(oldBitmap, new Point(oldBitmap.Width, 0));
+            g.DrawImage(oldBitmap, new System.Drawing.Point(oldBitmap.Width, 0));
             return newBitmap;
         }
+
 
         public override void paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Clear(Color.FromArgb(20, 20, 20));
+            g.Clear(System.Drawing.Color.FromArgb(20, 20, 20));
 
             room.draw(g);
 
@@ -624,6 +717,7 @@ namespace DungeonDrive
             if(mouseImg != null)
                 g.DrawImage(mouseImg, this.mouseX - mouseImg.Width / 2, this.mouseY - mouseImg.Height / 2);
         }
+
 
         public override void tick(object sender, EventArgs e)
         {
