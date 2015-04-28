@@ -312,9 +312,9 @@ namespace DungeonDrive
                 }
             }
 
-            
 
 
+            updateInput();
         }
         public override void keyUp(object sender, KeyEventArgs e)
         {
@@ -331,6 +331,8 @@ namespace DungeonDrive
             }
             //TO-DO
         }
+
+
 
         private System.Drawing.Rectangle getBackgroundRectangle(int top, int left)
         {

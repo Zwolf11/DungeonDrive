@@ -627,7 +627,92 @@ namespace DungeonDrive
                     else { this.hero.specialAtk(); }
                 }
             }
+
+            if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 0 || konami == 1))
+                konami++;
+            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 2 || konami == 3))
+                konami++;
+            else if (current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 4 || konami == 6))
+                konami++;
+            else if (current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 5 || konami == 7))
+                konami++;
+            else if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 8)
+                konami++;
+            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 9)
+                konami++;
+            else if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 10)
+            {
+                for (int i = 0; i < 10; i++)
+                    hero.levelUp();
+
+                for (int i = 0; i < inventory.Length; i++)
+                    for (int j = 0; j < inventory[i].Length; j++)
+                        if (inventory[i][j] == null)
+                            inventory[i][j] = randomItem();
+
+                konami = 0;
+            }
+            else
+                konami = 0;
+
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                this.addChildState(new PauseState(form), false, true);
+            else if (current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                spellChange();
+            
+            if (current.IsConnected && current.ThumbSticks.Left.Y == 1.0f)
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[2] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[0] = false;
+                else
+                    hero.dirs[0] = true;
+            }
+            else
+                hero.dirs[0] = false;
+
+            if (current.IsConnected && current.ThumbSticks.Left.X == -1.0f)
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[3] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[1] = false;
+                else
+                    hero.dirs[1] = true;
+            }
+            else
+                hero.dirs[1] = false;
+
+            if (current.IsConnected && current.ThumbSticks.Left.Y == -1.0f)
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[0] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[2] = false;
+                else
+                    hero.dirs[2] = true;
+            }
+            else
+                hero.dirs[2] = false;
+
+            if (current.IsConnected && current.ThumbSticks.Left.X == 1.0f)
+            {
+                if (hero.status.Equals("Cursed"))
+                    hero.dirs[1] = true;
+                else if (hero.status.Equals("Paralyzed"))
+                    hero.dirs[3] = false;
+                else
+                    hero.dirs[3] = true;
+            }
+            else
+                hero.dirs[3] = false;
+
+            if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                this.addChildState(new InventoryState(form), false, false);
+
         }
+
 
         public void spellChange() {
 
@@ -721,6 +806,9 @@ namespace DungeonDrive
 
         public override void tick(object sender, EventArgs e)
         {
+            updateInput();
+            //updateInput2();
+
             if (angle >= 0)
                 angle += Math.PI / 16;
             if (angle > Math.PI / 2)

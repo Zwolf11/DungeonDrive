@@ -30,7 +30,10 @@ namespace DungeonDrive
         public override void mouseDown(object sender, MouseEventArgs e) { }
         public override void mouseUp(object sender, MouseEventArgs e) { }
         public override void mouseMove(object sender, MouseEventArgs e) { }
-        public override void tick(object sender, EventArgs e) { }
+        public override void tick(object sender, EventArgs e) 
+        {
+            updateInput();
+        }
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
@@ -75,12 +78,12 @@ namespace DungeonDrive
             {
                 Application.Exit();
             }
-            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (current.IsConnected && current.Buttons.Y == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
             }
-            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
             }
@@ -101,6 +104,7 @@ namespace DungeonDrive
                     Application.Exit();
             }
         }
+
 
         public override void paint(object sender, PaintEventArgs e)
         {
