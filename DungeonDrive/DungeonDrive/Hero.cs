@@ -244,6 +244,9 @@ namespace DungeonDrive
             foreach (Unit enemy in state.room.enemies)
                 enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
 
+            foreach (Stairs stair in state.room.stairs)
+                stair.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (stair.DrawX + 0.5 * state.size), 2) + Math.Pow(Cursor.Position.Y - (stair.DrawY + 0.5 * state.size), 2)) <= 0.5 * state.size;
+            
             //            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
             //                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
         }
@@ -473,7 +476,7 @@ namespace DungeonDrive
                 {
                     foreach (Unit enemy in state.room.enemies)
                     {
-                        if (Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.DrawX - this.DrawX) < (this.radius * state.size + state.size + enemy.radius * state.size - 5) && Math.Abs(enemy.DrawY - this.DrawY) < (this.radius * state.size + state.size + enemy.radius * state.size - 5))
+                        if ((weapon != null ? (Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.DrawX - this.DrawX) < (this.radius * state.size + state.size + enemy.radius * state.size - 5) && Math.Abs(enemy.DrawY - this.DrawY) < (this.radius * state.size + state.size + enemy.radius * state.size - 5)) : Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05))
                         {
                             try { attack1.Play(); }
                             catch (FileNotFoundException) { }

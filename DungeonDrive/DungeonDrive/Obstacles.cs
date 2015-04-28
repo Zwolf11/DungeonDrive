@@ -82,6 +82,7 @@ namespace DungeonDrive
         private Bitmap stairDown = new Bitmap(Properties.Resources.stairDown);
         public int maxHallwayWidth = 10;
         public int centerX, centerY;
+        public bool displayname = false;
 
 
         public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY, int id ) : base(state, x, y, width, height, roomNum, id) {
@@ -132,7 +133,8 @@ namespace DungeonDrive
 
             string roomNumString = roomNum.ToString();
 
-            g.DrawString(path.Substring(path.LastIndexOf('\\') + 1) + " " + roomNumString , font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
+            if ( displayname )
+                g.DrawString(path.Substring(path.LastIndexOf('\\') + 1) + " " + roomNumString , font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
         }
     }
 
