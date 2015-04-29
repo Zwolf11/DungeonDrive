@@ -39,7 +39,8 @@ namespace DungeonDrive
             form.KeyUp -= this.keyUp;
             form.MouseDown -= this.mouseDown;
             form.MouseUp -= this.mouseUp;
-            form.MouseMove -= this.mouseMove;
+            if (!current.IsConnected)
+                form.MouseMove -= this.mouseMove;
 
             if (cover)
                 form.Paint -= this.paint;
@@ -50,7 +51,8 @@ namespace DungeonDrive
             form.KeyUp += state.keyUp;
             form.MouseDown += state.mouseDown;
             form.MouseUp += state.mouseUp;
-            form.MouseMove += state.mouseMove;
+            if (!current.IsConnected)
+                form.MouseMove += state.mouseMove;
             form.Paint += state.paint;
             form.timer.Tick += state.tick;
 
@@ -63,7 +65,8 @@ namespace DungeonDrive
             form.KeyUp += this.keyUp;
             form.MouseDown += this.mouseDown;
             form.MouseUp += this.mouseUp;
-            form.MouseMove += this.mouseMove;
+            if (!current.IsConnected)
+                form.MouseMove += this.mouseMove;
             form.Paint += this.paint;
             form.timer.Tick += this.tick;
 
@@ -85,7 +88,8 @@ namespace DungeonDrive
                     form.KeyUp += parent.keyUp;
                     form.MouseDown += parent.mouseDown;
                     form.MouseUp += parent.mouseUp;
-                    form.MouseMove += parent.mouseMove;
+                    if (!current.IsConnected)
+                        form.MouseMove += parent.mouseMove;
 
                     if (parent.covered)
                     {
@@ -105,7 +109,8 @@ namespace DungeonDrive
             form.KeyUp -= this.keyUp;
             form.MouseDown -= this.mouseDown;
             form.MouseUp -= this.mouseUp;
-            form.MouseMove -= this.mouseMove;
+            if (!current.IsConnected)
+                form.MouseMove -= this.mouseMove;
             form.Paint -= this.paint;
             form.timer.Tick -= this.tick;
 

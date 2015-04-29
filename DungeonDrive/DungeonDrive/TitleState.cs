@@ -85,24 +85,26 @@ namespace DungeonDrive
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
+                System.Threading.Thread.Sleep(150);
             }
             else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
+                System.Threading.Thread.Sleep(150);
             }
             else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
                 {
                     this.addChildState(new GameState(form, false), true, true);
-                    System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(150);
                 }
                 else if (selection == 1)
                 {
                     if (File.Exists("save"))
                     {
                         this.addChildState(new GameState(form, true), true, true);
-                        System.Threading.Thread.Sleep(200);
+                        System.Threading.Thread.Sleep(150);
                     }
                     else
                         errorSound.Play();
@@ -110,7 +112,7 @@ namespace DungeonDrive
                 else if (selection == 2)
                 {
                     this.addChildState(new OptionsState(form), true, true);
-                    System.Threading.Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(150);
                 }
                 else if (selection == 3)
                     Application.Exit();

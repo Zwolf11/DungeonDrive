@@ -95,7 +95,7 @@ namespace DungeonDrive
                         selection = inventory[i][j];
                         inventory[i][j] = null;
                         selectOrigin = new System.Drawing.Point(i, j);
-                        //dragLoc = new System.Drawing.Point(e.X, e.Y);
+                        dragLoc = new System.Drawing.Point(e.X, e.Y);
 
                         mouse = e.Location;
                         form.Invalidate();
@@ -148,7 +148,7 @@ namespace DungeonDrive
                 }
             }
 
-            //dragLoc = new System.Drawing.Point(e.X, e.Y);
+            dragLoc = new System.Drawing.Point(e.X, e.Y);
             mouse = e.Location;
             form.Invalidate();
         }
@@ -267,7 +267,7 @@ namespace DungeonDrive
                     selection = null;
                 }
 
-                //dragging = false;
+                dragging = false;
                 updateMouseOverItem(e.X, e.Y);
                 form.Invalidate();
             }
@@ -328,14 +328,226 @@ namespace DungeonDrive
 
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.RightStick == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 //TO-DO
-                
+                //System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
 
-                //form.Invalidate();
+                for (int i = 0; i < inventory.Length; i++)
+                    for (int j = 0; j < inventory[i].Length; j++)
+                        if (i == highlight.X && j == highlight.Y)
+                        {
+                            selection = inventory[i][j];
+                            inventory[i][j] = null;
+                            selectOrigin = new System.Drawing.Point(highlight.X, highlight.Y);
+                            dragLoc = new System.Drawing.Point(highlight.X, highlight.Y);
+
+                            form.Invalidate();
+                            //return;
+                        }
+                if (highlight.X == -1 && highlight.Y == 0.5f)
+                {
+                    if (state.hero.shield != null)
+                    {
+                        selection = state.hero.shield;
+                        state.hero.shield = null;
+                        selectOrigin = new System.Drawing.Point(-1, 1);
+                    }
+                }
+                else if (highlight.X == -2 && highlight.Y == 0)
+                {
+                    if (state.hero.helmet != null)
+                    {
+                        selection = state.hero.helmet;
+                        state.hero.helmet = null;
+                        selectOrigin = new System.Drawing.Point(-2, 0);
+                    }
+                }
+                else if (highlight.X == -2 && highlight.Y == -1)
+                {
+                    if (state.hero.armor != null)
+                    {
+                        selection = state.hero.armor;
+                        state.hero.armor = null;
+                        selectOrigin = new System.Drawing.Point(-2, 1);
+                    }
+                }
+                else if (highlight.X == -2 && highlight.Y == -2)
+                {
+                    if (state.hero.legs != null)
+                    {
+                        selection = state.hero.legs;
+                        state.hero.legs = null;
+                        selectOrigin = new System.Drawing.Point(-2, 2);
+                    }
+                }
+                else if (highlight.X == -3 && highlight.Y == 0.5f)
+                {
+                    if (state.hero.weapon != null)
+                    {
+                        selection = state.hero.weapon;
+                        state.hero.weapon = null;
+                        selectOrigin = new PointF(-3, 0.5f);
+                    }
+                }
+
+                dragLoc = new System.Drawing.Point(highlight.X, highlight.Y);
+                //mouse = e.Location;
+                form.Invalidate();
+
+                if (selection != null)
+                {
+                    if (!dragging)
+                    {
+                        if (selection is Weapon)
+                        {
+                            if (state.hero.weapon != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
+                            state.hero.weapon = (Weapon)selection;
+                        }
+                        else if (selection is Helmet)
+                        {
+                            if (state.hero.helmet != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.helmet;
+                            state.hero.helmet = (Helmet)selection;
+                        }
+                        else if (selection is Armor)
+                        {
+                            if (state.hero.armor != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.armor;
+                            state.hero.armor = (Armor)selection;
+                        }
+                        else if (selection is Legs)
+                        {
+                            if (state.hero.legs != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.legs;
+                            state.hero.legs = (Legs)selection;
+                        }
+                        else if (selection is Shield)
+                        {
+                            if (state.hero.shield != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.shield;
+                            state.hero.shield = (Shield)selection;
+                        }
+                        else if (selection is Consumable)
+                        {
+                            Consumable item = (Consumable)selection;
+                            item.use();
+                        }
+                        selection = null;
+                    }
+                    else
+                    {
+                        System.Drawing.Rectangle click = new System.Drawing.Rectangle(highlight.X, highlight.Y, 1, 1);
+
+                        for (int i = 0; i < inventory.Length; i++)
+                            for (int j = 0; j < inventory[i].Length; j++)
+                                if (i == highlight.X && j == highlight.Y)
+                                {
+                                    if (inventory[i][j] != null)
+                                    {
+                                        if (selectOrigin.X >= 0 && selectOrigin.X < inventory.Length && selectOrigin.Y >= 0 && selectOrigin.Y < inventory[i].Length)
+                                        {
+                                            inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = inventory[i][j];
+                                            inventory[i][j] = selection;
+                                        }
+                                        else
+                                        {
+                                            state.room.droppedItems.Add(selection, new PointF((float)state.hero.x, (float)state.hero.y));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        inventory[i][j] = selection;
+                                    }
+                                    selection = null;
+
+                                    dragging = false;
+                                    updateMouseOverItem(highlight.X, highlight.Y);
+                                    form.Invalidate();
+                                    //return;
+                                }
+
+                        if (selection is Shield && highlight.X == -1 && highlight.Y == 0.5f)
+                        {
+                            if (state.hero.shield != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.shield;
+                            state.hero.shield = (Shield)selection;
+                        }
+                        else if (selection is Helmet && highlight.X == -2 && highlight.Y == 0)
+                        {
+                            if (state.hero.helmet != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.helmet;
+                            state.hero.helmet = (Helmet)selection;
+                        }
+                        else if (selection is Armor && highlight.X == -2 && highlight.Y == 1)
+                        {
+                            if (state.hero.armor != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.armor;
+                            state.hero.armor = (Armor)selection;
+                        }
+                        else if (selection is Legs && highlight.X == -2 && highlight.Y == -2)
+                        {
+                            if (state.hero.legs != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.legs;
+                            state.hero.legs = (Legs)selection;
+                        }
+                        else if (selection is Weapon && highlight.X == -3 && highlight.Y == 0.5f)
+                        {
+                            if (state.hero.weapon != null)
+                                inventory[(int)selectOrigin.X][(int)selectOrigin.Y] = state.hero.weapon;
+                            state.hero.weapon = (Weapon)selection;
+                        }
+                        else
+                        {
+                            state.room.droppedItems.Add(selection, new PointF((float)state.hero.x, (float)state.hero.y));
+                        }
+                        selection = null;
+                    }
+
+                    dragging = false;
+                    updateMouseOverItem(highlight.X, highlight.Y);
+                    form.Invalidate();
+                }
 
                 System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 5; j++)
+                    {
+                        if (inventory[i][j] == null)
+                        {
+                            if (state.hero.shield != null)
+                            {
+                                inventory[i][j] = state.hero.shield;
+                                state.hero.shield = null;
+                            }
+                            else if (state.hero.helmet != null)
+                            {
+                                inventory[i][j] = state.hero.helmet;
+                                state.hero.helmet = null;
+                            }
+                            else if (state.hero.armor != null)
+                            {
+                                inventory[i][j] = state.hero.armor;
+                                state.hero.armor = null;
+                            }
+                            else if (state.hero.legs != null)
+                            {
+                                inventory[i][j] = state.hero.legs;
+                                state.hero.legs = null;
+                            }
+                            else if (state.hero.weapon != null)
+                            {
+                                inventory[i][j] = state.hero.weapon;
+                                state.hero.weapon = null;
+                            }
+                        }
+                    }
+                }
             }
         }
 

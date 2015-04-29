@@ -165,7 +165,7 @@ namespace DungeonDrive
 
             mouseOverOrNot = false;
         }
-        private RectangleF getBoxBounds(int i, int j)
+        private RectangleF getBoxBounds(double i, int j)
         {
 
             System.Drawing.Rectangle rect = this.skillTreeRectangle;
@@ -173,8 +173,8 @@ namespace DungeonDrive
             int y = form.ClientSize.Height / (skillLevel + 1);
             int x = form.ClientSize.Width / (skillList + 1);
             iconSize = size;
-            skillFrame[i, j] = new System.Drawing.Rectangle(form.ClientSize.Width - size / 2 - (x * (i + 1)), form.ClientSize.Height - size / 2 - (y * (j + 1)), size, size);
-            return skillFrame[i, j];
+            skillFrame[(int)i, j] = new System.Drawing.Rectangle(form.ClientSize.Width - size / 2 - (x * ((int)i + 1)), form.ClientSize.Height - size / 2 - (y * (j + 1)), size, size);
+            return skillFrame[(int)i, j];
 
         }
 
@@ -328,7 +328,7 @@ namespace DungeonDrive
             GamePadState current = GamePad.GetState(PlayerIndex.One);
             //System.Drawing.Rectangle[,] skills = skillFrame;
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed || current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
                 System.Threading.Thread.Sleep(100);
@@ -346,15 +346,70 @@ namespace DungeonDrive
             }
             else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
-                //highlight.Y = (highlight.Y + 1) % skills[0][,].Length;
+                if (--highlight2.Y < 0)
+                    highlight2.Y = skillLevel - 1;
                 System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
-                /*if (--highlight.Y < 0)
-                    highlight.Y = skills[0].Length - 1;*/
-
+                highlight2.Y = (highlight2.Y + 1) % skillLevel;
                 System.Threading.Thread.Sleep(100);
+            }
+            
+            //System.Drawing.Rectangle click = new System.Drawing.Rectangle(highlight2.X, highlight2.Y, 1, 1);
+            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                System.Drawing.Rectangle click = new System.Drawing.Rectangle(highlight2.X, highlight2.Y, 1, 1);
+
+                if (selectedOrNot == true)
+                {
+                    for (int j = 0; j < skillLevel; j++)
+                    {
+                        if (this.skillSelected == highlight2.X && j == highlight2.Y)
+                        {
+                            this.levelSelected = j;
+                            selectedOrNot = true;
+                            tryToLearn(this.skillSelected, this.levelSelected);
+                            return;
+                        }
+
+                    }
+                    selectedOrNot = false;
+                    return;
+                }
+
+                for (int i = 0; i < skillList; i++)
+                {
+                    for (int j = 0; j < skillLevel; j++)
+                    {
+                        if (i == highlight2.X && j == highlight2.Y)
+                        {
+                            this.skillSelected = i;
+                            this.levelSelected = j;
+                            selectedOrNot = true;
+                            spellSelected = spellStored[i];
+                            return;
+                        }
+                    }
+
+                }
+                this.selectedOrNot = false;
+
+                System.Threading.Thread.Sleep(150);
+            }
+            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                spellSelected = null;
+                for (int j = 0; j < skillLevel; j++)
+                {
+                    if (this.skillSelected == highlight2.X && j == highlight2.Y)
+                    {
+
+                        tryToUnlearn(this.skillSelected, j);
+                    }
+
+                }
+                System.Threading.Thread.Sleep(150);
             }
         }
 
@@ -375,9 +430,16 @@ namespace DungeonDrive
             {
                 g.DrawImage(this.skillFrameImages[i, j], this.skillFrame[i, j]);
                 if (GameState.heroSkill[i, j])
+                {
                     g.DrawImage(skillSetImages[i, j], this.skillSet[i, j]);
-                else {
+                    if (highlight2.Y == j)
+                        g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Red)), getBoxBounds(2, j));
+                }
+                else 
+                {
                     g.DrawImage(_skillSetImages[i, j], this.skillSet[i, j]);
+                    if (highlight2.Y == j)
+                        g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Red)), getBoxBounds(2, j));
                 }
 
             }
@@ -416,15 +478,19 @@ namespace DungeonDrive
                         {
                             g.DrawImage(skillFrameImages[i,j], getBoxBounds(i, j));
                             g.DrawImage(skillSetImages[i, j], getIconBoxBounds(i, j));
+                            if (highlight2.X == i && highlight2.Y == j)
+                                g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, j));
                         }
                         else
                         {
                             g.DrawImage(skillFrameImages[i,j], getBoxBounds(i, j));
                             g.DrawImage(_skillSetImages[i, j], getIconBoxBounds(i, j));
+                            if (highlight2.X == i && highlight2.Y == j)
+                                g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, j));
                         }
                     }
-                    if (highlight2.X == i)
-                        g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, 0));
+                    /*if (highlight2.X == i)
+                        g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, 0));*/
                 }
             }
             else if (selectedOrNot == true)
