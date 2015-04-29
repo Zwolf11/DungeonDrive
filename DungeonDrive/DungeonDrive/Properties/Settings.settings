@@ -32,17 +32,20 @@
     <Setting Name="InventoryKey" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">Space</Value>
     </Setting>
-    <Setting Name="Attack1Key" Type="System.Windows.Forms.Keys" Scope="User">
-      <Value Profile="(Default)">E</Value>
-    </Setting>
-    <Setting Name="Attack2Key" Type="System.Windows.Forms.Keys" Scope="User">
-      <Value Profile="(Default)">R</Value>
-    </Setting>
-    <Setting Name="Attack3Key" Type="System.Windows.Forms.Keys" Scope="User">
+    <Setting Name="DeleteAttackKey" Type="System.Windows.Forms.Keys" Scope="User">
       <Value Profile="(Default)">T</Value>
     </Setting>
     <Setting Name="SkillTreeKey" Type="System.Windows.Forms.Keys" Scope="User">
-      <Value Profile="(Default)">U</Value>
+      <Value Profile="(Default)">F</Value>
+    </Setting>
+    <Setting Name="SwitchSkillKey" Type="System.Windows.Forms.Keys" Scope="User">
+      <Value Profile="(Default)">Tab</Value>
+    </Setting>
+    <Setting Name="ControllerEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SoundEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

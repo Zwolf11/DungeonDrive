@@ -210,7 +210,8 @@ namespace DungeonDrive
 
             File.WriteAllLines("save", save);
 
-            saveSound.Play();
+            if(Properties.Settings.Default.SoundEnabled)
+                saveSound.Play();
         }
 
         private void loadGame()
@@ -300,6 +301,12 @@ namespace DungeonDrive
                         if (inventory[i][j] == null)
                             inventory[i][j] = randomItem();
 
+                hero.helmet = new Helmet(this);
+                hero.armor = new Armor(this);
+                hero.legs = new Legs(this);
+                hero.weapon = new Weapon(this);
+                hero.shield = new Shield(this);
+
                 konami = 0;
             }
             else
@@ -307,8 +314,6 @@ namespace DungeonDrive
 
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
                 this.addChildState(new PauseState(form), false, true);
-            else if (e.KeyCode == System.Windows.Forms.Keys.Tab)
-                spellChange();
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
                 if (hero.status.Equals("Cursed"))
@@ -347,15 +352,12 @@ namespace DungeonDrive
             }
             else if (e.KeyCode == Properties.Settings.Default.InventoryKey)
                 this.addChildState(new InventoryState(form), false, false);
-            else if (e.KeyCode == Properties.Settings.Default.Attack1Key)
-                hero.attacks[0] = true;
-            else if (e.KeyCode == Properties.Settings.Default.Attack2Key)
+            else if (e.KeyCode == Properties.Settings.Default.DeleteAttackKey)
                 hero.attacks[1] = true;
-            else if (e.KeyCode == Properties.Settings.Default.Attack3Key)
-                hero.attacks[2] = true;
             else if (e.KeyCode == Properties.Settings.Default.SkillTreeKey)
                 this.addChildState(new SkillStreeState(form), false, false);
-            
+            else if(e.KeyCode == Properties.Settings.Default.SwitchSkillKey)
+                spellChange();
         }
 
         public override void keyUp(object sender, KeyEventArgs e)
@@ -400,7 +402,6 @@ namespace DungeonDrive
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
-           
             if (e.Button == MouseButtons.Left)
             {
                 if (hero.status.Equals("Binded Arm") || hero.status.Equals("Paralyzed"))
@@ -545,7 +546,7 @@ namespace DungeonDrive
             // Get the current gamepad state
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (hero.status.Equals("Binded Arm") || hero.status.Equals("Paralyzed"))
                 {
@@ -560,7 +561,7 @@ namespace DungeonDrive
                 else
                     hero.basicAtk();
             }
-            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (hero.status.Equals("Binded Head") || hero.status.Equals("Paralyzed"))
                 {
@@ -624,19 +625,19 @@ namespace DungeonDrive
                 System.Threading.Thread.Sleep(150);
             }
 
-            if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 0 || konami == 1))
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 0 || konami == 1))
                 konami++;
-            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 2 || konami == 3))
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 2 || konami == 3))
                 konami++;
-            else if (current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 4 || konami == 6))
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 4 || konami == 6))
                 konami++;
-            else if (current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 5 || konami == 7))
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 5 || konami == 7))
                 konami++;
-            else if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 8)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 8)
                 konami++;
-            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 9)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 9)
                 konami++;
-            else if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 10)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed && konami == 10)
             {
                 for (int i = 0; i < 10; i++)
                     hero.levelUp();
@@ -651,23 +652,23 @@ namespace DungeonDrive
             else
                 konami = 0;
 
-            if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.addChildState(new PauseState(form), false, true);
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.addChildState(new SkillStreeState(form), false, false);
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.LeftShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.LeftShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 spellChange();
                 System.Threading.Thread.Sleep(100);
             }
             
-            if (current.IsConnected && current.ThumbSticks.Left.Y >= 0.5f)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.ThumbSticks.Left.Y >= 0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[2] = true;
@@ -680,7 +681,7 @@ namespace DungeonDrive
                 hero.dirs[0] = false;
 
 
-            if (current.IsConnected && current.ThumbSticks.Left.X <= -0.5f)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.ThumbSticks.Left.X <= -0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[3] = true;
@@ -692,7 +693,7 @@ namespace DungeonDrive
             else
                 hero.dirs[1] = false;
 
-            if (current.IsConnected && current.ThumbSticks.Left.Y <= -0.5f)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.ThumbSticks.Left.Y <= -0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[0] = true;
@@ -704,7 +705,7 @@ namespace DungeonDrive
             else
                 hero.dirs[2] = false;
 
-            if (current.IsConnected && current.ThumbSticks.Left.X >= 0.5f)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.ThumbSticks.Left.X >= 0.5f)
             {
                 if (hero.status.Equals("Cursed"))
                     hero.dirs[1] = true;
@@ -716,7 +717,7 @@ namespace DungeonDrive
             else
                 hero.dirs[3] = false;
 
-            if (current.IsConnected && current.Buttons.Y == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.Y == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.addChildState(new InventoryState(form), false, false);
                 System.Threading.Thread.Sleep(200);
@@ -776,11 +777,8 @@ namespace DungeonDrive
                 }
                 loop++;
             }
-            
-            
-
-            
         }
+
         public override void mouseMove(object sender, MouseEventArgs e)
         {
             hero.dir = (float)Math.Atan2(e.Y - (form.ClientSize.Height / 2), e.X - (form.ClientSize.Width / 2));
@@ -788,6 +786,12 @@ namespace DungeonDrive
             float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
             float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
             mouseImg = null;
+
+            foreach (Unit enemy in room.enemies)
+                enemy.displayname = Math.Sqrt(Math.Pow(enemy.x - x, 2) + Math.Pow(enemy.y - y, 2)) < 1;
+
+            foreach (Stairs stair in room.stairs)
+                stair.displayname = Math.Sqrt(Math.Pow(stair.x - x, 2) + Math.Pow(stair.y - y, 2)) < 1;
                 
             foreach (Obstacle ob in room.obstacles)
                 if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
@@ -802,7 +806,7 @@ namespace DungeonDrive
                     break;
                 }
 
-            if (room.doorSpace[(int)x, (int)y])
+            if ((int)x >= 0 && (int)x < room.width && (int)y >= 0 && (int)y < room.height && room.doorSpace[(int)x, (int)y])
             {
                 if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
                     mouseImg = mouseDoorImg;
@@ -850,9 +854,8 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
-            //updateInput2();
 
             if (angle >= 0)
                 angle += Math.PI / 16;

@@ -28,10 +28,12 @@ namespace DungeonDrive
                 "Right: " + Properties.Settings.Default.RightKey.ToString(),
                 "Select: " + Properties.Settings.Default.SelectKey.ToString(),
                 "Inventory: " + Properties.Settings.Default.InventoryKey.ToString(),
-                "Attack1: " + Properties.Settings.Default.Attack1Key.ToString(),
-                "Attack2: " + Properties.Settings.Default.Attack2Key.ToString(),
-                "Attack3: " + Properties.Settings.Default.Attack3Key.ToString(),
+                "Skill Tree: " + Properties.Settings.Default.SkillTreeKey.ToString(),
+                "Switch Skill: " + Properties.Settings.Default.SwitchSkillKey.ToString(),
+                "Delete Attack: " + Properties.Settings.Default.DeleteAttackKey.ToString(),
+                "Controller Enabled: " + Properties.Settings.Default.ControllerEnabled.ToString(),
                 "Fullscreen: " + Properties.Settings.Default.FullScreen.ToString(),
+                "Sound: " + Properties.Settings.Default.SoundEnabled.ToString(),
                 "Exit"
             };
         }
@@ -53,11 +55,11 @@ namespace DungeonDrive
             else if (selection == 6)
                 Properties.Settings.Default.InventoryKey = e.KeyCode;
             else if (selection == 7)
-                Properties.Settings.Default.Attack1Key = e.KeyCode;
+                Properties.Settings.Default.SkillTreeKey = e.KeyCode;
             else if (selection == 8)
-                Properties.Settings.Default.Attack2Key = e.KeyCode;
+                Properties.Settings.Default.SwitchSkillKey = e.KeyCode;
             else if (selection == 9)
-                Properties.Settings.Default.Attack3Key = e.KeyCode;
+                Properties.Settings.Default.DeleteAttackKey = e.KeyCode;
 
             updateOptions();
             Properties.Settings.Default.Save();
@@ -72,11 +74,12 @@ namespace DungeonDrive
         public override void mouseDown(object sender, MouseEventArgs e) { }
         public override void mouseUp(object sender, MouseEventArgs e) { }
         public override void mouseMove(object sender, MouseEventArgs e) { }
+
         public override void tick(object sender, EventArgs e) 
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
 
@@ -114,11 +117,11 @@ namespace DungeonDrive
                     else if (selection == 6)
                         Properties.Settings.Default.InventoryKey = System.Windows.Forms.Keys.None;
                     else if (selection == 7)
-                        Properties.Settings.Default.Attack1Key = System.Windows.Forms.Keys.None;
+                        Properties.Settings.Default.SkillTreeKey = System.Windows.Forms.Keys.None;
                     else if (selection == 8)
-                        Properties.Settings.Default.Attack2Key = System.Windows.Forms.Keys.None;
+                        Properties.Settings.Default.SwitchSkillKey = System.Windows.Forms.Keys.None;
                     else if (selection == 9)
-                        Properties.Settings.Default.Attack3Key = System.Windows.Forms.Keys.None;
+                        Properties.Settings.Default.DeleteAttackKey = System.Windows.Forms.Keys.None;
 
                     updateOptions();
 
@@ -127,10 +130,23 @@ namespace DungeonDrive
                 }
                 else if (selection == 10)
                 {
-                    form.setFullscreen(!Properties.Settings.Default.FullScreen);
+                    Properties.Settings.Default.ControllerEnabled = !Properties.Settings.Default.ControllerEnabled;
                     updateOptions();
+                    Properties.Settings.Default.Save();
                 }
                 else if (selection == 11)
+                {
+                    form.setFullscreen(!Properties.Settings.Default.FullScreen);
+                    updateOptions();
+                    Properties.Settings.Default.Save();
+                }
+                else if (selection == 12)
+                {
+                    Properties.Settings.Default.SoundEnabled = !Properties.Settings.Default.SoundEnabled;
+                    updateOptions();
+                    Properties.Settings.Default.Save();
+                }
+                else if (selection == 13)
                 {
                     this.close();
                 }
@@ -143,23 +159,23 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection >= 0 && selection <= 9)
                 {
@@ -191,11 +207,26 @@ namespace DungeonDrive
                 }
                 else if (selection == 10)
                 {
-                    form.setFullscreen(!Properties.Settings.Default.FullScreen);
+                    Properties.Settings.Default.ControllerEnabled = !Properties.Settings.Default.ControllerEnabled;
                     updateOptions();
+                    Properties.Settings.Default.Save();
                     System.Threading.Thread.Sleep(100);
                 }
                 else if (selection == 11)
+                {
+                    form.setFullscreen(!Properties.Settings.Default.FullScreen);
+                    updateOptions();
+                    Properties.Settings.Default.Save();
+                    System.Threading.Thread.Sleep(100);
+                }
+                else if (selection == 12)
+                {
+                    Properties.Settings.Default.SoundEnabled = !Properties.Settings.Default.SoundEnabled;
+                    updateOptions();
+                    Properties.Settings.Default.Save();
+                    System.Threading.Thread.Sleep(100);
+                }
+                else if (selection == 13)
                 {
                     this.close();
                     System.Threading.Thread.Sleep(100);
@@ -204,7 +235,6 @@ namespace DungeonDrive
 
             form.Invalidate();
         }
-
 
         public override void paint(object sender, PaintEventArgs e)
         {

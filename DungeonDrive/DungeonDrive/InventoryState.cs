@@ -75,11 +75,12 @@ namespace DungeonDrive
         }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
+
         public override void tick(object sender, EventArgs e) 
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
 
@@ -300,35 +301,35 @@ namespace DungeonDrive
             GamePadState current = GamePad.GetState(PlayerIndex.One);
             Item[][] inventory = state.inventory;
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
                 System.Threading.Thread.Sleep(200);
             }
-            else if (current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 highlight.X = (highlight.X + 1) % inventory.Length;
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--highlight.X < 0)
                     highlight.X = inventory.Length - 1;
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 highlight.Y = (highlight.Y + 1) % inventory[0].Length;
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--highlight.Y < 0)
                     highlight.Y = inventory[0].Length - 1;
 
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 //TO-DO
                 //System.Drawing.Rectangle click = new System.Drawing.Rectangle(e.X, e.Y, 1, 1);
@@ -512,7 +513,7 @@ namespace DungeonDrive
 
                 System.Threading.Thread.Sleep(100);
             }
-            else if (current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.X == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -562,9 +563,10 @@ namespace DungeonDrive
 
             for (int i = 0; i < inventory.Length; i++)
                 for (int j = 0; j < inventory[i].Length; j++)
-                {   
+                {
                     g.DrawImage(boxImg, getBoxBounds(i, j));
-                    if (highlight.X == i && highlight.Y == j)
+
+                    if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && highlight.X == i && highlight.Y == j)
                         g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, j));
 
                     if(inventory[i][j] != null)

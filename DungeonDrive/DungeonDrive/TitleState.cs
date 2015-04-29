@@ -34,7 +34,7 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
 
@@ -61,7 +61,7 @@ namespace DungeonDrive
                 {
                     if (File.Exists("save"))
                         this.addChildState(new GameState(form, true), true, true);
-                    else
+                    else if (Properties.Settings.Default.SoundEnabled)
                         errorSound.Play();
                 }
                 else if (selection == 2)
@@ -77,22 +77,22 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 Application.Exit();
             }
-            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
                 System.Threading.Thread.Sleep(150);
             }
-            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
                 System.Threading.Thread.Sleep(150);
             }
-            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
                 {
@@ -106,7 +106,7 @@ namespace DungeonDrive
                         this.addChildState(new GameState(form, true), true, true);
                         System.Threading.Thread.Sleep(150);
                     }
-                    else
+                    else if (Properties.Settings.Default.SoundEnabled)
                         errorSound.Play();
                 }
                 else if (selection == 2)
@@ -118,6 +118,7 @@ namespace DungeonDrive
                     Application.Exit();
             }
 
+            form.Invalidate();
         }
 
 

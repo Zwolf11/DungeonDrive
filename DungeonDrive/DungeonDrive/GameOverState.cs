@@ -21,7 +21,7 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
 
@@ -38,7 +38,7 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 parent.close();
                 form.Invalidate();

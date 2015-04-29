@@ -134,7 +134,7 @@ namespace DungeonDrive
             string roomNumString = roomNum.ToString();
 
             if ( displayname )
-                g.DrawString(path.Substring(path.LastIndexOf('\\') + 1) + " " + roomNumString , font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
+                g.DrawString(path.Substring(path.LastIndexOf('\\') + 1), font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));
         }
     }
 

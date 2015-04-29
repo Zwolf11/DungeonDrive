@@ -39,7 +39,7 @@ namespace DungeonDrive
             form.KeyUp -= this.keyUp;
             form.MouseDown -= this.mouseDown;
             form.MouseUp -= this.mouseUp;
-            if (!current.IsConnected)
+            if (!Properties.Settings.Default.ControllerEnabled && !current.IsConnected)
                 form.MouseMove -= this.mouseMove;
 
             if (cover)
@@ -51,7 +51,7 @@ namespace DungeonDrive
             form.KeyUp += state.keyUp;
             form.MouseDown += state.mouseDown;
             form.MouseUp += state.mouseUp;
-            if (!current.IsConnected)
+            //if (!Properties.Settings.Default.ControllerEnabled && !current.IsConnected)
                 form.MouseMove += state.mouseMove;
             form.Paint += state.paint;
             form.timer.Tick += state.tick;
@@ -65,7 +65,7 @@ namespace DungeonDrive
             form.KeyUp += this.keyUp;
             form.MouseDown += this.mouseDown;
             form.MouseUp += this.mouseUp;
-            if (!current.IsConnected)
+            //if (!Properties.Settings.Default.ControllerEnabled && !current.IsConnected)
                 form.MouseMove += this.mouseMove;
             form.Paint += this.paint;
             form.timer.Tick += this.tick;
@@ -88,7 +88,7 @@ namespace DungeonDrive
                     form.KeyUp += parent.keyUp;
                     form.MouseDown += parent.mouseDown;
                     form.MouseUp += parent.mouseUp;
-                    if (!current.IsConnected)
+                    //if (!Properties.Settings.Default.ControllerEnabled && !current.IsConnected)
                         form.MouseMove += parent.mouseMove;
 
                     if (parent.covered)
@@ -109,7 +109,7 @@ namespace DungeonDrive
             form.KeyUp -= this.keyUp;
             form.MouseDown -= this.mouseDown;
             form.MouseUp -= this.mouseUp;
-            if (!current.IsConnected)
+            //if (!Properties.Settings.Default.ControllerEnabled && !current.IsConnected)
                 form.MouseMove -= this.mouseMove;
             form.Paint -= this.paint;
             form.timer.Tick -= this.tick;

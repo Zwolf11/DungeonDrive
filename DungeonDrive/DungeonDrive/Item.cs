@@ -627,7 +627,8 @@ namespace DungeonDrive
             else
                 state.hero.hp = state.hero.full_hp;
 
-            sound.Play();
+            if (Properties.Settings.Default.SoundEnabled)
+                sound.Play();
         }
     }
 
@@ -645,7 +646,8 @@ namespace DungeonDrive
             else
                 state.hero.hp = state.hero.full_hp;
 
-            sound.Play();
+            if (Properties.Settings.Default.SoundEnabled)
+                sound.Play();
         }
     }
 
@@ -663,7 +665,8 @@ namespace DungeonDrive
             else
                 state.hero.hp = state.hero.full_hp;
 
-            sound.Play();
+            if (Properties.Settings.Default.SoundEnabled)
+                sound.Play();
         }
     }
 

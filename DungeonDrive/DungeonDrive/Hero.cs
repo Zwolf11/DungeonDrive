@@ -13,7 +13,7 @@ namespace DungeonDrive
         new public int DrawY { get { return (int)(state.form.ClientSize.Height / 2 - state.size * radius); } }
 
         public List<Unit> deletingList = new List<Unit>();
-        private bool testing = true;
+        private bool testing = false;
         private int testing_level = 50;
 
         private SoundPlayer attack1;
@@ -240,24 +240,10 @@ namespace DungeonDrive
             this.speed = this.base_speed + ms_inc;
         }
 
-        private void handleCursor()
-        {
-            foreach (Unit enemy in state.room.enemies)
-                enemy.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (enemy.DrawX + enemy.radius * state.size), 2) + Math.Pow(Cursor.Position.Y - (enemy.DrawY + enemy.radius * state.size), 2)) <= enemy.radius * state.size;
-
-            foreach (Stairs stair in state.room.stairs)
-                stair.displayname = Math.Sqrt(Math.Pow(Cursor.Position.X - (stair.DrawX + 0.5 * state.size), 2) + Math.Pow(Cursor.Position.Y - (stair.DrawY + 0.5 * state.size), 2)) <= 0.5 * state.size;
-            
-            //            foreach (KeyValuePair<Item, PointF> entry in state.room.droppedItems)
-            //                entry.Key.showDes = Math.Sqrt(Math.Pow(entry.Value.X - Cursor.Position.X, 2) + Math.Pow(entry.Value.Y - Cursor.Position.Y, 2)) <= state.size;
-        }
-
         private void handleMovement()
         {
             if (knockback)
                 knockBacked();
-
-            
 
             if (dir <= -7.0 / 8.0 * Math.PI || dir >= 7.0 / 8.0 * Math.PI) imgDir = 0;
             else if (dir > -7.0 / 8.0 * Math.PI && dir <= -5.0 / 8.0 * Math.PI) imgDir = 1;
@@ -453,8 +439,8 @@ namespace DungeonDrive
             {
                 if (atk_cd[2])
                 {
-                    try { attack3.Play(); }
-                    catch (FileNotFoundException) { }
+                    if (Properties.Settings.Default.SoundEnabled)
+                        attack3.Play();
 
                     Projectile weapon_proj = new Projectile(state, x, y, Math.Cos(dir), Math.Sin(dir));
                     weapon_proj.dmg = this.atk_dmg + weapon.damage;
@@ -481,8 +467,9 @@ namespace DungeonDrive
                     {
                         if ((weapon != null ? (Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.DrawX - this.DrawX) < (this.radius * state.size + state.size + enemy.radius * state.size - 5) && Math.Abs(enemy.DrawY - this.DrawY) < (this.radius * state.size + state.size + enemy.radius * state.size - 5)) : Math.Abs(enemy.x - (Math.Cos(dir) * 3 + x)) < 3 && Math.Abs(enemy.y - (Math.Sin(dir) * 3 + y)) < 3 && Math.Abs(enemy.x - x) < 1.05 && Math.Abs(enemy.y - y) < 1.05))
                         {
-                            try { attack1.Play(); }
-                            catch (FileNotFoundException) { }
+                            if (Properties.Settings.Default.SoundEnabled)
+                                attack1.Play();
+
                             knockBack(enemy, Math.Cos((double)dir) * 0.5, Math.Sin((double)dir) * 0.5, 0);
                             bool crit = false;
                             if (weapon != null && weapon.critChan > weapon.rdnDouble(0.0, 1.0))
@@ -522,8 +509,8 @@ namespace DungeonDrive
 
         public void levelUp()
         {
-            try { level_up.Play(); }
-            catch (FileNotFoundException) { }
+            if (Properties.Settings.Default.SoundEnabled)
+                level_up.Play();
 
             this.full_hp *= hp_inc;
             this.base_full_hp *= hp_inc;
@@ -547,7 +534,6 @@ namespace DungeonDrive
             }
             handleAttacking();
             handleMovement();
-            handleCursor();
             handleAilment();
             equipItems();
         }
@@ -578,8 +564,6 @@ namespace DungeonDrive
 
         public override void draw(Graphics g)
         {
-
-
             // cd indicator
             for (int i = 0; i < state.hero.atk_cd.Length; i++)
                 if (!state.hero.atk_cd[i])

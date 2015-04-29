@@ -21,14 +21,15 @@ namespace DungeonDrive
 
         public override void mouseMove(object sender, MouseEventArgs e) { }
         public override void mouseUp(object sender, MouseEventArgs e) { }
-        public override void tick(object sender, EventArgs e) 
+        public override void keyUp(object sender, KeyEventArgs e) { }
+
+        public override void tick(object sender, EventArgs e)
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
-        public override void keyUp(object sender, KeyEventArgs e) { }
 
         public override void keyDown(object sender, KeyEventArgs e)
         {
@@ -51,7 +52,7 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Released)
+            if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 if (func != null)
                     func();
