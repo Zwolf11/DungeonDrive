@@ -48,6 +48,7 @@ namespace DungeonDrive
         private int toLeft = 10, toTop = 10;
         private Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red);
         private int padding = 12;
+        private System.Drawing.Point highlight2 = new System.Drawing.Point(6, 0);
 
 
         public SkillStreeState(MainForm form)
@@ -325,12 +326,36 @@ namespace DungeonDrive
         public override void updateInput()
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
+            //System.Drawing.Rectangle[,] skills = skillFrame;
 
             if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
+                System.Threading.Thread.Sleep(100);
             }
-            //TO-DO
+            else if (current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (--highlight2.X < 0)
+                    highlight2.X = skillList - 1;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                highlight2.X = (highlight2.X + 1) % skillList;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                //highlight.Y = (highlight.Y + 1) % skills[0][,].Length;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                /*if (--highlight.Y < 0)
+                    highlight.Y = skills[0].Length - 1;*/
+
+                System.Threading.Thread.Sleep(100);
+            }
         }
 
 
@@ -397,8 +422,9 @@ namespace DungeonDrive
                             g.DrawImage(skillFrameImages[i,j], getBoxBounds(i, j));
                             g.DrawImage(_skillSetImages[i, j], getIconBoxBounds(i, j));
                         }
-
                     }
+                    if (highlight2.X == i)
+                        g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, 0));
                 }
             }
             else if (selectedOrNot == true)

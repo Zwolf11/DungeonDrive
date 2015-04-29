@@ -70,29 +70,44 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
+                {
                     this.close();
+                    System.Threading.Thread.Sleep(100);
+                }
                 else if (selection == 1)
+                {
                     state.saveGame();
+                    System.Threading.Thread.Sleep(100);
+                }
                 else if (selection == 2)
+                {
                     this.addChildState(new OptionsState(form), true, true);
+                    System.Threading.Thread.Sleep(100);
+                }
                 else if (selection == 3)
+                {
                     parent.close();
+                    System.Threading.Thread.Sleep(100);
+                }
             }
 
             form.Invalidate();

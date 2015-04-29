@@ -16,6 +16,7 @@ namespace DungeonDrive
         private bool dragging = false;
         private GameState state { get { return (GameState)parent; } }
         private Item mouseOverItem = null;
+        private System.Drawing.Point highlight = new System.Drawing.Point(0, 0);
 
         private Bitmap boxImg = new Bitmap(Properties.Resources.box);
         private Bitmap helmetImg = new Bitmap(Properties.Resources.helmet);
@@ -74,7 +75,13 @@ namespace DungeonDrive
         }
 
         public override void keyUp(object sender, KeyEventArgs e) { }
-        public override void tick(object sender, EventArgs e) { }
+        public override void tick(object sender, EventArgs e) 
+        {
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected)
+                updateInput();
+        }
 
         public override void mouseDown(object sender, MouseEventArgs e)
         {
@@ -88,7 +95,7 @@ namespace DungeonDrive
                         selection = inventory[i][j];
                         inventory[i][j] = null;
                         selectOrigin = new System.Drawing.Point(i, j);
-                        dragLoc = new System.Drawing.Point(e.X, e.Y);
+                        //dragLoc = new System.Drawing.Point(e.X, e.Y);
 
                         mouse = e.Location;
                         form.Invalidate();
@@ -141,7 +148,7 @@ namespace DungeonDrive
                 }
             }
 
-            dragLoc = new System.Drawing.Point(e.X, e.Y);
+            //dragLoc = new System.Drawing.Point(e.X, e.Y);
             mouse = e.Location;
             form.Invalidate();
         }
@@ -260,7 +267,7 @@ namespace DungeonDrive
                     selection = null;
                 }
 
-                dragging = false;
+                //dragging = false;
                 updateMouseOverItem(e.X, e.Y);
                 form.Invalidate();
             }
@@ -291,11 +298,44 @@ namespace DungeonDrive
         public override void updateInput()
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
+            Item[][] inventory = state.inventory;
 
             if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
-                parent.close();
-                form.Invalidate();
+                this.close();
+                System.Threading.Thread.Sleep(200);
+            }
+            else if (current.IsConnected && current.DPad.Right == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                highlight.X = (highlight.X + 1) % inventory.Length;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Left == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (--highlight.X < 0)
+                    highlight.X = inventory.Length - 1;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                highlight.Y = (highlight.Y + 1) % inventory[0].Length;
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                if (--highlight.Y < 0)
+                    highlight.Y = inventory[0].Length - 1;
+
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.Buttons.RightStick == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                //TO-DO
+                
+
+                //form.Invalidate();
+
+                System.Threading.Thread.Sleep(100);
             }
         }
 
@@ -303,13 +343,17 @@ namespace DungeonDrive
         {
             Graphics g = e.Graphics;
 
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
             Item[][] inventory = state.inventory;
             int boxSize = form.ClientSize.Height / (inventory.Length + 4);
 
             for (int i = 0; i < inventory.Length; i++)
                 for (int j = 0; j < inventory[i].Length; j++)
-                {
+                {   
                     g.DrawImage(boxImg, getBoxBounds(i, j));
+                    if (highlight.X == i && highlight.Y == j)
+                        g.FillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(100, System.Drawing.Color.Yellow)), getBoxBounds(i, j));
 
                     if(inventory[i][j] != null)
                         g.DrawImage(inventory[i][j].img, getBoxBounds(i, j));

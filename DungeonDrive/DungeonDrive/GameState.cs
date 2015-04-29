@@ -573,59 +573,55 @@ namespace DungeonDrive
                 }
                 else
                 {
-                    float x = (float)((current.ThumbSticks.Right.X - form.ClientSize.Width / 2.0) / size + hero.x);
+                    /*float x = (float)((current.ThumbSticks.Right.X - form.ClientSize.Width / 2.0) / size + hero.x);
                     float y = (float)((current.ThumbSticks.Right.Y - form.ClientSize.Height / 2.0) / size + hero.y);
                     xMouse = x;
-                    yMouse = y;
+                    yMouse = y;*/
 
-                    if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
-                    {
-                        foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
-                            if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
-                            {
-                                if (tryPickupItem(entry.Key))
-                                    room.droppedItems.Remove(entry.Key);
-
-                                break;
-                            }
-
-                        foreach (Obstacle ob in room.obstacles)
-                            if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
-                            {
-                                Chest chest = (Chest)ob;
-                                if (chest.closed)
-                                {
-                                    chest.closed = false;
-                                    room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
-                                }
-                                break;
-                            }
-
-                        if (room.doorSpace[(int)x, (int)y])
+                    foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
+                        if (Math.Sqrt(Math.Pow(entry.Value.X - hero.x, 2) + Math.Pow(entry.Value.Y - hero.y, 2)) < 1)
                         {
-                            Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0, false, -1);
-                            foreach (Door door in room.doors)
+                            if (tryPickupItem(entry.Key))
+                                room.droppedItems.Remove(entry.Key);
+
+                            break;
+                        }
+
+                    foreach (Obstacle ob in room.obstacles)
+                        if (Math.Sqrt(Math.Pow(ob.x - hero.x, 2) + Math.Pow(ob.y - hero.y, 2)) < 1 && ob is Chest)
+                        {
+                            Chest chest = (Chest)ob;
+                            if (chest.closed)
                             {
-                                if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
-                                {
-                                    // this is the correct door
-                                    if (!door.switchClosed())
-                                    {
-                                        clickedDoor = door;
-                                        break;
-                                    }
-                                }
+                                chest.closed = false;
+                                room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
                             }
-                            if (clickedDoor.x != -1)
+                            break;
+                        }
+
+
+                    foreach (Door door in room.doors)
+                    {
+                        if ((Math.Sqrt(Math.Pow(door.x - hero.x, 2) + Math.Pow(door.y - hero.y, 2)) < 2) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - hero.x, 2) + Math.Pow((door.y + door.height - 1) - hero.y, 2)) < 2))
+                        {
+                            if (!door.switchClosed())
                             {
-                                if (!clickedDoor.locked)
-                                    room.updateDrawingGrid(clickedDoor.getNegativeRoom());
-                                room.updateDrawingGrid(clickedDoor.getPositiveRoom());
+                                if (door.x != -1)
+                                {
+                                    if (!door.locked)
+                                    room.updateDrawingGrid(door.getNegativeRoom());
+                                    room.updateDrawingGrid(door.getPositiveRoom());
+                                }
+                                break;
                             }
                         }
                     }
-                    else { this.hero.specialAtk(); }
+
+                    
+                    //else { this.hero.specialAtk(); }
                 }
+
+                System.Threading.Thread.Sleep(150);
             }
 
             if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed && (konami == 0 || konami == 1))
@@ -655,10 +651,21 @@ namespace DungeonDrive
             else
                 konami = 0;
 
-            if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
                 this.addChildState(new PauseState(form), false, true);
+                System.Threading.Thread.Sleep(100);
+            }
             else if (current.IsConnected && current.Buttons.RightShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
+                this.addChildState(new SkillStreeState(form), false, false);
+                System.Threading.Thread.Sleep(100);
+            }
+            else if (current.IsConnected && current.Buttons.LeftShoulder == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
                 spellChange();
+                System.Threading.Thread.Sleep(100);
+            }
             
             if (current.IsConnected && current.ThumbSticks.Left.Y >= 0.5f)
             {
@@ -709,10 +716,13 @@ namespace DungeonDrive
             else
                 hero.dirs[3] = false;
 
-            if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (current.IsConnected && current.Buttons.Y == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            {
                 this.addChildState(new InventoryState(form), false, false);
+                System.Threading.Thread.Sleep(200);
+            }
 
-            if (current.ThumbSticks.Right.Y != 0 || current.ThumbSticks.Right.X !=0)
+            if (current.ThumbSticks.Right.Y != 0.0f || current.ThumbSticks.Right.X != 0.0f)
                 hero.dir = -(float)Math.Atan2(current.ThumbSticks.Right.Y, current.ThumbSticks.Right.X);
 
             /*float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
@@ -740,8 +750,8 @@ namespace DungeonDrive
                     mouseImg = mouseNotDoorImg;
             }*/
 
-            this.mouseX = (int)current.ThumbSticks.Right.X;
-            this.mouseY = (int)current.ThumbSticks.Right.Y;
+            //this.mouseX = (int)current.ThumbSticks.Right.X;
+            //this.mouseY = (int)current.ThumbSticks.Right.Y;
 
         }
 

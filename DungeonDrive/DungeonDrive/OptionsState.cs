@@ -146,15 +146,18 @@ namespace DungeonDrive
             if (current.IsConnected && current.Buttons.B == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 this.close();
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.DPad.Up == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (--selection < 0)
                     selection = options.Length - 1;
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.DPad.Down == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 selection = (selection + 1) % options.Length;
+                System.Threading.Thread.Sleep(100);
             }
             else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
@@ -190,10 +193,12 @@ namespace DungeonDrive
                 {
                     form.setFullscreen(!Properties.Settings.Default.FullScreen);
                     updateOptions();
+                    System.Threading.Thread.Sleep(100);
                 }
                 else if (selection == 11)
                 {
                     this.close();
+                    System.Threading.Thread.Sleep(100);
                 }
             }
 

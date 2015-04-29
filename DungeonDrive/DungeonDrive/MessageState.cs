@@ -56,6 +56,7 @@ namespace DungeonDrive
                 if (func != null)
                     func();
                 this.close();
+                System.Threading.Thread.Sleep(200);
             }
         }
 

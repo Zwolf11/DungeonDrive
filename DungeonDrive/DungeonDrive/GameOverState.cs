@@ -42,6 +42,7 @@ namespace DungeonDrive
             {
                 parent.close();
                 form.Invalidate();
+                System.Threading.Thread.Sleep(50);
             }
         }
 

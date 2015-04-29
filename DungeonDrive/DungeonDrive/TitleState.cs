@@ -93,19 +93,29 @@ namespace DungeonDrive
             else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
+                {
                     this.addChildState(new GameState(form, false), true, true);
+                    System.Threading.Thread.Sleep(200);
+                }
                 else if (selection == 1)
                 {
                     if (File.Exists("save"))
+                    {
                         this.addChildState(new GameState(form, true), true, true);
+                        System.Threading.Thread.Sleep(200);
+                    }
                     else
                         errorSound.Play();
                 }
                 else if (selection == 2)
+                {
                     this.addChildState(new OptionsState(form), true, true);
+                    System.Threading.Thread.Sleep(200);
+                }
                 else if (selection == 3)
                     Application.Exit();
             }
+
         }
 
 

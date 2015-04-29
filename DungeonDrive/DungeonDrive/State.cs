@@ -15,6 +15,7 @@ namespace DungeonDrive
         public bool covered = false;
         public bool paused = false;
         public int sleepSec = 0;
+        GamePadState current = GamePad.GetState(PlayerIndex.One);
 
         public State(MainForm form) { this.form = form; }
 
