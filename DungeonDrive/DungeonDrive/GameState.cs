@@ -807,7 +807,10 @@ namespace DungeonDrive
 
         public override void tick(object sender, EventArgs e)
         {
-            updateInput();
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected)
+                updateInput();
             //updateInput2();
 
             if (angle >= 0)

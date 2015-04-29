@@ -74,7 +74,10 @@ namespace DungeonDrive
         public override void mouseMove(object sender, MouseEventArgs e) { }
         public override void tick(object sender, EventArgs e) 
         {
-            updateInput();
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected)
+                updateInput();
         }
 
         public override void keyDown(object sender, KeyEventArgs e)

@@ -312,9 +312,10 @@ namespace DungeonDrive
                 }
             }
 
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-
-            updateInput();
+            if (current.IsConnected)
+                updateInput();
         }
         public override void keyUp(object sender, KeyEventArgs e)
         {

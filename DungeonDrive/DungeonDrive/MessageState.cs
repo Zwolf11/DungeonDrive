@@ -23,7 +23,10 @@ namespace DungeonDrive
         public override void mouseUp(object sender, MouseEventArgs e) { }
         public override void tick(object sender, EventArgs e) 
         {
-            updateInput();
+            GamePadState current = GamePad.GetState(PlayerIndex.One);
+
+            if (current.IsConnected)
+                updateInput();
         }
         public override void keyUp(object sender, KeyEventArgs e) { }
 
