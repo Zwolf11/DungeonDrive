@@ -83,7 +83,7 @@ namespace DungeonDrive
             {
                 selection = (selection + 1) % options.Length;
             }
-            else if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            else if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
                 if (selection == 0)
                     this.close();

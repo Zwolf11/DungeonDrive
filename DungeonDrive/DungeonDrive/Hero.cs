@@ -257,6 +257,8 @@ namespace DungeonDrive
             if (knockback)
                 knockBacked();
 
+            
+
             if (dir <= -7.0 / 8.0 * Math.PI || dir >= 7.0 / 8.0 * Math.PI) imgDir = 0;
             else if (dir > -7.0 / 8.0 * Math.PI && dir <= -5.0 / 8.0 * Math.PI) imgDir = 1;
             else if (dir > -5.0 / 8.0 * Math.PI && dir <= -3.0 / 8.0 * Math.PI) imgDir = 2;

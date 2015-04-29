@@ -712,6 +712,37 @@ namespace DungeonDrive
             if (current.IsConnected && current.Buttons.Start == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 this.addChildState(new InventoryState(form), false, false);
 
+            if (current.ThumbSticks.Right.Y != 0 || current.ThumbSticks.Right.X !=0)
+                hero.dir = -(float)Math.Atan2(current.ThumbSticks.Right.Y, current.ThumbSticks.Right.X);
+
+            /*float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
+            float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
+            mouseImg = null;
+
+            foreach (Obstacle ob in room.obstacles)
+                if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
+                {
+                    Chest chest = (Chest)ob;
+                    if (chest.closed)
+                    {
+                        mouseImg = mouseChestImg;
+                        this.mouseX = (int)current.ThumbSticks.Right.X;
+                        this.mouseY = (int)current.ThumbSticks.Right.Y;
+                    }
+                    break;
+                }
+
+            if (room.doorSpace[(int)x, (int)y])
+            {
+                if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
+                    mouseImg = mouseDoorImg;
+                else
+                    mouseImg = mouseNotDoorImg;
+            }*/
+
+            this.mouseX = (int)current.ThumbSticks.Right.X;
+            this.mouseY = (int)current.ThumbSticks.Right.Y;
+
         }
 
 

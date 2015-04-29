@@ -51,7 +51,7 @@ namespace DungeonDrive
         {
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
-            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
                 if (func != null)
                     func();
