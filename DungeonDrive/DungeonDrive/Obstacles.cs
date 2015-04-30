@@ -73,6 +73,7 @@ namespace DungeonDrive
     public class Stairs : Obstacle
     {
         public bool down;
+        public String type = "stairs";
         public String path;
         public char direction;
         public int xDirection;
@@ -92,6 +93,17 @@ namespace DungeonDrive
             this.maxHallwayWidth = maxHallwayWidth;
             this.centerX = centerX;
             this.centerY = centerY;
+
+            if (type.Equals("stairs"))
+            {
+                stairUp = new Bitmap(Properties.Resources.stairUp);
+                stairDown = new Bitmap(Properties.Resources.stairDown);
+            }
+            else if(type.Equals("ladder"))
+            {
+                stairUp = new Bitmap(Properties.Resources.ladderUp);
+                stairDown = new Bitmap(Properties.Resources.ladderDown);
+            }
 
             switch (direction)
             {

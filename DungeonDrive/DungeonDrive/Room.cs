@@ -63,6 +63,9 @@ namespace DungeonDrive
         public int numChests = 0;
         public int numNonHallways = 0;
         public int numDoors = 0;
+
+        public int caveSightFrequency = 5;
+        public int caveCounter = 5;
         
 
         public const int minSizeOfInitRoom = 7;
@@ -91,8 +94,8 @@ namespace DungeonDrive
 
         private Random rand;
         public Random stairsRand;
-        private Bitmap floor = new Bitmap(Properties.Resources.floor);
-        private Bitmap wall = new Bitmap(Properties.Resources.wall);
+        private Bitmap floor;
+        private Bitmap wall;
 
         public List<Projectile> projectiles = new List<Projectile>();
         public List<Projectile> deletingProj = new List<Projectile>();
@@ -442,12 +445,18 @@ namespace DungeonDrive
             {
                 eliminateFogOfWar();
             }
-            else if(environment.Equals("dungeon"))
+
+            if(environment.Equals("dungeon"))
             {
+                floor = new Bitmap(Properties.Resources.floor);
+                wall = new Bitmap(Properties.Resources.wall);
                 updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
             }
             else if (environment.Equals("cave"))
             {
+                removeDoors();
+                floor = new Bitmap(Properties.Resources.caveFloor);
+                wall = new Bitmap(Properties.Resources.caveWall);
                 makeAllObjectsEligible();
                 updateHeroVisibility();
             }
@@ -514,7 +523,7 @@ namespace DungeonDrive
 
                     // Executable files
                     case ".exe":
-                    case ".jar":
+                    case ".j":
                         otherFound();
                         break;
 
@@ -2297,6 +2306,13 @@ namespace DungeonDrive
 
         public void updateHeroVisibility()
         {
+            if (caveCounter < caveSightFrequency)
+            {
+                caveCounter++;
+                return;
+            }
+            caveCounter = 0;
+
             int radius = 7;
 
             int currentHeroRoom = roomNumSpace[(int)state.hero.x, (int)state.hero.y];
@@ -2313,10 +2329,11 @@ namespace DungeonDrive
                 {
                     if (!drawingSpace[i, j])
                     {
-                        if (roomNumSpace[i,j] == currentHeroRoom && distanceBtwnPts((int)state.hero.x, (int)state.hero.y, i, j) < radius)
+                        if (roomNumSpace[i,j] != -1 && distanceBtwnPts((int)state.hero.x, (int)state.hero.y, i, j) < radius)
                         {
                             drawingSpace[i, j] = true;
 
+                            /*
                             if (!wallSpace[i, j])
                             {
                                 for (int k = -1; k <= 1; k++)
@@ -2330,7 +2347,7 @@ namespace DungeonDrive
                                     }
                                 }
                             }
-
+                            */
                         }
                     }
                 }
@@ -2509,6 +2526,23 @@ namespace DungeonDrive
         public void saveState()
         {
             state.allLevelInfo.updateLevel();
+        }
+
+        public void removeDoors()
+        {
+            doorsNotDrawn = new List<Door>();
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (doorSpace[i, j])
+                    {
+                        doorSpace[i, j] = false;
+                        wallSpace[i, j] = false;
+                        walkingSpace[i, j] = true;
+                    }
+                }
+            }
         }
 
         public void draw(Graphics g)

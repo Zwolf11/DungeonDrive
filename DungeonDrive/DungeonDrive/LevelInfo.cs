@@ -10,8 +10,9 @@ namespace DungeonDrive
         public String dirName;
         public bool[] chestsOpened;
         public bool[] roomsDrawn;
-        //public bool[][] drawingSpace;
+        public bool[,] drawingSpace;
         public bool[] doorsOpened;
+        public String type;
 
         public bool initialized = false;
 
@@ -28,9 +29,11 @@ namespace DungeonDrive
 
         public void setLevel()
         {
+            type = state.room.environment;
             //setDoors();
             setRooms();
             setChests();
+            setDrawingSpace();
             initialized = true;
         }
 
@@ -98,6 +101,18 @@ namespace DungeonDrive
                 {
                     Chest chest = (Chest)obs;
                     chestsOpened[obs.id] = chest.closed;
+                }
+            }
+        }
+
+        public void setDrawingSpace()
+        {
+            drawingSpace = new bool[state.room.width, state.room.height];
+            for (int i = 0; i < state.room.width; i++)
+            {
+                for (int j = 0; j < state.room.height; j++)
+                {
+                    drawingSpace[i, j] = state.room.drawingSpace[i, j];
                 }
             }
         }

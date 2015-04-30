@@ -64,22 +64,34 @@ namespace DungeonDrive
                     // update room
 
                     //Console.WriteLine("numRooms = " + state.room.numRooms);
-
-                    for (int i = 0; i < state.room.numRooms; i++)
+                    if (tempLevelInfo.type.Equals("dungeon"))
                     {
-                        //if (i < state.room.roomDrawn.Length && i < tempLevelInfo.roomsDrawn.Length)
-                        //{
-                        //Console.WriteLine("Checking room " + i);
+                        for (int i = 0; i < state.room.numRooms; i++)
+                        {
+                            //if (i < state.room.roomDrawn.Length && i < tempLevelInfo.roomsDrawn.Length)
+                            //{
+                            //Console.WriteLine("Checking room " + i);
 
                             if (tempLevelInfo.roomsDrawn[i])
                             {
                                 //Console.WriteLine("TRYING TO DRAW ROOM " + i);
                                 state.room.updateDrawingGrid(i);
                             }
-                        //}
-                    }
+                            //}
+                        }
 
-                    state.room.updateDoorCollisions();
+                        state.room.updateDoorCollisions();
+                    }
+                    else if (tempLevelInfo.type.Equals("cave"))
+                    {
+                        for (int i = 0; i < state.room.width; i++)
+                        {
+                            for (int j = 0; j < state.room.height; j++)
+                            {
+                                state.room.drawingSpace[i, j] = tempLevelInfo.drawingSpace[i, j];
+                            }
+                        }
+                    }
 
                 }
             }
