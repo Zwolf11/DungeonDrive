@@ -24,7 +24,10 @@ namespace DungeonDrive
         public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
         public SoundPlayer music = new SoundPlayer(Properties.Resources.spooky_dungeon);
-        
+
+
+        public bool loadingGame = false;
+
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
         public String currentRoom = "C:\\";
@@ -258,10 +261,15 @@ namespace DungeonDrive
 
             if(loadFile[0] != "NULL")
                 pastRoom = loadFile[0];
+
+            loadingGame = true;
             room = new Room(this, loadFile[1]);
+            allLevelInfo = new AllLevelInfo(this, loadFile[1]);
 
             hero.x = double.Parse(loadFile[2]);
             hero.y = double.Parse(loadFile[3]);
+            room.updateHeroStaringPosition();
+
             hero.level = int.Parse(loadFile[4]);
             hero.exp = double.Parse(loadFile[5]);
             hero.full_hp = double.Parse(loadFile[6]);
@@ -311,6 +319,7 @@ namespace DungeonDrive
                             inventory[i][j] = new LargePotion(this);
                     }
                 }
+            loadingGame = false;
         }
 
         public override void mouseUp(object sender, MouseEventArgs e) { }

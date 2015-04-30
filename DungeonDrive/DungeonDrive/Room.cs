@@ -446,11 +446,14 @@ namespace DungeonDrive
                 eliminateFogOfWar();
             }
 
-            if(environment.Equals("dungeon"))
+            if (environment.Equals("dungeon"))
             {
                 floor = new Bitmap(Properties.Resources.floor);
                 wall = new Bitmap(Properties.Resources.wall);
-                updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
+                if (!state.loadingGame)
+                {
+                    updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
+                }
             }
             else if (environment.Equals("cave"))
             {
@@ -458,7 +461,10 @@ namespace DungeonDrive
                 floor = new Bitmap(Properties.Resources.caveFloor);
                 wall = new Bitmap(Properties.Resources.caveWall);
                 makeAllObjectsEligible();
-                updateHeroVisibility();
+                if (!state.loadingGame)
+                {
+                    updateHeroVisibility();
+                }
             }
 
             watch.Stop();
@@ -2542,6 +2548,22 @@ namespace DungeonDrive
                         walkingSpace[i, j] = true;
                     }
                 }
+            }
+        }
+
+        public void updateHeroStaringPosition()
+        {
+            if (environment.Equals("cave"))
+            {
+                updateHeroVisibility();
+            }
+            else if (environment.Equals("dungeon"))
+            {
+                updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
+            }
+            else
+            {
+
             }
         }
 
