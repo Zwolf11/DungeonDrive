@@ -8,7 +8,6 @@ namespace DungeonDrive
 
         public GameState state;
         public String dirName;
-        public List<LevelInfo> subdirs = new List<LevelInfo>();
         public bool[] chestsOpened;
         public bool[] roomsDrawn;
         //public bool[][] drawingSpace;
@@ -29,7 +28,7 @@ namespace DungeonDrive
 
         public void setLevel()
         {
-            setDoors();
+            //setDoors();
             setRooms();
             setChests();
             initialized = true;
@@ -37,10 +36,10 @@ namespace DungeonDrive
 
         public void setDoors()
         {
-            doorsOpened = new bool[state.room.numRooms * 2];
+            doorsOpened = new bool[state.room.numDoors];
 
 
-            for (int i = 0; i < state.room.numRooms * 2; i++)
+            for (int i = 0; i < state.room.numDoors; i++)
             {
                 doorsOpened[i] = true;
             }
@@ -60,17 +59,16 @@ namespace DungeonDrive
         public void setRooms()
         {
             
-            roomsDrawn = new bool[state.room.maxStairs];
-            for (int i = 0; i < state.room.maxStairs; i++)
+            roomsDrawn = new bool[state.room.maxStairs * 2];
+
+            for (int i = 0; i < roomsDrawn.Length; i++)
             {
-                if (i < state.room.numRooms)
-                {
-                    roomsDrawn[i] = state.room.roomDrawn[i];
-                }
-                else
-                {
-                    roomsDrawn[i] = false;
-                }
+                roomsDrawn[i] = false;
+            }
+
+            for (int i = 0; i < state.room.numRooms; i++)
+            {
+                roomsDrawn[i] = state.room.roomDrawn[i];
             }
 
 
@@ -102,19 +100,6 @@ namespace DungeonDrive
                     chestsOpened[obs.id] = chest.closed;
                 }
             }
-        }
-
-        public LevelInfo getSubDir(String subDirName)
-        {
-            foreach (LevelInfo levelInfo in subdirs)
-            {
-                if (levelInfo.dirName.Equals(subDirName))
-                {
-                    return levelInfo;
-                }
-            }
-
-            return null;
         }
 
     }

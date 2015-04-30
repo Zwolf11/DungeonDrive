@@ -49,7 +49,7 @@ namespace DungeonDrive
                 loadGame();
             else
             {
-                allLevelInfo = new AllLevelInfo(this);
+                allLevelInfo = new AllLevelInfo(this,currentRoom);
                 room = new Room(this, currentRoom);
                 initSkillTree();
                 startTutorial = true;

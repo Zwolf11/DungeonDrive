@@ -212,6 +212,13 @@ namespace DungeonDrive
                         {
                             state.room.saveState();
                             state.room = new Room(state,stairs.path);
+                            if(state.allLevelInfo.levelAlreadyExists(stairs.path)){
+                                state.allLevelInfo.loadLevel(stairs.path);
+                            }
+                            else
+                            {
+                                state.allLevelInfo.addLevel(new LevelInfo(state,stairs.path,false));
+                            }
                             return false;
                         }
                 }

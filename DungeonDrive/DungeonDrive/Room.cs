@@ -424,6 +424,20 @@ namespace DungeonDrive
             }
             recalcRoomNums();
 
+/*            
+            // load the levelInfo
+            if (state.allLevelInfo.levelAlreadyExists(currentRoom))
+            {
+                Console.WriteLine("Trying to load file "+currentRoom);
+                state.allLevelInfo.loadLevel(currentRoom);
+            }
+            else
+            {
+                Console.WriteLine(currentRoom + " does not exist yet");
+                state.allLevelInfo.addLevel(new LevelInfo(state, currentRoom, false));
+            }
+*/
+
             if (noFogOfWar)
             {
                 eliminateFogOfWar();
@@ -2417,7 +2431,26 @@ namespace DungeonDrive
                 enemiesNotDrawn.Remove(enemy);
             }
 
+            roomDrawn[newRoomNum] = true;
             
+        }
+
+        public void updateDoorCollisions()
+        {
+            foreach (Door door in doors)
+            {
+                if (door.closed)
+                {
+                    walkingSpace[(int)door.x,(int)door.y] = false;
+                    walkingSpace[(int)(door.x + (door.width - 1)), (int)(door.y + (door.height - 1))] = false;
+                }
+                else
+                {
+                    walkingSpace[(int)door.x, (int)door.y] = true;
+                    walkingSpace[(int)(door.x + (door.width - 1)), (int)(door.y + (door.height - 1))] = true;
+
+                }
+            }
         }
 
         public void eliminateFogOfWar()
@@ -2475,7 +2508,7 @@ namespace DungeonDrive
 
         public void saveState()
         {
-
+            state.allLevelInfo.updateLevel();
         }
 
         public void draw(Graphics g)
