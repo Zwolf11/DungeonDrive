@@ -447,6 +447,7 @@
     <None Include="Resources\doorClosedHorizontal.png" />
     <None Include="Resources\doorClosedVertical.png" />
     <None Include="Resources\doorOpen.png" />
+    <None Include="bin\Debug\spooky_dungeon.wav" />
     <Content Include="Properties\fire2.png" />
     <None Include="Resources\chest_trigger.png" />
     <None Include="Resources\doom.png" />

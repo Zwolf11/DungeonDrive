@@ -23,6 +23,7 @@ namespace DungeonDrive
         public String graveyard = "C:\\graveyard";
         public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
+        private SoundPlayer music = new SoundPlayer(Properties.Resources.spooky_dungeon);
         
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
@@ -54,6 +55,9 @@ namespace DungeonDrive
                 initSkillTree();
                 startTutorial = true;
             }
+
+            if (Properties.Settings.Default.SoundEnabled)
+                music.PlayLooping();
         }
         private void initSkillTree(){
             for (int i = 0; i < SkillStreeState.skillList; i++ )
