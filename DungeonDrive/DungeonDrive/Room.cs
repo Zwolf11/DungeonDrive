@@ -2516,24 +2516,14 @@ namespace DungeonDrive
             if (environment.Equals("dungeon"))
             {
                 for (int i = 0; i < state.room.width; i++)
-                {
                     for (int j = 0; j < state.room.height; j++)
-                    {
                         if (drawingSpace[i, j])
                         {
-
                             if (wallSpace[i, j])
-                            {
                                 g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                                continue;
-                            }
-
-                            g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-
+                            else
+                                g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                         }
-
-                    }
-                }
 
                 foreach (Obstacle obstacle in obstacles)
                     obstacle.draw(g);

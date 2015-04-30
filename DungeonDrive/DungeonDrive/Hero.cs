@@ -541,40 +541,19 @@ namespace DungeonDrive
         public void drawExpBar(Graphics g)
         { g.FillRectangle(Brushes.Yellow, DrawX, DrawY - 3, (int)(radius * 2 * state.size * this.exp / this.expcap), 2); }
 
-        public void drawDesc(Graphics g)
-        
-        {
-            String spellName = "NULL";
-            if(SkillStreeState.spellSelected != null)
-                 spellName = SkillStreeState.spellSelected.spellName;
-            g.DrawString(
-            "\nLVL: " + this.level
-            + "\nHP: " + Math.Round(this.hp, 2) + "/" + Math.Round(this.full_hp, 2)
-            + "\nHP REG: " + Math.Round(this.hp_reg, 2)
-            + "\nATK: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.damage + this.atk_dmg, 2) : Math.Round(this.atk_dmg,2) )
-            + "\nATK SPD: " + ((this.weapon != null && this.weapon.ranged) ? Math.Round(this.weapon.atk_speed, 2) : Math.Round(this.atk_speed, 2))
-            + "\nMV  SPD: " + Math.Round(this.speed, 2)
-            + "\nATK RNG: " + ((this.weapon != null && this.weapon.ranged) ? this.weapon.proj_range : 1)
-            + "\nATK STY: " + (this.weapon != null ? this.weapon.style : Item.AtkStyle.Basic)
-            + "\nSTATUS: " + this.status
-            + "\nEXP: " + Math.Round(this.exp,2) + "/" + Math.Round(this.expcap,2)
-            + "\nSpell: " + spellName
-            , state.font, Brushes.White, 5, 20);
-        }
 
         public override void draw(Graphics g)
         {
             // cd indicator
-            for (int i = 0; i < state.hero.atk_cd.Length; i++)
-                if (!state.hero.atk_cd[i])
-                    g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
+            //for (int i = 0; i < state.hero.atk_cd.Length; i++)
+                //if (!state.hero.atk_cd[i])
+                    //g.FillEllipse(Brushes.Red, i * 30, 0, 30, 30);
 
             //Console.WriteLine(imgDir);
             g.DrawImage(imgs[imgDir, (int)animFrame], DrawX - 6, DrawY - 6, (int)(radius * 3 * state.size), (int)(radius * 3 * state.size));
 
             drawHpBar(g);
             drawExpBar(g);
-            drawDesc(g);
             if (this.status.Equals("Poisoned"))
                 g.DrawImage(Hero.st_imgs[0], DrawX + 5, DrawY - 40, 32, 32);
             else if (this.status.Equals("Paralyzed"))

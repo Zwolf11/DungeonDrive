@@ -23,7 +23,7 @@ namespace DungeonDrive
         public String graveyard = "C:\\graveyard";
         public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
-        private SoundPlayer music = new SoundPlayer(Properties.Resources.spooky_dungeon);
+        public SoundPlayer music = new SoundPlayer(Properties.Resources.spooky_dungeon);
         
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
@@ -54,6 +54,7 @@ namespace DungeonDrive
                 room = new Room(this, currentRoom);
                 initSkillTree();
                 startTutorial = true;
+                hero.weapon = new Weapon(this, true);
             }
 
             if (Properties.Settings.Default.SoundEnabled)
@@ -156,8 +157,6 @@ namespace DungeonDrive
 
         public bool useKey()
         {
-
-            
             for (int j = 0; j < inventory[0].Length; j++)
             {
                 for (int i = 0; i < inventory.Length; i++)
@@ -337,8 +336,7 @@ namespace DungeonDrive
 
                 for (int i = 0; i < inventory.Length; i++)
                     for (int j = 0; j < inventory[i].Length; j++)
-                        if (inventory[i][j] == null)
-                            inventory[i][j] = randomItem();
+                        inventory[i][j] = randomItem();
 
                 hero.helmet = new Helmet(this);
                 hero.armor = new Armor(this);
@@ -395,7 +393,7 @@ namespace DungeonDrive
                 hero.attacks[1] = true;
             else if (e.KeyCode == Properties.Settings.Default.SkillTreeKey)
                 this.addChildState(new SkillStreeState(form), false, false);
-            else if(e.KeyCode == Properties.Settings.Default.SwitchSkillKey)
+            else if (e.KeyCode == Properties.Settings.Default.SwitchSkillKey)
                 spellChange();
         }
 
@@ -531,59 +529,6 @@ namespace DungeonDrive
                     }
                     else { this.hero.specialAtk(); }
                 }
-
-
-
-                /*float x = (float)((e.X - form.ClientSize.Width / 2.0) / size + hero.x);
-                float y = (float)((e.Y - form.ClientSize.Height / 2.0) / size + hero.y);
-
-                if (Math.Sqrt(Math.Pow(x - hero.x, 2) + Math.Pow(y - hero.y, 2)) < 2)
-                {
-                    foreach (KeyValuePair<Item, PointF> entry in room.droppedItems)
-                        if (Math.Sqrt(Math.Pow(entry.Value.X - x, 2) + Math.Pow(entry.Value.Y - y, 2)) < 1)
-                        {
-                            if (tryPickupItem(entry.Key))
-                                room.droppedItems.Remove(entry.Key);
-
-                            break;
-                        }
-
-                    foreach (Obstacle ob in room.obstacles)
-                        if (Math.Sqrt(Math.Pow(ob.x - x, 2) + Math.Pow(ob.y - y, 2)) < 1 && ob is Chest)
-                        {
-                            Chest chest = (Chest)ob;
-                            if (chest.closed)
-                            {
-                                chest.closed = false;
-                                room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
-                            }
-                            break;
-                        }
-
-                    if (room.doorSpace[(int)x, (int)y])
-                    {
-                        Door clickedDoor = new Door(this, -1, -1, 0, 0, 0, true, 0, 0);
-                        foreach (Door door in room.doors)
-                        {
-                            if ((Math.Sqrt(Math.Pow(door.x - x, 2) + Math.Pow(door.y - y, 2)) < 1) || (Math.Sqrt(Math.Pow((door.x + door.width - 1) - x, 2) + Math.Pow((door.y + door.height - 1) - y, 2)) < 1))
-                            {
-                                // this is the correct door
-                                if (!door.switchClosed())
-                                {
-                                    clickedDoor = door;
-                                    break;
-                                }
-                            }
-                        }
-                        if (clickedDoor.x != -1)
-                        {
-                            room.updateDrawingGrid(clickedDoor.getNegativeRoom());
-                            room.updateDrawingGrid(clickedDoor.getPositiveRoom());
-                        }
-                    }
-                }
-                else { this.hero.specialAtk(); }*/
-               
             }
         }
 
@@ -663,9 +608,6 @@ namespace DungeonDrive
                             }
                         }
                     }
-
-                    
-                    //else { this.hero.specialAtk(); }
                 }
 
                 System.Threading.Thread.Sleep(150);
@@ -893,6 +835,9 @@ namespace DungeonDrive
 
             if(mouseImg != null)
                 g.DrawImage(mouseImg, this.mouseX - mouseImg.Width / 2, this.mouseY - mouseImg.Height / 2);
+
+            if (SkillStreeState.spellSelected != null)
+                g.DrawImage(SkillStreeState.spellSelected.spellIcon[0], size / 4, size / 4, 2 * size, 2 * size);
         }
 
 

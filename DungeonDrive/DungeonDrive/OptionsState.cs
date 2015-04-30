@@ -38,6 +38,25 @@ namespace DungeonDrive
             };
         }
 
+        private void tryToggleMusic()
+        {
+            State curState = this.parent;
+
+            while(curState != null)
+            {
+                if(curState is GameState)
+                {
+                    GameState gs = (GameState)curState;
+                    if (Properties.Settings.Default.SoundEnabled)
+                        gs.music.PlayLooping();
+                    else
+                        gs.music.Stop();
+                }
+
+                curState = curState.parent;
+            }
+        }
+
         private void rebind(object sender, KeyEventArgs e)
         {
             if (selection == 0)
@@ -144,6 +163,7 @@ namespace DungeonDrive
                 {
                     Properties.Settings.Default.SoundEnabled = !Properties.Settings.Default.SoundEnabled;
                     updateOptions();
+                    tryToggleMusic();
                     Properties.Settings.Default.Save();
                 }
                 else if (selection == 13)

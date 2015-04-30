@@ -599,6 +599,25 @@ namespace DungeonDrive
                 infoString = mouseOverItem.description;
             if (selection != null)
                 infoString = selection.description;
+            if(infoString == "")
+            {
+                String spellName = "None";
+                if (SkillStreeState.spellSelected != null)
+                    spellName = SkillStreeState.spellSelected.spellName;
+
+                infoString = "Character Stats"
+                + "\nLVL: " + state.hero.level
+                + "\t\tHP: " + Math.Round(state.hero.hp, 2) + "/" + Math.Round(state.hero.full_hp, 2)
+                + "\nHP REG: " + Math.Round(state.hero.hp_reg, 2)
+                + "\tATK: " + ((state.hero.weapon != null && state.hero.weapon.ranged) ? Math.Round(state.hero.weapon.damage + state.hero.atk_dmg, 2) : Math.Round(state.hero.atk_dmg, 2))
+                + "\nATK SPD: " + ((state.hero.weapon != null && state.hero.weapon.ranged) ? Math.Round(state.hero.weapon.atk_speed, 2) : Math.Round(state.hero.atk_speed, 2))
+                + "\tMV SPD: " + Math.Round(state.hero.speed, 2)
+                + "\nATK RNG: " + ((state.hero.weapon != null && state.hero.weapon.ranged) ? state.hero.weapon.proj_range : 1)
+                + "\tEXP: " + Math.Round(state.hero.exp, 2) + "/" + Math.Round(state.hero.expcap, 2)
+                + "\n\nSPELL: " + spellName
+                + "\nATK STY: " + (state.hero.weapon != null ? state.hero.weapon.style : Item.AtkStyle.Basic)
+                + "\nSTATUS: " + state.hero.status;
+            }
 
             g.DrawString(infoString, font, Brushes.White, new PointF(infoBox.X + infoBox.Width / 20, infoBox.Y + infoBox.Height / 20));
 

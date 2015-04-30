@@ -442,6 +442,42 @@ namespace DungeonDrive
             setDesc();
         }
 
+        public Weapon(GameState state, bool melee)
+            : base(state)
+        {
+            level = state.hero.level;
+            name = adjectives[rand.Next(adjectives.Length)] + " " + genName(level);
+
+            if(!melee)
+            {
+                name += " Wand";
+                damage = 1 + (int)((double)state.hero.level * rdnDouble(0.4, 0.7));
+                atk_speed = rdnDouble(0.5 * Math.Pow(0.99, (double)state.hero.level), 0.8 * Math.Pow(0.99, (double)state.hero.level));
+                proj_speed = rdnDouble(0.2 * Math.Pow(1.001, (double)state.hero.level), 0.8 * Math.Pow(1.001, (double)state.hero.level));
+                proj_range = (int)(rdnDouble(4 * Math.Pow(1.01, (double)state.hero.level), 6 * Math.Pow(1.01, (double)state.hero.level)));
+                style = (AtkStyle)rand.Next(0, 6);
+                powerSec = rdnDouble(0.5, 2.0);
+                powerFac = rdnDouble(0.3, 0.5);
+                ranged = true;
+                setProjImg();
+            }
+            else
+            {
+                name += " Sword";
+                damage = 1 + (int)((double)state.hero.level * rdnDouble(0.7, 1.0));
+                atk_speed = rdnDouble(0.4 * Math.Pow(0.99, (double)state.hero.level), 0.6 * Math.Pow(0.99, (double)state.hero.level));
+                style = (AtkStyle)rand.Next(0, 6);
+                powerSec = rdnDouble(0.8, 2.3);
+                powerFac = rdnDouble(0.6, 0.8);
+                critChan = rdnDouble(0.1 * Math.Pow(1.004, (double)state.hero.level), 0.4 * Math.Pow(1.004, (double)state.hero.level));
+                lifestealChan = rdnDouble(0.1 * Math.Pow(1.004, (double)state.hero.level), 0.4 * Math.Pow(1.004, (double)state.hero.level));
+                ranged = false;
+            }
+
+            setImg();
+            setDesc();
+        }
+
         public Weapon(GameState state, String name, int level, double damage, bool ranged, double atk_speed, double proj_speed, int proj_range, double powerSec, double powerFac, int style, double critChan, double lifestealChan)
             : base(state)
         {

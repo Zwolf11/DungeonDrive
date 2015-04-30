@@ -60,7 +60,10 @@ namespace DungeonDrive
                 else if (selection == 2)
                     this.addChildState(new OptionsState(form), true, true);
                 else if (selection == 3)
+                {
+                    state.music.Stop();
                     parent.close();
+                }
             }
 
             form.Invalidate();
