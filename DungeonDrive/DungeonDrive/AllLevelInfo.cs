@@ -26,7 +26,7 @@ namespace DungeonDrive
             {
                 if (tempLevelInfo.dirName.Equals(path))
                 {
-                    Console.WriteLine("Found the file");
+                    //Console.WriteLine("Found the file");
                     //update doorsss
                     /*
                     foreach (Door door in state.room.doorsNotDrawn)
@@ -42,18 +42,18 @@ namespace DungeonDrive
 
                     foreach (Obstacle obs in state.room.obstacles)
                     {
-                        Console.WriteLine("Obs");
+                        //Console.WriteLine("Obs");
                     }
 
                     for (int i = 0; i < state.room.obstacles.Count; i++)
                     {
-                        Console.WriteLine("Checking obstacles " + i);
+                        //Console.WriteLine("Checking obstacles " + i);
                         if (state.room.obstacles[i] is Chest)
                         {
-                            Console.WriteLine("Found a chest");
+                            //Console.WriteLine("Found a chest");
                             if (state.room.obstacles[i].id < tempLevelInfo.chestsOpened.Length)
                             {
-                                Console.WriteLine("Changed chest");
+                                //Console.WriteLine("Changed chest");
                                 Chest chest = (Chest)state.room.obstacles[i];
                                 chest.closed = tempLevelInfo.chestsOpened[chest.id];
                                 state.room.obstacles[i] = chest;
@@ -63,17 +63,17 @@ namespace DungeonDrive
 
                     // update room
 
-                    Console.WriteLine("numRooms = " + state.room.numRooms);
+                    //Console.WriteLine("numRooms = " + state.room.numRooms);
 
                     for (int i = 0; i < state.room.numRooms; i++)
                     {
                         //if (i < state.room.roomDrawn.Length && i < tempLevelInfo.roomsDrawn.Length)
                         //{
-                        Console.WriteLine("Checking room " + i);
+                        //Console.WriteLine("Checking room " + i);
 
                             if (tempLevelInfo.roomsDrawn[i])
                             {
-                                Console.WriteLine("TRYING TO DRAW ROOM " + i);
+                                //Console.WriteLine("TRYING TO DRAW ROOM " + i);
                                 state.room.updateDrawingGrid(i);
                             }
                         //}

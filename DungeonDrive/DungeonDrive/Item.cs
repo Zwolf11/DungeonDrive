@@ -672,10 +672,25 @@ namespace DungeonDrive
 
     public class Key : Item
     {
+        public int quantity;
+
         public Key(GameState state)
             : base(state)
         {
-            
+            this.img = Properties.Resources.Key;
+            quantity = 1;
+        }
+
+        public void increment()
+        {
+            quantity++;
+            this.description = "Quantity: " + quantity;
+        }
+
+        public void decrement()
+        {
+            quantity--;
+            this.description = "Quantity: " + quantity;
         }
     }
 }

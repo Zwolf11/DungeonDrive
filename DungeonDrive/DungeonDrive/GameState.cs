@@ -123,6 +123,16 @@ namespace DungeonDrive
                 hero.weapon = (Weapon)item;
                 return true;
             }
+            else if (item is Key)
+            {
+                for (int j = 0; j < inventory[0].Length; j++)
+                    for (int i = 0; i < inventory.Length; i++)
+                        if (inventory[i][j] is Key)
+                        {
+                            ((Key)inventory[i][j]).increment();
+                            return true;
+                        }
+            }
 
             for(int j=0;j<inventory[0].Length;j++)
                 for(int i=0;i<inventory.Length;i++)
@@ -139,6 +149,31 @@ namespace DungeonDrive
         private void tutorial2() { addChildState(new MessageState(form, "You are currently in your C: Drive. There are stairs that lead to deeper folders.", tutorial3), false, true); }
         private void tutorial3() { addChildState(new MessageState(form, "Enemies, chests, and obstacles are placed in the dungeons depending on what kinds of files are in your folders.", tutorial4), false, true); }
         private void tutorial4() { addChildState(new MessageState(form, "Click to attack, press space to open your inventory, and I bet you can figure out the rest."), false, true); }
+
+        public bool useKey()
+        {
+
+            
+            for (int j = 0; j < inventory[0].Length; j++)
+            {
+                for (int i = 0; i < inventory.Length; i++)
+                {
+                    if (inventory[i][j] is Key)
+                    {
+                        ((Key)inventory[i][j]).decrement();
+
+                        if (((Key)inventory[i][j]).quantity == 0)
+                        {
+                            inventory[i][j] = null;
+                        }
+                        return true;
+                    }
+                }
+            }
+
+            return true;
+            //return false;
+        }
 
         public void saveGame()
         {
@@ -454,8 +489,15 @@ namespace DungeonDrive
                                 Chest chest = (Chest)ob;
                                 if (chest.closed)
                                 {
-                                    chest.closed = false;
-                                    room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
+                                    if (useKey())
+                                    {
+                                        chest.closed = false;
+                                        room.droppedItems.Add(randomItem(), new PointF(ob.x + 0.5f, ob.y + 0.5f));
+                                    }
+                                    else
+                                    {
+                                        // print locked
+                                    }
                                 }
                                 break;
                             }
