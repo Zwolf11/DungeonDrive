@@ -795,7 +795,7 @@ namespace DungeonDrive
                                 y = rand.Next(borderSize + 6, height - (borderSize + 6));
                             } while (!houseSpace[x, y]);
 
-
+                            // needs to build box of random height and width
 
                         }
                     }
