@@ -529,7 +529,7 @@ namespace DungeonDrive
             double xNext;
             double yNext;
 
-            if (this.hp < this.full_hp * 0.4)
+            /*if (this.hp < this.full_hp * 0.4)
             {
                 this.hp += this.hp_reg;
                 xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
@@ -539,7 +539,7 @@ namespace DungeonDrive
                 this.center_y = y + radius;
 
                 return;
-            }
+            }*/
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -765,7 +765,7 @@ namespace DungeonDrive
             double xNext;
             double yNext;
 
-            if (this.hp < this.full_hp * 0.4)
+            /*if (this.hp < this.full_hp * 0.4)
             {
                 this.hp += this.hp_reg;
                 xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
@@ -775,7 +775,7 @@ namespace DungeonDrive
                 this.center_y = y + radius;
 
                 return;
-            }
+            }*/
 
             if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
             {
@@ -822,8 +822,8 @@ namespace DungeonDrive
                     inCombat = false;
             }
 
-            if (knockback)
-                knockBacked();
+            /*if (knockback)
+                knockBacked();*/
 
             if (burning_sec-- >= 0)
                 burning();
