@@ -33,7 +33,7 @@ namespace DungeonDrive
 
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
-        public String currentRoom = "C:\\"/*Application.StartupPath + "\\Tutorial"*/;
+        public String currentRoom = Application.StartupPath + "\\Tutorial";
 
         public AllLevelInfo allLevelInfo;
         

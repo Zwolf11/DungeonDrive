@@ -52,6 +52,7 @@ namespace DungeonDrive
         public bool[,] wallIntersection;
         public bool[,] drawingSpace;
         public bool[,] houseSpace;
+        public bool[,] insideHouse;
 
         public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
@@ -112,7 +113,7 @@ namespace DungeonDrive
             generateRoom(path);
         }
 
-        public void generateRoom(string path)
+        public void  generateRoom(string path)
         {
 
             watch.Start();
@@ -165,6 +166,7 @@ namespace DungeonDrive
             roomDrawn = new bool[2 * maxStairs];
             drawingSpace = new bool[width, height];
             houseSpace = new bool[width, height];
+            insideHouse = new bool[width, height];
             
             /*
             projectiles.Clear();
@@ -182,6 +184,8 @@ namespace DungeonDrive
             obstaclesNotDrawn.Clear();
             */
 
+            //Console.WriteLine("1");
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -196,6 +200,7 @@ namespace DungeonDrive
                     wallIntersection[i, j] = false;
                     drawingSpace[i, j] = false;
                     houseSpace[i, j] = false;
+                    insideHouse[i, j] = false;
                 }
             }
 
@@ -205,7 +210,7 @@ namespace DungeonDrive
                 roomDrawn[i] = false;
             }
 
-            
+            //Console.WriteLine("2");
 
                 //////////   ADD STAIR UP TO PARENT UNLESS IN C: DIRECTORY ///////
 
@@ -249,6 +254,8 @@ namespace DungeonDrive
 
                     recalcRoomNums();
 
+                    addDoorsToCourtyard();
+
                 }
                 else
                 {
@@ -287,26 +294,17 @@ namespace DungeonDrive
                         }
                     }
 
+                   // Console.WriteLine("3");
+
                     //Console.WriteLine("Here1");
 
                     /////////// IF THIS IS THE INITIAL ROOM, 
 
                     updateFreeSpace();
 
-                    if (currentRoom.Equals(state.pastRoom))
-                    {
-
-                        //Console.WriteLine("InitialRoom");
-                        int x1, y1;
-                        while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1]) ;
-
-                        state.hero.x = x1 + 0.5;
-                        state.hero.y = y1 + 0.5;
-                        freeSpace[x1, y1] = false;
-                    }
-
                     /////////   FIND STAIRCASE YOU ARE COMING FROM   /////////
 
+                   // Console.WriteLine("4");
 
                     addStairs(false, parentDir);
 
@@ -347,6 +345,8 @@ namespace DungeonDrive
                         }
                     }
 
+                    //Console.WriteLine("5");
+
                     //Console.WriteLine("Here2");
 
                     recalcRoomNums();
@@ -374,6 +374,8 @@ namespace DungeonDrive
                     int staticNumRooms = numRooms;
 
                     int breaker = 0;
+
+                    //Console.WriteLine("6");
 
                     while (true)
                     {
@@ -471,7 +473,22 @@ namespace DungeonDrive
 
             //Console.WriteLine("Out1");
 
+                if (currentRoom.Equals(state.pastRoom))
+                {
 
+                    //Console.WriteLine("InitialRoom");
+                    int x1, y1;
+                    while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1])
+                    {
+                        //Console.WriteLine("Hanging");
+                    }
+
+                    state.hero.x = x1 + 0.5;
+                    state.hero.y = y1 + 0.5;
+                    freeSpace[x1, y1] = false;
+                }
+
+                //Console.WriteLine("7");
             updateFreeSpace();
 
                 //////////   TRAVERSE ALL FILES   //////////
@@ -508,6 +525,7 @@ namespace DungeonDrive
                 state.allLevelInfo.addLevel(new LevelInfo(state, currentRoom, false));
             }
 */
+            //Console.WriteLine("8");
 
             if (noFogOfWar)
             {
@@ -548,6 +566,8 @@ namespace DungeonDrive
                 }
                
             }
+
+            //Console.WriteLine("9");
 
             watch.Stop();
             Console.WriteLine("Time it took to generate level = "+ (watch.ElapsedMilliseconds / 1000.0 ));
@@ -849,7 +869,7 @@ namespace DungeonDrive
                                     }
                                     else
                                     {
-
+                                        insideHouse[cX, cY] = true;
                                         if (wallSpace[cX, cY])
                                         {
                                             wallSpace[cX, cY] = false;
@@ -1054,6 +1074,61 @@ namespace DungeonDrive
 
         }
 
+        public void addDoorsToCourtyard()
+        {
+            bool[] roomExists = new bool[numRooms];
+
+            foreach (Stairs stair in stairsNotDrawn)
+            {
+                roomExists[roomNumSpace[stair.x, stair.y]] = true;
+            }
+
+            for (int i = 0; i < roomExists.Length; i++)
+            {
+                bool doorFound = false;
+                if (roomExists[i])
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        for (int k = 0; k < height; k++)
+                        {
+                            if (!doorFound && roomNumSpace[j, k] == i && wallSpace[j,k])
+                            {
+                                if(roomNumSpace[j + 1,k] == i && wallSpace[j + 1,k]){
+                                    //horizontal door
+                                    if(wallSpace[j,k - 1] || wallSpace[j,k+1] || wallSpace[j+1,k+1] || wallSpace[j+1,k-1]){
+
+                                    } else {
+                                        doorFound = true;
+                                        doors.Add(new Door(state,j,k,2,1,roomNumSpace[j,k],false,0,0,false,numDoors++));
+                                        doorSpace[j, k] = true;
+                                        doorSpace[j + 1, k] = true;
+                                        // good horizontal door location.
+                                    }
+                                } else if(roomNumSpace[j,k+1] == i && wallSpace[j,k+1]){
+                                    // vertical door
+                                    if (wallSpace[j + 1, k] || wallSpace[j - 1, k] || wallSpace[j + 1, k + 1] || wallSpace[j - 1, k + 1])
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        doorFound = true;
+                                        doors.Add(new Door(state, j, k, 1, 2, roomNumSpace[j, k], true, 0, 0, false, numDoors++));
+                                        doorSpace[j, k] = true;
+                                        doorSpace[j, k + 1] = true;
+                                    }
+                                }
+                              
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+
         public void addStairs(bool down, String path)
         {
 
@@ -1221,14 +1296,16 @@ namespace DungeonDrive
 
             //Console.WriteLine("Here2");
 
+
             bool ladder = false;
 
             if(state.allLevelInfo.getEnvironmentType(currentRoom).Equals("cave")){
                 ladder = true;
             }
-
             if (!state.startTutorial)
-                stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4), numStairs, ladder));
+            {
+                stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX, stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4), (y + 1) - (heightOfInitStairRoom / 4), numStairs, ladder));
+            }
 
             //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
 
@@ -3119,7 +3196,12 @@ namespace DungeonDrive
                         {
                             if (wallSpace[i, j])
                                 g.DrawImage(wall2, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                            else if (!stairSpace[i, j])
+                            else if (insideHouse[i, j])
+                            {
+                                g.DrawImage(floor2, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+
+                            }
+                            else if(!stairSpace[i,j])
                             {
                                 g.DrawImage(floor1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
