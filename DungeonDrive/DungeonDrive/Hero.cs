@@ -419,13 +419,22 @@ namespace DungeonDrive
         {
             
             //state.room.projectiles.Add(weapon_proj);
-            if (atk_cd[4])
+            int temp = 0;
+            if (SkillStreeState.spellSelected == null) { return; }
+            else if (SkillStreeState.spellSelected is LighteningBall) { temp = 0; }
+            else if (SkillStreeState.spellSelected is RuneOfFire) { temp = 1; }
+            else if (SkillStreeState.spellSelected is EnergyBarrier) { temp = 2; }
+            else if (SkillStreeState.spellSelected is CrusingFireBall) { temp = 3; }
+            else if (SkillStreeState.spellSelected is Pyroblast) { temp = 4; }
+            else if (SkillStreeState.spellSelected is ShadowStep) { temp = 5; }
+            else if (SkillStreeState.spellSelected is GravityForceField) { temp = 6; }
+            if (atk_cd[temp])
             {
-
+                if (SkillStreeState.spellSelected == null) { return; }
                 this.cast(SkillStreeState.spellSelected);
-                //this.cast(new GravityForceField());
-                //cd(3, 4);
-               
+                //this.cast(new GravityForceField());                
+                cd(SkillStreeState.spellSelected.cd, temp);
+
             }
 
             if (testing)
@@ -442,7 +451,7 @@ namespace DungeonDrive
         {
             if (this.weapon != null && this.weapon.ranged)
             {
-                if (atk_cd[2])
+                if (atk_cd[7])
                 {
                     if (Properties.Settings.Default.SoundEnabled)
                         attack3.Play();
@@ -457,7 +466,7 @@ namespace DungeonDrive
                     weapon_proj.powerFac = weapon.powerFac;
                     weapon_proj.proj_img = weapon.projectileImg;
                     state.room.projectiles.Add(weapon_proj);
-                    cd(weapon_proj.atk_speed, 2);
+                    cd(weapon_proj.atk_speed, 7);
 
                     state.angle = 0;
                 }
@@ -466,7 +475,7 @@ namespace DungeonDrive
             // melee
             else
             {
-                if (atk_cd[0])
+                if (atk_cd[8])
                 {
                     foreach (Unit enemy in state.room.enemies)
                     {
@@ -498,7 +507,7 @@ namespace DungeonDrive
                             this.combatCd = 3 * 17;
                         }
                     }
-                    cd(atk_speed, 0);
+                    cd(atk_speed, 8);
 
                     state.angle = 0;
                 }
@@ -527,6 +536,7 @@ namespace DungeonDrive
             this.exp = 0;
             this.expcap *= 1.11;
             this.level += 1;
+            SkillStreeState.availablePoints++;
         }
 
         public override void act()

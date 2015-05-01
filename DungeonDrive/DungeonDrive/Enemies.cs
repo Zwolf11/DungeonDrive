@@ -678,7 +678,7 @@ namespace DungeonDrive
             this.center_y = y + radius;
             this.exp = 4 * Math.Pow(1.09, state.hero.level);
             this.status = "Normal";
-            this.teleport = true;
+            this.teleport = false;
             this.inCombat = false;
             this.phase = true;
 
@@ -752,8 +752,6 @@ namespace DungeonDrive
                     inCombat = false;
             }
 
-            /*if (knockback)
-                knockBacked();*/
 
             if (burning_sec-- >= 0)
                 burning();
@@ -799,21 +797,6 @@ namespace DungeonDrive
                 }
             }
 
-            /*if ((state.hero.x - x) < 3 && (state.hero.y - y) < 3)
-            {
-                if (this.lunge)
-                {
-                    this.speed = 0.4;
-                    this.lunge = false;
-                }
-
-                if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
-                {
-                    this.speed = 0.1;
-                }
-            }*/
-
-            //tryMove(xNext, yNext);
 
             if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {

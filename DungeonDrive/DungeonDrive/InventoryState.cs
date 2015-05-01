@@ -614,7 +614,7 @@ namespace DungeonDrive
                 + "\tMV SPD: " + Math.Round(state.hero.speed, 2)
                 + "\nATK RNG: " + ((state.hero.weapon != null && state.hero.weapon.ranged) ? state.hero.weapon.proj_range : 1)
                 + "\tEXP: " + Math.Round(state.hero.exp, 2) + "/" + Math.Round(state.hero.expcap, 2)
-                + "\nKEYS: " + state.numKeys
+                + "\nSkill Points: " + SkillStreeState.availablePoints
                 + "\nSPELL: " + spellName
                 + "\nATK STY: " + (state.hero.weapon != null ? state.hero.weapon.style : Item.AtkStyle.Basic)
                 + "\nSTATUS: " + state.hero.status;
