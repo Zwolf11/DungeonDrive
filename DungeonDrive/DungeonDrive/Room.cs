@@ -53,6 +53,7 @@ namespace DungeonDrive
         public bool[,] drawingSpace;
         public bool[,] houseSpace;
         public bool[,] insideHouse;
+        public bool[,] grassSpace;
 
         public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
@@ -167,6 +168,7 @@ namespace DungeonDrive
             drawingSpace = new bool[width, height];
             houseSpace = new bool[width, height];
             insideHouse = new bool[width, height];
+            grassSpace = new bool[width, height];
             
             /*
             projectiles.Clear();
@@ -201,6 +203,7 @@ namespace DungeonDrive
                     drawingSpace[i, j] = false;
                     houseSpace[i, j] = false;
                     insideHouse[i, j] = false;
+                    grassSpace[i, j] = false;
                 }
             }
 
@@ -255,6 +258,8 @@ namespace DungeonDrive
                     recalcRoomNums();
 
                     addDoorsToCourtyard();
+
+                    updateGrassSpace();
 
                 }
                 else
@@ -682,6 +687,23 @@ namespace DungeonDrive
                 }
         }
 
+        public void updateGrassSpace(){
+            int minX = borderSize + 1;
+            int maxX = width - borderSize - 1;
+            int minY = borderSize + 1;
+            int maxY = height - borderSize - 1;
+
+            for (int i = minX; i < maxX; i++)
+            {
+                for (int j = minY; j < maxY; j++)
+                {
+                    if(roomNumSpace[i,j] == 0)
+                        grassSpace[i, j] = true;
+
+                }
+            }
+        }
+
         public void generateCourtyard()
         {
 
@@ -698,6 +720,7 @@ namespace DungeonDrive
                     if (i > minX && i < maxX && j > minY && j < maxY)
                     {
                         roomNumSpace[i, j] = numRooms;
+                        grassSpace[i, j] = true;
                     }
                     else
                     {
@@ -2862,6 +2885,8 @@ namespace DungeonDrive
             }
             //*/
 
+            bool outsideWalls = newRoomNum == 0 && environment.Equals("courtyard");
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -2902,6 +2927,10 @@ namespace DungeonDrive
                         }
 
                         // needs to also include the bordering walls that aren't the same roomNum
+                    }
+                    else if (outsideWalls && roomNumSpace[i,j] == -1)
+                    {
+                        drawingSpace[i, j] = true;
                     }
 
 
@@ -3063,11 +3092,11 @@ namespace DungeonDrive
         {
             if (environment.Equals("dungeon"))
             {
-                int minX = Math.Max(0, (int)state.hero.x - state.form.ClientSize.Width / 2);
-                int maxX = Math.Min(width, (int)state.hero.x + state.form.ClientSize.Width / 2);
+                int minX = Math.Max(0, (int)state.hero.x - 2 - ((state.form.ClientSize.Width / 2) / state.size));
+                int maxX = Math.Min(width, (int)state.hero.x + 2 + ((state.form.ClientSize.Width / 2) / state.size) + 1);
 
-                int minY = Math.Max(0, (int)state.hero.y - state.form.ClientSize.Height / 2);
-                int maxY = Math.Min(height, (int)state.hero.y + state.form.ClientSize.Height / 2);
+                int minY = Math.Max(0, (int)state.hero.y - 2 - ((state.form.ClientSize.Height / 2) / state.size) + 1);
+                int maxY = Math.Min(height, (int)state.hero.y + 2 + ((state.form.ClientSize.Height / 2) / state.size) + 1);
 
                 for (int i = minX; i < maxX; i++)
                     for (int j = minY; j < maxY; j++)
@@ -3110,11 +3139,11 @@ namespace DungeonDrive
             {
                 updateHeroVisibility();
 
-                int minX = Math.Max(0, (int)state.hero.x - state.form.ClientSize.Width / 2);
-                int maxX = Math.Min(width, (int)state.hero.x + state.form.ClientSize.Width / 2);
+                int minX = Math.Max(0, (int)state.hero.x - 2 - ((state.form.ClientSize.Width / 2) / state.size));
+                int maxX = Math.Min(width, (int)state.hero.x + 2 + ((state.form.ClientSize.Width / 2) / state.size) + 1);
 
-                int minY = Math.Max(0, (int)state.hero.y - state.form.ClientSize.Height / 2);
-                int maxY = Math.Min(height, (int)state.hero.y + state.form.ClientSize.Height / 2);
+                int minY = Math.Max(0, (int)state.hero.y - 2 - ((state.form.ClientSize.Height / 2) / state.size) + 1);
+                int maxY = Math.Min(height, (int)state.hero.y + 2 + ((state.form.ClientSize.Height / 2) / state.size) + 1);
 
                 for (int i = minX; i < maxX; i++)
                 {
@@ -3199,11 +3228,11 @@ namespace DungeonDrive
             }
             else if (environment.Equals("courtyard"))
             {
-                int minX = Math.Max(0, (int)state.hero.x - state.form.ClientSize.Width / 2);
-                int maxX = Math.Min(width, (int)state.hero.x + state.form.ClientSize.Width / 2);
+                int minX = Math.Max(0, (int)state.hero.x - 2 - ((state.form.ClientSize.Width / 2) / state.size));
+                int maxX = Math.Min(width, (int)state.hero.x + 2 + ((state.form.ClientSize.Width / 2) / state.size) + 1);
 
-                int minY = Math.Max(0, (int)state.hero.y - state.form.ClientSize.Height / 2);
-                int maxY = Math.Min(height, (int)state.hero.y + state.form.ClientSize.Height / 2);
+                int minY = Math.Max(0, (int)state.hero.y - 2 - ((state.form.ClientSize.Height / 2) / state.size) + 1);
+                int maxY = Math.Min(height, (int)state.hero.y + 2 + ((state.form.ClientSize.Height / 2) / state.size) + 1);
 
                 for (int i = minX; i < maxX; i++)
                 {
@@ -3218,17 +3247,18 @@ namespace DungeonDrive
                                 g.DrawImage(floor2, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
                             }
-                            else if(!stairSpace[i,j])
+                            else if(grassSpace[i,j])
                             {
                                 g.DrawImage(floor1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
                             }
+                            else if (roomNumSpace[i, j] == -1 && !stairSpace[i, j])
+                            {
+                                g.DrawImage(wall1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                            }
 
                         }
-                        else if (roomNumSpace[i, j] == -1 && !stairSpace[i, j])
-                        {
-                            g.DrawImage(wall1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
-                        }
+                        
                     }
                 }
 
