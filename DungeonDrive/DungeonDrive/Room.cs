@@ -3063,8 +3063,14 @@ namespace DungeonDrive
         {
             if (environment.Equals("dungeon"))
             {
-                for (int i = 0; i < state.room.width; i++)
-                    for (int j = 0; j < state.room.height; j++)
+                int minX = Math.Max(0, (int)state.hero.x - state.form.ClientSize.Width / 2);
+                int maxX = Math.Min(width, (int)state.hero.x + state.form.ClientSize.Width / 2);
+
+                int minY = Math.Max(0, (int)state.hero.y - state.form.ClientSize.Height / 2);
+                int maxY = Math.Min(height, (int)state.hero.y + state.form.ClientSize.Height / 2);
+
+                for (int i = minX; i < maxX; i++)
+                    for (int j = minY; j < maxY; j++)
                         if (drawingSpace[i, j])
                         {
                             if (wallSpace[i, j])
@@ -3104,9 +3110,15 @@ namespace DungeonDrive
             {
                 updateHeroVisibility();
 
-                for (int i = 0; i < state.room.width; i++)
+                int minX = Math.Max(0, (int)state.hero.x - state.form.ClientSize.Width / 2);
+                int maxX = Math.Min(width, (int)state.hero.x + state.form.ClientSize.Width / 2);
+
+                int minY = Math.Max(0, (int)state.hero.y - state.form.ClientSize.Height / 2);
+                int maxY = Math.Min(height, (int)state.hero.y + state.form.ClientSize.Height / 2);
+
+                for (int i = minX; i < maxX; i++)
                 {
-                    for (int j = 0; j < state.room.height; j++)
+                    for (int j = minY; j < maxY; j++)
                     {
                         if (drawingSpace[i, j])
                         {
