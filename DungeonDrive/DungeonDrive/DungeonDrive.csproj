@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\grass.jpg" />
     <None Include="Resources\ladderUp2.png" />
     <None Include="Resources\ladderUp.png" />
     <None Include="Resources\ladderDown2.png" />
@@ -546,6 +547,7 @@
     <None Include="Resources\CrusingFire30.png" />
     <None Include="Resources\CaveFloor.jpg" />
     <None Include="Resources\CaveWall.png" />
+    <None Include="Resources\CaveFloor.bmp" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

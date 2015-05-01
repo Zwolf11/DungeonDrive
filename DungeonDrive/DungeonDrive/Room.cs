@@ -25,6 +25,9 @@ namespace DungeonDrive
 
         public String environment = "dungeon";
 
+        public int borderSize = 23;
+
+        public int grassNum;
 
         public int width;
         public int height;
@@ -48,6 +51,7 @@ namespace DungeonDrive
         public bool[,] doorSpace;
         public bool[,] wallIntersection;
         public bool[,] drawingSpace;
+        public bool[,] houseSpace;
 
         public int heroStartingX = 0;                           // where the hero is starting in the new room. Might be useless.
         public int heroStartingY = 0;
@@ -64,8 +68,8 @@ namespace DungeonDrive
         public int numNonHallways = 0;
         public int numDoors = 0;
 
-        public int caveSightFrequency = 5;
-        public int caveCounter = 5;
+        public int caveSightFrequency = 3;
+        public int caveCounter = 3;
         
 
         public const int minSizeOfInitRoom = 7;
@@ -94,8 +98,10 @@ namespace DungeonDrive
 
         private Random rand;
         public Random stairsRand;
-        private Bitmap floor;
-        private Bitmap wall;
+        private Bitmap floor1;
+        private Bitmap wall1;
+        private Bitmap floor2;
+        private Bitmap wall2;
 
         public List<Projectile> projectiles = new List<Projectile>();
         public List<Projectile> deletingProj = new List<Projectile>();
@@ -158,6 +164,7 @@ namespace DungeonDrive
             effectiveRoomNum = new int[2 * maxStairs];
             roomDrawn = new bool[2 * maxStairs];
             drawingSpace = new bool[width, height];
+            houseSpace = new bool[width, height];
             
             /*
             projectiles.Clear();
@@ -188,6 +195,7 @@ namespace DungeonDrive
                     doorSpace[i, j] = false;
                     wallIntersection[i, j] = false;
                     drawingSpace[i, j] = false;
+                    houseSpace[i, j] = false;
                 }
             }
 
@@ -201,207 +209,265 @@ namespace DungeonDrive
 
                 //////////   ADD STAIR UP TO PARENT UNLESS IN C: DIRECTORY ///////
 
-                if (parentDir == null)
-                {
-
-                }
-                else
-                {
-                    // this is not the initial C file
-                    addStairs(false, parentDir);
-                }
-
             //Console.WriteLine("Here0");
 
                 environment = state.allLevelInfo.getEnvironmentType(currentRoom);
 
             /////////   TRAVERSE ALL DIRECTORIES   ///////
 
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                if(!((File.GetAttributes(dirs[i]) & FileAttributes.Hidden) == FileAttributes.Hidden)){              // checks to make sure the directory is not hidden
+                if (environment.Equals("courtyard"))
+                {
 
-                    try
+                    // get directories
+                    generateCourtyard();
+
+                    updateFreeSpace();
+
+                    if (currentRoom.Equals(state.pastRoom))
                     {
-                        bool temp2 = Directory.Exists(dirs[i]);
-                        String[] tempStrings = Directory.GetDirectories(dirs[i]);                                               // this should throw an error is the directory is inaccessible       
-                        //Console.WriteLine(dirs[i] + " found");
-                        directoryFound(dirs[i]);
+
+                        //Console.WriteLine("InitialRoom");
+                        int x1, y1;
+                        while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1]) ;
+
+                        state.hero.x = x1 + 0.5;
+                        state.hero.y = y1 + 0.5;
+                        freeSpace[x1, y1] = false;
                     }
-                    catch (Exception)
+
+                    foreach (Stairs stair in stairsNotDrawn)
                     {
-                        //Console.WriteLine("{0}", e.ToString());
+                        if (stair.path.Equals(state.pastRoom))
+                        {
+                            state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
+                            state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
+                            break;
+                        }
                     }
+
+                    //Console.WriteLine("Here2");
+
+                    recalcRoomNums();
+
                 }
                 else
                 {
-                    //Console.WriteLine("Found Hidden File " + dirs[i]);
-                    try
+
+                    for (int i = 0; i < dirs.Length; i++)
                     {
-                        //hiddenFound(dirs[i]);
-                    }
-                    catch (Exception)
-                    {
-                        //Console.WriteLine("{0}", e.ToString());
-                    }
-                    //hiddenFound(dirs[i]);
-                    
-                    // found hidden file
-                }
-            }
+                        if (!((File.GetAttributes(dirs[i]) & FileAttributes.Hidden) == FileAttributes.Hidden))
+                        {              // checks to make sure the directory is not hidden
 
-            //Console.WriteLine("Here1");
-
-            /////////// IF THIS IS THE INITIAL ROOM, 
-
-            updateFreeSpace();
-
-            if (currentRoom.Equals(state.pastRoom))
-            {
-
-                //Console.WriteLine("InitialRoom");
-                int x1, y1;
-                while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1,y1]) ;
-
-                state.hero.x = x1 + 0.5;
-                state.hero.y = y1 + 0.5;
-                freeSpace[x1, y1] = false;
-            }
-
-            /////////   FIND STAIRCASE YOU ARE COMING FROM   /////////
-
-            
-
-
-            foreach (Stairs stair in stairsNotDrawn)
-            {
-                if (stair.path.Equals(state.pastRoom))
-                {                                         
-                    state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
-                    state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
-                    break;
-                }
-            }
-
-            //Console.WriteLine("Here2");
-
-            recalcRoomNums();
-
-            /////////  CONNECT ROOMS WITH HALLWAYS   ////
-
-            // look through wallIntersection and try to add doors without hallways.
-
-            connectTouchingRooms();
-
-
-            List<Stairs>[] roomStairs = new List<Stairs>[numRooms];
-
-            for (int i = 0; i < numRooms; i++)
-            {
-                roomStairs[i] = new List<Stairs>();
-            }
-
-            foreach (Stairs tempStair in stairsNotDrawn)
-            {
-                //Console.WriteLine("Stair room number = " + tempStair.roomNum);
-                roomStairs[tempStair.roomNum].Add(tempStair);                   // have an array of lists of stairs sorted by room numbers
-            }
-
-            int staticNumRooms = numRooms;
-
-            int breaker = 0;
-
-            while (true)
-            {
-
-                int count = 0;
-                foreach (Stairs stair in roomStairs[staticNumRooms - 1])
-                {
-                    count++;
-                }
-                if (count == numStairs || breaker > 100)
-                {
-                    //Console.WriteLine("Iteration: "+breaker+" for hallway generation");
-                    breaker++;
-                    break;
-                }
-
-                //Console.WriteLine("Iteration: " + breaker + " for hallway generation");
-
-                for (int i = 0; i < staticNumRooms; i++)              // go through each room
-                {
-
-
-                    double shortestDistance = width + height;       // want to find the shortest distance between any stair in this room and any stair not in this room.
-                    Stairs source = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1, -1, -1, -1);                                // stair that the hallway must start from
-                    Stairs closestStair = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1, -1, -1, -1);
-                    int roomDest = -1;
-
-
-
-                    foreach (Stairs stair in roomStairs[i])
-                    {             // evaluate every stair in the current room
-
-                        for (int j = 0; j < staticNumRooms; j++)              // go through each other room and find the closest stair
-                        {
-                            if (i == j) continue;                       // skip current room number, because you are trying to find the shortest distance from stair in room i, to stair in room j.
-
-                            foreach (Stairs stair2 in roomStairs[j])
+                            try
                             {
-                                double newDistance;
-                                if ((newDistance = distanceBtwnPts(stair.centerX, stair.centerY, stair2.centerX, stair2.centerY)) < shortestDistance)           // if the distance between the stairs is smaller than any other one found til this point, update new shortestStair and distance
-                                {
-                                    roomDest = j;
-                                    shortestDistance = newDistance;
-                                    source = stair;
-                                    closestStair = stair2;
-                                }
-
+                                bool temp2 = Directory.Exists(dirs[i]);
+                                String[] tempStrings = Directory.GetDirectories(dirs[i]);                                               // this should throw an error is the directory is inaccessible       
+                                //Console.WriteLine(dirs[i] + " found");
+                                directoryFound(dirs[i]);
                             }
-                        }
-
-                    }
-
-
-                    // closestStair should be accurate
-                    if (source.x != -1 && closestStair.y != -1)         // if a close stair has been found
-                    {
-                        //Console.WriteLine("Making Hallway");
-                        //makeHallway(source.x, source.y, closestStair.x, closestStair.y, Math.Min(source.maxHallwayWidth, closestStair.maxHallwayWidth));
-                        makeHallway(source.centerX, source.centerY, closestStair.centerX, closestStair.centerY, Math.Min(source.maxHallwayWidth, closestStair.maxHallwayWidth));
-                        // make a hallway between the two.
-
-                        if (roomDest > i)                       // move all the stairs from the lower room, into the higher room
-                        {
-                            foreach (Stairs removeStair in roomStairs[i])
+                            catch (Exception)
                             {
-                                roomStairs[roomDest].Add(removeStair);
+                                //Console.WriteLine("{0}", e.ToString());
                             }
-
-                            roomStairs[i].Clear();
-
                         }
                         else
                         {
-                            foreach (Stairs removeStair in roomStairs[roomDest])
+                            //Console.WriteLine("Found Hidden File " + dirs[i]);
+                            try
                             {
-                                roomStairs[i].Add(removeStair);
+                                //hiddenFound(dirs[i]);
+                            }
+                            catch (Exception)
+                            {
+                                //Console.WriteLine("{0}", e.ToString());
+                            }
+                            //hiddenFound(dirs[i]);
+
+                            // found hidden file
+                        }
+                    }
+
+                    //Console.WriteLine("Here1");
+
+                    /////////// IF THIS IS THE INITIAL ROOM, 
+
+                    updateFreeSpace();
+
+                    if (currentRoom.Equals(state.pastRoom))
+                    {
+
+                        //Console.WriteLine("InitialRoom");
+                        int x1, y1;
+                        while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1]) ;
+
+                        state.hero.x = x1 + 0.5;
+                        state.hero.y = y1 + 0.5;
+                        freeSpace[x1, y1] = false;
+                    }
+
+                    /////////   FIND STAIRCASE YOU ARE COMING FROM   /////////
+
+
+                    addStairs(false, parentDir);
+
+                    foreach (Stairs stair in stairsNotDrawn)
+                    {
+                        if (stair.path.Equals(state.pastRoom))
+                        {
+                            if (state.pastRoom.Equals("C:\\"))
+                            {
+                                String s = state.allLevelInfo.getOppositeDir(state.allLevelInfo.getDirection(currentRoom));
+                                switch (s)
+                                {
+                                    case "up":
+                                        state.hero.x = stair.x + .5;
+                                        state.hero.y = stair.y - .5;
+                                        break;
+                                    case "down":
+                                        state.hero.x = stair.x + .5;
+                                        state.hero.y = stair.y + 1.5;
+                                        break;
+                                    case "left":
+                                        state.hero.x = stair.x - .5;
+                                        state.hero.y = stair.y + .5;
+                                        break;
+                                    case "right":
+                                        state.hero.x = stair.x + 1.5;
+                                        state.hero.y = stair.y + .5;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                            state.hero.x = /*state.hero.xNext = */stair.x + stair.xDirection + 0.5;      // place you on the correct side of it
+                            state.hero.y = /*state.hero.yNext = */stair.y + stair.yDirection + 0.5;
+                            break;
+                        }
+                    }
+
+                    //Console.WriteLine("Here2");
+
+                    recalcRoomNums();
+
+                    /////////  CONNECT ROOMS WITH HALLWAYS   ////
+
+                    // look through wallIntersection and try to add doors without hallways.
+
+                    connectTouchingRooms();
+
+
+                    List<Stairs>[] roomStairs = new List<Stairs>[numRooms];
+
+                    for (int i = 0; i < numRooms; i++)
+                    {
+                        roomStairs[i] = new List<Stairs>();
+                    }
+
+                    foreach (Stairs tempStair in stairsNotDrawn)
+                    {
+                        //Console.WriteLine("Stair room number = " + tempStair.roomNum);
+                        roomStairs[tempStair.roomNum].Add(tempStair);                   // have an array of lists of stairs sorted by room numbers
+                    }
+
+                    int staticNumRooms = numRooms;
+
+                    int breaker = 0;
+
+                    while (true)
+                    {
+
+                        int count = 0;
+                        foreach (Stairs stair in roomStairs[staticNumRooms - 1])
+                        {
+                            count++;
+                        }
+                        if (count == numStairs || breaker > 100)
+                        {
+                            //Console.WriteLine("Iteration: "+breaker+" for hallway generation");
+                            breaker++;
+                            break;
+                        }
+
+                        //Console.WriteLine("Iteration: " + breaker + " for hallway generation");
+
+                        for (int i = 0; i < staticNumRooms; i++)              // go through each room
+                        {
+
+
+                            double shortestDistance = width + height;       // want to find the shortest distance between any stair in this room and any stair not in this room.
+                            Stairs source = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1, -1, -1, -1, false);                                // stair that the hallway must start from
+                            Stairs closestStair = new Stairs(state, -1, -1, -1, -1, -1, false, "", 'u', -1, -1, -1, -1, false);
+                            int roomDest = -1;
+
+
+
+                            foreach (Stairs stair in roomStairs[i])
+                            {             // evaluate every stair in the current room
+
+                                for (int j = 0; j < staticNumRooms; j++)              // go through each other room and find the closest stair
+                                {
+                                    if (i == j) continue;                       // skip current room number, because you are trying to find the shortest distance from stair in room i, to stair in room j.
+
+                                    foreach (Stairs stair2 in roomStairs[j])
+                                    {
+                                        double newDistance;
+                                        if ((newDistance = distanceBtwnPts(stair.centerX, stair.centerY, stair2.centerX, stair2.centerY)) < shortestDistance)           // if the distance between the stairs is smaller than any other one found til this point, update new shortestStair and distance
+                                        {
+                                            roomDest = j;
+                                            shortestDistance = newDistance;
+                                            source = stair;
+                                            closestStair = stair2;
+                                        }
+
+                                    }
+                                }
+
                             }
 
-                            roomStairs[roomDest].Clear();
+
+                            // closestStair should be accurate
+                            if (source.x != -1 && closestStair.y != -1)         // if a close stair has been found
+                            {
+                                //Console.WriteLine("Making Hallway");
+                                //makeHallway(source.x, source.y, closestStair.x, closestStair.y, Math.Min(source.maxHallwayWidth, closestStair.maxHallwayWidth));
+                                makeHallway(source.centerX, source.centerY, closestStair.centerX, closestStair.centerY, Math.Min(source.maxHallwayWidth, closestStair.maxHallwayWidth));
+                                // make a hallway between the two.
+
+                                if (roomDest > i)                       // move all the stairs from the lower room, into the higher room
+                                {
+                                    foreach (Stairs removeStair in roomStairs[i])
+                                    {
+                                        roomStairs[roomDest].Add(removeStair);
+                                    }
+
+                                    roomStairs[i].Clear();
+
+                                }
+                                else
+                                {
+                                    foreach (Stairs removeStair in roomStairs[roomDest])
+                                    {
+                                        roomStairs[i].Add(removeStair);
+                                    }
+
+                                    roomStairs[roomDest].Clear();
+
+                                }
+
+
+                            }
+
+
 
                         }
 
-
+                        //Console.WriteLine(breaker);
+                        breaker++;
                     }
 
-
-
                 }
-
-                //Console.WriteLine(breaker);
-                breaker++;
-            }
 
             //Console.WriteLine("Out1");
 
@@ -450,8 +516,9 @@ namespace DungeonDrive
 
             if (environment.Equals("dungeon"))
             {
-                floor = new Bitmap(Properties.Resources.floor);
-                wall = new Bitmap(Properties.Resources.wall);
+                floor1 = new Bitmap(Properties.Resources.floor);
+                wall1 = new Bitmap(Properties.Resources.wall);
+                floor2 = new Bitmap(Properties.Resources.grass);
                 if (!state.loadingGame)
                 {
                     updateDrawingGrid(roomNumSpace[(int)state.hero.x, (int)state.hero.y]);
@@ -460,13 +527,26 @@ namespace DungeonDrive
             else if (environment.Equals("cave"))
             {
                 removeDoors();
-                floor = new Bitmap(Properties.Resources.caveFloor);
-                wall = new Bitmap(Properties.Resources.caveWall);
+                floor1 = new Bitmap(Properties.Resources.caveFloor);
+                wall1 = new Bitmap(Properties.Resources.caveWall);
+                floor2 = new Bitmap(Properties.Resources.grass);
                 makeAllObjectsEligible();
                 if (!state.loadingGame)
                 {
                     updateHeroVisibility();
                 }
+            }
+            else if (environment.Equals("courtyard"))
+            {
+                floor1 = new Bitmap(Properties.Resources.grass);
+                wall1 = new Bitmap(Properties.Resources.caveTop);
+                floor2 = new Bitmap(Properties.Resources.floor);
+                wall2 = new Bitmap(Properties.Resources.wall);
+                if (!state.loadingGame)
+                {
+                    updateDrawingGrid(0);
+                }
+               
             }
 
             watch.Stop();
@@ -580,6 +660,328 @@ namespace DungeonDrive
                         otherFound(filename, extension);
                         break;
                 }
+        }
+
+        public void generateCourtyard()
+        {
+
+            updateHouseSpace();
+            int minX = borderSize;
+            int maxX = width - borderSize;
+            int minY = borderSize;
+            int maxY = height - borderSize;
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (i > minX && i < maxX && j > minY && j < maxY)
+                    {
+                        roomNumSpace[i, j] = numRooms;
+                    }
+                    else
+                    {
+                        walkingSpace[i, j] = false;
+                        houseSpace[i, j] = false;
+                        //freeSpace[i, j] = false;
+                    }
+                }
+            }
+
+            grassNum = numRooms;
+
+            numRooms++;
+
+            String[] dirs = Directory.GetDirectories("C:\\"); // get directories in current directory
+
+            for (int a = 0; a < dirs.Length; a++)
+            {
+                if (!((File.GetAttributes(dirs[a]) & FileAttributes.Hidden) == FileAttributes.Hidden))
+                {              // checks to make sure the directory is not hidden
+
+                    try
+                    {
+                        bool temp2 = Directory.Exists(dirs[a]);
+                        String[] tempStrings = Directory.GetDirectories(dirs[a]);                                               // this should throw an error is the directory is inaccessible       
+                        //Console.WriteLine(dirs[i] + " found");
+
+                        String env = state.allLevelInfo.getEnvironmentType(dirs[a]);
+                        if (env.Equals("cave"))
+                        {
+                            String direction = state.allLevelInfo.getDirection(dirs[a]);
+                            Stairs newStairs;
+
+                            int x, y;
+
+                            switch (direction)
+                            {
+
+                                case "up":
+
+
+                                    do
+                                    {
+                                        //Console.WriteLine("Stuck please help1");
+                                        x = (int)rand.Next(minX + 2, maxX - 2);
+                                    } while (!freeSpace[x, minY]);
+
+                                    newStairs = new Stairs(state, x, minY, 2, 1, grassNum, true, dirs[a], 's', 0, 0, 0, numStairs, true);
+                                    stairSpace[newStairs.x + 1, newStairs.y] = true;
+                                    stairSpace[newStairs.x, newStairs.y] = true;
+                                    roomNumSpace[newStairs.x, newStairs.y] = grassNum;
+                                    stairsNotDrawn.Add(newStairs);
+
+                                    break;
+                                case "down":
+
+                                    do
+                                    {
+                                        //Console.WriteLine("Stuck please help2");
+                                        x = (int)rand.Next(minX + 2, maxX - 2);
+
+                                    } while (!freeSpace[x, maxY]);
+
+                                    newStairs = new Stairs(state, x, maxY, 2, 1, grassNum, true, dirs[a], 'w', 0, 0, 0, numStairs, true);
+                                    stairSpace[newStairs.x, newStairs.y] = true;
+                                    stairSpace[newStairs.x + 1, newStairs.y] = true;
+                                    roomNumSpace[newStairs.x, newStairs.y] = grassNum;
+                                    stairsNotDrawn.Add(newStairs);
+                                    break;
+
+                                case "left":
+
+                                    do
+                                    {
+                                        //Console.WriteLine("Stuck please help3");
+                                        y = (int)rand.Next(minY + 2, maxY - 2);
+                                    } while (!freeSpace[minX, y]);
+
+                                    newStairs = new Stairs(state, minX, y, 1, 2, grassNum, true, dirs[a], 'd', 0, 0, 0, numStairs, true);
+                                    stairSpace[newStairs.x, newStairs.y] = true;
+                                    stairSpace[newStairs.x, newStairs.y + 1] = true;
+                                    roomNumSpace[newStairs.x, newStairs.y] = grassNum;
+                                    stairsNotDrawn.Add(newStairs);
+                                    break;
+
+                                case "right":
+
+                                    do
+                                    {
+                                        //Console.WriteLine("Stuck please help4");
+                                        y = (int)rand.Next(minY + 2, maxY - 2);
+                                    } while (!freeSpace[maxX, y]);
+
+                                    newStairs = new Stairs(state, maxX, y, 1, 2, grassNum, true, dirs[a], 'a', 0, 0, 0, numStairs, true);
+                                    stairSpace[newStairs.x, newStairs.y + 1] = true;
+                                    stairSpace[newStairs.x, newStairs.y] = true;
+                                    roomNumSpace[newStairs.x, newStairs.y] = grassNum;
+                                    stairsNotDrawn.Add(newStairs);
+                                    break;
+                            }
+
+                            numStairs++;
+                            updateStairSpace();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Making an internal room");
+
+                            //find a point on the map, that is within houseSpace
+
+                            int x, y;
+
+                            do
+                            {
+                                x = rand.Next(borderSize + 6, width - (borderSize + 6));
+                                y = rand.Next(borderSize + 6, height - (borderSize + 6));
+                            } while (!houseSpace[x, y]);
+
+                            int roomHeight = minSizeOfInitRoom;
+                            int roomWidth = minSizeOfInitRoom;
+
+                            int maxRandom = (int)roomWidth * roomHeight - (2 * (roomWidth + roomHeight)) + 2;   // indicates how many non-border cells there are. We don't want the stairs to be on a border to avoid adjacent stair tiles.
+
+                            int stairLocation = rand.Next(0, maxRandom);
+                            int counter = 0;
+                            int stairX = x;
+                            int stairY = y;
+
+
+                            //Console.WriteLine("Here1.5");
+
+                            for (int i = -1; i <= roomWidth; i++)
+                            {
+                                for (int j = -1; j <= roomHeight; j++)
+                                {
+
+                                    int cX = x + i - roomWidth;
+                                    int cY = y + j - roomHeight;
+
+                                    if (i == -1 || i == roomWidth || j == -1 || j == roomHeight)
+                                    {
+                                        //*
+                                        if (roomNumSpace[cX, cY] != -1 && roomNumSpace[cX,cY] != grassNum && effectiveRoomNum[roomNumSpace[cX, cY]] != effectiveRoomNum[numRooms] && !wallSpace[cX, cY])
+                                        {
+                                            //int highVal = Math.Max(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+                                            //int lowVal = Math.Min(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+
+                                            int highVal = numRooms;
+                                            int lowVal = effectiveRoomNum[roomNumSpace[cX, cY]];
+
+                                            for (int k = 0; k < numRooms; k++)
+                                            {
+                                                if (effectiveRoomNum[k] == lowVal)
+                                                {
+                                                    effectiveRoomNum[k] = highVal;
+                                                }
+
+                                            }
+                                        }
+                                        //*/
+                                        if (roomNumSpace[cX, cY] == -1 || roomNumSpace[cX,cY] == grassNum)
+                                        {
+                                            wallSpace[cX, cY] = true;
+
+                                        }
+
+                                        roomNumSpace[cX, cY] = numRooms;
+
+                                    }
+                                    else
+                                    {
+
+                                        if (wallSpace[cX, cY])
+                                        {
+                                            wallSpace[cX, cY] = false;
+                                        }
+
+                                        if (i != 0 && i != roomWidth - 1 && j != 0 && j != roomHeight - 1)
+                                        {
+                                            // a non-border cell.
+                                            if (counter == stairLocation)
+                                            {
+
+                                                stairX = cX;
+                                                stairY = cY;
+
+                                                //wallSpace[stairX, stairY] = true;
+
+                                                int minimumDistToWall = 10;
+                                                minimumDistToWall = Math.Min(minimumDistToWall, i);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, j);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, (roomWidth - 1) - i);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, (roomHeight - 1) - j);
+
+                                            }
+                                            counter++;
+                                        }
+                                        roomNumSpace[cX, cY] = numRooms;
+                                        //mergeRoom((x - widthRadiusInitRoom) + i, (y - heightRadiusInitRoom) + j, numRooms); 
+
+                                    }
+
+
+                                }
+
+                            }
+
+                            stairsNotDrawn.Add(new Stairs(state, stairX, stairY, 1, 1, roomNumSpace[stairX, stairY], true, dirs[a], 'd', 2, (x + 1) - (roomWidth / 4), (y + 1) - (roomHeight / 4), numStairs, false));
+
+                            //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
+
+                            //Console.WriteLine("Difference of x and centerX = " + (stairX - (x - (widthOfInitStairRoom / 2))) + "Difference of y and centerY = " + (stairY - (y - (heightOfInitStairRoom / 2))));
+
+                            stairSpace[stairX, stairY] = true;
+
+                            for (int i = -1; i <= 1; i++)
+                            {
+                                for (int j = -1; j <= 1; j++)
+                                {
+                                    freeSpace[stairX + i, stairY + j] = false;
+                                }
+                            }
+
+                            //freeSpace[stairX, stairY] = false;
+                            //freeSpace[stairX + xDirFromChar(direction), stairY + yDirFromChar(direction)] = false;
+
+                            numRooms++;
+                            numStairs++;
+                            numNonHallways++;
+
+                            // add stairs?
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Console.WriteLine("{0}", e.ToString());
+                    }
+                }
+                else
+                {
+                    //Console.WriteLine("Found Hidden File " + dirs[i]);
+                    try
+                    {
+                        //hiddenFound(dirs[i]);
+                    }
+                    catch (Exception)
+                    {
+                        //Console.WriteLine("{0}", e.ToString());
+                    }
+                    //hiddenFound(dirs[i]);
+
+                    // found hidden file
+                }
+            }
+
+            // place cave entrances around perimeter
+
+
+            //place grassy field
+            
+            //place dungeon rooms, make them different room number
+            // add doors to the rooms
+
+            // place graveyard
+
+
+        }
+
+        public void updateHouseSpace()
+        {
+            int count = 0;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (i > (borderSize + maxSizeOfInitRoom) && i < (width - (borderSize)) && j > (borderSize + maxSizeOfInitRoom) && j < (height - (borderSize)))
+                    {
+                        count++;
+                        houseSpace[i, j] = true;
+                    }
+                }
+            }
+
+            Console.WriteLine("percentage of non=house space = " + (double) (count / (width * height)));
+        }
+
+        public void updateStairSpace()
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (stairSpace[i, j])
+                    {
+                        for (int k = -3; k <= 3; k++)
+                        {
+                            for (int l = -3; l <= 3; l++)
+                            {
+                                freeSpace[i + k, j + l] = false;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public void directoryFound(String path)
@@ -819,8 +1221,14 @@ namespace DungeonDrive
 
             //Console.WriteLine("Here2");
 
-            if(!state.startTutorial)
-                stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4), numStairs));
+            bool ladder = false;
+
+            if(state.allLevelInfo.getEnvironmentType(currentRoom).Equals("cave")){
+                ladder = true;
+            }
+
+            if (!state.startTutorial)
+                stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4), numStairs, ladder));
 
             //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
 
@@ -1039,6 +1447,10 @@ namespace DungeonDrive
                 for (int j = 0; j < height; j++){
                     if(roomNumSpace[i,j] == -1 || wallSpace[i,j] || doorSpace[i,j]){
                         walkingSpace[i, j] = false;
+                    }
+                    if (stairSpace[i, j])
+                    {
+                        walkingSpace[i, j] = true;
                     }
                 }
             }
@@ -2579,9 +2991,9 @@ namespace DungeonDrive
                         if (drawingSpace[i, j])
                         {
                             if (wallSpace[i, j])
-                                g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                g.DrawImage(wall1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                             else
-                                g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                g.DrawImage(floor1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                         }
 
                 foreach (Obstacle obstacle in obstacles)
@@ -2591,7 +3003,16 @@ namespace DungeonDrive
                     door.draw(g);
 
                 foreach (Stairs stair in stairs)
-                    stair.draw(g);
+                {
+                    if (stair.path.Equals("C:\\"))
+                    {
+                        g.DrawImage(floor2, (int)(stair.x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(stair.y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                    }
+                    else
+                    {
+                        stair.draw(g);
+                    }
+                }
 
                 foreach (KeyValuePair<Item, PointF> item in droppedItems)
                     g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
@@ -2615,13 +3036,13 @@ namespace DungeonDrive
 
                             if (wallSpace[i, j])
                             {
-                                g.DrawImage(wall, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                g.DrawImage(wall1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                                 continue;
                             }
                             else if (roomNumSpace[i, j] != -1)
                             {
 
-                                g.DrawImage(floor, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                                g.DrawImage(floor1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
 
                             }
                         }
@@ -2649,7 +3070,14 @@ namespace DungeonDrive
                 {
                     if (drawingSpace[stair.x, stair.y])
                     {
-                        stair.draw(g);
+                        if (stair.path.Equals("C:\\"))
+                        {
+                            g.DrawImage(floor2, (int)(stair.x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(stair.y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                        }
+                        else
+                        {
+                            stair.draw(g);
+                        }
                     }
                 }
 
@@ -2680,6 +3108,57 @@ namespace DungeonDrive
 
 
             }
+            else if (environment.Equals("courtyard"))
+            {
+
+                for (int i = 0; i < state.room.width; i++)
+                {
+                    for (int j = 0; j < state.room.height; j++)
+                    {
+                        if (drawingSpace[i, j])
+                        {
+                            if (wallSpace[i, j])
+                                g.DrawImage(wall2, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                            else if (!stairSpace[i, j])
+                            {
+                                g.DrawImage(floor1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+
+                            }
+
+                        }
+                        else if (roomNumSpace[i, j] == -1 && !stairSpace[i, j])
+                        {
+                            g.DrawImage(wall1, (int)(i * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(j * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
+                        }
+                    }
+                }
+
+                foreach (Obstacle obstacle in obstacles)
+                    obstacle.draw(g);
+
+                foreach (Door door in doors)
+                    door.draw(g);
+
+                foreach (Stairs stair in stairs)
+                {
+                    if (!stair.ladder)
+                        stair.draw(g);
+
+                }
+
+                foreach (KeyValuePair<Item, PointF> item in droppedItems)
+                    g.DrawImage(item.Key.img, (int)(item.Value.X * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size - state.size / 2), (int)(item.Value.Y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size - state.size / 2), state.size, state.size);
+
+                foreach (Projectile proj in projectiles)
+                    proj.draw(g);
+
+                foreach (Unit enemy in enemies)
+                    enemy.draw(g);
+            }
+
+
+
+
         }
 
     }
