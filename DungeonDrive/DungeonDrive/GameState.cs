@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Drawing;
 using System.Media;
 using System.IO;
@@ -26,7 +27,7 @@ namespace DungeonDrive
         public String graveyard = "C:\\graveyard";
         public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
-        public SoundPlayer music = new SoundPlayer(Properties.Resources.spooky_dungeon);
+        public MediaPlayer music = new MediaPlayer();
 
 
         public bool loadingGame = false;
@@ -49,6 +50,8 @@ namespace DungeonDrive
 
         public GameState(MainForm form, bool load) : base(form)
         {
+            music.Open(new Uri(Application.StartupPath + "\\spooky_dungeon.wav"));
+
             hero = new Hero(this, 0, 0);
             for (int i = 0; i < inventory.Length; i++)
                 inventory[i] = new Item[5];
@@ -65,7 +68,7 @@ namespace DungeonDrive
             }
 
             if (Properties.Settings.Default.SoundEnabled)
-                music.PlayLooping();
+                music.Play();
         }
         private void initSkillTree(){
             for (int i = 0; i < SkillStreeState.skillList; i++ )
@@ -626,6 +629,9 @@ namespace DungeonDrive
                             if (tryPickupItem(entry.Key))
                                 room.droppedItems.Remove(entry.Key);
 
+                            if (pickupTutorial)
+                                teleportToC();
+
                             break;
                         }
 
@@ -890,12 +896,15 @@ namespace DungeonDrive
                 g.DrawImage(SkillStreeState.spellSelected.spellIcon[0], size / 4, size / 4, 2 * size, 2 * size);
 
             g.DrawImage(keyImg, form.ClientSize.Width - 3 * size, size / 4, size, size);
-            g.DrawString("x" + numKeys, font, Brushes.White, form.ClientSize.Width - size, size / 2);
+            g.DrawString("x" + numKeys, font, System.Drawing.Brushes.White, form.ClientSize.Width - size, size / 2);
         }
 
 
         public override void tick(object sender, EventArgs e)
         {
+            if (music.Position >= music.NaturalDuration)
+                music.Position = TimeSpan.Zero;
+
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
             if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)

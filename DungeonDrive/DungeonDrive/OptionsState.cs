@@ -48,7 +48,7 @@ namespace DungeonDrive
                 {
                     GameState gs = (GameState)curState;
                     if (Properties.Settings.Default.SoundEnabled)
-                        gs.music.PlayLooping();
+                        gs.music.Play();
                     else
                         gs.music.Stop();
                 }
