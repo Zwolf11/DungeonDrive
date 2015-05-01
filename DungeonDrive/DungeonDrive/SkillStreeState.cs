@@ -10,7 +10,7 @@ namespace DungeonDrive
 {
     class SkillStreeState : State
     {
-        public static int availablePoints = 5;
+        public static int availablePoints = 1;
         //horizonal 
         public static int skillList = 7;
         //verticle, spell level
