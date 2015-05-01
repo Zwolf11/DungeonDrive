@@ -149,17 +149,19 @@ namespace DungeonDrive
         private GameState state;
         private Unit castor;
         private int bounce = 0;
-        public knockBackProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit castor)
+        public double force = 0.5;
+        public knockBackProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, Unit castor, double force)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
             this.state = state;
             this.castor = castor;
+            this.force = force;
         }
 
         public override void endingEffect(Unit unit)
         {
             double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
-            unit.knockBack(unit, Math.Cos((double)(dir)) * 0.5, Math.Sin((double)(dir)) * 0.5, 0);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * force, Math.Sin((double)(dir)) * force, 0);
             unit.hp -= unit.hp - this.dmg;
             unit.burn(this.powerSec, this.powerFac * this.dmg);
         }
@@ -182,10 +184,12 @@ namespace DungeonDrive
 
     public class barrierProjectiles : Projectile {
         private GameState state;
-        public barrierProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+        public double force = 0.3;
+        public barrierProjectiles(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, double force)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
             this.state = state;
+            this.force = force;
         }
         public override void endingEffect()
         {
@@ -195,7 +199,7 @@ namespace DungeonDrive
         {
             unit.hp -= this.dmg;
             double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
-            unit.knockBack(unit, Math.Cos((double)(dir)) * 0.3, Math.Sin((double)(dir)) * 0.3, 0);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * force, Math.Sin((double)(dir)) * force, 0);
         }
         public override void trailType()
         {
@@ -270,10 +274,12 @@ namespace DungeonDrive
     public class pullingProjectile : Projectile
     {
         private GameState state;
-        public pullingProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range)
+        double force = 0.2;
+        public pullingProjectile(GameState state, double x, double y, double x_dir, double y_dir, double proj_speed, int proj_range, double force)
             : base(state, x, y, x_dir, y_dir, proj_speed, proj_range)
         {
             this.state = state;
+            this.force = force;
         }
 
         public override void endingEffect()
@@ -284,7 +290,7 @@ namespace DungeonDrive
         {
             if(unit is Boss){return;}
             double dir = (float)Math.Atan2(unit.y - this.y, unit.x - this.x);
-            unit.knockBack(unit, Math.Cos((double)(dir)) * -0.2, Math.Sin((double)(dir)) * -0.2, 0);
+            unit.knockBack(unit, Math.Cos((double)(dir)) * -force, Math.Sin((double)(dir)) * -force, 0);
         }
         public override void blockProjectiles()
         {
@@ -322,6 +328,9 @@ namespace DungeonDrive
 
         public override void endingEffect(Unit unit)
         {
+           // Bat bat = new Bat(state, this.DrawX, this.DrawY) ;
+          //  state.room.addEnemy(bat, "Minion");
+            state.room.removeProj(this);
             unit.hp -= this.dmg;
         }
     }

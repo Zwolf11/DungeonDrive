@@ -112,3 +112,7 @@ C:\Users\lee1129\Documents\cs490\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debu
 \\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.xml
 \\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Game.xml
 \\psf\Home\Desktop\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Graphics.xml
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Graphics.dll
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.xml
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Game.xml
+D:\DD\DungeonDrive\DungeonDrive\DungeonDrive\bin\Debug\Microsoft.Xna.Framework.Graphics.xml

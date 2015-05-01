@@ -10,7 +10,7 @@ namespace DungeonDrive
 {
     class SkillStreeState : State
     {
-        public static int availablePoints = 0;
+        public static int availablePoints = 1;
         //horizonal 
         public static int skillList = 7;
         //verticle, spell level
@@ -257,9 +257,13 @@ namespace DungeonDrive
 
             if (skillIsAvailable(i, j) == true)
             {
-                skillFrameImages[i, j] = spellFrame;
-                GameState.heroSkill[i,j] = true;
-                this.skillFrameImages[i, j] = spellFrame;
+                if (availablePoints >= 1)
+                {
+                    skillFrameImages[i, j] = spellFrame;
+                    GameState.heroSkill[i, j] = true;
+                    this.skillFrameImages[i, j] = spellFrame;
+                    availablePoints = availablePoints - 1;
+                }
             }
             else { 
                 
@@ -271,11 +275,13 @@ namespace DungeonDrive
                 if ( j == SkillStreeState.skillLevel-1)
                 {
                     GameState.heroSkill[i, j] = false;
+                    availablePoints = availablePoints + 1;
                     this.skillFrameImages[i,j] = _spellFrame;
                 }
                 else if(GameState.heroSkill[i,j+1] == false){
 
                     GameState.heroSkill[i, j] = false;
+                    availablePoints = availablePoints + 1;
                     this.skillFrameImages[i, j] = _spellFrame;
                 }
             }

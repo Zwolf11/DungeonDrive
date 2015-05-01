@@ -16,9 +16,37 @@ namespace DungeonDrive
         public int maxFrame;
         public String spellName = "";
         public String spellDesc;
+        public int level = 1;
         public Spell() {}
         public virtual void cast(GameState state, Unit unit) {}
         public virtual void tick() { }
+
+        public int getSkillLevel(Spell spell)
+        {
+
+            for (int i = 0; i < SkillStreeState.skillList; i++)
+            {
+                if (SkillStreeState.spellStored[i].Equals(spell))
+                {
+                    for (int j = 0; j < SkillStreeState.skillLevel; j++)
+                    {
+                        if (GameState.heroSkill[i, j] && j == SkillStreeState.skillLevel - 1) { return SkillStreeState.skillLevel; }
+                        else if (GameState.heroSkill[i, j]) { }
+                        else
+                        {
+                            return j;
+                        }
+                    }
+
+                }
+
+
+            }
+
+            return 1;
+
+
+        }
     }
     public class BossSpell : Spell {
         private GameState state;
@@ -30,20 +58,23 @@ namespace DungeonDrive
             setLighteningBall(state, unit);
             bossProjectile proj1 = new bossProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
             proj1.isMagic = false;
+
             proj1.friendlyFire = false;
+            
             state.room.projectiles.Add(proj1);
         }
         public void setLighteningBall(GameState state, Unit unit)
         {
             this.state = state;
             this.unit = unit;
+           
         }
     }
     public class LighteningBall : Spell {
         
         //public static Bitmap[] Icon = new Bitmap[SkillStreeState.skillLevel];
         public Bitmap[] animation= new Bitmap[20];
-        public int level = 1;
+        
         GameState state;
         Unit unit;
         public override void cast(GameState state, Unit unit)
@@ -52,21 +83,27 @@ namespace DungeonDrive
             Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
             proj1.isMagic = true;
             proj1.animation = this.animation;
+            proj1.dmg = proj1.dmg + proj1.dmg * (unit.level / 10);
             Projectile proj2 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.3, 15);
             proj2.isMagic = true;
             proj2.animation = this.animation;
+            proj2.dmg = proj1.dmg + proj2.dmg * (unit.level / 10);
             Projectile proj3 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.4, 15);
             proj3.isMagic = true;
             proj3.animation = this.animation;
+            proj3.dmg = proj3.dmg + proj3.dmg * (unit.level / 10);
             Projectile proj4 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.5, 15);
             proj4.isMagic = true;
             proj4.animation = this.animation;
+            proj4.dmg = proj4.dmg + proj4.dmg * (unit.level / 10);
             Projectile proj5 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.6, 15);
             //proj5.isMagic = true;
             proj5.proj_img = Properties.Resources.lightening;
             proj5.animation = this.animation;
-
-            if (this.unit is Hero) { }
+            proj5.dmg = proj5.dmg + proj5.dmg * (unit.level / 10);
+            if (this.unit is Hero) {
+                this.level = getSkillLevel(this);
+            }
             else
             {
 
@@ -141,7 +178,7 @@ namespace DungeonDrive
 
     public class RuneOfFire : Spell {
         public Bitmap[] animation = new Bitmap[22];
-        public int level = 1;
+        
         GameState state;
         Unit unit;
         public void setRuneOfFrost(GameState state, Unit unit)
@@ -195,14 +232,30 @@ namespace DungeonDrive
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
+            proj1.dmg = proj1.dmg * (1 + unit.level / 10);
             proj1.radius = 2.9;
 
-            if (this.unit is Hero) { }
+            if (this.unit is Hero) {
+                this.level = getSkillLevel(this);
+            }
             else
             {
                 proj1.friendlyFire = false;
             }
+
+            if (this.level == 2)
+            {
+                proj1.radius = 3.4;
+                proj1.proj_duration = 200;
+            }
+            else if (this.level == 3)
+            {
+                proj1.radius = 3.9;
+                proj1.proj_duration = 300;
+            }
             state.room.projectiles.Add(proj1);
+
+
 
         }
     }
@@ -211,7 +264,8 @@ namespace DungeonDrive
     {
 
         public Bitmap[] animation = new Bitmap[32];
-        public int level = 1;
+       
+
         GameState state;
         Unit unit;
         public void setEnergyBarrier(GameState state, Unit unit)
@@ -272,17 +326,33 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setEnergyBarrier(state, unit);
-            barrierProjectiles proj1 = new barrierProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 2);
+            double force = 0.3;
+            barrierProjectiles proj1 = new barrierProjectiles(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 2, force);
             proj1.isMagic = true;
             proj1.animation = this.animation;
-            proj1.dmg = 0.1;
+            proj1.dmg = 0;
             proj1.radius = 2;
+            proj1.radius = proj1.radius + proj1.radius * unit.level / 10;
             proj1.maxFrame = this.maxFrame;
             proj1.proj_duration = 1000;
-            if (this.unit is Hero) { }
+            if (this.unit is Hero) {
+                this.level = getSkillLevel(this);
+            }
             else
             {
                 proj1.friendlyFire = false;
+            }
+
+            if (this.level == 2)
+            {
+                proj1.radius = 2.5;
+                proj1.force = 0.5;
+            }
+            else if (this.level == 3)
+            {
+                proj1.radius = 3.5;
+                proj1.force = 0.7;
+         
             }
             state.room.projectiles.Add(proj1);
 
@@ -291,7 +361,7 @@ namespace DungeonDrive
 
     public class CrusingFireBall : Spell{
         public Bitmap[] animation = new Bitmap[32];
-        public int level = 1;
+       
         GameState state;
         Unit unit;
 
@@ -350,13 +420,32 @@ namespace DungeonDrive
             proj1.isMagic = true;
             proj1.animation = this.animation;
             proj1.dmg = 0.1;
+            proj1.dmg = proj1.dmg + proj1.dmg * unit.level / 10;
             proj1.radius = 1;
             proj1.proj_duration = 1000;
             proj1.maxFrame = this.maxFrame;
-            if (this.unit is Hero) { }
+            if (this.unit is Hero) {
+
+                this.level = getSkillLevel(this);
+
+            }
             else
             {
                 proj1.friendlyFire = false;
+                proj1.dmg = 0.3;
+                proj1.dmg = proj1.dmg + proj1.dmg * unit.level / 10;
+                
+            }
+
+            if (this.level == 2)
+            {
+                //proj1.animation[25] = Properties.Resources.lightening;
+                
+            }
+            else if (this.level == 3)
+            {
+                //proj1.animation[25] = Properties.Resources.lightening;
+                //proj1.proj_duration = 300;
             }
             state.room.projectiles.Add(proj1);
 
@@ -370,7 +459,7 @@ namespace DungeonDrive
 
     public class Pyroblast : Spell{
         public Bitmap[] animation = new Bitmap[32];
-        public int level = 1;
+       
         GameState state;
         Unit unit;
         public Pyroblast()
@@ -425,7 +514,7 @@ namespace DungeonDrive
         public override void cast(GameState state, Unit unit)
         {
             setPyroblast(state, unit);
-            knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 12, unit);
+            knockBackProjectile proj1 = new knockBackProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.1, 12, unit, 0.5);
             //Projectile proj1 = new Projectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0.2, 15);
             //pullingProjectile proj1 = new pullingProjectile(state, unit.x, unit.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 15);
             proj1.isMagic = true;
@@ -433,10 +522,21 @@ namespace DungeonDrive
             proj1.dmg = 0.1;
             proj1.radius = 0.2;
             //proj1.maxFrame = this.maxFrame;
-            if (this.unit is Hero) { }
+            if (this.unit is Hero) { this.level = getSkillLevel(this); }
             else
             {
                 proj1.friendlyFire = false;
+            }
+            if (this.level == 2)
+            {
+                proj1.force = 0.6;
+
+            }
+            else if (this.level == 3)
+            {
+                proj1.force = -0.5;
+                this.cd = 1;
+                //proj1.proj_duration = 300;
             }
             state.room.projectiles.Add(proj1);
 
@@ -451,7 +551,7 @@ namespace DungeonDrive
 
     public class GravityForceField : Spell {
         public Bitmap[] animation = new Bitmap[52];
-        public int level = 1;
+        
         GameState state;
         Unit unit;
         public GravityForceField()
@@ -529,14 +629,16 @@ namespace DungeonDrive
            
             setGravityForceField(state, unit);
             pullingProjectile proj1;
-            
+            double force = 0.2;
+            force = force + (unit.level)/40;
             if (this.unit is Hero) {
                 if (state.room.walkingSpace[(int)GameState.xMouse, (int)GameState.yMouse] == false) { return; }
-                proj1 =  new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3);
+                proj1 = new pullingProjectile(state, GameState.xMouse, GameState.yMouse, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3, force);
+                this.level = getSkillLevel(this);
             }
             else
             {
-                proj1 = new pullingProjectile(state, state.hero.x, state.hero.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3);
+                proj1 = new pullingProjectile(state, state.hero.x, state.hero.y, Math.Cos(unit.dir), Math.Sin(unit.dir), 0, 3, force);
                 proj1.friendlyFire = false;
                 proj1.x = state.hero.x;
                 proj1.y = state.hero.y;
@@ -547,6 +649,19 @@ namespace DungeonDrive
             proj1.radius = 2.9;
             proj1.maxFrame = this.maxFrame;
             proj1.proj_duration = 10000;
+
+            if (this.level == 2)
+            {
+                proj1.radius = 3.4;
+                this.cd = 4;
+            }
+            else if (this.level == 3)
+            {
+                proj1.radius = 3.9;
+                this.cd = 3;
+                //proj1.proj_duration = 300;
+            }
+
             state.room.projectiles.Add(proj1);
 
         }
@@ -560,7 +675,7 @@ namespace DungeonDrive
     public class ShadowStep : Spell {
 
         public Bitmap[] animation = new Bitmap[32];
-        public int level = 1;
+        
         GameState state;
         Unit unit;
         public ShadowStep()
@@ -656,7 +771,7 @@ namespace DungeonDrive
 
             if (unit is Hero)
             {
-
+                this.level = getSkillLevel(this);
             }
             else {
                 proj1.friendlyFire = false;
@@ -664,6 +779,18 @@ namespace DungeonDrive
             }
             proj1.dmg = 0;
             proj2.dmg = 0;
+
+            if (this.level == 2)
+            {
+               
+                this.cd = 2;
+            }
+            else if (this.level == 3)
+            {
+               
+                this.cd = 1;
+                //proj1.proj_duration = 300;
+            }
             state.room.projectiles.Add(proj1);
             state.room.projectiles.Add(proj2);
         }
