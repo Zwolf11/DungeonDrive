@@ -62,6 +62,7 @@ namespace DungeonDrive
         public int numBats = 0;
         public int numSnakes = 0;             // current number of each of these objects
         public int numSkeletons = 0;
+        public int numSkeletalMages = 0;
         public int numGhosts = 0;
         public int numObstacles = 0;
         public int numStairs = 0;
@@ -1079,25 +1080,31 @@ namespace DungeonDrive
         {
             temp_sd = safe_distance;
             int random = (int)rand.Next(0, 100);
-            if(random <= 33){
+            if(random <= 20){
                 while (!addEnemy(new Bat(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numBats++;
 
             }
-            else if (random <= 66)
+            else if (random <= 40)
             {
                 while (!addEnemy(new Skeleton(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5, false), filename)) ;
                 numSkeletons++;
-                //while (!addEnemy(new Boss(rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5)));
             }
-            else
+            else if (random <= 60)
             {
                 while (!addEnemy(new Snake(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numSnakes++;
+            }
+            else if (random <= 80)
+            {
                 while (!addEnemy(new Ghost(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;
                 numGhosts++;
             }
-
+            else
+            {
+                while (!addEnemy(new SkeletalMage(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5, false), filename)) ;
+                numSkeletalMages++;
+            }
             if (extension.Equals(".exe"))
             {
                 while (!addEnemy(new Boss(state, rand.Next(0, width - 1) + 0.5, rand.Next(0, height - 1) + 0.5), filename)) ;

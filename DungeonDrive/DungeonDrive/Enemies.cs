@@ -133,11 +133,6 @@ namespace DungeonDrive
                 this.atk_dmg = atk_dmg * 3 * Math.Pow(1.09, state.hero.level);
                 this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
             }
-            if (this.atk_cd[1]) {
-                //LighteningBall  = new LighteningBall();
-                this.cast(new ShadowStep());
-                this.cd(5, 1);
-            }
             //tryMove(xNext, yNext);
         }
 
@@ -310,6 +305,182 @@ namespace DungeonDrive
         }
     }
 
+    public class SkeletalMage : Unit
+    {
+        private Bitmap[] imgs = new Bitmap[3];
+        private Random rand;
+
+        public SkeletalMage(GameState state, double x, double y, bool half)
+            : base(state, x, y)
+        {
+            this.full_hp = 25 * Math.Pow(1.09, state.hero.level) - 20;
+            this.hp = full_hp;
+            this.hp_reg = this.full_hp * 0.005;
+            this.atk_dmg = 2 * Math.Pow(1.1, state.hero.level);
+            this.base_atk_dmg = this.atk_dmg;
+            this.speed = 0.03 * Math.Pow(1.01, state.hero.level);
+            this.radius = 0.4;
+            this.origin_x = x;
+            this.origin_y = y;
+            this.center_x = x + radius;
+            this.center_y = y + radius;
+            this.exp = 2 * Math.Pow(1.09, state.hero.level);
+            this.status = "Normal";
+            this.inCombat = false;
+            this.split = true;
+
+            imgs[0] = new Bitmap(Properties.Resources.skeletalMage0);
+            imgs[1] = new Bitmap(Properties.Resources.skeletalMage1);
+            imgs[2] = new Bitmap(Properties.Resources.skeletalMage2);
+
+            rand = new Random();
+        }
+
+        public void move()
+        {
+            double xNext;
+            double yNext;
+
+            if (this.hp < this.full_hp * 0.4)
+            {
+                this.hp += this.hp_reg;
+                xNext = x - Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                yNext = y - Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed * 0.6;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                return;
+            }
+
+            if (Math.Abs(state.hero.x - x) < 7 && Math.Abs(state.hero.y - y) < 7)
+            {
+                //Player draws aggro from bats if he is close enough
+                this.moving = true;
+                xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+
+                if (this.atk_cd[1])
+                {
+                    GravityForceField gf = new GravityForceField();
+                    this.cast(gf);
+                    this.cd(10, 1);
+                }
+                else if (this.atk_cd[2])
+                {
+                    LighteningBall lb = new LighteningBall();
+                    this.cast(lb);
+                    this.cd(3, 2);
+                }
+            }
+            else if (this.moving)
+            {
+                //Move towards original position
+                xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
+                tryMove(xNext, yNext, this);
+                this.center_x = x + radius;
+                this.center_y = y + radius;
+                if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
+                {
+                    //Original position has been reached
+
+                    this.moving = false;
+                    this.x = origin_x;
+                    this.y = origin_y;
+                    return;
+                }
+            }
+            else
+            {
+                if (this.hp + this.hp_reg * 5 < this.full_hp)
+                    this.hp += this.hp_reg * 5;
+                else
+                    this.hp = this.full_hp;
+            }
+        }
+
+        public override void act()
+        {
+            if (inCombat)
+            {
+                if (combatCd-- > 0) ;
+                else
+                    inCombat = false;
+            }
+
+            if (knockback)
+                knockBacked();
+
+            if (burning_sec-- >= 0)
+                burning();
+
+            if (sleep_sec > 0)
+            {
+                sleep_sec--;
+                return;
+            }
+
+            move();
+
+            if (state.hero.status.Equals("Paralyzed"))
+                this.atk_dmg = this.base_atk_dmg * 1.3;
+            else
+                this.atk_dmg = this.base_atk_dmg;
+
+            /*if (this.split)
+            {
+                if (this.hp <= this.full_hp / 2)
+                {
+                    state.room.addEnemy(new Skeleton(state, rand.Next(0, state.room.width - 1) + 0.5, rand.Next(0, state.room.height - 1) + 0.5, false), "temp.surprise_mothafucka");
+                    state.room.numSkeletons++;
+                    this.split = false;
+                }
+            }*/
+
+            //double xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+            //double yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
+
+            if (Math.Sqrt(Math.Pow(state.hero.x - x, 2) + Math.Pow(state.hero.y - y, 2)) < state.hero.radius + radius)
+            {
+                if (atk_cd[0])
+                {
+                    int random = rand.Next(0, 100);
+                    if (random <= 35)
+                        statusChanged(state.hero, "arm_bind");
+                }
+            }
+
+            if (state.room.currentRoom.Equals(state.graveyard))
+            {
+                this.full_hp = 10 * Math.Pow(1.09, state.hero.level);
+                this.hp = full_hp;
+                this.atk_dmg = atk_dmg * 3 * Math.Pow(1.09, state.hero.level);
+                this.speed += (speed * 0.4) * Math.Pow(1.01, state.hero.level);
+            }
+
+            /*if (this.atk_cd[2])
+            {
+                
+            }*/
+
+            //tryMove(xNext, yNext);
+        }
+
+        public override void draw(Graphics g)
+        {
+            g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            animFrame = (animFrame + 0.1) % imgs.Length;
+            //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
+            drawHpBar(g);
+            if (this.displayname)
+                drawFileName(g);
+        }
+    }
+
     public class Snake : Unit
     {
         private Bitmap[] imgs = new Bitmap[3];
@@ -455,11 +626,6 @@ namespace DungeonDrive
                 //LB.setLighteningBall(state, this);
                 //LB.cast();
                 this.cd(5, 1);
-            }
-            else if(this.atk_cd[2]){
-
-                this.cast(new CrusingFireBall());
-                this.cd(10,2);
             }
 
             /*if ((state.hero.x - x) < 3 && (state.hero.y - y) < 3)
@@ -783,7 +949,9 @@ namespace DungeonDrive
                 this.moving = true;
                 xNext = x + Math.Cos(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(state.hero.y - y, state.hero.x - x)) * speed;
-                tryMove(xNext, yNext, this);
+                //tryMove(xNext, yNext, this);
+                x = xNext;
+                y = yNext;
                 this.center_x = x + radius;
                 this.center_y = y + radius;
             }
@@ -792,7 +960,9 @@ namespace DungeonDrive
                 //Move towards original position
                 xNext = x + Math.Cos(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
                 yNext = y + Math.Sin(Math.Atan2(this.origin_y - y, this.origin_x - x)) * speed;
-                tryMove(xNext, yNext, this);
+                //tryMove(xNext, yNext, this);
+                x = xNext;
+                y = yNext;
                 this.center_x = x + radius;
                 this.center_y = y + radius;
                 if ((Math.Round(this.x, 1) == this.origin_x || Math.Round(this.y, 1) == this.origin_y))
@@ -811,6 +981,7 @@ namespace DungeonDrive
                 else
                     this.hp = this.full_hp;
             }
+
         }
 
         public override void act()
@@ -822,8 +993,8 @@ namespace DungeonDrive
                     inCombat = false;
             }
 
-            /*if (knockback)
-                knockBacked();*/
+            if (knockback)
+                knockBacked();
 
             if (burning_sec-- >= 0)
                 burning();
@@ -888,7 +1059,13 @@ namespace DungeonDrive
                 this.cast(ss);
                 this.cd(ss.cd, 2);
             }
-            if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
+            else if (this.atk_cd[3])
+            {
+                CrusingFireBall cs = new CrusingFireBall();
+                this.cast(cs);
+                this.cd(cs.cd, 3);
+            }
+            /*if (Math.Abs(state.hero.x - x) < 5 && Math.Abs(state.hero.y - y) < 5 && this.teleport)
             {
                 if (sleeparoni > 0)
                 {
@@ -952,7 +1129,7 @@ namespace DungeonDrive
                     x = state.hero.x + 0.5;
                     return;
                 }
-            }
+            }*/
         }
 
         public override void draw(Graphics g)

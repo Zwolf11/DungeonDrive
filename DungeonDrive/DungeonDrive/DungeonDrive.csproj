@@ -115,6 +115,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\skeletalMage2.png" />
+    <None Include="Resources\skeletalMage1.png" />
+    <None Include="Resources\skeletalMage0.png" />
     <None Include="Resources\rock.png" />
     <None Include="Resources\grass.jpg" />
     <None Include="Resources\ladderUp2.png" />

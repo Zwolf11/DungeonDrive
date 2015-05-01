@@ -4427,6 +4427,36 @@ namespace DungeonDrive.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap skeletalMage0 {
+            get {
+                object obj = ResourceManager.GetObject("skeletalMage0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap skeletalMage1 {
+            get {
+                object obj = ResourceManager.GetObject("skeletalMage1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap skeletalMage2 {
+            get {
+                object obj = ResourceManager.GetObject("skeletalMage2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap skeleton0 {
             get {
                 object obj = ResourceManager.GetObject("skeleton0", resourceCulture);
