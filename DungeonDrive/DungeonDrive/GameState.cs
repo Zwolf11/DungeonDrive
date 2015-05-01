@@ -15,6 +15,7 @@ namespace DungeonDrive
         public Hero hero;
         public Room room;
         public Item[][] inventory = new Item[5][];
+        public int numKeys = 10;
         public static bool[,] heroSkill = new bool[SkillStreeState.skillList, SkillStreeState.skillLevel]; 
         public Font font = new Font("Arial", 12);
         public int size = 40;
@@ -133,13 +134,7 @@ namespace DungeonDrive
             }
             else if (item is Key)
             {
-                for (int j = 0; j < inventory[0].Length; j++)
-                    for (int i = 0; i < inventory.Length; i++)
-                        if (inventory[i][j] is Key)
-                        {
-                            ((Key)inventory[i][j]).increment();
-                            return true;
-                        }
+                numKeys++;
             }
 
             for(int j=0;j<inventory[0].Length;j++)
@@ -160,25 +155,16 @@ namespace DungeonDrive
 
         public bool useKey()
         {
-            for (int j = 0; j < inventory[0].Length; j++)
+            if (numKeys > 0)
             {
-                for (int i = 0; i < inventory.Length; i++)
-                {
-                    if (inventory[i][j] is Key)
-                    {
-                        ((Key)inventory[i][j]).decrement();
-
-                        if (((Key)inventory[i][j]).quantity == 0)
-                        {
-                            inventory[i][j] = null;
-                        }
-                        return true;
-                    }
-                }
+                numKeys--;
+                return true;
+            }
+            else
+            {
+                return false;
             }
 
-            return true;
-            //return false;
         }
 
         public void saveGame()
