@@ -108,8 +108,7 @@ namespace DungeonDrive
         public int maxHallwayWidth = 10;
         public int centerX, centerY;
         public bool displayname = false;
-        bool cave;
-
+        bool caveDoor;
 
         public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY, int id, bool ladder) : base(state, x, y, width, height, roomNum, id) {
             this.down = down;
@@ -153,20 +152,26 @@ namespace DungeonDrive
         }
 
 
-
+        public void setCaveDoor()
+        {
+            caveDoor = true;
+        }
 
 
         public override void draw(Graphics g)
         {
-            if (down)
+            if (!caveDoor)
             {
-                g.DrawImage(stairDown, DrawX, DrawY, state.size * width, state.size * height);
-                //g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, state.size * width, state.size * height);
-            }
-            else
-            {
-                g.DrawImage(stairUp, DrawX, DrawY, state.size * width, state.size * height);
-                //g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
+                if (down)
+                {
+                    g.DrawImage(stairDown, DrawX, DrawY, state.size * width, state.size * height);
+                    //g.FillRectangle(Brushes.IndianRed, DrawX, DrawY, state.size * width, state.size * height);
+                }
+                else
+                {
+                    g.DrawImage(stairUp, DrawX, DrawY, state.size * width, state.size * height);
+                    //g.FillRectangle(Brushes.Green, DrawX, DrawY, state.size * width, state.size * height);
+                }
             }
 
             string roomNumString = roomNum.ToString();
@@ -200,6 +205,7 @@ namespace DungeonDrive
             this.maxNegative = maxNegative;
             this.locked = locked;
         }
+
 
         public void unlock()
         {
