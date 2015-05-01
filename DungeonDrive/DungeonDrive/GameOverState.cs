@@ -29,6 +29,8 @@ namespace DungeonDrive
         {
             if (e.KeyCode == Properties.Settings.Default.SelectKey || e.KeyCode == Properties.Settings.Default.CloseKey)
             {
+                GameState gs = (GameState)parent;
+                gs.music.Stop();
                 parent.close();
                 form.Invalidate();
             }
