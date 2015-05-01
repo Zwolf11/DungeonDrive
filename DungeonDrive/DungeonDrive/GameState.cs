@@ -882,10 +882,7 @@ namespace DungeonDrive
             room.draw(g);
 
             if (hero.weapon != null && angle >= 0)
-            {
-                double heroAngle = Math.Atan2(mouseY - form.ClientSize.Height / 2, mouseX - form.ClientSize.Width / 2);
-                g.DrawImage(rotateImg(hero.weapon.img, (angle + heroAngle) * 180 / Math.PI - 45), form.ClientSize.Width / 2 - size, form.ClientSize.Height / 2 - size, size * 2, size * 2);
-            }
+                g.DrawImage(rotateImg(hero.weapon.img, (angle + hero.dir) * 180 / Math.PI - 45), form.ClientSize.Width / 2 - size, form.ClientSize.Height / 2 - size, size * 2, size * 2);
 
             hero.draw(g);
 
