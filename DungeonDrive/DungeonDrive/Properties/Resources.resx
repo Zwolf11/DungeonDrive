@@ -1669,4 +1669,34 @@
   <data name="skeletalMage2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\skeletalMage2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="boss1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boss9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

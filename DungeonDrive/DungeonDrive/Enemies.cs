@@ -896,7 +896,7 @@ namespace DungeonDrive
 
     public class Boss : Unit
     {
-        private Bitmap[] imgs = new Bitmap[1];
+        private Bitmap[] imgs = new Bitmap[10];
         private Random rand;
         private int sleeparoni;
 
@@ -920,7 +920,16 @@ namespace DungeonDrive
             this.inCombat = false;
             this.teleport = true;
 
-            imgs[0] = new Bitmap(Properties.Resources.YHVH);
+            imgs[0] = new Bitmap(Properties.Resources.boss1);
+            imgs[1] = new Bitmap(Properties.Resources.boss2);
+            imgs[2] = new Bitmap(Properties.Resources.boss3);
+            imgs[3] = new Bitmap(Properties.Resources.boss4);
+            imgs[4] = new Bitmap(Properties.Resources.boss5);
+            imgs[5] = new Bitmap(Properties.Resources.boss6);
+            imgs[6] = new Bitmap(Properties.Resources.boss7);
+            imgs[7] = new Bitmap(Properties.Resources.boss8);
+            imgs[8] = new Bitmap(Properties.Resources.boss9);
+            imgs[9] = new Bitmap(Properties.Resources.boss10);
 
             sleeparoni = 100;
             rand = new Random();
@@ -1135,7 +1144,7 @@ namespace DungeonDrive
         public override void draw(Graphics g)
         {
             g.DrawImage(imgs[(int)animFrame], DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
-            animFrame = (animFrame + 0.1) % imgs.Length;
+            animFrame = (animFrame + 0.1) % 4 + frame;
             //g.FillEllipse(Brushes.SaddleBrown, DrawX, DrawY, (int)(radius * 2 * state.size), (int)(radius * 2 * state.size));
             drawHpBar(g);
             if (this.displayname)

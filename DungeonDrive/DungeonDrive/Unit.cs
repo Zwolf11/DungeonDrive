@@ -44,6 +44,7 @@ namespace DungeonDrive
         public int bind_remove = 0;
         public bool inCombat = false;
         public int combatCd = 0;
+        public int frame = 0;
 
         public bool knockback = false;
         public double x_dist = 0;
@@ -84,6 +85,7 @@ namespace DungeonDrive
             atk_cd[i] = false;
             Thread.Sleep((int)(sec * 1000));
             atk_cd[i] = true;
+            frame = 0;
         }
 
         public virtual void setDir() {
@@ -166,9 +168,11 @@ namespace DungeonDrive
 
             if (this.atk_cd[0])
             {
+                if (this is Boss)
+                    this.frame = 5;
                 int dirX = Math.Sign(state.hero.x - this.x);
                 int dirY = Math.Sign(state.hero.y - this.y);
-                this.knockBack(state.hero, dirX*0.5, dirY*0.5, 0);
+                this.knockBack(state.hero, dirX * 0.5, dirY * 0.5, 0);
                 state.hero.inCombat = true;
                 state.hero.combatCd = 3 * 17;
                 this.inCombat = true;
@@ -180,7 +184,7 @@ namespace DungeonDrive
                     state.hero.hp -= this.atk_dmg;
                 this.cd(1, 0);
             }
-            
+
         }
 
         public bool tryMove(double xNext, double yNext, Unit e)

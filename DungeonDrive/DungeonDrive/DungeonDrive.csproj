@@ -556,6 +556,16 @@
     <None Include="Resources\CaveWall.png" />
     <None Include="Resources\CaveFloor.bmp" />
     <None Include="Resources\Bush.gif" />
+    <None Include="Resources\boss1.png" />
+    <None Include="Resources\boss2.png" />
+    <None Include="Resources\boss3.png" />
+    <None Include="Resources\boss4.png" />
+    <None Include="Resources\boss5.png" />
+    <None Include="Resources\boss6.png" />
+    <None Include="Resources\boss7.png" />
+    <None Include="Resources\boss8.png" />
+    <None Include="Resources\boss9.png" />
+    <None Include="Resources\boss10.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />
