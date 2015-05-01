@@ -44,6 +44,30 @@ namespace DungeonDrive
         }
     }
 
+    public class Bush : Obstacle
+    {
+        private Bitmap img = new Bitmap(Properties.Resources.Bush);
+
+        public Bush(GameState state, int x, int y, int width, int height, int roomNum, int id) : base(state, x, y, width, height, roomNum, id) { }
+
+        public override void draw(Graphics g)
+        { 
+           g.DrawImage(img, DrawX, DrawY, state.size, state.size);
+        }
+    }
+
+    public class Rock : Obstacle
+    {
+        private Bitmap img = new Bitmap(Properties.Resources.rock);
+
+        public Rock(GameState state, int x, int y, int width, int height, int roomNum, int id) : base(state, x, y, width, height, roomNum, id) { }
+
+        public override void draw(Graphics g)
+        {
+            g.DrawImage(img, DrawX, DrawY, state.size, state.size);
+        }
+    }
+
     public class Chest : Obstacle
     {
 
