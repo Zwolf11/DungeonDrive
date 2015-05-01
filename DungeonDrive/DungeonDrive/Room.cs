@@ -213,6 +213,8 @@ namespace DungeonDrive
 
             //Console.WriteLine("Here0");
 
+                environment = state.allLevelInfo.getEnvironmentType(currentRoom);
+
             /////////   TRAVERSE ALL DIRECTORIES   ///////
 
             for (int i = 0; i < dirs.Length; i++)
@@ -2665,6 +2667,9 @@ namespace DungeonDrive
                     }
                 }
 
+
+                foreach (Projectile proj in projectiles)
+                    proj.draw(g);
 
                 foreach (Unit enemy in enemies)
                     if (drawingSpace[(int)enemy.x,(int) enemy.y])

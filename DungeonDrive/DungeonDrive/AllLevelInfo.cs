@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DungeonDrive
 {
@@ -7,10 +8,12 @@ namespace DungeonDrive
     {
         GameState state;
         public List<LevelInfo> allLevels = new List<LevelInfo>();
+        public List<CDriveSubDirs> cDriveSubDirs = new List<CDriveSubDirs>();
 
         public AllLevelInfo(GameState state, String currentRoom)
         {
             this.state = state;
+            createSubDirEnvs();
             addLevel(new LevelInfo(state, currentRoom, false));
         }
 
@@ -112,7 +115,7 @@ namespace DungeonDrive
 
         public void updateLevel()
         {
-            LevelInfo tempLevelInfo = new LevelInfo(state,"C://",false);
+            LevelInfo tempLevelInfo = new LevelInfo(state,"C:\\",false);
             bool levelSet = false;
 
             foreach (LevelInfo levelInfo in allLevels)
@@ -131,6 +134,48 @@ namespace DungeonDrive
                 allLevels.Add(new LevelInfo(state, state.room.currentRoom, true));
 
             }
+        }
+
+        public void createSubDirEnvs()
+        {
+            String[] dirs = Directory.GetDirectories("C:\\");
+
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                String extractedDir = dirs[i].Split('\\')[1];
+                if (i % 2 == 0)
+                {
+                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "dungeon"));
+                }
+                else
+                {
+                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "cave"));
+                }
+
+
+            }
+        }
+
+        public String getEnvironmentType(String path)
+        {
+            if(path.Equals("C:\\")){
+                return "dungeon";
+            }
+
+            String [] splitPath;
+            splitPath = path.Split('\\');
+            String dirName = splitPath[1];
+
+            Console.WriteLine("count = " + cDriveSubDirs.Count);
+
+            foreach(CDriveSubDirs cSubDirs in cDriveSubDirs){
+                Console.WriteLine(cSubDirs.dirName + " != " + dirName);
+                if(cSubDirs.dirName.Equals(dirName)){
+                    return cSubDirs.environment;
+                }
+            }
+
+            return "cave";
         }
     }
 }
