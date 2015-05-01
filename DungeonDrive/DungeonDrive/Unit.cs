@@ -128,7 +128,7 @@ namespace DungeonDrive
         }
 
         public void drawHpBar(Graphics g)
-        {   g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.Green, DrawX, DrawY - 5, (int)(radius * 2 * state.size * this.hp / this.full_hp), 2); }
+        {   g.FillRectangle(this.hp <= 0.4 * this.full_hp ? Brushes.Red : Brushes.DarkGreen, DrawX, DrawY - 5, (int)(radius * 2 * state.size * this.hp / this.full_hp), 2); }
 
         public void drawFileName(Graphics g)
         {   g.DrawString(filename, state.font, Brushes.White, new PointF(DrawX, DrawY - state.size / 2));   }
@@ -208,7 +208,7 @@ namespace DungeonDrive
                 if (state.room.stairSpace[(int)x, (int)y])
                 {
                     foreach (Stairs stairs in state.room.stairs)
-                        if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius)
+                        if (Math.Abs(stairs.x + 0.5 - x) < radius && Math.Abs(stairs.y + 0.5 - y) < radius * 2)
                         {
                             state.room.saveState();
                             state.room = new Room(state,stairs.path);

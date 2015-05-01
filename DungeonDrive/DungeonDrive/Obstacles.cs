@@ -73,7 +73,7 @@ namespace DungeonDrive
     public class Stairs : Obstacle
     {
         public bool down;
-        public String type = "stairs";
+        public bool ladder;
         public String path;
         public char direction;
         public int xDirection;
@@ -84,22 +84,24 @@ namespace DungeonDrive
         public int maxHallwayWidth = 10;
         public int centerX, centerY;
         public bool displayname = false;
+        bool cave;
 
 
-        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY, int id ) : base(state, x, y, width, height, roomNum, id) {
+        public Stairs(GameState state, int x, int y, int width, int height, int roomNum, bool down, String path, char direction, int maxHallwayWidth, int centerX, int centerY, int id, bool ladder) : base(state, x, y, width, height, roomNum, id) {
             this.down = down;
             this.path = path;
             this.direction = direction;
             this.maxHallwayWidth = maxHallwayWidth;
             this.centerX = centerX;
             this.centerY = centerY;
+            this.ladder = ladder;
 
-            if (type.Equals("stairs"))
+            if (!ladder)
             {
                 stairUp = new Bitmap(Properties.Resources.stairUp);
                 stairDown = new Bitmap(Properties.Resources.stairDown);
             }
-            else if(type.Equals("ladder"))
+            else if(ladder)
             {
                 stairUp = new Bitmap(Properties.Resources.ladderUp);
                 stairDown = new Bitmap(Properties.Resources.ladderDown);

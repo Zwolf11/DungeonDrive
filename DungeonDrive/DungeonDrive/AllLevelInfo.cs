@@ -140,26 +140,48 @@ namespace DungeonDrive
         {
             String[] dirs = Directory.GetDirectories("C:\\");
 
+            String[] directions = { "up", "down", "left", "right" };
+
+            Random rand = new Random("C:\\".GetHashCode());
+
             for (int i = 0; i < dirs.Length; i++)
             {
                 String extractedDir = dirs[i].Split('\\')[1];
                 if (i % 2 == 0)
                 {
-                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "dungeon"));
+                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "dungeon", directions[rand.Next(0,4)]));
                 }
                 else
                 {
-                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "cave"));
+                    cDriveSubDirs.Add(new CDriveSubDirs(extractedDir, "cave", directions[rand.Next(0,4)]));
                 }
 
 
             }
         }
 
+        public String getOppositeDir(String dir)
+        {
+            switch (dir)
+            {
+                case "up":
+                    return "down";
+                case "down":
+                    return "up";
+                case "left":
+                    return "right";
+                case "right":
+                    return "left";
+
+            }
+
+            return "up";
+        }
+
         public String getEnvironmentType(String path)
         {
             if(path.Equals("C:\\")){
-                return "dungeon";
+                return "courtyard";
             }
 
             String [] splitPath;
@@ -177,5 +199,32 @@ namespace DungeonDrive
 
             return "cave";
         }
+
+        public String getDirection(String path)
+        {
+            if (path.Equals("C:\\"))
+            {
+                return "up";
+            }
+
+            String[] splitPath;
+            splitPath = path.Split('\\');
+            String dirName = splitPath[1];
+
+            //Console.WriteLine("count = " + cDriveSubDirs.Count);
+
+            foreach (CDriveSubDirs cSubDirs in cDriveSubDirs)
+            {
+                //Console.WriteLine(cSubDirs.dirName + " != " + dirName);
+                if (cSubDirs.dirName.Equals(dirName))
+                {
+                    return cSubDirs.direction;
+                }
+            }
+
+            return "down";
+        }
+
+
     }
 }
