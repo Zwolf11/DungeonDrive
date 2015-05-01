@@ -60,7 +60,7 @@ namespace DungeonDrive
         public double confuse_sec = 0;      // amount of time that unit is confused
         public double burning_amount = 0;
 
-        public bool[] atk_cd = new bool[5];      // flags for different skill's availability
+        public bool[] atk_cd = new bool[10];      // flags for different skill's availability
 
         public int sight = 7;
 
