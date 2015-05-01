@@ -819,7 +819,8 @@ namespace DungeonDrive
 
             //Console.WriteLine("Here2");
 
-            stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4), numStairs));
+            if(!state.startTutorial)
+                stairsNotDrawn.Add(new Stairs(state, stairX, stairY, tWidth, tHeight, roomNumSpace[stairX,stairY], down, path, direction, maxHallwayWidth, (x + 1) - (widthOfInitStairRoom / 4),(y+ 1) - (heightOfInitStairRoom / 4), numStairs));
 
             //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
 

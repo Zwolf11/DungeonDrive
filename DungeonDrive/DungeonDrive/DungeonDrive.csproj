@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllLevelInfo.cs" />
+    <Compile Include="CDriveSubDirs.cs" />
     <Compile Include="GameOverState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="InventoryState.cs" />
@@ -111,6 +112,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\ladderUp2.png" />
+    <None Include="Resources\ladderUp.png" />
+    <None Include="Resources\ladderDown2.png" />
+    <None Include="Resources\ladderDown.png" />
     <None Include="Resources\notGF2.png" />
     <None Include="Resources\notGF1.png" />
     <None Include="Resources\notGF3.png" />
@@ -539,6 +544,8 @@
     <None Include="Resources\CrusingFire28.png" />
     <None Include="Resources\CrusingFire29.png" />
     <None Include="Resources\CrusingFire30.png" />
+    <None Include="Resources\CaveFloor.jpg" />
+    <None Include="Resources\CaveWall.png" />
     <Content Include="Resources\fire.png" />
     <None Include="Resources\stairUp.png" />
     <None Include="Resources\stairDown.png" />

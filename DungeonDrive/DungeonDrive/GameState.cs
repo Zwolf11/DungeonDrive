@@ -15,12 +15,14 @@ namespace DungeonDrive
         public Hero hero;
         public Room room;
         public Item[][] inventory = new Item[5][];
-        public int numKeys = 10;
+        public int numKeys = 0;
         public static bool[,] heroSkill = new bool[SkillStreeState.skillList, SkillStreeState.skillLevel]; 
         public Font font = new Font("Arial", 12);
         public int size = 40;
         private int konami = 0;
-        private bool startTutorial = false;
+        public bool startTutorial = false;
+        public bool finishTutorial = false;
+        private bool pickupTutorial = false;
         public String graveyard = "C:\\graveyard";
         public static float xMouse, yMouse;
         private SoundPlayer saveSound = new SoundPlayer(Properties.Resources.level_up);
@@ -31,7 +33,7 @@ namespace DungeonDrive
 
         // If you want to change the starting room, initialize currentRoom to that directory.
         // Be sure to use \\ instead of a single \
-        public String currentRoom = "C:\\";
+        public String currentRoom = Application.StartupPath + "\\Tutorial";
 
         public AllLevelInfo allLevelInfo;
         
@@ -42,6 +44,7 @@ namespace DungeonDrive
         private Bitmap mouseDoorImg = Properties.Resources.trigger_door;
         private Bitmap mouseNotDoorImg = Properties.Resources.trigger_door_not;
         private Bitmap mouseChestImg = Properties.Resources.chest_trigger;
+        private Bitmap keyImg = Properties.Resources.Key;
         private Bitmap mouseImg = null;
 
         public GameState(MainForm form, bool load) : base(form)
@@ -54,10 +57,10 @@ namespace DungeonDrive
                 loadGame();
             else
             {
+                startTutorial = true;
                 allLevelInfo = new AllLevelInfo(this,currentRoom);
                 room = new Room(this, currentRoom);
                 initSkillTree();
-                startTutorial = true;
                 hero.weapon = new Weapon(this, true);
             }
 
@@ -135,6 +138,7 @@ namespace DungeonDrive
             else if (item is Key)
             {
                 numKeys++;
+                return true;
             }
 
             for(int j=0;j<inventory[0].Length;j++)
@@ -148,10 +152,43 @@ namespace DungeonDrive
             return false;
         }
 
-        private void beginTutorial() { startTutorial = false; addChildState(new MessageState(form, "Welcome to Dungeon Drive (D:)! This game creates dungeons from your file system.", tutorial2), false, true); }
-        private void tutorial2() { addChildState(new MessageState(form, "You are currently in your C: Drive. There are stairs that lead to deeper folders.", tutorial3), false, true); }
-        private void tutorial3() { addChildState(new MessageState(form, "Enemies, chests, and obstacles are placed in the dungeons depending on what kinds of files are in your folders.", tutorial4), false, true); }
-        private void tutorial4() { addChildState(new MessageState(form, "Click to attack, press space to open your inventory, and I bet you can figure out the rest."), false, true); }
+        private void beginTutorial()
+        {
+            startTutorial = false;
+            finishTutorial = true;
+            addChildState(new MessageState(form, new String[]{
+                "Welcome to Dungeon Drive (D:)! This game creates dungeons from your file system.",
+                "Each room is a folder from your system and everything in that room corresponds to a file in that folder.",
+                "To teach you the basics, you have been put into a tutorial folder with a few enemies and a chest.",
+                "Kill the enemies and I'll give you a key to unlock the chest. Good luck."}), false, true);
+        }
+
+        private void endTutorial()
+        {
+            for (int i = 0; i < hero.dirs.Length; i++)
+                hero.dirs[i] = false;
+
+            numKeys++;
+            finishTutorial = false;
+            pickupTutorial = true;
+            addChildState(new MessageState(form, new String[]{
+                "Great job! Now here's a key to open the chest.",
+                "Once you take your new item, I'll teleport you to the C: Drive and you can begin your journey."}), false, true);
+        }
+
+        private void teleportToC()
+        {
+            for (int i = 0; i < hero.dirs.Length; i++)
+                hero.dirs[i] = false;
+
+            addChildState(new MessageState(form, new String[]{
+                "Alright, now that you've killed some monsters and obtained an item. It's time to begin.",
+                "I am now teleporting you to your C: Drive. Have fun exploring killing and leveling up. Good luck!"}), false, true);
+            pickupTutorial = false;
+            currentRoom = "C:\\";
+            allLevelInfo = new AllLevelInfo(this, currentRoom);
+            room = new Room(this, currentRoom);
+        }
 
         public bool useKey()
         {
@@ -249,8 +286,8 @@ namespace DungeonDrive
                 pastRoom = loadFile[0];
 
             loadingGame = true;
-            room = new Room(this, loadFile[1]);
             allLevelInfo = new AllLevelInfo(this, loadFile[1]);
+            room = new Room(this, loadFile[1]);
 
             hero.x = double.Parse(loadFile[2]);
             hero.y = double.Parse(loadFile[3]);
@@ -345,7 +382,12 @@ namespace DungeonDrive
                 konami = 0;
 
             if (e.KeyCode == Properties.Settings.Default.CloseKey)
+            {
+                for (int i = 0; i < hero.dirs.Length; i++)
+                    hero.dirs[i] = false;
+
                 this.addChildState(new PauseState(form), false, true);
+            }
             else if (e.KeyCode == Properties.Settings.Default.UpKey)
             {
                 if (hero.status.Equals("Cursed"))
@@ -383,11 +425,21 @@ namespace DungeonDrive
                     hero.dirs[3] = true;
             }
             else if (e.KeyCode == Properties.Settings.Default.InventoryKey)
+            {
+                for (int i = 0; i < hero.dirs.Length; i++)
+                    hero.dirs[i] = false;
+
                 this.addChildState(new InventoryState(form), false, false);
+            }
             else if (e.KeyCode == Properties.Settings.Default.DeleteAttackKey)
                 hero.attacks[1] = true;
             else if (e.KeyCode == Properties.Settings.Default.SkillTreeKey)
+            {
+                for (int i = 0; i < hero.dirs.Length; i++)
+                    hero.dirs[i] = false;
+
                 this.addChildState(new SkillStreeState(form), false, false);
+            }
             else if (e.KeyCode == Properties.Settings.Default.SwitchSkillKey)
                 spellChange();
         }
@@ -476,6 +528,9 @@ namespace DungeonDrive
                             {
                                 if (tryPickupItem(entry.Key))
                                     room.droppedItems.Remove(entry.Key);
+
+                                if(pickupTutorial)
+                                    teleportToC();
 
                                 break;
                             }
@@ -833,6 +888,9 @@ namespace DungeonDrive
 
             if (SkillStreeState.spellSelected != null)
                 g.DrawImage(SkillStreeState.spellSelected.spellIcon[0], size / 4, size / 4, 2 * size, 2 * size);
+
+            g.DrawImage(keyImg, form.ClientSize.Width - 3 * size, size / 4, size, size);
+            g.DrawString("x" + numKeys, font, Brushes.White, form.ClientSize.Width - size, size / 2);
         }
 
 
@@ -850,6 +908,8 @@ namespace DungeonDrive
 
             if(startTutorial)
                 beginTutorial();
+            if (finishTutorial && room.enemies.Count == 0)
+                endTutorial();
 
             hero.act();
 

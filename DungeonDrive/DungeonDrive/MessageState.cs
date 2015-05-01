@@ -9,14 +9,14 @@ namespace DungeonDrive
 {
     class MessageState : State
     {
-        private String message;
+        private String[] messages;
+        private int messageLoc = 0;
+        private int typeWriterLoc = 0;
         private Font font = new Font("Arial", 24);
-        private Action func;
 
-        public MessageState(MainForm form, String message, Action func = null) : base(form)
+        public MessageState(MainForm form, String[] messages) : base(form)
         {
-            this.message = message;
-            this.func = func;
+            this.messages = messages;
         }
 
         public override void mouseMove(object sender, MouseEventArgs e) { }
@@ -25,27 +25,46 @@ namespace DungeonDrive
 
         public override void tick(object sender, EventArgs e)
         {
+            if (typeWriterLoc < messages[messageLoc].Length)
+            {
+                typeWriterLoc++;
+                form.Invalidate();
+            }
+
             GamePadState current = GamePad.GetState(PlayerIndex.One);
 
             if (Properties.Settings.Default.ControllerEnabled && current.IsConnected)
                 updateInput();
         }
 
-        public override void keyDown(object sender, KeyEventArgs e)
+        private void nextMessage()
         {
-            if (e.KeyCode == Properties.Settings.Default.SelectKey)
+            if (typeWriterLoc < messages[messageLoc].Length)
             {
-                if(func != null)
-                    func();
+                typeWriterLoc = messages[messageLoc].Length;
+                form.Invalidate();
+            }
+            else if (messageLoc < messages.Length - 1)
+            {
+                messageLoc++;
+                typeWriterLoc = 0;
+                form.Invalidate();
+            }
+            else
+            {
                 this.close();
             }
         }
 
+        public override void keyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Properties.Settings.Default.SelectKey)
+                nextMessage();
+        }
+
         public override void mouseDown(object sender, MouseEventArgs e)
         {
-            if (func != null)
-                func();
-            this.close();
+            nextMessage();
         }
 
         public override void updateInput()
@@ -54,9 +73,7 @@ namespace DungeonDrive
 
             if (Properties.Settings.Default.ControllerEnabled && current.IsConnected && current.Buttons.A == Microsoft.Xna.Framework.Input.ButtonState.Released)
             {
-                if (func != null)
-                    func();
-                this.close();
+                nextMessage();
                 System.Threading.Thread.Sleep(200);
             }
         }
@@ -71,7 +88,7 @@ namespace DungeonDrive
             align.Alignment = StringAlignment.Center;
             align.LineAlignment = StringAlignment.Center;
 
-            g.DrawString(message, font, Brushes.White, new RectangleF(form.ClientSize.Width / 4, form.ClientSize.Height / 4, form.ClientSize.Width / 2, form.ClientSize.Height / 2), align);
+            g.DrawString(messages[messageLoc].Substring(0, typeWriterLoc), font, Brushes.White, new RectangleF(form.ClientSize.Width / 4, form.ClientSize.Height / 4, form.ClientSize.Width / 2, form.ClientSize.Height / 2), align);
         }
     }
 }
