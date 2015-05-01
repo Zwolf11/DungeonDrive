@@ -188,10 +188,10 @@ namespace DungeonDrive
             splitPath = path.Split('\\');
             String dirName = splitPath[1];
 
-            Console.WriteLine("count = " + cDriveSubDirs.Count);
+            //Console.WriteLine("count = " + cDriveSubDirs.Count);
 
             foreach(CDriveSubDirs cSubDirs in cDriveSubDirs){
-                Console.WriteLine(cSubDirs.dirName + " != " + dirName);
+                //Console.WriteLine(cSubDirs.dirName + " != " + dirName);
                 if(cSubDirs.dirName.Equals(dirName)){
                     return cSubDirs.environment;
                 }

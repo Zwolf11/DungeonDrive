@@ -715,31 +715,31 @@ namespace DungeonDrive
 
                             switch (direction)
                             {
-                                    
+
                                 case "up":
 
 
                                     do
                                     {
-                                        Console.WriteLine("Stuck please help1");
+                                        //Console.WriteLine("Stuck please help1");
                                         x = (int)rand.Next(minX + 2, maxX - 2);
-                                    } while(!freeSpace[x,minY]);
+                                    } while (!freeSpace[x, minY]);
 
                                     newStairs = new Stairs(state, x, minY, 2, 1, grassNum, true, dirs[a], 's', 0, 0, 0, numStairs, true);
                                     stairSpace[newStairs.x + 1, newStairs.y] = true;
                                     stairSpace[newStairs.x, newStairs.y] = true;
                                     roomNumSpace[newStairs.x, newStairs.y] = grassNum;
                                     stairsNotDrawn.Add(newStairs);
-                                    
+
                                     break;
                                 case "down":
 
                                     do
                                     {
-                                        Console.WriteLine("Stuck please help2");
+                                        //Console.WriteLine("Stuck please help2");
                                         x = (int)rand.Next(minX + 2, maxX - 2);
 
-                                    } while(!freeSpace[x,maxY]);
+                                    } while (!freeSpace[x, maxY]);
 
                                     newStairs = new Stairs(state, x, maxY, 2, 1, grassNum, true, dirs[a], 'w', 0, 0, 0, numStairs, true);
                                     stairSpace[newStairs.x, newStairs.y] = true;
@@ -752,7 +752,7 @@ namespace DungeonDrive
 
                                     do
                                     {
-                                        Console.WriteLine("Stuck please help3");
+                                        //Console.WriteLine("Stuck please help3");
                                         y = (int)rand.Next(minY + 2, maxY - 2);
                                     } while (!freeSpace[minX, y]);
 
@@ -767,9 +767,9 @@ namespace DungeonDrive
 
                                     do
                                     {
-                                        Console.WriteLine("Stuck please help4");
+                                        //Console.WriteLine("Stuck please help4");
                                         y = (int)rand.Next(minY + 2, maxY - 2);
-                                    } while(!freeSpace[maxX,y]);
+                                    } while (!freeSpace[maxX, y]);
 
                                     newStairs = new Stairs(state, maxX, y, 1, 2, grassNum, true, dirs[a], 'a', 0, 0, 0, numStairs, true);
                                     stairSpace[newStairs.x, newStairs.y + 1] = true;
@@ -784,10 +784,11 @@ namespace DungeonDrive
                         }
                         else
                         {
-                           
+                            Console.WriteLine("Making an internal room");
+
                             //find a point on the map, that is within houseSpace
 
-                            int x,y;
+                            int x, y;
 
                             do
                             {
@@ -795,8 +796,119 @@ namespace DungeonDrive
                                 y = rand.Next(borderSize + 6, height - (borderSize + 6));
                             } while (!houseSpace[x, y]);
 
-                            // needs to build box of random height and width
+                            int roomHeight = minSizeOfInitRoom;
+                            int roomWidth = minSizeOfInitRoom;
 
+                            int maxRandom = (int)roomWidth * roomHeight - (2 * (roomWidth + roomHeight)) + 2;   // indicates how many non-border cells there are. We don't want the stairs to be on a border to avoid adjacent stair tiles.
+
+                            int stairLocation = rand.Next(0, maxRandom);
+                            int counter = 0;
+                            int stairX = x;
+                            int stairY = y;
+
+
+                            //Console.WriteLine("Here1.5");
+
+                            for (int i = -1; i <= roomWidth; i++)
+                            {
+                                for (int j = -1; j <= roomHeight; j++)
+                                {
+
+                                    int cX = x + i - roomWidth;
+                                    int cY = y + j - roomHeight;
+
+                                    if (i == -1 || i == roomWidth || j == -1 || j == roomHeight)
+                                    {
+                                        //*
+                                        if (roomNumSpace[cX, cY] != -1 && roomNumSpace[cX,cY] != grassNum && effectiveRoomNum[roomNumSpace[cX, cY]] != effectiveRoomNum[numRooms] && !wallSpace[cX, cY])
+                                        {
+                                            //int highVal = Math.Max(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+                                            //int lowVal = Math.Min(effectiveRoomNum[roomNumSpace[cX, cY]], effectiveRoomNum[numRooms]);
+
+                                            int highVal = numRooms;
+                                            int lowVal = effectiveRoomNum[roomNumSpace[cX, cY]];
+
+                                            for (int k = 0; k < numRooms; k++)
+                                            {
+                                                if (effectiveRoomNum[k] == lowVal)
+                                                {
+                                                    effectiveRoomNum[k] = highVal;
+                                                }
+
+                                            }
+                                        }
+                                        //*/
+                                        if (roomNumSpace[cX, cY] == -1 || roomNumSpace[cX,cY] == grassNum)
+                                        {
+                                            wallSpace[cX, cY] = true;
+
+                                        }
+
+                                        roomNumSpace[cX, cY] = numRooms;
+
+                                    }
+                                    else
+                                    {
+
+                                        if (wallSpace[cX, cY])
+                                        {
+                                            wallSpace[cX, cY] = false;
+                                        }
+
+                                        if (i != 0 && i != roomWidth - 1 && j != 0 && j != roomHeight - 1)
+                                        {
+                                            // a non-border cell.
+                                            if (counter == stairLocation)
+                                            {
+
+                                                stairX = cX;
+                                                stairY = cY;
+
+                                                //wallSpace[stairX, stairY] = true;
+
+                                                int minimumDistToWall = 10;
+                                                minimumDistToWall = Math.Min(minimumDistToWall, i);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, j);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, (roomWidth - 1) - i);
+                                                minimumDistToWall = Math.Min(minimumDistToWall, (roomHeight - 1) - j);
+
+                                            }
+                                            counter++;
+                                        }
+                                        roomNumSpace[cX, cY] = numRooms;
+                                        //mergeRoom((x - widthRadiusInitRoom) + i, (y - heightRadiusInitRoom) + j, numRooms); 
+
+                                    }
+
+
+                                }
+
+                            }
+
+                            stairsNotDrawn.Add(new Stairs(state, stairX, stairY, 1, 1, roomNumSpace[stairX, stairY], true, dirs[a], 'd', 2, (x + 1) - (roomWidth / 4), (y + 1) - (roomHeight / 4), numStairs, false));
+
+                            //Console.WriteLine("StairX = " + stairX + " stairY = " + stairY + " x = " + x + " y = " + y + " width = " + widthOfInitStairRoom + " height = " + heightOfInitStairRoom);
+
+                            //Console.WriteLine("Difference of x and centerX = " + (stairX - (x - (widthOfInitStairRoom / 2))) + "Difference of y and centerY = " + (stairY - (y - (heightOfInitStairRoom / 2))));
+
+                            stairSpace[stairX, stairY] = true;
+
+                            for (int i = -1; i <= 1; i++)
+                            {
+                                for (int j = -1; j <= 1; j++)
+                                {
+                                    freeSpace[stairX + i, stairY + j] = false;
+                                }
+                            }
+
+                            //freeSpace[stairX, stairY] = false;
+                            //freeSpace[stairX + xDirFromChar(direction), stairY + yDirFromChar(direction)] = false;
+
+                            numRooms++;
+                            numStairs++;
+                            numNonHallways++;
+
+                            // add stairs?
                         }
                     }
                     catch (Exception)
@@ -841,7 +953,7 @@ namespace DungeonDrive
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (i > (borderSize) && i < (width - (borderSize)) && j > ( borderSize )&& j < (height  - (borderSize)))
+                    if (i > (borderSize + maxSizeOfInitRoom) && i < (width - (borderSize)) && j > (borderSize + maxSizeOfInitRoom) && j < (height - (borderSize)))
                     {
                         count++;
                         houseSpace[i, j] = true;
