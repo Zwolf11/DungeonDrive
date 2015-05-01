@@ -95,6 +95,22 @@ namespace DungeonDrive
                             }
                         }
                     }
+                    else if (tempLevelInfo.type.Equals("courtyard"))
+                    {
+                        for (int i = 0; i < state.room.numRooms; i++)
+                        {
+                            //if (i < state.room.roomDrawn.Length && i < tempLevelInfo.roomsDrawn.Length)
+                            //{
+                            //Console.WriteLine("Checking room " + i);
+
+                            if (tempLevelInfo.roomsDrawn[i])
+                            {
+                                //Console.WriteLine("TRYING TO DRAW ROOM " + i);
+                                state.room.updateDrawingGrid(i);
+                            }
+                            //}
+                        }
+                    }
 
                 }
             }

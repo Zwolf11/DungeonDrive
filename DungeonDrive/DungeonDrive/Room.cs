@@ -232,37 +232,6 @@ namespace DungeonDrive
                     updateFreeSpace();
 
                     bool heroPlaced = false;
-
-                    if (currentRoom.Equals(state.pastRoom))
-                    {
-                        if (currentRoom.Equals("C:\\"))
-                        {
-                            int x1, y1;
-                            while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] != grassNum || wallSpace[x1, y1])
-                            {
-                                Console.WriteLine("loop0");
-                            }
-
-                            state.hero.x = x1 + 0.5;
-                            state.hero.y = y1 + 0.5;
-                            freeSpace[x1, y1] = false;
-                            heroPlaced = true;
-                        }
-                        else
-                        {
-                            //Console.WriteLine("InitialRoom");
-                            int x1, y1;
-                            while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1])
-                            {
-                                Console.WriteLine("loop1");
-                            }
-
-                            state.hero.x = x1 + 0.5;
-                            state.hero.y = y1 + 0.5;
-                            freeSpace[x1, y1] = false;
-                            heroPlaced = true;
-                        }
-                    }
                     
                     foreach (Stairs stair in stairsNotDrawn)
                     {
@@ -277,27 +246,14 @@ namespace DungeonDrive
 
                     if (!heroPlaced)
                     {
-                        if (currentRoom.Equals("C:\\"))
+                        Console.WriteLine("Hero has not been placed");
                         {
                             int x1, y1;
-                            while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] != grassNum || wallSpace[x1, y1])
+                            while (grassSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] || wallSpace[x1, y1])
                             {
-                                Console.WriteLine("loop3");
+                                //Console.WriteLine("loop3");
                             }
                             
-                            state.hero.x = x1 + 0.5;
-                            state.hero.y = y1 + 0.5;
-                            freeSpace[x1, y1] = false;
-                            heroPlaced = true;
-                        }
-                        else
-                        {
-                            int x1, y1;
-                            while (roomNumSpace[x1 = rand.Next(0, width - 1), y1 = rand.Next(0, height)] == -1 || wallSpace[x1, y1])
-                            {
-                                Console.WriteLine("loop4");
-                            }
-
                             state.hero.x = x1 + 0.5;
                             state.hero.y = y1 + 0.5;
                             freeSpace[x1, y1] = false;
@@ -312,6 +268,7 @@ namespace DungeonDrive
                     addDoorsToCourtyard();
 
                     updateGrassSpace();
+
 
                 }
                 else
@@ -883,7 +840,7 @@ namespace DungeonDrive
                         }
                         else
                         {
-                            Console.WriteLine("Making an internal room");
+                            //Console.WriteLine("Making an internal room");
 
                             //find a point on the map, that is within houseSpace
 
@@ -1060,7 +1017,7 @@ namespace DungeonDrive
                 }
             }
 
-            Console.WriteLine("percentage of non=house space = " + (double) (count / (width * height)));
+            //Console.WriteLine("percentage of non=house space = " + (double) (count / (width * height)));
         }
 
         public void updateStairSpace()
@@ -1178,7 +1135,7 @@ namespace DungeonDrive
                                     if(wallSpace[j,k - 1] || wallSpace[j,k+1] || wallSpace[j+1,k+1] || wallSpace[j+1,k-1]){
 
                                     } else {
-                                        Console.WriteLine("Adding door1");
+                                        //Console.WriteLine("Adding door1");
                                         doorFound = true;
                                         doorsNotDrawn.Add(new Door(state,j,k,2,1,roomNumSpace[j,k],false,0,0,false,numDoors++));
                                         doorSpace[j, k] = true;
@@ -1196,7 +1153,7 @@ namespace DungeonDrive
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Adding door1");
+                                        //Console.WriteLine("Adding door1");
                                         doorFound = true;
                                         doorsNotDrawn.Add(new Door(state, j, k, 1, 2, roomNumSpace[j, k], true, 0, 0, false, numDoors++));
                                         doorSpace[j, k] = true;
@@ -2976,14 +2933,14 @@ namespace DungeonDrive
                                     }
                                     else if (doorSpace[i + k, j + l])
                                     {
-                                        Console.WriteLine("found door space");
+                                        //Console.WriteLine("found door space");
                                         Door doorToRemove = new Door(state, -1, -1, -1, -1, -1, true, -1, -1, false, -1);
                                         foreach (Door door in doorsNotDrawn)
                                         {
-                                            Console.WriteLine("Checking door");
+                                            //Console.WriteLine("Checking door");
                                             if (door.x == (i + k) && door.y == (j + l))
                                             {
-                                                Console.WriteLine("door added");
+                                               // Console.WriteLine("door added");
                                                 doorToRemove = door;
                                                 doors.Add(door);
                                             }
@@ -3187,14 +3144,14 @@ namespace DungeonDrive
 
                 foreach (Stairs stair in stairs)
                 {
-                    if (stair.path.Equals("C:\\"))
+                    /*if (stair.path.Equals("C:\\"))
                     {
                         g.DrawImage(floor2, (int)(stair.x * state.size + state.form.ClientSize.Width / 2 - state.hero.x * state.size), (int)(stair.y * state.size + state.form.ClientSize.Height / 2 - state.hero.y * state.size), state.size, state.size);
                     }
                     else
-                    {
+                    {*/
                         stair.draw(g);
-                    }
+                    //}
                 }
 
                 foreach (KeyValuePair<Item, PointF> item in droppedItems)
